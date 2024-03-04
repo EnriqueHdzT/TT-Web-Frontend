@@ -21,7 +21,7 @@ const initialStudentData: StudentData = {
   email: "",
 }
 
-export default function AddStudent() {
+export default function StudentRegister() {
   const [studentData, setStudentData] = useState(initialStudentData)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
