@@ -1,47 +1,71 @@
-interface NavbarProps {
-  userType: 'staff' | 'student';
-  searchEnable: boolean;
-}
+import './Navbar.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileLines, faPenToSquare, faUser, faComments, faClock, faBell, faCircleUser } from '@fortawesome/free-regular-svg-icons'
+import { faChevronDown, faChevronUp, faMagnifyingGlass, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from 'react';
 
-export default function Navbar({ searchEnable=true, userType='staff' }: NavbarProps) {
+const Navbar: React.FC = () => {
+  const [ isActive, setIsActive] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [ isOn, setIsOn] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsActive(!isActive);
+  }
+
+  const toggleProfile = () => {
+    setIsOn(!isOn);
+  }
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">Navbar</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link" href="#">Link</a>
-              </li>
-              <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Action</a></li>
-                  <li><a className="dropdown-item" href="#">Another action</a></li>
-                  <li><hr className="dropdown-divider"/></li>
-                  <li><a className="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>
-            {searchEnable ? (
-              <form className="d-flex" role="search">
-                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button className="btn btn-outline-success" type="submit">Search</button>
-              </form>
-            ) : null
-            }
-          </div>
-        </div>
-    </nav>
-    </>
+<header>
+    <nav className="navbar-pg">
+      <div className='elements-lft'>
+       <div className={`dropdown ${isActive ? 'active' : ''}`} id="myDropdown">
+      <span onClick={toggleDropdown}><FontAwesomeIcon icon={isActive ? faChevronUp : faChevronDown} className='style-gico'/></span>
+      <ul className="dropdown-content">
+      <li><a href="#" ><FontAwesomeIcon icon={faFileLines} className='style-icon'/>Protocolos</a></li>
+      <li><a href="#" ><FontAwesomeIcon icon={faPenToSquare} className='style-icon'/>Avisos</a></li>
+      <li><a href="#" ><FontAwesomeIcon icon={faUser} className='style-icon'/>Usuarios</a></li>
+      <li><a href="#" ><FontAwesomeIcon icon={faComments} className='style-icon'/>Buzón</a></li>
+      <li><a href="#" ><FontAwesomeIcon icon={faClock} className='style-icon'/>Fechas</a></li>
+      </ul>
+    </div>
+    <div className='logo-h'>LOGO</div>
+    <div className="search-container">
+    <button onClick={() => alert(`Buscar: ${searchTerm}`)}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+      <input
+        type="text"
+        placeholder="Buscar"
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+    </div>
+    </div>
+    <div className='elements-right'>
+    <div className="username-page">Analista de la CATT
+    </div>
+    <div className="notifications">
+    <button><FontAwesomeIcon icon={faBell}/></button>
+    </div>
+    <div className="profile-circle">
+    <img src='https://i.ibb.co/qRGfzdB/Clipped-9.png' className='profile-user'></img>
+    </div>
+    <div className={`dropdown-user ${isOn ? 'active' : ''}`} id="myDropdownus">
+      <span onClick={toggleProfile}><FontAwesomeIcon icon={isOn ? faChevronUp : faChevronDown} className='style-gico'/></span>
+      <ul className="dropdown-content-us">
+      <li><a href="#" ><FontAwesomeIcon icon={faCircleUser} className='style-icon'/>Ver perfil</a></li>
+      <li><a href="#" ><FontAwesomeIcon icon={faArrowRightFromBracket} className='style-icon'/>Cerrar Sesión</a></li>
+      </ul>
+    </div>
+    </div>
+</nav>
+</header>
   );
-}
+};
+
+export default Navbar;

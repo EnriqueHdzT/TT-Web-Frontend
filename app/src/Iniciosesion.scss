@@ -1,0 +1,174 @@
+  /*========== General ==========*/
+  $header-height: 4.5rem;
+  $body-color: #FAFAFB;
+
+  /*========== Colors ==========*/
+  $navbg-color: #F8F8F8;
+  $dropdown-bg-color: #FAFAFB;
+  $dropdown-hover-color: #EBEBEB;
+  $dropdown-list-color: #F4F4F4;
+  $search-blue: #1C90F3;
+  $cont-gray: #E6E6E6;
+
+  /*========== Font and typography ==========*/
+  $black-fontd: #2C2C2C;
+  $blue: #1C90F3;
+  $gray-pass: #A2A2A2;
+
+   /*========== z index ==========*/
+  $z-fixed: 100;
+
+.contenedor-form{
+    margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      background: linear-gradient(-45deg, #969696, #cc7acca2, #1c8ff3a6, #71acdfa1);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+  
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    
+  .cont-sesion{
+    width: 500px;
+    height: 400px;
+    background-color: $cont-gray;
+    border-radius: 20px;
+    
+  }
+
+  .title-s{
+    font: 500 22px / 16px 'Poppins';
+    text-align: center;
+    margin-top: 40px;
+    color: $blue;
+  }
+
+}
+
+.login-form {
+    margin-top: 40px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;  
+    align-items: center;  // Centra los elementos horizontalmente
+    justify-content: center;  // Centra los elementos verticalmente
+     width: 400px;
+     margin-top: 45px;
+
+  .flex-lg{
+    display: flex;
+    margin-top: 10px;
+  
+    label {
+        width: 50px;
+        height: 40px;
+        background-color: $blue;
+        display: grid;
+        place-content: center;
+        border-radius: 10px 0 0 10px;
+
+        .style-icon{
+            color: $body-color;
+            font-size: 18px;
+        }
+    }
+  
+    input {
+      width: 300px;
+      height: 40px;
+      padding: 8px;
+      margin-bottom: 16px;
+      font: 400 14px / 16px 'Poppins';
+      border:none;
+      outline: none;
+      border-radius: 0 10px 10px 0;
+      
+    }
+}
+    .password-container {
+      position: relative;
+  
+      input {
+        padding-right: 30px; // Espacio para el icono
+      }
+  
+      .password-icon {
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: $gray-pass;
+      }
+    }
+  
+    button {
+      width: 230px;
+      height: 55px;
+      margin-top: 20px;
+      background-color: $blue;
+      color: $black-fontd;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font: 500 15px / 18px 'Poppins';
+      color: $body-color;
+    }
+  }
+
+  .messa-sesion{
+    text-align: center;
+
+    a:link, a:visited, a:active {
+        text-decoration:none;
+    }
+    a.forget{
+        display: block;
+        font: 500 12px / 18px 'Poppins';
+        text-decoration:underline;
+        color: #727272;
+        margin-top: 15px;
+    }
+    a.register{
+        display: block;
+        font: 700 13px / 18px 'Poppins';
+        color: $blue;
+        margin-top: 5px;
+    }
+  }
+  
+
+  .message-adv{
+    width: 500px;
+    height: 70px;
+    background-color: $cont-gray;
+    border-radius: 20px;
+    margin-top: 10px;
+    display: flex;
+    font: 400 12px / 18px 'Poppins';
+    padding: 15px 20px 0px 10px;
+    text-align: justify;
+
+    .adv-icon{
+        width: 30px;
+        padding: 5px 20px 10px 10px;
+        color: $blue;
+        font-size: 20px;
+    }
+
+  }
+
