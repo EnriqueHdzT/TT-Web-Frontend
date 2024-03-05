@@ -23,7 +23,7 @@ interface NavbarProps {
   onPageChange: (page: string) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
+export default function Navbar({ currentPage, onPageChange }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -150,5 +150,3 @@ const Navbar: React.FC<NavbarProps> = ({ currentPage, onPageChange }) => {
     </header>
   );
 };
-
-export default Navbar;
