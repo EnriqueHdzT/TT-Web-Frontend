@@ -115,6 +115,10 @@
       margin-left: 2rem;
       font: 500 14px / 16px 'Poppins';
 
+      a{
+        color: inherit;
+        text-decoration: none; 
+      }
     }
 
     // SearchComponent.scss

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileLines,
@@ -18,135 +18,189 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.scss";
 
-interface NavbarProps {
-  currentPage: string;
-  onPageChange: (page: string) => void;
-}
-
-export default function Navbar({ currentPage, onPageChange }) {
+export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsActive(!isActive);
+  const renderAuthButtons = () => {
+    let location = useLocation();
+    if (location.pathname === "/") {
+      return (
+        <>
+          <a className="btn btn-primary" href="/login">
+            Iniciar Sesión
+          </a>
+          <a className="btn btn-outline-secondary" href="/register">
+            Registro del Alumno
+          </a>
+        </>
+      );
+    } else if (location.pathname === "/login") {
+      return (
+        <a className="btn btn-outline-secondary" href="/register">
+          Registro del Alumno
+        </a>
+      );
+    } else if (location.pathname === "/register") {
+      return (
+        <a className="btn btn-primary" href="/login">
+          Iniciar Sesión
+        </a>
+      );
+    } else {
+      return null;
+    }
   };
 
-  const toggleProfile = () => {
-    setIsOn(!isOn);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/logout", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      await response.json();
+      localStorage.removeItem('token');
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
   };
 
   return (
     <header>
       <nav className="navbar-pg">
         <div className="elements-lft">
-          <div
-            className={`dropdown ${isActive ? "active" : ""}`}
-            id="myDropdown"
-          >
-            <span onClick={toggleDropdown}>
-              <FontAwesomeIcon
-                icon={isActive ? faChevronUp : faChevronDown}
-                className="style-gico"
+          {isAuth ? (
+            <div
+              className={`dropdown ${isActive ? "active" : ""}`}
+              id="myDropdown"
+            >
+              <span onClick={() => setIsActive(!isActive)}>
+                <FontAwesomeIcon
+                  icon={isActive ? faChevronUp : faChevronDown}
+                  className="style-gico"
+                />
+              </span>
+              <ul className="dropdown-content">
+                <li>
+                  <a href="#">
+                    <FontAwesomeIcon
+                      icon={faFileLines}
+                      className="style-icon"
+                    />
+                    Protocolos
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <FontAwesomeIcon
+                      icon={faPenToSquare}
+                      className="style-icon"
+                    />
+                    Avisos
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <FontAwesomeIcon icon={faUser} className="style-icon" />
+                    Usuarios
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <FontAwesomeIcon icon={faComments} className="style-icon" />
+                    Buzón
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <FontAwesomeIcon icon={faClock} className="style-icon" />
+                    Fechas
+                  </a>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <></>
+          )}
+          <div className="logo-h">
+            <a href="/">LOGO</a>
+          </div>
+          {isSearchEnable ? (
+            <div className="search-container">
+              <button onClick={() => alert(`Buscar: ${searchTerm}`)}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </button>
+              <input
+                type="text"
+                placeholder="Buscar"
+                value={searchTerm}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSearchTerm(e.target.value)
+                }
               />
-            </span>
-            <ul className="dropdown-content">
-              <li>
-                <a href="#">
-                  <FontAwesomeIcon icon={faFileLines} className="style-icon" />
-                  Protocolos
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <FontAwesomeIcon
-                    icon={faPenToSquare}
-                    className="style-icon"
-                  />
-                  Avisos
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <FontAwesomeIcon icon={faUser} className="style-icon" />
-                  Usuarios
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <FontAwesomeIcon icon={faComments} className="style-icon" />
-                  Buzón
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <FontAwesomeIcon icon={faClock} className="style-icon" />
-                  Fechas
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="logo-h">LOGO</div>
-          <div className="search-container">
-            <button onClick={() => alert(`Buscar: ${searchTerm}`)}>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </button>
-            <input
-              type="text"
-              placeholder="Buscar"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </div>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="elements-right">
-          <div className="username-page">Analista de la CATT</div>
-          <div className="notifications">
-            <button>
-              <FontAwesomeIcon icon={faBell} />
-            </button>
-          </div>
-          <div className="profile-circle">
-            <img
-              src="https://i.ibb.co/qRGfzdB/Clipped-9.png"
-              className="profile-user"
-              alt="Profile"
-            ></img>
-          </div>
-          <div
-            className={`dropdown-user ${isOn ? "active" : ""}`}
-            id="myDropdownus"
-          >
-            <span onClick={toggleProfile}>
-              <FontAwesomeIcon
-                icon={isOn ? faChevronUp : faChevronDown}
-                className="style-gico"
-              />
-            </span>
-            <ul className="dropdown-content-us">
-              <li>
-                <a href="#">
-                  <FontAwesomeIcon icon={faCircleUser} className="style-icon" />
-                  Ver perfil
-                </a>
-              </li>
-              <li>
-                <a href="#">
+          {isAuth ? (
+            <>
+              <div className="username-page">Analista de la CATT</div>
+              <div className="notifications">
+                <button>
+                  <FontAwesomeIcon icon={faBell} />
+                </button>
+              </div>
+              <div className="profile-circle">
+                <img
+                  src="https://i.ibb.co/qRGfzdB/Clipped-9.png"
+                  className="profile-user"
+                  alt="Profile"
+                ></img>
+              </div>
+              <div
+                className={`dropdown-user ${isOn ? "active" : ""}`}
+                id="myDropdownus"
+              >
+                <span onClick={() => setIsOn(!isOn)}>
                   <FontAwesomeIcon
-                    icon={faArrowRightFromBracket}
-                    className="style-icon"
+                    icon={isOn ? faChevronUp : faChevronDown}
+                    className="style-gico"
                   />
-                  Cerrar Sesión
-                </a>
-              </li>
-            </ul>
-          </div>
+                </span>
+                <ul className="dropdown-content-us">
+                  <li>
+                    <a href="#">
+                      <FontAwesomeIcon
+                        icon={faCircleUser}
+                        className="style-icon"
+                      />
+                      Ver perfil
+                    </a>
+                  </li>
+                  <li>
+                    <a onClick={handleLogout}>
+                      <FontAwesomeIcon
+                        icon={faArrowRightFromBracket}
+                        className="style-icon"
+                      />
+                      Cerrar Sesión
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            <>{renderAuthButtons()}</>
+          )}
         </div>
       </nav>
     </header>
   );
-};
+}

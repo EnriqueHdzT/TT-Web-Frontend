@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Define the type for student data
 interface StudentData {
@@ -23,6 +24,13 @@ const initialStudentData: StudentData = {
 
 export default function StudentRegister() {
   const [studentData, setStudentData] = useState(initialStudentData)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

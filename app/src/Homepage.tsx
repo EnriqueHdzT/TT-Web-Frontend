@@ -1,14 +1,9 @@
-import { Link } from 'react-router-dom';
 import ListStudents from './ListStudents';
 
-export default function Home() {
+export default function Homepage() {
   return (
     <>
       <ListStudents/>
     </>
   );
-}
-
-export function AuthHome(){
-
 }
