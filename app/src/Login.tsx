@@ -146,7 +146,7 @@ export default function Login({ setAuth }: LoginProps) {
             <a href="#" className="forget">
               Olvidé mi contraseña
             </a>
-            <a href="#" className="register">
+            <a href="/register" className="register">
               Registro para alumno
             </a>
           </div>

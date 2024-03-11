@@ -1,3 +1,8 @@
+import "./StudentRegister.scss";
+import "./Iniciosesion.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import { faEnvelope, faChevronLeft, faUser, faHashtag, faGraduationCap, faLock, faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { ChangeEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +29,7 @@ const initialStudentData: StudentData = {
 
 export default function StudentRegister() {
   const [studentData, setStudentData] = useState(initialStudentData)
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,88 +77,124 @@ export default function StudentRegister() {
     }
   };
 
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <>
-      <h2>Agregar Estudiante</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="emailEntry">Correo:</label>
-          <input
-            type="email"
-            className="form-control"
-            name="emailEntry"
-            id="emailEntry"
-            value={studentData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="firstLastName">Primer Apellido:</label>
-          <input
-            type="text"
-            className="form-control"
-            name="first_lastName"
-            id="firstLastName"
-            value={studentData.first_lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="secondLastName">Segundo Apellido:</label>
-          <input
-            type="text"
-            className="form-control"
-            name="second_lastName"
-            id="secondLastName"
-            value={studentData.second_lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Nombre:</label>
+    <div className="contenedor-form">
+      <div className="cont-register">
+      <div className="elements-flex"><a href="/login"><FontAwesomeIcon icon={faChevronLeft}/></a> <div className='title-r'>Registro de alumno</div></div>
+      <form onSubmit={handleSubmit} className="register-form">
+      <div className="messg-top">Recuerda ingresar datos consistentes</div>
+      <div className='flex-lg'>
+          <label><FontAwesomeIcon icon={faUser} className='style-icon'/></label>
           <input
             type="text"
             name="name"
             value={studentData.name}
             onChange={handleChange}
+            placeholder="Nombre(s)"
+            required
+          /></div>
+<div className='flex-lg'>
+<label htmlFor="firstLastName"><FontAwesomeIcon icon={faUser} className='style-icon'/></label>
+          <input
+            type="text"
+            name="first_lastName"
+            id="firstLastName"
+            value={studentData.first_lastName}
+            onChange={handleChange}
+            placeholder="Primer apellido"
+            required
+          /></div>
+          
+        <div className="flex-lg">
+          <label htmlFor="secondLastName"><FontAwesomeIcon icon={faUser} className='style-icon'/></label>
+          <input
+            type="text"
+            name="second_lastName"
+            id="secondLastName"
+            value={studentData.second_lastName}
+            onChange={handleChange}
+            placeholder="Segundo apellido"
             required
           />
         </div>
-        <div>
-          <label>Carnet de Estudiante:</label>
+        
+        <div className="flex-lg">
+          <label htmlFor="emailEntry"><FontAwesomeIcon icon={faEnvelope} className='style-icon'/></label>
+          <input
+            type="email"
+            name="emailEntry"
+            id="emailEntry"
+            value={studentData.email}
+            onChange={handleChange}
+            placeholder="Correo Institucional"
+            required
+          />
+          </div>
+
+          <div className="flex-lg">
+          <label htmlFor="emailEntry"><FontAwesomeIcon icon={faEnvelope} className='style-icon'/></label>
+          <input
+            type="email"
+            name="emailEntry"
+            id="emailEntry"
+            value={studentData.email}
+            onChange={handleChange}
+            placeholder="Confirmar Correo Institucional"
+            required
+          />
+          </div>
+        
+        <div className="flex-lg">
+          <label><FontAwesomeIcon icon={faHashtag} className='style-icon'/></label>
           <input
             type="text"
             name="student_ID"
             value={studentData.student_ID}
             onChange={handleChange}
+            placeholder="Número de boleta"
             required
           />
         </div>
-        <div>
-          <label>Carrera:</label>
+        <div className="flex-lg">
+          <label><FontAwesomeIcon icon={faGraduationCap} className='style-icon'/></label>
           <input
             type="text"
             name="career"
             value={studentData.career}
             onChange={handleChange}
+            placeholder="Carrera"
             required
           />
         </div>
-        <div>
-          <label>Curriculum:</label>
-          <input
-            type="text"
-            name="curriculum"
-            value={studentData.curriculum}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Agregar Estudiante</button>
+        <div className='flex-lg'>
+      <label htmlFor="password"><FontAwesomeIcon icon={faLock} className='style-icon'/></label>
+      <div className="password-container">
+        <input type={showPassword ? 'text' : 'password'} id="password" name="password" placeholder="Contraseña" required />
+        <span className="password-icon" onClick={togglePasswordVisibility}>
+        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+        </span></div>
+      </div>
+
+        <div className='flex-lg'>
+      <label htmlFor="password"><FontAwesomeIcon icon={faLock} className='style-icon'/></label>
+      <div className="password-container">
+        <input type={showPassword ? 'text' : 'password'} id="password" name="password" placeholder="Confirmar contraseña" required />
+        <span className="password-icon" onClick={togglePasswordVisibility}>
+        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+        </span></div>
+      </div>
+        <button type="submit">Registrar</button>
       </form>
-    </>
+      </div>
+      
+    <div className="aviso-doc"><FontAwesomeIcon icon={faCircleExclamation} className='adv-icon'/> En caso de ser docente y no encontrarse registrado en el sistema debes comunicarte con la CATT para llevar acabo el proceso.
+    </div>
+      </div>
   );
+
 }
