@@ -11,7 +11,7 @@ interface StudentData {
   first_lastName: string;
   second_lastName: string;
   name: string;
-  student_ID: string;
+  student_id: string;
   career: string;
   curriculum: string;
   email: string;
@@ -21,7 +21,7 @@ const initialStudentData: StudentData = {
   first_lastName: "",
   second_lastName: "",
   name: "",
-  student_ID: "",
+  student_id: "",
   career: "",
   curriculum: "",
   email: "",
@@ -54,7 +54,7 @@ export default function StudentRegister() {
       formData.append("first_lastName", studentData.first_lastName);
       formData.append("second_lastName", studentData.second_lastName);
       formData.append("name", studentData.name);
-      formData.append("student_ID", studentData.student_ID);
+      formData.append("student_id", studentData.student_id);
       formData.append("career", studentData.career);
       formData.append("curriculum", studentData.curriculum);
 
@@ -153,8 +153,8 @@ export default function StudentRegister() {
           <label><FontAwesomeIcon icon={faHashtag} className='style-icon'/></label>
           <input
             type="text"
-            name="student_ID"
-            value={studentData.student_ID}
+            name="student_id"
+            value={studentData.student_id}
             onChange={handleChange}
             placeholder="Número de boleta"
             required

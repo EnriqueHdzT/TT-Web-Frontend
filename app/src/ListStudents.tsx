@@ -45,7 +45,7 @@ export default function ListStudents() {
         <StudentCard
           studentKey={student.id}
           cardTitle={`${student.name} ${student.lastname}`}
-          cardSubtitle={student.student_ID}
+          cardSubtitle={student.student_id}
           cardText={`School: ${student.career}, Academy: ${student.curriculum}`}
           onDelete={() => handleDelete(student.id)}
         />
