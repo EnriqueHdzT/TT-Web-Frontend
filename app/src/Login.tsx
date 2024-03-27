@@ -80,7 +80,7 @@ export default function Login({ setAuth }: LoginProps) {
           throw new Error("Login failed");
         }
 
-        let data = await response.json();
+        const data = await response.json();
         localStorage.setItem("token", data.token);
         setAuth(true);
         navigate("/");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,6 +22,20 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const handleScroll = () => {
+    const currentScrollPos = window.pageYOffset;
+    setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+    setPrevScrollPos(currentScrollPos);
+  }; // para el scroll que no sirve aun xd
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 1370); // Ajusta este valor según tam pagi
+  };
+
 
   const renderAuthButtons = () => {
     let location = useLocation();
@@ -70,9 +84,19 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
     }
   };
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Llama a handleResize al inicio para establecer el estado inicial de isMobile
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [prevScrollPos, visible]);
+
   return (
     <header>
-      <nav className="navbar-pg">
+      <nav className={`navbar-pg ${visible ? '' : 'hidden'} ${isMobile ? 'mobile' : ''}`}>
         <div className="elements-lft">
           {isAuth ? (
             <div

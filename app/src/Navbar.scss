@@ -18,15 +18,16 @@
   $black-fontd: #2C2C2C;
 
    /*========== z index ==========*/
-  $z-fixed: 100;
-  
+  $z-fixed: 9999;
+  //agregar botones de docentes
 
   header {
-    position: fixed;
+    position:fixed;
     width: 100%;
     background-color: $dropdown-bg-color;
     box-shadow: 0 2px 16px hsla(220, 32%, 8%, .3);
     z-index: var(--z-fixed);
+    
   }
 .navbar-pg{
   height: $header-height;
@@ -265,3 +266,12 @@ button{
   background-color: $body-color;
 }
   
+
+.mobile {
+  background: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: opacity 0.4s ease 0s;}
