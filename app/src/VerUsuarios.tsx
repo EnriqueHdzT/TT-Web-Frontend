@@ -1,8 +1,7 @@
 import "./VerUsuarios.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEllipsisVertical, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faPlus, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import FiltrosUsuario from "./FiltrosUsuario";
-import React, { useState } from 'react';
 import EEUsuarios from "./EEUsuarios";
 
 
@@ -37,88 +36,102 @@ export default function VerUsuarios () {
         <div className="container-users">
             <div className="item">
               <div className="box-us"><div className="bk-icon"><FontAwesomeIcon icon={faUser} className="icon-us" /></div>
-              <div className="name-user"><h1>Andres Manuel Lopez Obrador</h1><h2>Escom</h2></div> 
+              <div className="name-user"><h1>Andres Manuel Lopez Obrador</h1><h2>Profesor</h2></div> 
               <div className="others-us">
               <EEUsuarios
                options={['Editar', 'Eliminar']}
       />
           </div>
           </div>
-              <div className="inf-us"><div className="ema-us">email: <br></br>jmontanor1800@alumno.ipn.com</div></div>
+              <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>jmontanor1800@alumno.ipn.com</span></div>
+              <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+              </div>
             </div>
 
 
             <div className="item">
               <div className="box-us"><div className="bk-icon"><FontAwesomeIcon icon={faUser} className="icon-us" /></div>
-              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Procedencia</h2></div> 
+              <div className="name-user"><h1>Nombre de ejemplor</h1><h2>Alumno</h2></div> 
               <div className="others-us">
               <EEUsuarios
                options={['Editar', 'Eliminar']}
       />
           </div>
           </div>
-              <div className="inf-us"><div className="ema-us">email: <br></br>ejemplo-de-correo@alumno.ipn.com</div></div>
+              <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>jmontanor1800@alumno.ipn.com</span></div>
+              <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+              </div>
             </div>
 
 
             <div className="item">
               <div className="box-us"><div className="bk-icon"><FontAwesomeIcon icon={faUser} className="icon-us" /></div>
-              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Procedencia</h2></div> 
+              <div className="name-user"><h1>Andres Manuel Lopez Obrador</h1><h2>Profesor</h2></div> 
               <div className="others-us">
               <EEUsuarios
                options={['Editar', 'Eliminar']}
       />
           </div>
           </div>
-              <div className="inf-us"><div className="ema-us">email: <br></br>ejemplo-de-correo@alumno.ipn.com</div></div>
+              <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>jmontanor1800@alumno.ipn.com</span></div>
+              <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+              </div>
             </div>
 
             <div className="item">
               <div className="box-us"><div className="bk-icon"><FontAwesomeIcon icon={faUser} className="icon-us" /></div>
-              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Procedencia</h2></div> 
+              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Alumno</h2></div> 
               <div className="others-us">
               <EEUsuarios
                options={['Editar', 'Eliminar']}
       />
           </div>
           </div>
-              <div className="inf-us"><div className="ema-us">email: <br></br>ejemplo-de-correo@alumno.ipn.com</div></div>
+              <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>jmontanor1800@alumno.ipn.com</span></div>
+              <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+              </div>
             </div>
 
             <div className="item">
               <div className="box-us"><div className="bk-icon"><FontAwesomeIcon icon={faUser} className="icon-us" /></div>
-              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Procedencia</h2></div> 
+              <div className="name-user"><h1>Andres Manuel Lopez Obrador</h1><h2>Profesor</h2></div> 
               <div className="others-us">
               <EEUsuarios
                options={['Editar', 'Eliminar']}
       />
           </div>
           </div>
-              <div className="inf-us"><div className="ema-us">email: <br></br>ejemplo-de-correo@alumno.ipn.com</div></div>
+              <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>jmontanor1800@alumno.ipn.com</span></div>
+              <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+              </div>
             </div>
 
             <div className="item">
               <div className="box-us"><div className="bk-icon"><FontAwesomeIcon icon={faUser} className="icon-us" /></div>
-              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Procedencia</h2></div> 
+              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Alumno</h2></div> 
               <div className="others-us">
               <EEUsuarios
                options={['Editar', 'Eliminar']}
       />
           </div>
           </div>
-              <div className="inf-us"><div className="ema-us">email: <br></br>ejemplo-de-correo@alumno.ipn.com</div></div>
+              <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>jmontanor1800@alumno.ipn.com</span></div>
+              <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+              </div>
             </div>
 
             <div className="item">
               <div className="box-us"><div className="bk-icon"><FontAwesomeIcon icon={faUser} className="icon-us" /></div>
-              <div className="name-user"><h1>Nombre de ejemplo</h1><h2>Procedencia</h2></div> 
+              <div className="name-user"><h1>Andres Manuel Lopez Obrador</h1><h2>Profesor</h2></div> 
               <div className="others-us">
               <EEUsuarios
                options={['Editar', 'Eliminar']}
       />
           </div>
           </div>
-              <div className="inf-us"><div className="ema-us">email: <br></br>ejemplo-de-correo@alumno.ipn.com</div></div>
+              <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>jmontanor1800@alumno.ipn.com</span></div>
+              <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+              </div>
             </div>
 
           </div>
