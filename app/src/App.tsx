@@ -11,9 +11,9 @@ import Login from "./Login";
 import StudentRegister from "./StudentRegister";
 import VerifiCorreo from "./VerifiCorreo";
 import ValidateCorreo from "./ValidateCorreo"
+import VerUsuarios from "./VerUsuarios";
 
 import "./App.scss";
-import VerUsuarios from "./VerUsuarios";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
