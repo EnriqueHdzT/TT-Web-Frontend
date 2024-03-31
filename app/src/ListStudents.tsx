@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import StudentCard from "./StudentCard/StudentCard";
+import StudentCard from "./UserCard/UserCard";
 
 export default function ListStudents() {
   const [students, setStudents] = useState([]);
@@ -18,9 +18,9 @@ export default function ListStudents() {
       });
   }, []);
 
-  const handleDelete = (studentId) => {
+  const handleDelete = (userId) => {
     // Make an HTTP DELETE request to your backend API to delete the student
-    fetch(`http://127.0.0.1:8000/api/addStudent/${studentId}`, {
+    fetch(`http://127.0.0.1:8000/api/addStudent/${userId}`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -32,7 +32,7 @@ export default function ListStudents() {
           throw new Error('Network response was not ok');
         }
         // Remove the deleted student from the state
-        setStudents(students.filter(student => student.id !== studentId));
+        setStudents(students.filter(student => student.id !== userId));
       })
       .catch(error => {
         console.error('There was a problem with the delete request', error);

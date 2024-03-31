@@ -3,9 +3,9 @@ import './EEUsuarios.scss';
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function EEUsuarios ({ options }) {
+export default function EEUsuarios ({ onDelete }) {
+  const options = ['Editar', 'Eliminar'];
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
