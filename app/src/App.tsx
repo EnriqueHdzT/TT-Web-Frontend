@@ -12,6 +12,7 @@ import StudentRegister from "./StudentRegister";
 import VerifiCorreo from "./VerifiCorreo";
 import ValidateCorreo from "./ValidateCorreo"
 import VerUsuarios from "./VerUsuarios";
+import UserInfo from "./UserInfo";
 
 import "./App.scss";
 
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/verify" element={<VerifiCorreo />} />
           <Route path="/validate" element={<ValidateCorreo />} />
           <Route path="/users" element={<VerUsuarios />} />
+          <Route path="/users/:id" element={<UserInfo />} />
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

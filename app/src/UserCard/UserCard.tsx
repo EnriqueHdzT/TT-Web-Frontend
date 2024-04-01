@@ -8,16 +8,14 @@ export default function UserCard({
   name = null,
   userType = null,
   email = null,
+  cardText = null,
   onDelete = Function,
 }) {
-  /*
-  private function onClickEdit (){
-    
-  }
-*/
+
   const onClickDelete = () => {
     onDelete(userKey);
   };
+  console.log(userKey)
 
   return (
     <div className="item">
@@ -25,12 +23,13 @@ export default function UserCard({
         <div className="name-user"><h1>{name}</h1><h2>{userType}</h2></div>
         <div className="others-us">
           <EEUsuarios
+            userKey={userKey}
             onDelete={onClickDelete}
           />
         </div>
       </div>
       <div className="inf-us"><div className="ema-us"><FontAwesomeIcon icon={faEnvelope} className="icon-us" /> <span>{email}</span></div>
-        <div className="datos-us"><span>Procedencia</span> <span>Carrera</span> <span>Plan de estudio</span></div>
+        <div className="datos-us">{cardText}</div>
       </div>
     </div>
   );

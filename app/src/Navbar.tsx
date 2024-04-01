@@ -36,7 +36,6 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
     setIsMobile(window.innerWidth <= 1370); // Ajusta este valor según tam pagi
   };
 
-
   const renderAuthButtons = () => {
     let location = useLocation();
     if (location.pathname === "/") {
@@ -77,7 +76,7 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
         },
       });
       await response.json();
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       window.location.href = "/";
     } catch (error) {
       console.error("Error de red:", error);
@@ -85,18 +84,22 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
     handleResize(); // Llama a handleResize al inicio para establecer el estado inicial de isMobile
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, [prevScrollPos, visible]);
 
   return (
     <header>
-      <nav className={`navbar-pg ${visible ? '' : 'hidden'} ${isMobile ? 'mobile' : ''}`}>
+      <nav
+        className={`navbar-pg ${visible ? "" : "hidden"} ${
+          isMobile ? "mobile" : ""
+        }`}
+      >
         <div className="elements-lft">
           {isAuth ? (
             <div
