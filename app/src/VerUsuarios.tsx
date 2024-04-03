@@ -6,6 +6,7 @@ import { faUser, faPlus, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import FiltrosUsuario from "./FiltrosUsuario";
 import EEUsuarios from "./EEUsuarios";
 import UserCard from "./UserCard";
+import PageChanger from "./PageChanger";
 
 const usersTypes = ["Alumnos", "Docentes"];
 const careers = ["ISW", "IIA", "LCD"];
@@ -65,6 +66,14 @@ export default function VerUsuarios() {
   useEffect(() => {
     getUsers();
   }, [userType, career, curriculum, precedence, academy, currentPage]);
+
+  const updateCurrentPage = (value = 0) => {
+    if(value < 1 || value > maxPage){
+      console.log("La pagina que quieres acceder no es valida")
+    } else {
+      setCurrentPage(value)
+    }
+  }
 
   const updateUserType = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -242,6 +251,12 @@ export default function VerUsuarios() {
           ))}
           </>
         ) : (<h1>No se encontraron usuarios</h1>)}
+      </div>
+      <div className="pageChanger">
+        <PageChanger 
+          currentPage={currentPage}
+          maxPages={maxPage}
+          onPageChange={updateCurrentPage}/>
       </div>
     </div>
   );
