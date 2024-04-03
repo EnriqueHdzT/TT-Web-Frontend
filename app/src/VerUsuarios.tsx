@@ -125,7 +125,6 @@ export default function VerUsuarios() {
       "",
       `${window.location.pathname}?${queryParams}`
     );
-
     setAcademy(value);
   };
 

@@ -15,7 +15,6 @@ export default function UserCard({
   const onClickDelete = () => {
     onDelete(userKey);
   };
-  console.log(userKey)
 
   return (
     <div className="item">
