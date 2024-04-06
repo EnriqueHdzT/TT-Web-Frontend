@@ -15,6 +15,7 @@ import VerUsuarios from "./VerUsuarios";
 import UserInfo from "./UserInfo";
 
 import "./App.scss";
+import SubirProtocolo from "./SubirProtocolo";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/validate" element={<ValidateCorreo />} />
           <Route path="/users" element={<VerUsuarios />} />
           <Route path="/users/:id" element={<UserInfo />} />
+          <Route path="/protocols" element={<SubirProtocolo />} />
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
