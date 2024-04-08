@@ -7,6 +7,7 @@ import {
   faEnvelope,
   faLock,
   faCircleExclamation,
+  faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface LoginData {
@@ -26,6 +27,10 @@ const InitialLoginData: LoginData = {
 export default function Login({ setAuth }: LoginProps) {
   const [LoginData, setLoginData] = useState(InitialLoginData);
   const [showPassword, setShowPassword] = useState(false);
+  const [wrongEmail, setIsWrongEmail] = useState(true);
+  const [isTypingEmail, setIsTypingEmail] = useState(false);
+  const [wrongPassword, setIsWrongPassword] = useState(true);
+  const [isTypingPassword, setIsTypingPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +44,27 @@ export default function Login({ setAuth }: LoginProps) {
       ...prevData,
       [name]: value,
     }));
+    if(name === 'email'){
+      setIsTypingEmail(true)
+    }
+    if(name === 'password'){
+      setIsTypingPassword(true)
+    }
   };
+
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if(name === 'email'){
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/;
+      setIsWrongEmail(!emailRegex.test(value) && isTypingEmail);
+      setIsTypingEmail(false);
+    }
+    if(name === 'password'){
+      const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&?*])[a-zA-Z0-9!@#$%^&?*]{8,}$/;
+      setIsWrongPassword(!passwordRegex.test(value) && isTypingPassword);
+      setIsTypingPassword(false);
+    }
+  }
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -50,20 +75,7 @@ export default function Login({ setAuth }: LoginProps) {
   ) {
     event.preventDefault();
 
-    if (LoginData.email && LoginData.password) {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/;
-      const passwordRegex =
-        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&?*])[a-zA-Z0-9!@#$%^&?*]{8,}$/;
-
-      if (!emailRegex.test(LoginData.email)) {
-        console.log("El correo no cumple con la estructura esperada");
-        return;
-      }
-
-      if (!passwordRegex.test(LoginData.password)) {
-        console.log("La contraseña no cumple con la estructura esperada");
-        return;
-      }
+    if (!wrongEmail && !wrongPassword ) {
       try {
         const formData = new URLSearchParams();
         formData.append("email", LoginData.email);
@@ -90,7 +102,7 @@ export default function Login({ setAuth }: LoginProps) {
         console.error("Login failed:", error.message);
       }
     } else {
-      console.log("Email or password not found");
+      console.log("Wrong credentials");
     }
   }
 
@@ -111,10 +123,14 @@ export default function Login({ setAuth }: LoginProps) {
                 name="email"
                 value={LoginData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 placeholder="Correo Institucional"
                 required
               />
             </div>
+            {wrongEmail && !isTypingEmail && LoginData.email !== '' ? 
+            (<div className="adv-pr"><FontAwesomeIcon icon={faCircleXmark} className="adv-icon" /> El correo no cumple con la estructura esperada</div>):
+            (<></>)}
 
             <div className="flex-lg">
               <label htmlFor="password">
@@ -127,6 +143,7 @@ export default function Login({ setAuth }: LoginProps) {
                   name="password"
                   value={LoginData.password}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Contraseña"
                   required
                 />
@@ -138,6 +155,9 @@ export default function Login({ setAuth }: LoginProps) {
                 </span>
               </div>
             </div>
+            {wrongPassword && !isTypingPassword && LoginData.password !== '' ? 
+            (<div className="adv-pr"><FontAwesomeIcon icon={faCircleXmark} className="adv-icon" /> La contraseña no cumple con la estructura esperada</div>):
+            (<></>)}
             <button type="submit" onClick={(event) => onClickSave(event)}>
               Entrar
             </button>
