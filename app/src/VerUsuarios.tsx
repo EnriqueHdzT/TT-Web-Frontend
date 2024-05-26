@@ -10,7 +10,7 @@ import PageChanger from "./PageChanger";
 
 const usersTypes = ["Alumnos", "Docentes"];
 const careers = ["ISW", "IIA", "LCD"];
-const curriculums = ["1999", "2009", "2020"];
+const curriculums = ["2009", "2020"];
 const precedences = ["Interino", "Externo"];
 const academies = [
   "Ciencia de Datos",

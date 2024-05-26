@@ -57,7 +57,6 @@ return(
                 <option value="pv">Plan 20</option>
                 <option value="pn">Plan de 2009</option>
                 <option value="pvv">Plan de 2020</option>
-                <option value="puun">Plan 1/1/1999</option>
               </select></div></div>
               </div>
               <div className="b-agregar"><button onClick={handleAgregar}>Agregar</button></div>
