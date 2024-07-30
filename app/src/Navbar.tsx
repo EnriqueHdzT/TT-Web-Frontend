@@ -94,140 +94,144 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   }, [prevScrollPos, visible]);
 
   return (
-    <header>
-      <nav
-        className={`navbar-pg ${visible ? "" : "hidden"} ${
-          isMobile ? "mobile" : ""
-        }`}
-      >
-        <div className="elements-lft">
-          {isAuth ? (
-            <div
-              className={`dropdown ${isActive ? "active" : ""}`}
-              id="myDropdown"
-            >
-              <span onClick={() => setIsActive(!isActive)}>
-                <FontAwesomeIcon
-                  icon={isActive ? faChevronUp : faChevronDown}
-                  className="style-gico"
-                />
-              </span>
-              <ul className="dropdown-content">
-                <li>
-                  <a href="#">
-                    <FontAwesomeIcon
-                      icon={faFileLines}
-                      className="style-icon"
-                    />
-                    Protocolos
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <FontAwesomeIcon
-                      icon={faPenToSquare}
-                      className="style-icon"
-                    />
-                    Avisos
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <FontAwesomeIcon icon={faUser} className="style-icon" />
-                    Usuarios
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <FontAwesomeIcon icon={faComments} className="style-icon" />
-                    Buzón
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <FontAwesomeIcon icon={faClock} className="style-icon" />
-                    Fechas
-                  </a>
-                </li>
-              </ul>
-            </div>
-          ) : (
-            <></>
-          )}
-          <div className="logo-h">
-            <a href="/">LOGO</a>
-          </div>
-          {isSearchEnable ? (
-            <div className="search-container">
-              <button onClick={() => alert(`Buscar: ${searchTerm}`)}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </button>
-              <input
-                type="text"
-                placeholder="Buscar"
-                value={searchTerm}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setSearchTerm(e.target.value)
-                }
-              />
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-        <div className="elements-right">
-          {isAuth ? (
-            <>
-              <div className="username-page">Analista de la CATT</div>
-              <div className="notifications">
-                <button>
-                  <FontAwesomeIcon icon={faBell} />
-                </button>
-              </div>
-              <div className="profile-circle">
-                <img
-                  src="https://i.ibb.co/qRGfzdB/Clipped-9.png"
-                  className="profile-user"
-                  alt="Profile"
-                ></img>
-              </div>
+    <div className="navbar">
+      <header>
+        <nav
+          className={`navbar-pg ${visible ? "" : "hidden"} ${isMobile ? "mobile" : ""
+            }`}
+        >
+          <div className="elements-lft">
+            {isAuth ? (
               <div
-                className={`dropdown-user ${isOn ? "active" : ""}`}
-                id="myDropdownus"
+                className={`dropdown ${isActive ? "active" : ""}`}
+                id="myDropdown"
               >
-                <span onClick={() => setIsOn(!isOn)}>
+                <span onClick={() => setIsActive(!isActive)}>
                   <FontAwesomeIcon
-                    icon={isOn ? faChevronUp : faChevronDown}
+                    icon={isActive ? faChevronUp : faChevronDown}
                     className="style-gico"
                   />
                 </span>
-                <ul className="dropdown-content-us">
+                <ul className="dropdown-content">
                   <li>
                     <a href="#">
                       <FontAwesomeIcon
-                        icon={faCircleUser}
+                        icon={faFileLines}
                         className="style-icon"
                       />
-                      Ver perfil
+                      Protocolos
                     </a>
                   </li>
                   <li>
-                    <a onClick={handleLogout}>
+                    <a href="#">
                       <FontAwesomeIcon
-                        icon={faArrowRightFromBracket}
+                        icon={faPenToSquare}
                         className="style-icon"
                       />
-                      Cerrar Sesión
+                      Avisos
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <FontAwesomeIcon icon={faUser} className="style-icon" />
+                      Usuarios
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <FontAwesomeIcon
+                        icon={faComments}
+                        className="style-icon"
+                      />
+                      Buzón
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <FontAwesomeIcon icon={faClock} className="style-icon" />
+                      Fechas
                     </a>
                   </li>
                 </ul>
               </div>
-            </>
-          ) : (
-            <>{renderAuthButtons()}</>
-          )}
-        </div>
-      </nav>
-    </header>
+            ) : (
+              <></>
+            )}
+            <div className="logo-h">
+              <a href="/">LOGO</a>
+            </div>
+            {isSearchEnable ? (
+              <div className="search-container">
+                <button onClick={() => alert(`Buscar: ${searchTerm}`)}>
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </button>
+                <input
+                  type="text"
+                  placeholder="Buscar"
+                  value={searchTerm}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSearchTerm(e.target.value)
+                  }
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="elements-right">
+            {isAuth ? (
+              <>
+                <div className="username-page">Analista de la CATT</div>
+                <div className="notifications">
+                  <button>
+                    <FontAwesomeIcon icon={faBell} />
+                  </button>
+                </div>
+                <div className="profile-circle">
+                  <img
+                    src="https://i.ibb.co/qRGfzdB/Clipped-9.png"
+                    className="profile-user"
+                    alt="Profile"
+                  ></img>
+                </div>
+                <div
+                  className={`dropdown-user ${isOn ? "active" : ""}`}
+                  id="myDropdownus"
+                >
+                  <span onClick={() => setIsOn(!isOn)}>
+                    <FontAwesomeIcon
+                      icon={isOn ? faChevronUp : faChevronDown}
+                      className="style-gico"
+                    />
+                  </span>
+                  <ul className="dropdown-content-us">
+                    <li>
+                      <a href="#">
+                        <FontAwesomeIcon
+                          icon={faCircleUser}
+                          className="style-icon"
+                        />
+                        Ver perfil
+                      </a>
+                    </li>
+                    <li>
+                      <a onClick={handleLogout}>
+                        <FontAwesomeIcon
+                          icon={faArrowRightFromBracket}
+                          className="style-icon"
+                        />
+                        Cerrar Sesión
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <>{renderAuthButtons()}</>
+            )}
+          </div>
+        </nav>
+      </header>
+    </div>
   );
 }
