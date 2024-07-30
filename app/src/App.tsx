@@ -10,10 +10,11 @@ import Homepage from "./Homepage";
 import Login from "./Login";
 import StudentRegister from "./StudentRegister";
 import VerifiCorreo from "./VerifiCorreo";
-import ValidateCorreo from "./ValidateCorreo"
+import ValidateCorreo from "./ValidateCorreo";
 import VerUsuarios from "./VerUsuarios";
 import UserInfo from "./UserInfo";
-
+import DatesAndTerms from "./DatesAndTerms/DatesAndTerms";
+import Footer from "./Footer/Footer";
 import "./App.scss";
 import SubirProtocolo from "./SubirProtocolo";
 
@@ -28,22 +29,24 @@ export default function App() {
   }, []);
 
   return (
-    <>
-      <Router>
-        <Navbar isAuth={isAuth} />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/login" element={<Login setAuth={setAuth}/>} />
-          <Route path="/register" element={<StudentRegister />} />
-          <Route path="/verify" element={<VerifiCorreo />} />
-          <Route path="/validate" element={<ValidateCorreo />} />
-          <Route path="/users" element={<VerUsuarios />} />
-          <Route path="/users/:id" element={<UserInfo />} />
-          <Route path="/protocols" element={<SubirProtocolo />} />
+    <Router>
+      <Navbar isAuth={isAuth} />
+      <div className="app-body">
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/login" element={<Login setAuth={setAuth} />} />
+        <Route path="/register" element={<StudentRegister />} />
+        <Route path="/verify" element={<VerifiCorreo />} />
+        <Route path="/validate" element={<ValidateCorreo />} />
+        <Route path="/users" element={<VerUsuarios />} />
+        <Route path="/users/:id" element={<UserInfo />} />
+        <Route path="/protocols" element={<SubirProtocolo />} />
+        <Route path="/dates" element={<DatesAndTerms />} />
 
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Router>
-    </>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      </div>
+      <Footer />
+    </Router>
   );
 }
