@@ -1,7 +1,7 @@
 import "./UserCard.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import EEUsuarios from "../EEUsuarios";
+import EEUsuarios from "./components/EEUsuarios/EEUsuarios";
 
 export default function UserCard({
   userKey = null,

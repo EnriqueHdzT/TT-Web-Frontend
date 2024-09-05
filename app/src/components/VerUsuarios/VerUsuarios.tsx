@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import "./VerUsuarios.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faPlus, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import FiltrosUsuario from "./FiltrosUsuario";
-import EEUsuarios from "./EEUsuarios";
-import UserCard from "./UserCard";
-import PageChanger from "./PageChanger";
+import FiltrosUsuario from "./components/FiltrosUsuario/FiltrosUsuario";
+import UserCard from "./components/UserCard/UserCard";
+import PageChanger from "./components/PageChanger/PageChanger";
 
 const usersTypes = ["Alumnos", "Docentes"];
 const careers = ["ISW", "IIA", "LCD"];
