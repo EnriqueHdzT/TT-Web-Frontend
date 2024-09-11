@@ -1,5 +1,4 @@
 import "./StudentRegister.scss";
-import "./Login.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { faEnvelope, faChevronLeft, faUser, faHashtag, faGraduationCap, faLock, faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
