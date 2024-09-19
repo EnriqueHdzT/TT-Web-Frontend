@@ -4,21 +4,6 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Protocolinfo from "./components/Protocolinfo";
 
-const Protocolos={{
-  titleProtocol = null,
-  idProtocol = null,
-  {
-    name = null,
-    idBoleta = null,
-
-  },
-  idBoleta = null,
-  userType = null,
-  statusProtocol,
-
-
-}}
-
 export default function VerProtocolos() {
     const [ordenProtocol, setOrdenProtocol] = useState("Ordenar");
     const [listOfOrden, setListOfOrden] = useState(["A validar","Activo","Aplazado","Cancelado"]);
@@ -105,9 +90,17 @@ export default function VerProtocolos() {
                 </button>
           </div>
           </div>
-          {}
-           <Protocolinfo 
+          {Protocolos.map((protocol) => (
+            <Protocolinfo
+              idProtocol = {protocol.idProtocol}
+              titleProtocol = {protocol.titleProtocol}
+              statusProtocol = {protocol.statusProtocol}
+              studentList = {protocol.studentList}
+              directorList = {protocol.directorList}
+              sinodalList = {protocol.sinodalList}
             />
+          ))}
+           
 
 
 
