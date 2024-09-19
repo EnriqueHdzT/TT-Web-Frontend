@@ -12,6 +12,7 @@ import UserInfo from "./components/UserInfo/UserInfo";
 import DatesAndTerms from "./components/DatesAndTerms/DatesAndTerms";
 import Footer from "./components/Footer/Footer";
 import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
+import VerProtocolos from "./components/VerProtocolos/VerProtocolos"
 
 import "./App.scss";
 
@@ -39,6 +40,8 @@ export default function App() {
           <Route path="/users/:id" element={<UserInfo />} />
           <Route path="/protocols" element={<SubirProtocolo />} />
           <Route path="/dates" element={<DatesAndTerms />} />
+          <Route path="/seeprotocols" element={<VerProtocolos />} />
+
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
