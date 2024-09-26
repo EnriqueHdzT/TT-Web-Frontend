@@ -14,6 +14,7 @@ import Footer from "./components/Footer/Footer";
 import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
 import VerProtocolos from "./components/VerProtocolos/VerProtocolos";
 import Password from "./components/Password/Password";
+import VerInfo from "./components/VerInfo/VerInfo";
 
 import "./App.scss";
 
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/dates" element={<DatesAndTerms />} />
           <Route path="/seeprotocols" element={<VerProtocolos />} />
           <Route path="/password" element={<Password />} />
+          <Route path="/verinfo" element={<VerInfo />} />
 
 
           <Route path="*" element={<Navigate to="/" />} />

@@ -1,0 +1,127 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+$cont-gray2: #e1e1e1;
+$dark-1: #737373;
+$gray-2: #ddd;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+
+.t-basic {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  display: flex;
+
+  .tl-u {
+    margin-top: 4rem;
+    padding-left: 4%;
+    width: 50%;
+    height: 50px;
+    color: $blue;
+    font: 600 1.1rem "Poppins";
+    align-items: center; // horizontal
+    justify-content: start; // vertical
+    display: flex;
+  }
+}
+
+.t-basic2 {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  display: flex;
+
+  .tl-u {
+    padding-left: 4%;
+    width: 50%;
+    height: 50px;
+    color: $blue;
+    font: 600 1.1rem "Poppins";
+    align-items: center; // horizontal
+    justify-content: start; // vertical
+    display: flex;
+  }
+}
+
+.body-pass {
+  width: 90%;
+  height: auto;
+  margin: auto;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem 1.25rem;
+  background-color: $body-color;
+  border-radius: 8px;
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    background-color: $body-color;
+    border-bottom: 1px solid $gray-2;  
+    height: 40px;   
+
+    .title {
+      font: 500 13px "Poppins";
+      color: $black-fontd;
+      width: 20%;
+    }
+
+    .value {
+      color: $dark-1;
+      font: 400 13px "Poppins";
+      width: 60%;
+    }
+
+    .con-ico {
+      width: 20%;
+      text-align: right;
+      font-size: 13px;
+
+      .edit-icon {
+        cursor: pointer;
+        color: $gray-pass;
+      }
+    }
+
+    input,
+    select {
+      width: 60%;
+      font-size: 12px;
+      border: 1px solid $gray-2;
+      border-radius: 4px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .info-item {
+    min-width: 600px;
+
+    .title {
+      margin-bottom: 5px;
+    }
+  }
+}
