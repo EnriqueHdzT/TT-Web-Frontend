@@ -2,13 +2,31 @@ import { useEffect, useState, useRef } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
+interface TermData {
+  cycle: string;
+  status: boolean;
+  start_recv_date_ord: Date | null;
+  end_recv_date_ord: Date | null;
+  recom_classif_end_date_ord: Date | null;
+  recom_eval_end_date_ord: Date | null;
+  correc_end_date_ord: Date | null;
+  recom_second_eval_end_date_ord: Date | null;
+  start_recv_date_ext: Date | null;
+  end_recv_date_ext: Date | null;
+  recom_classif_end_date_ext: Date | null;
+  recom_eval_end_date_ext: Date | null;
+  correc_end_date_ext: Date | null;
+  recom_second_eval_end_date_ext: Date | null;
+}
+
 export default function DatesAndTerms() {
   const popupRef = useRef(null);
   const [currentTerm, setCurrentTerm] = useState("");
-  const [currentTermData, setCurrentTermData] = useState([]);
+  const [currentTermData, setCurrentTermData] = useState<TermData[]>([]);
   const [listOfTerms, setListOfTerms] = useState([]);
   const [isListOfTermsEmpty, setIsListOfTermsEmpty] = useState(true);
   const [newCycle, setNewCycle] = useState(["", "1"]);
+  const [isCloseCycleChecked, setIsCloseCycleChecked] = useState(false);
 
   const updateCurrentTerm = (newTerm: string) => {
     setCurrentTerm(newTerm);
@@ -28,7 +46,7 @@ export default function DatesAndTerms() {
       const response = await fetch("http://127.0.0.1:8000/api/dates", {
         method: "POST",
         headers: {
-          Accept: "application/json"
+          Accept: "application/json",
         },
         body: formData,
       });
@@ -41,8 +59,8 @@ export default function DatesAndTerms() {
       setListOfTerms((prevList) => {
         const newList = [...prevList, { cycle: newCycle }];
         return newList.sort((a, b) => {
-          const [yearA, semesterA] = a.cycle.split('/').map(Number);
-          const [yearB, semesterB] = b.cycle.split('/').map(Number);
+          const [yearA, semesterA] = a.cycle.split("/").map(Number);
+          const [yearB, semesterB] = b.cycle.split("/").map(Number);
           if (yearA !== yearB) {
             return yearB - yearA; // Sort by year in descending order
           } else {
@@ -56,6 +74,11 @@ export default function DatesAndTerms() {
     } catch (error) {
       console.error(`Failed to create new cycle: ${newCycle}`);
     }
+  };
+
+  const onPopupClose = () => {
+    setNewCycle(["", "1"]);
+    popupRef.current.close();
   };
 
   // Get the list of terms from DB
@@ -149,7 +172,7 @@ export default function DatesAndTerms() {
               </div>
             )}
             <Popup
-            ref={popupRef}
+              ref={popupRef}
               trigger={(open) => (
                 <button type="button" className="btn btn-outline-primary">
                   Nuevo Ciclo +
@@ -181,7 +204,7 @@ export default function DatesAndTerms() {
                     </select>
                   </div>
                   <div>
-                    <button className="btn btn-outline-primary" onClick={close}>
+                    <button className="btn btn-outline-primary" onClick={onPopupClose}>
                       Cancelar
                     </button>
                     <button className="btn btn-primary" onClick={() => createNewCycle(newCycle[0] + "/" + newCycle[1])}>
@@ -256,15 +279,60 @@ export default function DatesAndTerms() {
           </div>
         </div>
         <div className="fourth_date">
-          <h2 className="fourth_date_text">Definir fecha de cierre de ciclo</h2>
-          <div className="col-3">
-            <div className="input-group">
-              <input type="date" className="form-control" id="closing_date" />
-              <input type="time" className="form-control" id="closing_time" />
+          <h2 className="fourth_date_text">Definir rango de fechas para la correccion de protocolos</h2>
+          <div className="row">
+            <div className="col">
+              <div className="input-group">
+                <input type="date" className="form-control" id="start_date" />
+                <input type="time" className="form-control" id="start_time" />
+              </div>
+            </div>
+            <div className="col-auto">
+              <span>al</span>
+            </div>
+            <div className="col">
+              <div className="input-group">
+                <input type="date" className="form-control" id="end_date" />
+                <input type="time" className="form-control" id="end_time" />
+              </div>
             </div>
           </div>
         </div>
-        <button className="btn btn-outline-danger">Cerrar Ciclo</button>
+        <div className="fifth_date">
+          <h2 className="fifth_date_text">Definir rango de fechas para la evaluacion de correcciones</h2>
+          <div className="row">
+            <div className="col">
+              <div className="input-group">
+                <input type="date" className="form-control" id="start_date" />
+                <input type="time" className="form-control" id="start_time" />
+              </div>
+            </div>
+            <div className="col-auto">
+              <span>al</span>
+            </div>
+            <div className="col">
+              <div className="input-group">
+                <input type="date" className="form-control" id="end_date" />
+                <input type="time" className="form-control" id="end_time" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="closing_cycle">
+          <div className="form-check form-check-reverse form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={isCloseCycleChecked}
+              id="close_cycle_check"
+              onChange={() => setIsCloseCycleChecked(!isCloseCycleChecked)}
+            />
+            <label className="form-check-label" htmlFor="close_cycle_check">
+              {" "}
+              Cerrar ciclo escolar
+            </label>
+          </div>
+        </div>
         <button className="btn btn-outline-primary">Restablecer Datos</button>
         <button className="btn btn-primary">Guardar</button>
       </div>
