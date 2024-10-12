@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faEnvelope, faLock, faCircleExclamation, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { SHA256 } from "crypto-js";
 import { Toast } from "bootstrap";
 
 interface LoginData {
@@ -78,7 +79,8 @@ export default function Login({ setAuth }: LoginProps) {
       try {
         const formData = new URLSearchParams();
         formData.append("email", LoginData.email);
-        formData.append("password", LoginData.password);
+        const hashedPassword = SHA256(LoginData.password).toString();
+        formData.append("password", hashedPassword);
         const response = await fetch("http://127.0.0.1:8000/api/login", {
           method: "POST",
           headers: {
