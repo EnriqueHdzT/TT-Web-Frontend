@@ -29,28 +29,29 @@ export default function App() {
   }, []);
 
   return (
-    <Router>
-      <Navbar isAuth={isAuth} />
-      <div className="app-body">
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/login" element={<Login setAuth={setAuth} />} />
-          <Route path="/register" element={<StudentRegister />} />
-          <Route path="/verify" element={<VerifiCorreo />} />
-          <Route path="/validate" element={<ValidateCorreo />} />
-          <Route path="/users" element={<VerUsuarios />} />
-          <Route path="/users/:id" element={<UserInfo />} />
-          <Route path="/protocols" element={<SubirProtocolo />} />
-          <Route path="/dates" element={<DatesAndTerms />} />
-          <Route path="/seeprotocols" element={<VerProtocolos />} />
-          <Route path="/password" element={<Password />} />
-          <Route path="/verinfo" element={<VerInfo />} />
+    <div className="page-container">
+      <Router>
+        <Navbar isAuth={isAuth} />
+        <div className="app-body">
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/login" element={<Login setAuth={setAuth} />} />
+            <Route path="/register" element={<StudentRegister />} />
+            <Route path="/verify" element={<VerifiCorreo />} />
+            <Route path="/validate" element={<ValidateCorreo />} />
+            <Route path="/users" element={<VerUsuarios />} />
+            <Route path="/users/:id" element={<UserInfo />} />
+            <Route path="/protocols" element={<SubirProtocolo />} />
+            <Route path="/dates" element={<DatesAndTerms />} />
+            <Route path="/seeprotocols" element={<VerProtocolos />} />
+            <Route path="/password" element={<Password />} />
+            <Route path="/verinfo" element={<VerInfo />} />
 
-
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
-      <Footer />
-    </Router>
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+    </div>
   );
 }

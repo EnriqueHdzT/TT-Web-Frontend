@@ -19,19 +19,6 @@ $black-fontd: #2c2c2c;
 $z-fixed: 9999;
 //agregar botones de docentes
 
-header {
-  position: fixed;
-  width: 100%;
-  background-color: $dropdown-bg-color;
-  box-shadow: 0 2px 16px hsla(220, 32%, 8%, 0.3);
-  z-index: 10;
-}
-.navbar-pg {
-  height: $header-height;
-  display: flex;
-  justify-content: space-between; // Coloca elementos al principio y al final
-}
-
 .dropdown {
   position: relative;
   display: inline-block;

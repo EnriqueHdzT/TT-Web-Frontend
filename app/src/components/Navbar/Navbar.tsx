@@ -66,22 +66,29 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/logout", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      await response.json();
-      localStorage.removeItem("token");
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Error de red:", error);
+  async function handleLogout(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    {
+      event.preventDefault();
+      if (localStorage.getItem("token")) {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/logout", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          if (!response.ok) {
+            throw new Error("Logout failed");
+          }
+          localStorage.removeItem("token");
+          window.location.href = "/";
+        } catch (error) {
+          console.error("Error de red:", error);
+        }
+      }
     }
-  };
+  }
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -94,40 +101,25 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   }, [prevScrollPos, visible]);
 
   return (
-    <div className="navbar">
-      <header>
-        <nav
-          className={`navbar-pg ${visible ? "" : "hidden"} ${isMobile ? "mobile" : ""
-            }`}
-        >
+    <header>
+      <nav className={`navbar navbar-expand-lg ${visible ? "" : "hidden"} ${isMobile ? "mobile" : ""}`}>
+        <div className="container-fluid">
           <div className="elements-lft">
             {isAuth ? (
-              <div
-                className={`dropdown ${isActive ? "active" : ""}`}
-                id="myDropdown"
-              >
+              <div className={`dropdown ${isActive ? "active" : ""}`} id="myDropdown">
                 <span onClick={() => setIsActive(!isActive)}>
-                  <FontAwesomeIcon
-                    icon={isActive ? faChevronUp : faChevronDown}
-                    className="style-gico"
-                  />
+                  <FontAwesomeIcon icon={isActive ? faChevronUp : faChevronDown} className="style-gico" />
                 </span>
                 <ul className="dropdown-content">
                   <li>
                     <a href="#">
-                      <FontAwesomeIcon
-                        icon={faFileLines}
-                        className="style-icon"
-                      />
+                      <FontAwesomeIcon icon={faFileLines} className="style-icon" />
                       Protocolos
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className="style-icon"
-                      />
+                      <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
                       Avisos
                     </a>
                   </li>
@@ -139,10 +131,7 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
                   </li>
                   <li>
                     <a href="#">
-                      <FontAwesomeIcon
-                        icon={faComments}
-                        className="style-icon"
-                      />
+                      <FontAwesomeIcon icon={faComments} className="style-icon" />
                       Buzón
                     </a>
                   </li>
@@ -169,9 +158,7 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
                   type="text"
                   placeholder="Buscar"
                   value={searchTerm}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setSearchTerm(e.target.value)
-                  }
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                 />
               </div>
             ) : (
@@ -188,38 +175,22 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
                   </button>
                 </div>
                 <div className="profile-circle">
-                  <img
-                    src="https://i.ibb.co/qRGfzdB/Clipped-9.png"
-                    className="profile-user"
-                    alt="Profile"
-                  ></img>
+                  <img src="https://i.ibb.co/qRGfzdB/Clipped-9.png" className="profile-user" alt="Profile"></img>
                 </div>
-                <div
-                  className={`dropdown-user ${isOn ? "active" : ""}`}
-                  id="myDropdownus"
-                >
+                <div className={`dropdown-user ${isOn ? "active" : ""}`} id="myDropdownus">
                   <span onClick={() => setIsOn(!isOn)}>
-                    <FontAwesomeIcon
-                      icon={isOn ? faChevronUp : faChevronDown}
-                      className="style-gico"
-                    />
+                    <FontAwesomeIcon icon={isOn ? faChevronUp : faChevronDown} className="style-gico" />
                   </span>
                   <ul className="dropdown-content-us">
                     <li>
                       <a href="#">
-                        <FontAwesomeIcon
-                          icon={faCircleUser}
-                          className="style-icon"
-                        />
+                        <FontAwesomeIcon icon={faCircleUser} className="style-icon" />
                         Ver perfil
                       </a>
                     </li>
                     <li>
-                      <a onClick={handleLogout}>
-                        <FontAwesomeIcon
-                          icon={faArrowRightFromBracket}
-                          className="style-icon"
-                        />
+                      <a onClick={(event) => handleLogout(event)}>
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} className="style-icon" />
                         Cerrar Sesión
                       </a>
                     </li>
@@ -230,8 +201,8 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
               <>{renderAuthButtons()}</>
             )}
           </div>
-        </nav>
-      </header>
-    </div>
+        </div>
+      </nav>
+    </header>
   );
 }
