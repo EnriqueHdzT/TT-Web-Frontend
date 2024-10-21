@@ -22,10 +22,38 @@ export default function App() {
   const [isAuth, setAuth] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    if (localStorage.getItem("token")) {
       setAuth(true);
     }
+  }, []);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      if (localStorage.getItem("token")) {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/keepalive", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Error al chequear la sesión");
+          }
+
+          setAuth(true);
+        } catch {
+          localStorage.removeItem("token");
+          setAuth(false);
+        }
+      }
+    };
+
+    const intervalID = setInterval(checkSession, 1000 * 30);
+
+    return () => clearInterval(intervalID);
   }, []);
 
   return (
@@ -39,14 +67,18 @@ export default function App() {
             <Route path="/register" element={<StudentRegister />} />
             <Route path="/verify" element={<VerifiCorreo />} />
             <Route path="/validate" element={<ValidateCorreo />} />
-            <Route path="/users" element={<VerUsuarios />} />
-            <Route path="/users/:id" element={<UserInfo />} />
-            <Route path="/protocols" element={<SubirProtocolo />} />
-            <Route path="/dates" element={<DatesAndTerms />} />
-            <Route path="/seeprotocols" element={<VerProtocolos />} />
-            <Route path="/password" element={<Password />} />
-            <Route path="/verinfo" element={<VerInfo />} />
-
+            // Protected routes
+            {isAuth ? (
+              <>
+                <Route path="/users" element={<VerUsuarios />} />
+                <Route path="/users/:id" element={<UserInfo />} />
+                <Route path="/protocols" element={<SubirProtocolo />} />
+                <Route path="/dates" element={<DatesAndTerms />} />
+                <Route path="/seeprotocols" element={<VerProtocolos />} />
+                <Route path="/password" element={<Password />} />
+                <Route path="/verinfo" element={<VerInfo />} />{" "}
+              </>
+            ) : null}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
