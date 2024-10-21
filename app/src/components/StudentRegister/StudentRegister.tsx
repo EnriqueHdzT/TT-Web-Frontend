@@ -116,7 +116,7 @@ export default function StudentRegister() {
       formData.append("name", studentData.name);
       formData.append("email", studentData.email);
       formData.append("email_confirmation", studentData.email_confirmation);
-      formData.append("student_id", studentData.usr_id);
+      formData.append("usr_id", studentData.usr_id);
       formData.append("career", studentData.career);
       if (studentData.career === "IIA" || studentData.career === "LCD") {
         studentData.curriculum = "2020";
@@ -125,7 +125,7 @@ export default function StudentRegister() {
       formData.append("password", SHA256(studentData.password).toString());
       formData.append("password_confirmation", SHA256(studentData.password_confirmation).toString());
 
-      const response = await fetch("http://127.0.0.1:8000/api/addStudent", {
+      const response = await fetch("http://127.0.0.1:8000/api/register", {
         method: "POST",
         headers: {
           Accept: "application/json",
