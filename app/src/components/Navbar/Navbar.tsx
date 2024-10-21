@@ -101,7 +101,7 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   }, [prevScrollPos, visible]);
 
   return (
-    <header>
+    <header className="header">
       <nav className={`navbar navbar-expand-lg ${visible ? "" : "hidden"} ${isMobile ? "mobile" : ""}`}>
         <div className="container-fluid">
           <div className="elements-lft">
