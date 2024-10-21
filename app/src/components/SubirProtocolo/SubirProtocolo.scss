@@ -1,0 +1,422 @@
+
+$header-height: 4.5rem;
+$body-color: #FAFAFB;
+
+/*========== Colors ==========*/
+$navbg-color: #F8F8F8;
+$dropdown-bg-color: #FAFAFB;
+$dropdown-hover-color: #EBEBEB;
+$dropdown-list-color: #F4F4F4;
+$search-blue: #1C90F3;
+$cont-gray: #E6E6E6;
+$users-cont:#EDEDED;
+$input-agre: #E1E1E1;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2C2C2C;
+$blue: #1C90F3;
+$gray-pass: #A2A2A2;
+
+.head-pr{
+  width: 100%;
+  min-width: 1300px; 
+  height: auto;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  display: flex;
+
+  .tl-u{
+    margin-top: 5.5rem;
+    padding-left: 4%;
+    width: 25%;
+    height: 50px;
+    color: $black-fontd;
+    font: 400 1.1rem 'Poppins';
+    align-items: center;  // horizontal
+  justify-content: start; // vertical
+  display: flex; 
+  }
+
+  .icon{
+    color: $blue;
+    padding-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.protocol-bd{
+    width: 90%;
+    height: 10%;
+    min-width: 1000px;
+    display: block;
+    margin: 20px auto;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    border: 1px solid $gray-pass;
+
+  .item{
+    color: $black-fontd;
+    font: 400 0.9rem 'Poppins';
+    width: 96%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 10px;
+    margin: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid $gray-pass;
+
+    .tit-pr{
+        font: 500 0.9rem 'Poppins';
+        width: 20%;
+        padding-left: 30px;
+      }
+    
+      .cont-pr{width: 70%;
+        white-space: nowrap; /* Evita que el texto se envuelva */
+        overflow: hidden; /* Oculta el texto que no cabe en el contenedor */
+        text-overflow: ellipsis;/* Agrega puntos suspensivos al final del texto cortado */
+
+        input{
+          border: none;          
+          outline: none;
+          width: 100%;
+          white-space: nowrap; /* Evita que el texto se envuelva */
+          overflow: hidden; /* Oculta el texto que no cabe en el contenedor */
+          text-overflow: ellipsis;/* Agrega puntos suspensivos al final del texto cortado */
+
+        }
+
+      }
+
+      .icon-ed{width: 10%;
+        text-align: center;
+        color: $blue;
+
+        .icon{
+            width: 20px;
+            height: 17px;
+        }
+    
+      }
+    
+      .icon-pr{width: 10%;
+        text-align: center;
+        cursor: pointer;
+        color: $blue;
+
+        .icon{
+            width: 20px;
+            height: 17px;
+        }
+    
+      }
+
+      .popup-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      
+      .popup {
+        width: 700px;
+        min-width: 700px;
+        height: auto;
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+      }
+      
+      .popup-content {
+        margin: 10px;
+        
+        h1{
+            color: $blue;
+            font: 500 0.9rem 'Poppins';
+
+        }
+
+
+        .b-agregar{
+            width: 100%;
+            height: auto;
+            display: flex;
+            margin: 30px auto 20px auto;
+            align-items: center;
+            justify-content: end;
+
+        button{
+            background-color: $blue;
+            color: $body-color;
+            font: 500 0.8rem 'Poppins';
+            border-radius: 20px;
+            padding: 4px 40px;
+        }
+    }
+
+        .item3{
+            margin-top: 25px;
+           
+            .tit-1{
+                width: 100%;
+                font: 500 0.8rem 'Poppins';
+                display: block;
+                margin-bottom: 10px;
+
+                input{
+                    width: 60%;
+                    margin-left: 30px;
+                    border-radius: 20px;
+                    border:none;
+                    outline: none;
+                    background-color: $input-agre;
+                    font: 400 0.8rem 'Poppins';
+                    padding: 5px 10px 5px 20px;
+                }
+
+                button{
+                    background-color: $blue;
+                    font: 500 0.8rem 'Poppins';
+                    color: $body-color;
+                    border-radius: 20px;
+                    padding: 4px 20px;
+                    margin-left: 10px;
+                }
+            
+                .adven{
+                    display:block;
+                    margin: 10px 0 0 25%;
+                    font: 400 0.7rem/12px 'Poppins';
+
+                    .adv-icon{
+                        color: $blue;
+                        padding-right: 5px;
+                    }
+                }
+
+                }   
+
+
+
+
+            .tit-2{
+            width: 100%;
+            font: 500 0.8rem 'Poppins';
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+                
+            input{
+                width: 75%;
+                border-radius: 20px;
+                border:none;
+                outline: none;
+                background-color: $input-agre;
+                font: 400 0.8rem 'Poppins';
+                padding: 5px 10px 5px 20px;
+            }
+            
+            div{
+              width: 75%;
+                border-radius: 20px;
+                border:none;
+                outline: none;
+                background-color: $input-agre;
+                font: 400 0.8rem 'Poppins';
+                color: $black-fontd;
+
+                select{
+                    border:none;
+                    outline: none;
+                    width: 94%;
+                    background-color: $input-agre;
+                    border-radius: 20px;
+                    margin-left: 15px;
+                    padding: 5px 5px 5px 0;
+                }
+
+            }
+
+            .espa-d{
+              width: 53%;
+              display: flex;
+              justify-content: none;
+              margin-left: 99px;
+
+              .s-es{
+                width: 90%;
+              }
+
+            }
+
+            .o-v{
+              width: 20%;
+
+              input{
+                width: 100%;
+
+
+              }
+            }
+           
+           
+            }
+
+
+            .tit-3{
+              width: 100%;
+            font: 500 0.8rem 'Poppins';
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .button-upload {
+              margin: 1% 0 0 17%;
+              display: flex;
+              align-items: center;
+
+              .custom-file-upload {
+                background-color: $blue; // Color de fondo del "botón"
+                color: $body-color; // Color del texto del "botón"
+                padding: 5px 10px; // Relleno del "botón"
+                border: none; // Quita el borde del "botón"
+                border-radius: 10px; // Redondea las esquinas del "botón"
+                cursor: pointer; // Cambia el cursor al puntero al pasar por encima del "botón"
+                display:inline-block; // Muestra el "botón" como un bloque
+                font: 500 0.7rem 'Poppins';
+                margin-right: 20px
+              }
+            
+              input[type="file"] {
+                display: none; // Oculta el input de tipo file
+              }
+
+              .ar-file{
+                width: 300px;
+                font: 400 0.7rem 'Poppins';
+                line-height: 15px;
+                white-space: nowrap; /* Evita que el texto se envuelva */
+        overflow: hidden; /* Oculta el texto que no cabe en el contenedor */
+        text-overflow: ellipsis;
+              }
+            }
+            
+
+            }
+        }
+
+        
+      }  
+    
+}
+
+.item2{
+    color: $black-fontd;
+    font: 400 1rem 'Poppins';
+    width: 96%;
+    display: flex;
+    justify-content: space-between; 
+    margin-bottom: 10px;
+    margin: 20px;
+    
+    .tit-pr{
+        font: 500 0.9rem 'Poppins';
+        width: 20%;
+        padding-left: 30px;
+      }
+
+      .cont-pr{width: 80%;
+        align-items: center;
+        display: block;
+        font: 400 0.9rem 'Poppins';
+
+
+        .button-upload {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          
+
+          .custom-file-upload {
+            background-color: $blue; // Color de fondo del "botón"
+            color: $body-color; // Color del texto del "botón"
+            padding: 5px 10px; // Relleno del "botón"
+            border: none; // Quita el borde del "botón"
+            border-radius: 10px; // Redondea las esquinas del "botón"
+            cursor: pointer; // Cambia el cursor al puntero al pasar por encima del "botón"
+            display:inline-block; // Muestra el "botón" como un bloque
+            font: 500 0.7rem 'Poppins';
+            margin: 0 20px;
+            min-width: 145px;
+          }
+        
+          input[type="file"] {
+            display: none; // Oculta el input de tipo file
+          }
+
+          .ar-file{
+            width: 300px;
+            font: 400 0.7rem 'Poppins';
+            line-height: 15px;
+            white-space: nowrap; /* Evita que el texto se envuelva */
+    overflow: hidden; /* Oculta el texto que no cabe en el contenedor */
+    text-overflow: ellipsis;
+          }
+        }
+
+        
+            .adv-pr{
+                font: 500 0.8rem 'Poppins';
+                justify-content: center;
+                margin: 25px 0 0 0;
+                color: $gray-pass;
+
+                .adv-icon{
+                    color: $blue;
+                    margin-right: 7px;
+                    font: 400 1.1rem 'Poppins';
+                }
+                }
+        
+      }
+
+}
+  }
+
+  .protocol-button{
+    width: 90%;
+    height: 10%;
+    display: flex;
+    margin: 30px auto;
+    align-items: center;
+    justify-content: end;
+    min-width: 1000px;
+
+    .RD{
+        background-color: $gray-pass;
+        margin-right: 40px;
+        padding: 10px 20px 10px 20px;
+        border-radius: 20px;
+        font: 400 0.8rem 'Poppins';
+    }
+
+    .SP{
+        background-color: $blue;
+        padding: 10px 20px 10px 20px;
+        border-radius: 20px;
+        font: 500 0.8rem 'Poppins';
+        color: $body-color;
+    }
+  }
+
+

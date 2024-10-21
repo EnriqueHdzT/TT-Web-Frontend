@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import './EEUsuarios.scss';
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function EEUsuarios ({ options }) {
+export default function EEUsuarios ({ userKey, onDelete }) {
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  const onEdit = () => {
+    navigate(`/users/${userKey}`)
+  }
 
   return (
     <div className="cont-ee">
@@ -17,9 +24,8 @@ export default function EEUsuarios ({ options }) {
       </button>
       {isOpen && (
         <ul className="menu-ee">
-          {options.map((option, index) => (
-            <li key={index}>{option}</li>
-          ))}
+          <li onClick={onEdit}>Editar</li>
+          <li onClick={onDelete}>Eliminar</li>
         </ul>
       )}
     </div>

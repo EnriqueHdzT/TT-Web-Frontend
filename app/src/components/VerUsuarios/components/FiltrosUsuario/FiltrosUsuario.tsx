@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './FiltroUsuario.scss';
 import { faCircleUp, faCircleDown } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function FiltrosUsuario ({ title, options, defaultOption, onChange }) {
-    const [selectedOption, setSelectedOption] = useState(defaultOption);
+export default function FiltrosUsuario ({ name = '', currentStatus='', options = [''], onChange}) {
+    if(!options.includes("Todos")){
+      options.push("Todos");
+    }
+
+    const [selectedOption, setSelectedOption] = currentStatus === '' ? useState(name) : useState(currentStatus);
     const [isOpen, setIsOpen] = useState(false);
   
     const handleOptionChange = (option) => {
-      setSelectedOption(option);
-      setIsOpen(false);
-      onChange(option); // Llamar a la función onChange con la opción seleccionada
+      option === "Todos" ? setSelectedOption(name) : setSelectedOption(option);
+      option === "Todos" ? onChange('') : onChange(option);
+      setIsOpen(false);   
     };
   
     const toggleDropdown = () => {
