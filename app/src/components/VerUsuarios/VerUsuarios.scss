@@ -1,0 +1,196 @@
+ /*========== General ==========*/
+ $header-height: 4.5rem;
+ $body-color: #FAFAFB;
+
+ /*========== Colors ==========*/
+ $navbg-color: #F8F8F8;
+ $dropdown-bg-color: #FAFAFB;
+ $dropdown-hover-color: #EBEBEB;
+ $dropdown-list-color: #F4F4F4;
+ $search-blue: #1C90F3;
+ $cont-gray: #E6E6E6;
+ $users-cont:#EDEDED;
+
+ /*========== Font and typography ==========*/
+ $black-fontd: #2C2C2C;
+ $blue: #1C90F3;
+ $gray-pass: #A2A2A2;
+
+.head-usr{
+  width: 100%;
+  min-width: 1300px; 
+  height: auto;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  display: flex;
+
+  .tl-u{
+    margin-top: 5.5rem;
+    padding-left: 4%;
+    width: 25%;
+    height: 50px;
+    color: $black-fontd;
+    font: 400 1.1rem 'Poppins';
+    align-items: center;  // horizontal
+  justify-content: start; // vertical
+  display: flex; 
+  }
+
+  .select-usr{
+    margin-top: 5.5rem;
+    width: 75%;
+    height: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    .plus-us{
+      background-color: $body-color;
+      border: 2px solid $blue;
+      border-radius: 50px;
+      padding: 10px 20px 10px 25px;
+      font: 400 13px / 18px 'Poppins';
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      height: 40px;
+      transition: all 1s ease;
+      
+      .icon-us{
+      padding-left: 10px;
+      top: 50%;
+      color: $blue;
+      font-size: 14px;
+      transition: all 1s ease;
+      }
+
+      &:hover {
+        background-color: $blue;
+        color: $body-color;
+        transition: all 1s ease;
+
+        .icon-us{
+          color: $body-color;
+        }
+      }
+
+    }
+  }
+  
+}
+
+.container-users {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly; // Distribuye los elementos uniformemente en el contenedor
+    margin: 0 30px;
+    position: absolute;
+    z-index: -10000;
+  
+    .item {
+      width: calc(425px - 30px); // Tamaño inicial de los elementos (25% para que haya 4 elementos por fila)
+      background-color: $users-cont;
+      height: 170px;
+      border-radius: 20px;
+      margin-top: 8vh;
+      
+  
+      @media (min-width: 768px) {
+        width: calc(425px - 10px); // Cuando el tamaño de la pantalla sea igual o menor a 768px, los elementos ocuparán el 33.33% del ancho para tener un máximo de 3 elementos por fila
+    }
+  
+      .box-us{
+        display: flex;
+      
+      .bk-icon{
+        width: 40px;
+        height: 40px;
+        background-color: $blue;
+        border-radius: 5px;
+        display: grid;
+        place-content: center;
+        margin: 10% 5% 0 10%;
+
+        .icon-us{
+            color: $body-color;
+        }
+      }
+
+      .name-user{
+        width: 60%;
+        height: 50%;
+        h1{
+            color: $blue;
+            margin: 44px 0 0 0;
+            font: 500 1rem 'Poppins';
+            line-height: 14px;
+    
+          }
+          h2{
+            color: $black-fontd;
+            font: 400 0.9rem 'Poppins';
+          }
+
+      }
+      .others-us{
+
+        .icon-us{
+          color: $blue;
+          font: 500 1.5rem 'Poppins';
+        }
+      }
+    }
+
+        
+  .inf-us{
+    display: flex;
+    flex-direction: column;  
+    align-items: left;  // Centra los elementos horizontalmente
+    justify-content: center;
+    width: 100%;
+    height: 25%;
+    color: $black-fontd;
+    margin: 1.4vh 0 0 10%;
+
+    }
+    
+    .ema-us{
+        font: 400 0.8rem 'Poppins';
+        padding-bottom: 3px;
+        
+    .icon-us{
+      color: $gray-pass;
+      padding-right: 10px;
+      width:20px;
+      height: 17px;
+      margin-top: 10px;
+    }
+
+    span{
+      display: inline;
+      position: relative;
+      top: -2px;
+    }
+  }
+  .datos-us{
+    font: 500 0.8rem 'Poppins';
+    padding-top: 5px;
+
+    span{
+      padding-right: 10px;
+
+      &:not(:last-child)::after {
+        content: '-';
+        font: 500 0.8rem 'Poppins';
+        padding-left: 10px;
+      }
+
+      &:last-child::after {
+        content: none;
+      }
+      
+    }
+  }
+      
+    }
+  }

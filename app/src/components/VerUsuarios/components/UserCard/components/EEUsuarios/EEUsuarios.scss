@@ -1,0 +1,62 @@
+ /*========== General ==========*/
+ $header-height: 4.5rem;
+ $body-color: #FAFAFB;
+
+ /*========== Colors ==========*/
+ $navbg-color: #F8F8F8;
+ $dropdown-bg-color: #FAFAFB;
+ $dropdown-hover-color: #EBEBEB;
+ $dropdown-list-color: #F4F4F4;
+ $search-blue: #1C90F3;
+ $cont-gray: #E6E6E6;
+ $users-cont:#EDEDED;
+
+ /*========== Font and typography ==========*/
+ $black-fontd: #2C2C2C;
+ $blue: #1C90F3;
+ $gray-pass: #A2A2A2;
+
+.cont-ee {
+    position: relative;
+  
+    .dropdown-ee {
+      border: none;
+      width: 20px;
+      height: 30px;
+      margin: 10px 0 0 35px;
+      cursor: pointer;
+      outline: none;
+      background-color: transparent;
+    }
+  
+    .menu-ee {
+      position: absolute;
+      top: 25%;
+      right: 40%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: block; //este es para que se vean
+      background-color: $navbg-color;
+      font: 400 12px / 18px 'Poppins';
+  
+      li {
+        padding: 5px 20px;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #f0f0f0;
+          border-radius: 10px;
+        }
+      }
+    }
+  
+    &.open {
+      .menu-ee {
+        display: block;
+      }
+    }
+  }
+  
