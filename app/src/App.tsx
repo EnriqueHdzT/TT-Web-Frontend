@@ -89,7 +89,7 @@ export default function App() {
             <Route path="/documento" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
             <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar}/> } />
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar}/> } />
-/*gei es kike*/
+
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
