@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./VerUsuarios.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faPlus, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import FiltrosUsuario from "./components/FiltrosUsuario/FiltrosUsuario";
 import UserCard from "./components/UserCard/UserCard";
 import PageChanger from "./components/PageChanger/PageChanger";
@@ -11,14 +12,16 @@ const usersTypes = ["Alumnos", "Docentes"];
 const careers = ["ISW", "IIA", "LCD"];
 const curriculums = ["2009", "2020"];
 const precedences = ["Interino", "Externo"];
-const academies = [
-  "Ciencia de Datos",
-  "Ciencias Basicas",
-  "Ciencias de la Computacion",
-];
+const academies = ["Ciencia de Datos", "Ciencias Basicas", "Ciencias de la Computacion"];
 
 export default function VerUsuarios() {
-  let urlData = validateUrlData();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("token") || localStorage.getItem("userType") === "") {
+      navigate("/");
+    }
+  });
+  const urlData = validateUrlData();
 
   const [userType, setUserType] = useState(urlData[0]);
   const [career, setCareer] = useState(urlData[1]);
@@ -35,6 +38,7 @@ export default function VerUsuarios() {
         method: "GET",
         headers: {
           Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
           ...(userType !== "" && { userType: userType }),
           ...(career !== "" && { career: career }),
           ...(curriculum !== "" && { curriculum: curriculum }),
@@ -44,11 +48,10 @@ export default function VerUsuarios() {
         },
       });
 
-      if (!response.ok){
-
+      if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
-      let data = await response.json();
+      const data = await response.json();
       setMaxPage(data.numPages);
       delete data.numPages;
       setUsers(Object.values(data));
@@ -61,27 +64,23 @@ export default function VerUsuarios() {
   useEffect(() => {
     getUsers();
   }, []);
-  
+
   useEffect(() => {
     getUsers();
   }, [userType, career, curriculum, precedence, academy, currentPage]);
 
   const updateCurrentPage = (value = 0) => {
-    if(value < 1 || value > maxPage){
-      console.log("La pagina que quieres acceder no es valida")
+    if (value < 1 || value > maxPage) {
+      console.log("La pagina que quieres acceder no es valida");
     } else {
-      setCurrentPage(value)
+      setCurrentPage(value);
     }
-  }
+  };
 
   const updateUserType = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("userType", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setUserType(value);
   };
@@ -89,11 +88,7 @@ export default function VerUsuarios() {
   const updateCareer = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("career", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setCareer(value);
   };
@@ -101,11 +96,7 @@ export default function VerUsuarios() {
   const updateCurriculum = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("curriculum", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setCurriculum(value);
   };
@@ -116,11 +107,7 @@ export default function VerUsuarios() {
     if (value === "") {
       queryParams.delete("academy");
     }
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setPrecedence(value);
   };
@@ -128,11 +115,7 @@ export default function VerUsuarios() {
   const updateAcademy = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("academy", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
     setAcademy(value);
   };
 
@@ -167,12 +150,7 @@ export default function VerUsuarios() {
           />
           {userType === "Alumnos" ? (
             <>
-              <FiltrosUsuario
-                name={"Carrera"}
-                currentStatus={career}
-                options={careers}
-                onChange={updateCareer}
-              />
+              <FiltrosUsuario name={"Carrera"} currentStatus={career} options={careers} onChange={updateCareer} />
               {career === "ISW" ? (
                 <FiltrosUsuario
                   name={"Plan de Estudios"}
@@ -225,37 +203,33 @@ export default function VerUsuarios() {
         </div>
       </div>
       <div className="container-users">
-        { users.length !== 0 ? 
-        (
+        {users.length !== 0 ? (
           <>
-          {users.map((user) => (
-            <UserCard
-              userKey={user.id}
-              email={user.email}
-              userType={user.staff ? "Docente" : "Alumno"}
-              name={
-                user.staff
-                  ? `${user.staff.name} ${user.staff.lastname} ${user.staff.second_lastname}`
-                  : `${user.student.name} ${user.student.lastname} ${user.student.second_lastname}`
-              }
-              cardText={
-                user.staff
-                  ? `${user.staff.precedence} ${
-                      user.staff.academy ? "- " + user.staff.academy : ""
-                    }`
-                  : `${user.student.career} ${"- " + user.student.curriculum}`
-              }
-              onDelete={() => handleDelete(user.id)}
-            />
-          ))}
+            {users.map((user) => (
+              <UserCard
+                userKey={user.id}
+                email={user.email}
+                userType={user.staff ? "Docente" : "Alumno"}
+                name={
+                  user.staff
+                    ? `${user.staff.name} ${user.staff.lastname} ${user.staff.second_lastname}`
+                    : `${user.student.name} ${user.student.lastname} ${user.student.second_lastname}`
+                }
+                cardText={
+                  user.staff
+                    ? `${user.staff.precedence} ${user.staff.academy ? "- " + user.staff.academy : ""}`
+                    : `${user.student.career} ${"- " + user.student.curriculum}`
+                }
+                onDelete={() => handleDelete(user.id)}
+              />
+            ))}
           </>
-        ) : (<h1>No se encontraron usuarios</h1>)}
+        ) : (
+          <h1>No se encontraron usuarios</h1>
+        )}
       </div>
       <div className="pageChanger">
-        <PageChanger 
-          currentPage={currentPage}
-          maxPages={maxPage}
-          onPageChange={updateCurrentPage}/>
+        <PageChanger currentPage={currentPage} maxPages={maxPage} onPageChange={updateCurrentPage} />
       </div>
     </div>
   );
@@ -279,9 +253,7 @@ function validateUrlData() {
     if (careerParam === "") {
       curriculumParam = "";
     } else {
-      curriculumParam = ["LCD", "IIA"].includes(careerParam)
-        ? "2020"
-        : curriculumParam;
+      curriculumParam = ["LCD", "IIA"].includes(careerParam) ? "2020" : curriculumParam;
     }
   } else if (userTypeParam === "Docentes") {
     careerParam = "";
@@ -314,18 +286,7 @@ function validateUrlData() {
     : (queryParams.delete("academy"), (academyParam = ""));
   queryParams.set("page", pageParam.toString());
 
-  window.history.replaceState(
-    {},
-    "",
-    `${window.location.pathname}?${queryParams}`
-  );
+  window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
-  return [
-    userTypeParam,
-    careerParam,
-    curriculumParam,
-    precedenceParam,
-    academyParam,
-    pageParam,
-  ];
+  return [userTypeParam, careerParam, curriculumParam, precedenceParam, academyParam, pageParam];
 }
