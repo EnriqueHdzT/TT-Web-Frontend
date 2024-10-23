@@ -15,11 +15,18 @@ import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
 import VerProtocolos from "./components/VerProtocolos/VerProtocolos";
 import Password from "./components/Password/Password";
 import VerInfo from "./components/VerInfo/VerInfo";
+import AbrirDocumento from "./components/AbrirDocumento/Documento";
+import EvaluarProtocolo from "./components/EvaluarProtocolo/EvaluarPro";
+import ClasificarProtocolo from "./components/ClasificarProtocolo/ClasificarProtocolo";
+
 
 import "./App.scss";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
+  const pdfUrl = '/Protocolo.pdf';
+  const pdfEvaluar = '/Protocolo_2.pdf';
+  const pdfClasificar = '/Protocolo_2.pdf';
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -79,6 +86,11 @@ export default function App() {
                 <Route path="/verinfo" element={<VerInfo />} />{" "}
               </>
             ) : null}
+            <Route path="/documento" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
+            <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar}/> } />
+            <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar}/> } />
+
+
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

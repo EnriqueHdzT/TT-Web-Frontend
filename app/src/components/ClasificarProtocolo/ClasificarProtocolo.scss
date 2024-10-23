@@ -1,0 +1,194 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+
+.headdocumento {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  flex-wrap: wrap;
+  display: flex;
+
+  .tt-a {
+    margin-top: 0.8rem;
+    padding-left: 4%;
+    width: 25%;
+    height: auto;
+    color: $black-fontd;
+    font: 500 1rem "Poppins";
+    align-items: center; // horizontal
+    justify-content: start; // vertical
+    display: flex;
+
+    a {
+      padding-right: 1.5rem;
+    }
+  }
+}
+
+// DocumentoSplitView.scss
+
+.split-container {
+  display: flex; /* Alineamos los elementos hijos en un flex container */
+  flex-direction: row; /* Aseguramos que los hijos estén en una fila (default, pero por si acaso) */
+  width: 100%;
+  height: 70vh; /* Toda la altura de la pantalla */
+  margin-top: 1rem;
+}
+
+@media (min-height: 800px) {
+  .split-container {
+    height: 80vh;
+  }
+}
+
+.left-panel {
+  width: 40%; /* Panel izquierdo ocupa el 50% */
+  transition: width 0.3s ease;
+  padding: 15px 0 20px 20px;
+  box-sizing: border-box; /* Incluimos padding en el ancho total */
+
+  &.minimized {
+    width: 0; /* Minimiza a 0 cuando se activa */
+    padding: 0; /* Remueve el padding cuando está minimizado */
+    overflow: hidden; /* Esconde el contenido */
+  }
+}
+
+.pdf-panel {
+  width: 60%; /* Panel derecho ocupa el 50% */
+  transition: width 0.3s ease;
+  box-sizing: border-box; /* Asegura que el padding no rompa el layout */
+
+  &.full-width {
+    width: 100%; /* Expande al 100% cuando el panel izquierdo está minimizado */
+  }
+}
+
+.pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 20px;
+}
+
+.minimize-button {
+  margin-top: 10px;
+  padding: 10px;
+  cursor: pointer;
+  color: $blue;
+}
+
+.info-container {
+  font: 400 1rem "Poppins";
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: 65vh;
+  overflow: auto;
+  scrollbar-width: thin; 
+  scrollbar-color: #D7D7D7 $body-color;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 10px; 
+  }
+
+
+  h1 {
+    font: 600 1rem "Poppins";
+    line-height: 20px;
+  }
+
+  .identificador, .fecha-evaluacion {
+    font: 500 0.8rem "Poppins";
+    margin: 0;
+  }
+
+  .palabras-clave{
+    font: 500 0.8rem "Poppins";
+    margin-top: 10px;
+
+    ul{ display: flex;
+        color: $body-color;
+
+        li{
+            background-color: $blue;
+            
+        }
+    }
+  }
+  
+  form{
+    font: 600 0.9rem "Poppins";
+    padding-top: 15px;
+
+    label{
+      margin-top: 10px;
+    }
+    select{
+      width: 95%;
+      height: auto;
+      outline: none;
+      border: none;
+      background-color: $dropdown-list-color;
+      font: 400 0.9rem "Poppins";
+      color: $black-fontd;
+
+    }
+
+    input{
+      width: 95%;
+      height: auto;
+      outline: none;
+      border: none;
+      background-color: $dropdown-list-color;
+      font: 400 0.9rem "Poppins";
+    }
+
+    textarea{
+      width: 95%;
+      height: auto;
+      outline: none;
+      border: none;
+      background-color: $dropdown-list-color;
+    }
+    
+    button{
+      background-color: $blue;
+      color: $body-color;
+      padding: 5px 20px;
+      border-radius: 20px;
+      float: right;
+      margin: 1rem 5% 0 0;
+
+    }
+  }
+
+}
+
+@media (min-height: 800px) {
+  .info-container {
+    height: 77vh;
+  }
+}
+
+button{
+  background-color: #fff;
+}
+
