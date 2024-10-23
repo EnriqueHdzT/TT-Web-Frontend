@@ -32,6 +32,10 @@ export default function App() {
     if (localStorage.getItem("token")) {
       setAuth(true);
     }
+
+    if (localStorage.getItem("userType")) {
+      setUserType(localStorage.getItem("userType") as string);
+    }
   }, []);
 
   useEffect(() => {
@@ -69,19 +73,19 @@ export default function App() {
         <Navbar isAuth={isAuth} />
         <div className="app-body">
           <Routes>
-            <Route path="/" element={<Homepage isAuth={isAuth} userType={userType} />} />
-            <Route path="/login" element={<Login isAuth={isAuth} setAuth={setAuth} setUserType={setUserType} />} />
+            <Route path="/" element={<Homepage />} />
+            <Route path="/login" element={<Login setAuth={setAuth} setUserType={setUserType} />} />
             <Route path="/registro" element={<StudentRegister />} />
             <Route path="/revisar_correo" element={<VerifiCorreo />} />
             <Route path="/validar_correo" element={<ValidateCorreo />} />
-            <Route path="/usuarios" element={<VerUsuarios isAuth={isAuth} userType={userType} />} />
-            <Route path="/usuarios/:id" element={<VerInfo isAuth={isAuth} userType={userType} />} />
-            <Route path="/subir_protocolo" element={<SubirProtocolo isAuth={isAuth} userType={userType} />} />
-            <Route path="/fechas" element={<DatesAndTerms isAuth={isAuth} userType={userType} />} />
-            <Route path="/protocolos" element={<VerProtocolos isAuth={isAuth} userType={userType} />} />
-            <Route path="/cambiar_contraseña" element={<Password isAuth={isAuth} />} />
+            <Route path="/usuarios" element={<VerUsuarios />} />
+            <Route path="/usuarios/:id" element={<VerInfo />} />
+            <Route path="/subir_protocolo" element={<SubirProtocolo />} />
+            <Route path="/fechas" element={<DatesAndTerms />} />
+            <Route path="/protocolos" element={<VerProtocolos />} />
+            <Route path="/cambiar_contraseña" element={<Password />} />
             <Route path="/cambiar_contraseña/:token" element={<Password />} />
-            <Route path="/documento/:id" isAuth={isAuth} element={<AbrirDocumento pdfUrl={pdfUrl} />} />
+            <Route path="/documento/:id" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
             <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
             <Route path="*" element={<Navigate to="/" />} />

@@ -13,7 +13,6 @@ interface LoginData {
 }
 
 interface LoginProps {
-  isAuth: boolean;
   setAuth: (value: boolean) => void;
   setUserType: (value: string) => void;
 }
@@ -23,7 +22,7 @@ const InitialLoginData: LoginData = {
   password: "",
 };
 
-export default function Login({ isAuth=false, setAuth, setUserType }: LoginProps) {
+export default function Login({ setAuth, setUserType }: LoginProps) {
   const [LoginData, setLoginData] = useState(InitialLoginData);
   const [showPassword, setShowPassword] = useState(false);
   const [wrongEmail, setIsWrongEmail] = useState(true);
@@ -37,10 +36,10 @@ export default function Login({ isAuth=false, setAuth, setUserType }: LoginProps
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuth) {
+    if (!localStorage.getItem("token")) {
       navigate("/");
     }
-  }, [navigate, isAuth]);
+  }, [navigate]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
