@@ -1,33 +1,21 @@
-import "./ClasificarProtocolo.scss";
+import "./ValidarProtocolo.scss";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import Select from "react-select"; // Importar React Select
 
-// Opciones de academias con formato para React Select
-const academiasOptions = [
-  { value: "ISC", label: "ISC" },
-  { value: "SCCS", label: "SCCS" },
-  { value: "SIC", label: "SIC" },
-];
-
-interface ClasificarProtocoloProps {
-  pdfClasificar: string;
+interface ValidarProtocoloProps {
+  pdfValidar: string;
   titulo: string;
   identificador: string;
   palabraClave: string[]; // Palabras clave como array
   fechaEvaluacion: string;
 }
 
-interface FormData {
-  academiaselect: { value: string; label: string }[];
-}
-
-const ClasificarProtocolo: React.FC<ClasificarProtocoloProps> = ({
-  pdfClasificar,
+const ValidarProtocolo: React.FC<ValidarProtocoloProps> = ({
+  pdfValidar,
   titulo,
   identificador,
   palabraClave = [
@@ -40,25 +28,19 @@ const ClasificarProtocolo: React.FC<ClasificarProtocoloProps> = ({
   fechaEvaluacion,
 }) => {
   const [isMinimized, setIsMinimized] = useState(false); // Controla si el panel izquierdo está minimizado
-  const [formData, setFormData] = useState<FormData>({
-    academiaselect: [],
-  });
 
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized); // Alterna entre minimizar y expandir
   };
 
-  const handleSelectChange = (selectedOptions: any, name: "academiaselect") => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: selectedOptions || [], // Manejar null cuando no hay selección
-    }));
+  const handleValidar = () => {
+    console.log("Datos validados");
+    // Aquí irá la lógica de validación cuando tengas la base de datos
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aquí puedes añadir la lógica para enviar los datos a la base de datos en el futuro
-    console.log("Datos enviados:", formData);
+  const handleRechazar = () => {
+    console.log("Datos rechazados");
+    // Aquí irá la lógica de rechazo cuando tengas la base de datos
   };
 
   return (
@@ -95,23 +77,10 @@ const ClasificarProtocolo: React.FC<ClasificarProtocoloProps> = ({
               </div>
             </div>
 
-            {/* Academias */}
-            <div className="academias">
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <label>Selecciona las academias a enviar</label>
-                  <Select
-                    isMulti
-                    name="academiaselect"
-                    options={academiasOptions}
-                    value={formData.academiaselect}
-                    onChange={(selectedOptions) =>
-                      handleSelectChange(selectedOptions, "academiaselect")
-                    }
-                  />
-                </div>
-                <button type="submit">Enviar</button>
-              </form>
+            {/* Validado  o rechazar*/}
+            <div className="button-vr">
+            <button onClick={handleValidar}>Validar</button>
+            <button onClick={handleRechazar}>Rechazar</button>
             </div>
           </div>
         </div>
@@ -122,15 +91,11 @@ const ClasificarProtocolo: React.FC<ClasificarProtocoloProps> = ({
         </button>
         {/* Sección derecha con el PDF */}
         <div className={`pdf-panel ${isMinimized ? "full-width" : ""}`}>
-          <iframe
-            src={pdfClasificar}
-            title="PDF Viewer"
-            className="pdf-viewer"
-          />
+          <iframe src={pdfValidar} title="PDF Viewer" className="pdf-viewer" />
         </div>
       </div>
     </div>
   );
 };
 
-export default ClasificarProtocolo;
+export default ValidarProtocolo;
