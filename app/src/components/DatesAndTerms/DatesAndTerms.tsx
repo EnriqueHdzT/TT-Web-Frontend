@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { useNavigate } from "react-router-dom";
 
 interface TermData {
   cycle: string;
@@ -20,6 +21,7 @@ interface TermData {
 }
 
 export default function DatesAndTerms() {
+  const navigate = useNavigate();
   const popupRef = useRef(null);
   const [currentTerm, setCurrentTerm] = useState("");
   const [currentTermData, setCurrentTermData] = useState<TermData[]>([]);
@@ -27,6 +29,12 @@ export default function DatesAndTerms() {
   const [isListOfTermsEmpty, setIsListOfTermsEmpty] = useState(true);
   const [newCycle, setNewCycle] = useState(["", "1"]);
   const [isCloseCycleChecked, setIsCloseCycleChecked] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
 
   const updateCurrentTerm = (newTerm: string) => {
     setCurrentTerm(newTerm);
@@ -144,7 +152,7 @@ export default function DatesAndTerms() {
         <div className="row">
           <div className="col">
             <h1>
-              <a>&lt;</a> Especificar Fechas
+              <a onClick={() => navigate(-1)}>&lt;</a> Especificar Fechas
             </h1>
           </div>
           <div className="col">
@@ -218,124 +226,283 @@ export default function DatesAndTerms() {
         </div>
       </div>
       <div className="page_body">
-        <div className="fisrt_date">
-          <h2 className="first_date_text">Definir rango de fechas para subir protocolo</h2>
-          <div className="row">
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="start_date" />
-                <input type="time" className="form-control" id="start_time" />
+        <div className="accordion" id="accordionExample">
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Fechas Ordinarias
+              </button>
+            </h2>
+            <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+              <div className="accordion-body">
+                <div className="fisrt_date_ord">
+                  <h2 className="first_date_text_ord">Definir rango de fechas para subir protocolo</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="second_date_ord">
+                  <h2 className="second_date_text_ord">Definir rango de fechas para la clasificacion de protocolos</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="third_date_ord">
+                  <h2 className="third_date_text_ord">Definir rango de fechas para la evaluacion de protocolos</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="fourth_date_ord">
+                  <h2 className="fourth_date_text_ord">Definir rango de fechas para la correccion de protocolos</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="fifth_date_ord">
+                  <h2 className="fifth_date_text_ord">Definir rango de fechas para la evaluacion de correcciones</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="col-auto">
-              <span>al</span>
-            </div>
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="end_date" />
-                <input type="time" className="form-control" id="end_time" />
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Fechas Extraordinarias
+              </button>
+            </h2>
+            <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div className="accordion-body">
+                <div className="fisrt_date_ext">
+                  <h2 className="first_date_text_ext">Definir rango de fechas para subir protocolo</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="second_date_ext">
+                  <h2 className="second_date_text_ext">Definir rango de fechas para la clasificacion de protocolos</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="third_date_ext">
+                  <h2 className="third_date_text_ext">Definir rango de fechas para la evaluacion de protocolos</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="fourth_date_ext">
+                  <h2 className="fourth_date_text_ext">Definir rango de fechas para la correccion de protocolos</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
+                <div className="fifth_date_ext">
+                  <h2 className="fifth_date_text_ext">Definir rango de fechas para la evaluacion de correcciones</h2>
+                  <div className="row">
+                    <div className="col-1" />
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="start_date" />
+                        <input type="time" className="form-control" id="start_time" />
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <span>al</span>
+                    </div>
+                    <div className="col">
+                      <div className="input-group">
+                        <input type="date" className="form-control" id="end_date" />
+                        <input type="time" className="form-control" id="end_time" />
+                      </div>
+                    </div>
+                    <div className="col-1" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="second_date">
-          <h2 className="second_date_text">Definir rango de fechas para la clasificacion de protocolos</h2>
-          <div className="row">
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="start_date" />
-                <input type="time" className="form-control" id="start_time" />
-              </div>
-            </div>
-            <div className="col-auto">
-              <span>al</span>
-            </div>
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="end_date" />
-                <input type="time" className="form-control" id="end_time" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="third_date">
-          <h2 className="third_date_text">Definir rango de fechas para la evaluacion de protocolos</h2>
-          <div className="row">
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="start_date" />
-                <input type="time" className="form-control" id="start_time" />
-              </div>
-            </div>
-            <div className="col-auto">
-              <span>al</span>
-            </div>
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="end_date" />
-                <input type="time" className="form-control" id="end_time" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="fourth_date">
-          <h2 className="fourth_date_text">Definir rango de fechas para la correccion de protocolos</h2>
-          <div className="row">
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="start_date" />
-                <input type="time" className="form-control" id="start_time" />
-              </div>
-            </div>
-            <div className="col-auto">
-              <span>al</span>
-            </div>
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="end_date" />
-                <input type="time" className="form-control" id="end_time" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="fifth_date">
-          <h2 className="fifth_date_text">Definir rango de fechas para la evaluacion de correcciones</h2>
-          <div className="row">
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="start_date" />
-                <input type="time" className="form-control" id="start_time" />
-              </div>
-            </div>
-            <div className="col-auto">
-              <span>al</span>
-            </div>
-            <div className="col">
-              <div className="input-group">
-                <input type="date" className="form-control" id="end_date" />
-                <input type="time" className="form-control" id="end_time" />
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div className="closing_cycle">
-          <div className="form-check form-check-reverse form-check-inline">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              checked={isCloseCycleChecked}
-              id="close_cycle_check"
-              onChange={() => setIsCloseCycleChecked(!isCloseCycleChecked)}
-            />
-            <label className="form-check-label" htmlFor="close_cycle_check">
-              {" "}
-              Cerrar ciclo escolar
-            </label>
-          </div>
+          <input
+            type="checkbox"
+            className="btn-check"
+            name="options-outlined"
+            id="danger-outlined"
+            autoComplete="off"
+            checked={isCloseCycleChecked}
+            onChange={(e) => setIsCloseCycleChecked(e.target.checked)}
+          />
+          <label className="btn btn-outline-danger" htmlFor="danger-outlined">
+            Cerrar Ciclo
+          </label>
         </div>
         <button className="btn btn-outline-primary">Restablecer Datos</button>
         <button className="btn btn-primary">Guardar</button>
       </div>
     </div>
+    
   );
 }
