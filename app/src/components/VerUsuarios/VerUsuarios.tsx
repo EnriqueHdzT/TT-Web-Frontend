@@ -120,7 +120,7 @@ export default function VerUsuarios() {
   };
 
   const handleDelete = (userId) => {
-    fetch(`http://127.0.0.1:8000/api/users/${userId}`, {
+    fetch(`http://127.0.0.1:8000/api/user/${userId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
