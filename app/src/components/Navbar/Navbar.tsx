@@ -44,18 +44,18 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
           <a className="btn btn-primary" href="/login">
             Iniciar Sesión
           </a>
-          <a className="btn btn-outline-secondary" href="/register">
+          <a className="btn btn-outline-secondary" href="/registro">
             Registro del Alumno
           </a>
         </>
       );
     } else if (location.pathname === "/login") {
       return (
-        <a className="btn btn-outline-secondary" href="/register">
+        <a className="btn btn-outline-secondary" href="/registro">
           Registro del Alumno
         </a>
       );
-    } else if (location.pathname === "/register") {
+    } else if (location.pathname === "/registro") {
       return (
         <a className="btn btn-primary" href="/login">
           Iniciar Sesión
@@ -112,21 +112,21 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
                 </span>
                 <ul className="dropdown-content">
                   <li>
-                    <a href="#">
+                    <a href="protocolos">
                       <FontAwesomeIcon icon={faFileLines} className="style-icon" />
-                      Protocolos
+                      Ver Protocolos
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="subir_protocolo">
                       <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
-                      Avisos
+                      Subir Protocolo
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="usuarios">
                       <FontAwesomeIcon icon={faUser} className="style-icon" />
-                      Usuarios
+                      Ver Usuarios
                     </a>
                   </li>
                   <li>
@@ -136,7 +136,7 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="fechas">
                       <FontAwesomeIcon icon={faClock} className="style-icon" />
                       Fechas
                     </a>

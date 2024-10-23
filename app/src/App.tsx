@@ -8,7 +8,6 @@ import StudentRegister from "./components/StudentRegister/StudentRegister";
 import VerifiCorreo from "./components/VerifiCorreo/VerifiCorreo";
 import ValidateCorreo from "./components/ValidateCorreo/ValidateCorreo";
 import VerUsuarios from "./components/VerUsuarios/VerUsuarios";
-import UserInfo from "./components/UserInfo/UserInfo";
 import DatesAndTerms from "./components/DatesAndTerms/DatesAndTerms";
 import Footer from "./components/Footer/Footer";
 import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
@@ -19,14 +18,15 @@ import AbrirDocumento from "./components/AbrirDocumento/Documento";
 import EvaluarProtocolo from "./components/EvaluarProtocolo/EvaluarPro";
 import ClasificarProtocolo from "./components/ClasificarProtocolo/ClasificarProtocolo";
 
-
 import "./App.scss";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
-  const pdfUrl = '/Protocolo.pdf';
-  const pdfEvaluar = '/Protocolo_2.pdf';
-  const pdfClasificar = '/Protocolo_2.pdf';
+  const [userType, setUserType] = useState("");
+
+  const pdfUrl = "/Protocolo.pdf";
+  const pdfEvaluar = "/Protocolo_2.pdf";
+  const pdfClasificar = "/Protocolo_2.pdf";
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -69,28 +69,21 @@ export default function App() {
         <Navbar isAuth={isAuth} />
         <div className="app-body">
           <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/login" element={<Login setAuth={setAuth} />} />
-            <Route path="/register" element={<StudentRegister />} />
-            <Route path="/verify" element={<VerifiCorreo />} />
-            <Route path="/validate" element={<ValidateCorreo />} />
-            // Protected routes
-            {isAuth ? (
-              <>
-                <Route path="/users" element={<VerUsuarios />} />
-                <Route path="/users/:id" element={<UserInfo />} />
-                <Route path="/protocols" element={<SubirProtocolo />} />
-                <Route path="/dates" element={<DatesAndTerms />} />
-                <Route path="/seeprotocols" element={<VerProtocolos />} />
-                <Route path="/password" element={<Password />} />
-                <Route path="/verinfo" element={<VerInfo />} />{" "}
-              </>
-            ) : null}
-            <Route path="/documento" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
-            <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar}/> } />
-            <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar}/> } />
-
-
+            <Route path="/" element={<Homepage isAuth={isAuth} userType={userType} />} />
+            <Route path="/login" element={<Login isAuth={isAuth} setAuth={setAuth} setUserType={setUserType} />} />
+            <Route path="/registro" element={<StudentRegister />} />
+            <Route path="/revisar_correo" element={<VerifiCorreo />} />
+            <Route path="/validar_correo" element={<ValidateCorreo />} />
+            <Route path="/usuarios" element={<VerUsuarios isAuth={isAuth} userType={userType} />} />
+            <Route path="/usuarios/:id" element={<VerInfo isAuth={isAuth} userType={userType} />} />
+            <Route path="/subir_protocolo" element={<SubirProtocolo isAuth={isAuth} userType={userType} />} />
+            <Route path="/fechas" element={<DatesAndTerms isAuth={isAuth} userType={userType} />} />
+            <Route path="/protocolos" element={<VerProtocolos isAuth={isAuth} userType={userType} />} />
+            <Route path="/cambiar_contraseña" element={<Password isAuth={isAuth} />} />
+            <Route path="/cambiar_contraseña/:token" element={<Password />} />
+            <Route path="/documento/:id" isAuth={isAuth} element={<AbrirDocumento pdfUrl={pdfUrl} />} />
+            <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
+            <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

@@ -13,7 +13,9 @@ interface LoginData {
 }
 
 interface LoginProps {
+  isAuth: boolean;
   setAuth: (value: boolean) => void;
+  setUserType: (value: string) => void;
 }
 
 const InitialLoginData: LoginData = {
@@ -21,7 +23,7 @@ const InitialLoginData: LoginData = {
   password: "",
 };
 
-export default function Login({ setAuth }: LoginProps) {
+export default function Login({ isAuth=false, setAuth, setUserType }: LoginProps) {
   const [LoginData, setLoginData] = useState(InitialLoginData);
   const [showPassword, setShowPassword] = useState(false);
   const [wrongEmail, setIsWrongEmail] = useState(true);
@@ -35,10 +37,10 @@ export default function Login({ setAuth }: LoginProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (isAuth) {
       navigate("/");
     }
-  }, [navigate]);
+  }, [navigate, isAuth]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -96,6 +98,7 @@ export default function Login({ setAuth }: LoginProps) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
         setAuth(true);
+        setUserType(data.userType === null ? "" : data.userType);
         navigate("/");
       } catch (error: unknown) {
         setToastTitle("Error");
@@ -183,10 +186,10 @@ export default function Login({ setAuth }: LoginProps) {
               </button>
             </form>
             <div className="messa-sesion">
-              <a href="/validate" className="forget">
+              <a href="/validar_correo" className="forget">
                 Olvidé mi contraseña
               </a>
-              <a href="/register" className="register">
+              <a href="/registro" className="register">
                 Registro para alumno
               </a>
             </div>
