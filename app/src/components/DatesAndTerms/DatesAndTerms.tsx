@@ -93,7 +93,7 @@ export default function DatesAndTerms() {
   useEffect(() => {
     async function fetchListOfTerms() {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/dates/all", {
+        const response = await fetch("http://127.0.0.1:8000/api/dates", {
           method: "GET",
           headers: {
             Accept: "application/json",
@@ -126,7 +126,7 @@ export default function DatesAndTerms() {
   useEffect(() => {
     async function fetchCurrentTermData() {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/dates?cycle=${currentTerm}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/date?cycle=${currentTerm}`, {
           method: "GET",
           headers: {
             Accept: "application/json",
@@ -143,7 +143,9 @@ export default function DatesAndTerms() {
         setCurrentTermData([]);
       }
     }
-    fetchCurrentTermData();
+    if (currentTerm !== "") {
+      fetchCurrentTermData();
+    }
   }, [currentTerm]);
 
   return (
@@ -503,6 +505,5 @@ export default function DatesAndTerms() {
         <button className="btn btn-primary">Guardar</button>
       </div>
     </div>
-    
   );
 }
