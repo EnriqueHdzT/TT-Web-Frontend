@@ -6,29 +6,115 @@ import { useNavigate } from "react-router-dom";
 interface TermData {
   cycle: string;
   status: boolean;
-  start_recv_date_ord: Date | null;
-  end_recv_date_ord: Date | null;
-  recom_classif_end_date_ord: Date | null;
-  recom_eval_end_date_ord: Date | null;
-  correc_end_date_ord: Date | null;
-  recom_second_eval_end_date_ord: Date | null;
-  start_recv_date_ext: Date | null;
-  end_recv_date_ext: Date | null;
-  recom_classif_end_date_ext: Date | null;
-  recom_eval_end_date_ext: Date | null;
-  correc_end_date_ext: Date | null;
-  recom_second_eval_end_date_ext: Date | null;
+  start_recv_date_ord: Date | string;
+  end_recv_date_ord: Date | string;
+  recom_classif_end_date_ord: Date | string;
+  recom_eval_end_date_ord: Date | string;
+  correc_end_date_ord: Date | string;
+  recom_second_eval_end_date_ord: Date | string;
+  start_recv_date_ext: Date | string;
+  end_recv_date_ext: Date | string;
+  recom_classif_end_date_ext: Date | string;
+  recom_eval_end_date_ext: Date | string;
+  correc_end_date_ext: Date | string;
+  recom_second_eval_end_date_ext: Date | string;
 }
+
+const TermDataInit: TermData = {
+  cycle: "",
+  status: false,
+  start_recv_date_ord: "",
+  end_recv_date_ord: "",
+  recom_classif_end_date_ord: "",
+  recom_eval_end_date_ord: "",
+  correc_end_date_ord: "",
+  recom_second_eval_end_date_ord: "",
+  start_recv_date_ext: "",
+  end_recv_date_ext: "",
+  recom_classif_end_date_ext: "",
+  recom_eval_end_date_ext: "",
+  correc_end_date_ext: "",
+  recom_second_eval_end_date_ext: "",
+};
+
+const timesArray = [
+  "00:00",
+  "00:30",
+  "01:00",
+  "01:30",
+  "02:00",
+  "02:30",
+  "03:00",
+  "03:30",
+  "04:00",
+  "04:30",
+  "05:00",
+  "05:30",
+  "06:00",
+  "06:30",
+  "07:00",
+  "07:30",
+  "08:00",
+  "08:30",
+  "09:00",
+  "09:30",
+  "10:00",
+  "10:30",
+  "11:00",
+  "11:30",
+  "12:00",
+  "12:30",
+  "13:00",
+  "13:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
+  "17:30",
+  "18:00",
+  "18:30",
+  "19:00",
+  "19:30",
+  "20:00",
+  "20:30",
+  "21:00",
+  "21:30",
+  "22:00",
+  "22:30",
+  "23:00",
+  "23:30",
+];
 
 export default function DatesAndTerms() {
   const navigate = useNavigate();
   const popupRef = useRef(null);
   const [currentTerm, setCurrentTerm] = useState("");
-  const [currentTermData, setCurrentTermData] = useState<TermData[]>([]);
+  const [currentTermData, setCurrentTermData] =
+    useState<TermData>(TermDataInit);
   const [listOfTerms, setListOfTerms] = useState([]);
   const [isListOfTermsEmpty, setIsListOfTermsEmpty] = useState(true);
   const [newCycle, setNewCycle] = useState(["", "1"]);
   const [isCloseCycleChecked, setIsCloseCycleChecked] = useState(false);
+  const [start_recv_date_ord_date, setStart_recv_date_ord_date] = useState("");
+  const [start_recv_date_ord_time, setStart_recv_date_ord_time] = useState("");
+  const [end_recv_date_ord_date, setEnd_recv_date_ord_date] = useState("");
+  const [end_recv_date_ord_time, setEnd_recv_date_ord_time] = useState("");
+  const [recom_classif_end_date_ord_date, setRecom_classif_end_date_ord_date] = useState("");
+  const [recom_classif_end_date_ord_time, setRecom_classif_end_date_ord_time] = useState("");
+  const [recom_eval_end_date_ord_date, setRecom_eval_end_date_ord_date] = useState("");
+  const [recom_eval_end_date_ord_time, setRecom_eval_end_date_ord_time] = useState("");
+  const [correc_end_date_ord_date, setCorrec_end_date_ord_date] = useState("");
+  const [correc_end_date_ord_time, setCorrec_end_date_ord_time] = useState("");
+  const [recom_second_eval_end_date_ord_date, setRecom_second_eval_end_date_ord_date] = useState("");
+  const [recom_second_eval_end_date_ord_time, setRecom_second_eval_end_date_ord_time] = useState("");
+  const [start_recv_date_ext_date, setStart_recv_date_ext_date] = useState("");
+  const [start_recv_date_ext_time, setStart_recv_date_ext_time] = useState("");
+  const [end_recv_date_ext_date, setEnd_recv_date_ext_date] = useState("");
+  const [end_recv_date_ext_time, setEnd_recv_date_ext_time] = useState("");
+
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -42,9 +128,11 @@ export default function DatesAndTerms() {
   };
 
   const updateUrlCycleParam = (newCycle: string) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("cycle", newCycle);
-    window.history.replaceState({}, "", url.toString());
+    if (newCycle !== "") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("cycle", newCycle);
+      window.history.replaceState({}, "", url.toString());
+    }
   };
 
   const createNewCycle = async (newCycle: string) => {
@@ -86,8 +174,9 @@ export default function DatesAndTerms() {
 
   const onPopupClose = () => {
     setNewCycle(["", "1"]);
-    popupRef.current.close();
+    popupRef.current?.close();
   };
+
 
   // Get the list of terms from DB
   useEffect(() => {
@@ -105,18 +194,23 @@ export default function DatesAndTerms() {
         }
 
         const termsList = await response.json();
-        setIsListOfTermsEmpty(false);
         setListOfTerms(termsList);
+        setIsListOfTermsEmpty(termsList.length === 0);
+
         const urlParams = new URLSearchParams(window.location.search);
         const urlCycle = urlParams.get("cycle");
-        if (!urlCycle || !termsList.some((term) => term.cycle === urlCycle)) {
+        const existingTerm = termsList.find((term) => term.cycle === urlCycle);
+
+        if (urlCycle && existingTerm) {
+          setCurrentTerm(existingTerm.cycle);
+        } else if (termsList.length > 0) {
           setCurrentTerm(termsList[0].cycle);
           updateUrlCycleParam(termsList[0].cycle);
-        } else {
-          setCurrentTerm(urlCycle);
         }
-      } catch {
+      } catch (error) {
+        console.error("Error fetching terms:", error);
         setListOfTerms([]);
+        setIsListOfTermsEmpty(true);
       }
     }
     fetchListOfTerms();
@@ -126,21 +220,27 @@ export default function DatesAndTerms() {
   useEffect(() => {
     async function fetchCurrentTermData() {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/date?cycle=${currentTerm}`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
-        });
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/date?cycle=${currentTerm}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
-          throw new Error(`Failed to get data from the current term: ${currentTerm}`);
+          throw new Error(
+            `Failed to get data from the current term: ${currentTerm}`
+          );
         }
 
         const data = await response.json();
         setCurrentTermData(data);
+        console.log(data);
       } catch (error) {
-        setCurrentTermData([]);
+        setCurrentTermData(TermDataInit);
       }
     }
     if (currentTerm !== "") {
@@ -149,7 +249,7 @@ export default function DatesAndTerms() {
   }, [currentTerm]);
 
   return (
-    <div className="dates-and-terms" style={{ paddingTop: "100px" }}>
+    <div className="dates_and_terms">
       <div className="title-bar">
         <div className="row">
           <div className="col">
@@ -173,7 +273,10 @@ export default function DatesAndTerms() {
                 <ul className="dropdown-menu">
                   {listOfTerms.map((term, index) => (
                     <li key={index}>
-                      <a className="dropdown-item" onClick={() => updateCurrentTerm(term.cycle)}>
+                      <a
+                        className="dropdown-item"
+                        onClick={() => updateCurrentTerm(term.cycle)}
+                      >
                         {term.cycle}
                       </a>
                     </li>
@@ -202,22 +305,34 @@ export default function DatesAndTerms() {
                       min="1993"
                       placeholder="Ingrese anio"
                       value={newCycle[0]}
-                      onChange={(e) => setNewCycle([e.target.value, newCycle[1]])}
+                      onChange={(e) =>
+                        setNewCycle([e.target.value, newCycle[1]])
+                      }
                     />
                     <select
                       className="form-select"
                       value={newCycle[1]}
-                      onChange={(e) => setNewCycle([newCycle[0], e.target.value])}
+                      onChange={(e) =>
+                        setNewCycle([newCycle[0], e.target.value])
+                      }
                     >
                       <option value="1">1</option>
                       <option value="2">2</option>
                     </select>
                   </div>
                   <div>
-                    <button className="btn btn-outline-primary" onClick={onPopupClose}>
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={onPopupClose}
+                    >
                       Cancelar
                     </button>
-                    <button className="btn btn-primary" onClick={() => createNewCycle(newCycle[0] + "/" + newCycle[1])}>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() =>
+                        createNewCycle(newCycle[0] + "/" + newCycle[1])
+                      }
+                    >
                       Agregar
                     </button>
                   </div>
@@ -242,16 +357,58 @@ export default function DatesAndTerms() {
                 Fechas Ordinarias
               </button>
             </h2>
-            <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div
+              id="collapseOne"
+              className="accordion-collapse collapse show"
+              data-bs-parent="#accordionExample"
+            >
               <div className="accordion-body">
                 <div className="fisrt_date_ord">
-                  <h2 className="first_date_text_ord">Definir rango de fechas para subir protocolo</h2>
+                  <h2 className="first_date_text_ord">
+                    Definir rango de fechas para subir protocolo
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          name="start_time_0"
+                          className="form-control"
+                          value={
+                            currentTermData.start_recv_date_ord instanceof Date
+                              ? currentTermData.start_recv_date_ord
+                                  .toISOString()
+                                  .slice(11, 16)
+                              : currentTermData.start_recv_date_ord
+                          }
+                          id="start_time"
+                        />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a
+                                className="dropdown-item"
+                                onClick={() =>
+                                  setTime(time, start_recv_date_ord)
+                                }
+                              >
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -259,21 +416,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="second_date_ord">
-                  <h2 className="second_date_text_ord">Definir rango de fechas para la clasificacion de protocolos</h2>
+                  <h2 className="second_date_text_ord">
+                    Definir rango de fechas para la clasificacion de protocolos
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -281,21 +456,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="third_date_ord">
-                  <h2 className="third_date_text_ord">Definir rango de fechas para la evaluacion de protocolos</h2>
+                  <h2 className="third_date_text_ord">
+                    Definir rango de fechas para la evaluacion de protocolos
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -303,21 +496,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fourth_date_ord">
-                  <h2 className="fourth_date_text_ord">Definir rango de fechas para la correccion de protocolos</h2>
+                  <h2 className="fourth_date_text_ord">
+                    Definir rango de fechas para la correccion de protocolos
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -325,21 +536,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fifth_date_ord">
-                  <h2 className="fifth_date_text_ord">Definir rango de fechas para la evaluacion de correcciones</h2>
+                  <h2 className="fifth_date_text_ord">
+                    Definir rango de fechas para la evaluacion de correcciones
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -347,8 +576,16 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
@@ -370,16 +607,30 @@ export default function DatesAndTerms() {
                 Fechas Extraordinarias
               </button>
             </h2>
-            <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div
+              id="collapseTwo"
+              className="accordion-collapse collapse"
+              data-bs-parent="#accordionExample"
+            >
               <div className="accordion-body">
                 <div className="fisrt_date_ext">
-                  <h2 className="first_date_text_ext">Definir rango de fechas para subir protocolo</h2>
+                  <h2 className="first_date_text_ext">
+                    Definir rango de fechas para subir protocolo
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -387,21 +638,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="second_date_ext">
-                  <h2 className="second_date_text_ext">Definir rango de fechas para la clasificacion de protocolos</h2>
+                  <h2 className="second_date_text_ext">
+                    Definir rango de fechas para la clasificacion de protocolos
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -409,21 +678,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="third_date_ext">
-                  <h2 className="third_date_text_ext">Definir rango de fechas para la evaluacion de protocolos</h2>
+                  <h2 className="third_date_text_ext">
+                    Definir rango de fechas para la evaluacion de protocolos
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -431,21 +718,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fourth_date_ext">
-                  <h2 className="fourth_date_text_ext">Definir rango de fechas para la correccion de protocolos</h2>
+                  <h2 className="fourth_date_text_ext">
+                    Definir rango de fechas para la correccion de protocolos
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -453,21 +758,39 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fifth_date_ext">
-                  <h2 className="fifth_date_text_ext">Definir rango de fechas para la evaluacion de correcciones</h2>
+                  <h2 className="fifth_date_text_ext">
+                    Definir rango de fechas para la evaluacion de correcciones
+                  </h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="start_date" />
-                        <input type="time" className="form-control" id="start_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="start_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="start_time"
+                        />
                       </div>
                     </div>
                     <div className="col-auto">
@@ -475,8 +798,16 @@ export default function DatesAndTerms() {
                     </div>
                     <div className="col">
                       <div className="input-group">
-                        <input type="date" className="form-control" id="end_date" />
-                        <input type="time" className="form-control" id="end_time" />
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="end_date"
+                        />
+                        <input
+                          type="time"
+                          className="form-control"
+                          id="end_time"
+                        />
                       </div>
                     </div>
                     <div className="col-1" />
@@ -487,22 +818,34 @@ export default function DatesAndTerms() {
           </div>
         </div>
 
-        <div className="closing_cycle">
-          <input
-            type="checkbox"
-            className="btn-check"
-            name="options-outlined"
-            id="danger-outlined"
-            autoComplete="off"
-            checked={isCloseCycleChecked}
-            onChange={(e) => setIsCloseCycleChecked(e.target.checked)}
-          />
-          <label className="btn btn-outline-danger" htmlFor="danger-outlined">
-            Cerrar Ciclo
-          </label>
+        <div className="row">
+          <div className="col">
+            <label
+              className={`btn ${
+                isCloseCycleChecked ? "btn-outline-primary" : "btn-danger"
+              }`}
+              htmlFor="danger-outlined"
+            >
+              {isCloseCycleChecked ? "Desabilitar Periodo" : "Activar Periodo"}
+            </label>
+            <input
+              type="checkbox"
+              className="btn-check"
+              name="options-outlined"
+              id="danger-outlined"
+              autoComplete="off"
+              checked={isCloseCycleChecked}
+              onChange={(e) => setIsCloseCycleChecked(e.target.checked)}
+            />
+          </div>
+          <div className="col-4" />
+          <div className="col">
+            <button className="btn btn-outline-primary">
+              Restablecer Datos
+            </button>
+            <button className="btn btn-primary">Guardar</button>
+          </div>
         </div>
-        <button className="btn btn-outline-primary">Restablecer Datos</button>
-        <button className="btn btn-primary">Guardar</button>
       </div>
     </div>
   );
