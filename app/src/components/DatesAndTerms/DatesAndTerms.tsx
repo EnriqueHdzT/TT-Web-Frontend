@@ -92,29 +92,31 @@ export default function DatesAndTerms() {
   const navigate = useNavigate();
   const popupRef = useRef(null);
   const [currentTerm, setCurrentTerm] = useState("");
-  const [currentTermData, setCurrentTermData] =
-    useState<TermData>(TermDataInit);
+  const [currentTermData, setCurrentTermData] = useState<TermData>(TermDataInit);
   const [listOfTerms, setListOfTerms] = useState([]);
   const [isListOfTermsEmpty, setIsListOfTermsEmpty] = useState(true);
   const [newCycle, setNewCycle] = useState(["", "1"]);
   const [isCloseCycleChecked, setIsCloseCycleChecked] = useState(false);
-  const [start_recv_date_ord_date, setStart_recv_date_ord_date] = useState("");
-  const [start_recv_date_ord_time, setStart_recv_date_ord_time] = useState("");
-  const [end_recv_date_ord_date, setEnd_recv_date_ord_date] = useState("");
-  const [end_recv_date_ord_time, setEnd_recv_date_ord_time] = useState("");
-  const [recom_classif_end_date_ord_date, setRecom_classif_end_date_ord_date] = useState("");
-  const [recom_classif_end_date_ord_time, setRecom_classif_end_date_ord_time] = useState("");
-  const [recom_eval_end_date_ord_date, setRecom_eval_end_date_ord_date] = useState("");
-  const [recom_eval_end_date_ord_time, setRecom_eval_end_date_ord_time] = useState("");
-  const [correc_end_date_ord_date, setCorrec_end_date_ord_date] = useState("");
-  const [correc_end_date_ord_time, setCorrec_end_date_ord_time] = useState("");
-  const [recom_second_eval_end_date_ord_date, setRecom_second_eval_end_date_ord_date] = useState("");
-  const [recom_second_eval_end_date_ord_time, setRecom_second_eval_end_date_ord_time] = useState("");
-  const [start_recv_date_ext_date, setStart_recv_date_ext_date] = useState("");
-  const [start_recv_date_ext_time, setStart_recv_date_ext_time] = useState("");
-  const [end_recv_date_ext_date, setEnd_recv_date_ext_date] = useState("");
-  const [end_recv_date_ext_time, setEnd_recv_date_ext_time] = useState("");
-
+  const [ord_start_update_protocols, setOrd_start_update_protocols] = useState<Date | null>(null);
+  const [ord_end_update_protocols, setOrd_end_update_protocols] = useState<Date | null>(null);
+  const [ord_start_sort_protocols, setOrd_start_sort_protocols] = useState<Date | null>(null);
+  const [ord_end_sort_protocols, setOrd_end_sort_protocols] = useState<Date | null>(null);
+  const [ord_start_eval_protocols, setOrd_start_eval_protocols] = useState<Date | null>(null);
+  const [ord_end_eval_protocols, setOrd_end_eval_protocols] = useState<Date | null>(null);
+  const [ord_start_change_protocols, setOrd_start_change_protocols] = useState<Date | null>(null);
+  const [ord_end_change_protocols, setOrd_end_change_protocols] = useState<Date | null>(null);
+  const [ord_start_second_eval_protocols, setOrd_start_second_eval_protocols] = useState<Date | null>(null);
+  const [ord_end_second_eval_protocols, setOrd_end_second_eval_protocols] = useState<Date | null>(null);
+  const [ext_start_update_protocols, setExt_start_update_protocols] = useState<Date | null>(null);
+  const [ext_end_update_protocols, setExt_end_update_protocols] = useState<Date | null>(null);
+  const [ext_start_sort_protocols, setExt_start_sort_protocols] = useState<Date | null>(null);
+  const [ext_end_sort_protocols, setExt_end_sort_protocols] = useState<Date | null>(null);
+  const [ext_start_eval_protocols, setExt_start_eval_protocols] = useState<Date | null>(null);
+  const [ext_end_eval_protocols, setExt_end_eval_protocols] = useState<Date | null>(null);
+  const [ext_start_change_protocols, setExt_start_change_protocols] = useState<Date | null>(null);
+  const [ext_end_change_protocols, setExt_end_change_protocols] = useState<Date | null>(null);
+  const [ext_start_second_eval_protocols, setExt_start_second_eval_protocols] = useState<Date | null>(null);
+  const [ext_end_second_eval_protocols, setExt_end_second_eval_protocols] = useState<Date | null>(null);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -177,7 +179,6 @@ export default function DatesAndTerms() {
     popupRef.current?.close();
   };
 
-
   // Get the list of terms from DB
   useEffect(() => {
     async function fetchListOfTerms() {
@@ -220,20 +221,15 @@ export default function DatesAndTerms() {
   useEffect(() => {
     async function fetchCurrentTermData() {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/date?cycle=${currentTerm}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-            },
-          }
-        );
+        const response = await fetch(`http://127.0.0.1:8000/api/date?cycle=${currentTerm}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        });
 
         if (!response.ok) {
-          throw new Error(
-            `Failed to get data from the current term: ${currentTerm}`
-          );
+          throw new Error(`Failed to get data from the current term: ${currentTerm}`);
         }
 
         const data = await response.json();
@@ -247,6 +243,203 @@ export default function DatesAndTerms() {
       fetchCurrentTermData();
     }
   }, [currentTerm]);
+
+  const checkTimeOrDefault = (date: Date | null): string => {
+    const isDefaultDate = date instanceof Date && date.getTime() === Date.UTC(1970, 0, 1);
+
+    if (!date || isDefaultDate) {
+      return "";
+    }
+
+    // Extract hours and minutes, and format as "HH:MM"
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  const handleTimeChange = (time: string, value: number) => {
+    const updateTime = (currentDate: Date | null, setterFunc: (date: Date) => void) => {
+      const [hours, minutes] = time.split(":").map(Number);
+      let newDate;
+
+      if (currentDate instanceof Date && !isNaN(currentDate)) {
+        // Clone the current date and only update the time
+        newDate = new Date(currentDate);
+        newDate.setHours(hours);
+        newDate.setMinutes(minutes);
+        newDate.setSeconds(0);
+        newDate.setMilliseconds(0);
+      } else {
+        // Create a new "time-only" Date at UTC 1970-01-01
+        const now = new Date();
+        newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
+      }
+
+      setterFunc(newDate);
+    };
+    switch (value) {
+      case 0:
+        updateTime(ord_start_update_protocols, setOrd_start_update_protocols);
+        break;
+      case 1:
+        updateTime(ord_end_update_protocols, setOrd_end_update_protocols);
+        break;
+      case 2:
+        updateTime(ord_start_sort_protocols, setOrd_start_sort_protocols);
+        break;
+      case 3:
+        updateTime(ord_end_sort_protocols, setOrd_end_sort_protocols);
+        break;
+      case 4:
+        updateTime(ord_start_eval_protocols, setOrd_start_eval_protocols);
+        break;
+      case 5:
+        updateTime(ord_end_eval_protocols, setOrd_end_eval_protocols);
+        break;
+      case 6:
+        updateTime(ord_start_change_protocols, setOrd_start_change_protocols);
+        break;
+      case 7:
+        updateTime(ord_end_change_protocols, setOrd_end_change_protocols);
+        break;
+      case 8:
+        updateTime(ord_start_second_eval_protocols, setOrd_start_second_eval_protocols);
+        break;
+      case 9:
+        updateTime(ord_end_second_eval_protocols, setOrd_end_second_eval_protocols);
+        break;
+      case 10:
+        updateTime(ext_start_update_protocols, setExt_start_update_protocols);
+        break;
+      case 11:
+        updateTime(ext_end_update_protocols, setExt_end_update_protocols);
+        break;
+      case 12:
+        updateTime(ext_start_sort_protocols, setExt_start_sort_protocols);
+        break;
+      case 13:
+        updateTime(ext_end_sort_protocols, setExt_end_sort_protocols);
+        break;
+      case 14:
+        updateTime(ext_start_eval_protocols, setExt_start_eval_protocols);
+        break;
+      case 15:
+        updateTime(ext_end_eval_protocols, setExt_end_eval_protocols);
+        break;
+      case 16:
+        updateTime(ext_start_change_protocols, setExt_start_change_protocols);
+        break;
+      case 17:
+        updateTime(ext_end_change_protocols, setExt_end_change_protocols);
+        break;
+      case 18:
+        updateTime(ext_start_second_eval_protocols, setExt_start_second_eval_protocols);
+        break;
+      case 19:
+        updateTime(ext_end_second_eval_protocols, setExt_end_second_eval_protocols);
+        break;
+      default:
+        console.error("Invalid value");
+        break;
+    }
+  };
+
+  const checkDateOrDefault = (date: Date | null): string => {
+    const isDefaultDate = date instanceof Date && date.getTime() === Date.UTC(1970, 0, 1);
+
+    if (!date || isDefaultDate) {
+      return "";
+    }
+    return date instanceof Date ? date.toISOString().slice(0, 10) : "";
+  };
+
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newDateString = event.target.value;
+    const [year, month, day] = newDateString.split("-").map(Number);
+
+    const updateDateWithCurrentTime = (currentDate: Date | null, setterFunc) => {
+      let newDate;
+
+      if (currentDate instanceof Date && !isNaN(currentDate)) {
+        newDate = new Date(currentDate);
+        newDate.setFullYear(year);
+        newDate.setMonth(month - 1); // Month is 0-indexed
+        newDate.setDate(day);
+      } else {
+        // Default to current date with midnight as time
+        newDate = new Date(year, month - 1, day);
+      }
+
+      setterFunc(newDate);
+    };
+
+    switch (event.target.name) {
+      case "date_0":
+        updateDateWithCurrentTime(ord_start_update_protocols, setOrd_start_update_protocols);
+        break;
+      case "date_1":
+        updateDateWithCurrentTime(ord_end_update_protocols, setOrd_end_update_protocols);
+        break;
+      case "date_2":
+        updateDateWithCurrentTime(ord_start_sort_protocols, setOrd_start_sort_protocols);
+        break;
+      case "date_3":
+        updateDateWithCurrentTime(ord_end_sort_protocols, setOrd_end_sort_protocols);
+        break;
+      case "date_4":
+        updateDateWithCurrentTime(ord_start_eval_protocols, setOrd_start_eval_protocols);
+        break;
+      case "date_5":
+        updateDateWithCurrentTime(ord_end_eval_protocols, setOrd_end_eval_protocols);
+        break;
+      case "date_6":
+        updateDateWithCurrentTime(ord_start_change_protocols, setOrd_start_change_protocols);
+        break;
+      case "date_7":
+        updateDateWithCurrentTime(ord_end_change_protocols, setOrd_end_change_protocols);
+        break;
+      case "date_8":
+        updateDateWithCurrentTime(ord_start_second_eval_protocols, setOrd_start_second_eval_protocols);
+        break;
+      case "date_9":
+        updateDateWithCurrentTime(ord_end_second_eval_protocols, setOrd_end_second_eval_protocols);
+        break;
+      case "date_10":
+        updateDateWithCurrentTime(ext_start_update_protocols, setExt_start_update_protocols);
+        break;
+
+      case "date_11":
+        updateDateWithCurrentTime(ext_end_update_protocols, setExt_end_update_protocols);
+        break;
+      case "date_12":
+        updateDateWithCurrentTime(ext_start_sort_protocols, setExt_start_sort_protocols);
+        break;
+      case "date_13":
+        updateDateWithCurrentTime(ext_end_sort_protocols, setExt_end_sort_protocols);
+        break;
+      case "date_14":
+        updateDateWithCurrentTime(ext_start_eval_protocols, setExt_start_eval_protocols);
+        break;
+      case "date_15":
+        updateDateWithCurrentTime(ext_end_eval_protocols, setExt_end_eval_protocols);
+        break;
+      case "date_16":
+        updateDateWithCurrentTime(ext_start_change_protocols, setExt_start_change_protocols);
+        break;
+      case "date_17":
+        updateDateWithCurrentTime(ext_end_change_protocols, setExt_end_change_protocols);
+        break;
+      case "date_18":
+        updateDateWithCurrentTime(ext_start_second_eval_protocols, setExt_start_second_eval_protocols);
+        break;
+      case "date_19":
+        updateDateWithCurrentTime(ext_end_second_eval_protocols, setExt_end_second_eval_protocols);
+        break;
+      default:
+        console.error("Invalid value");
+        break;
+    }
+  };
 
   return (
     <div className="dates_and_terms">
@@ -273,10 +466,7 @@ export default function DatesAndTerms() {
                 <ul className="dropdown-menu">
                   {listOfTerms.map((term, index) => (
                     <li key={index}>
-                      <a
-                        className="dropdown-item"
-                        onClick={() => updateCurrentTerm(term.cycle)}
-                      >
+                      <a className="dropdown-item" onClick={() => updateCurrentTerm(term.cycle)}>
                         {term.cycle}
                       </a>
                     </li>
@@ -305,34 +495,22 @@ export default function DatesAndTerms() {
                       min="1993"
                       placeholder="Ingrese anio"
                       value={newCycle[0]}
-                      onChange={(e) =>
-                        setNewCycle([e.target.value, newCycle[1]])
-                      }
+                      onChange={(e) => setNewCycle([e.target.value, newCycle[1]])}
                     />
                     <select
                       className="form-select"
                       value={newCycle[1]}
-                      onChange={(e) =>
-                        setNewCycle([newCycle[0], e.target.value])
-                      }
+                      onChange={(e) => setNewCycle([newCycle[0], e.target.value])}
                     >
                       <option value="1">1</option>
                       <option value="2">2</option>
                     </select>
                   </div>
                   <div>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={onPopupClose}
-                    >
+                    <button className="btn btn-outline-primary" onClick={onPopupClose}>
                       Cancelar
                     </button>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() =>
-                        createNewCycle(newCycle[0] + "/" + newCycle[1])
-                      }
-                    >
+                    <button className="btn btn-primary" onClick={() => createNewCycle(newCycle[0] + "/" + newCycle[1])}>
                       Agregar
                     </button>
                   </div>
@@ -357,16 +535,10 @@ export default function DatesAndTerms() {
                 Fechas Ordinarias
               </button>
             </h2>
-            <div
-              id="collapseOne"
-              className="accordion-collapse collapse show"
-              data-bs-parent="#accordionExample"
-            >
+            <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
               <div className="accordion-body">
                 <div className="fisrt_date_ord">
-                  <h2 className="first_date_text_ord">
-                    Definir rango de fechas para subir protocolo
-                  </h2>
+                  <h2 className="first_date_text_ord">Definir rango de fechas para subir protocolo</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -375,18 +547,16 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_0"
+                          value={checkDateOrDefault(ord_start_update_protocols)}
+                          onChange={(e) => handleDateChange(e)}
                         />
                         <input
                           type="time"
                           name="start_time_0"
                           className="form-control"
-                          value={
-                            currentTermData.start_recv_date_ord instanceof Date
-                              ? currentTermData.start_recv_date_ord
-                                  .toISOString()
-                                  .slice(11, 16)
-                              : currentTermData.start_recv_date_ord
-                          }
+                          value={checkTimeOrDefault(ord_start_update_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 0)}
                           id="start_time"
                         />
                         <button
@@ -398,12 +568,7 @@ export default function DatesAndTerms() {
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
                             <li key={index}>
-                              <a
-                                className="dropdown-item"
-                                onClick={() =>
-                                  setTime(time, start_recv_date_ord)
-                                }
-                              >
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 0)}>
                                 {time}
                               </a>
                             </li>
@@ -420,21 +585,39 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_1"
+                          value={checkDateOrDefault(ord_end_update_protocols)}
+                          onChange={(e) => handleDateChange(e)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ord_end_update_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 1)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 1)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="second_date_ord">
-                  <h2 className="second_date_text_ord">
-                    Definir rango de fechas para la clasificacion de protocolos
-                  </h2>
+                  <h2 className="second_date_text_ord">Definir rango de fechas para la clasificacion de protocolos</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -443,12 +626,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_2"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_start_sort_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ord_start_sort_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 2)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 2)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -460,21 +663,39 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_3"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_end_sort_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ord_end_sort_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 3)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 3)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="third_date_ord">
-                  <h2 className="third_date_text_ord">
-                    Definir rango de fechas para la evaluacion de protocolos
-                  </h2>
+                  <h2 className="third_date_text_ord">Definir rango de fechas para la evaluacion de protocolos</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -483,12 +704,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_4"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_start_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ord_start_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 4)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 4)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -500,21 +741,39 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_5"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_end_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ord_end_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 5)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 5)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fourth_date_ord">
-                  <h2 className="fourth_date_text_ord">
-                    Definir rango de fechas para la correccion de protocolos
-                  </h2>
+                  <h2 className="fourth_date_text_ord">Definir rango de fechas para la correccion de protocolos</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -523,12 +782,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_6"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_start_change_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ord_start_change_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 6)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 6)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -540,21 +819,39 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_7"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_end_change_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ord_end_change_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 7)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 7)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fifth_date_ord">
-                  <h2 className="fifth_date_text_ord">
-                    Definir rango de fechas para la evaluacion de correcciones
-                  </h2>
+                  <h2 className="fifth_date_text_ord">Definir rango de fechas para la evaluacion de correcciones</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -563,12 +860,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_8"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_start_second_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ord_start_second_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 8)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 8)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -580,12 +897,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_9"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ord_end_second_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ord_end_second_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 9)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 9)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
@@ -607,16 +944,10 @@ export default function DatesAndTerms() {
                 Fechas Extraordinarias
               </button>
             </h2>
-            <div
-              id="collapseTwo"
-              className="accordion-collapse collapse"
-              data-bs-parent="#accordionExample"
-            >
+            <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
               <div className="accordion-body">
                 <div className="fisrt_date_ext">
-                  <h2 className="first_date_text_ext">
-                    Definir rango de fechas para subir protocolo
-                  </h2>
+                  <h2 className="first_date_text_ext">Definir rango de fechas para subir protocolo</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -625,12 +956,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_10"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_start_update_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ext_start_update_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 10)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 10)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -642,21 +993,39 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_11"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_end_update_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ext_end_update_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 11)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 11)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="second_date_ext">
-                  <h2 className="second_date_text_ext">
-                    Definir rango de fechas para la clasificacion de protocolos
-                  </h2>
+                  <h2 className="second_date_text_ext">Definir rango de fechas para la clasificacion de protocolos</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -665,12 +1034,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_12"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_start_sort_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ext_start_sort_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 12)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 12)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -682,21 +1071,39 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_13"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_end_sort_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ext_end_sort_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 13)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 13)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="third_date_ext">
-                  <h2 className="third_date_text_ext">
-                    Definir rango de fechas para la evaluacion de protocolos
-                  </h2>
+                  <h2 className="third_date_text_ext">Definir rango de fechas para la evaluacion de protocolos</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -705,12 +1112,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_14"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_start_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ext_start_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 14)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 14)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -722,21 +1149,39 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_15"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_end_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ext_end_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 15)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 15)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fourth_date_ext">
-                  <h2 className="fourth_date_text_ext">
-                    Definir rango de fechas para la correccion de protocolos
-                  </h2>
+                  <h2 className="fourth_date_text_ext">Definir rango de fechas para la correccion de protocolos</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -745,12 +1190,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_16"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_start_change_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ext_start_change_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 16)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 16)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -762,21 +1227,38 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_17"
+                          onChange={(e) => handleDateChange(e)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ext_end_change_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 17)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 17)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
                   </div>
                 </div>
                 <div className="fifth_date_ext">
-                  <h2 className="fifth_date_text_ext">
-                    Definir rango de fechas para la evaluacion de correcciones
-                  </h2>
+                  <h2 className="fifth_date_text_ext">Definir rango de fechas para la evaluacion de correcciones</h2>
                   <div className="row">
                     <div className="col-1" />
                     <div className="col">
@@ -785,12 +1267,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="start_date"
+                          name="date_18"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_start_second_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="start_time"
+                          value={checkTimeOrDefault(ext_start_second_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 18)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 18)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-auto">
@@ -802,12 +1304,32 @@ export default function DatesAndTerms() {
                           type="date"
                           className="form-control"
                           id="end_date"
+                          name="date_19"
+                          onChange={(e) => handleDateChange(e)}
+                          value={checkDateOrDefault(ext_end_second_eval_protocols)}
                         />
                         <input
                           type="time"
                           className="form-control"
                           id="end_time"
+                          value={checkTimeOrDefault(ext_end_second_eval_protocols)}
+                          onChange={(e) => handleTimeChange(e.target.value, 19)}
                         />
+                        <button
+                          className="btn btn-primary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        />
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {timesArray.map((time, index) => (
+                            <li key={index}>
+                              <a className="dropdown-item" onClick={() => handleTimeChange(time, 19)}>
+                                {time}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                     <div className="col-1" />
@@ -821,9 +1343,7 @@ export default function DatesAndTerms() {
         <div className="row">
           <div className="col">
             <label
-              className={`btn ${
-                isCloseCycleChecked ? "btn-outline-primary" : "btn-danger"
-              }`}
+              className={`btn ${isCloseCycleChecked ? "btn-outline-primary" : "btn-danger"}`}
               htmlFor="danger-outlined"
             >
               {isCloseCycleChecked ? "Desabilitar Periodo" : "Activar Periodo"}
@@ -840,9 +1360,7 @@ export default function DatesAndTerms() {
           </div>
           <div className="col-4" />
           <div className="col">
-            <button className="btn btn-outline-primary">
-              Restablecer Datos
-            </button>
+            <button className="btn btn-outline-primary">Restablecer Datos</button>
             <button className="btn btn-primary">Guardar</button>
           </div>
         </div>
