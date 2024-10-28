@@ -550,6 +550,7 @@ export default function DatesAndTerms() {
                           name="date_0"
                           value={checkDateOrDefault(ord_start_update_protocols)}
                           onChange={(e) => handleDateChange(e)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -558,12 +559,14 @@ export default function DatesAndTerms() {
                           value={checkTimeOrDefault(ord_start_update_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 0)}
                           id="start_time"
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -588,6 +591,7 @@ export default function DatesAndTerms() {
                           name="date_1"
                           value={checkDateOrDefault(ord_end_update_protocols)}
                           onChange={(e) => handleDateChange(e)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -595,12 +599,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ord_end_update_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 1)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -629,6 +635,7 @@ export default function DatesAndTerms() {
                           name="date_2"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_start_sort_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -636,12 +643,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ord_start_sort_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 2)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -666,6 +675,7 @@ export default function DatesAndTerms() {
                           name="date_3"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_end_sort_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -673,12 +683,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ord_end_sort_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 3)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -707,6 +719,7 @@ export default function DatesAndTerms() {
                           name="date_4"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_start_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -714,12 +727,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ord_start_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 4)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -744,6 +759,7 @@ export default function DatesAndTerms() {
                           name="date_5"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_end_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -751,12 +767,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ord_end_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 5)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -785,6 +803,7 @@ export default function DatesAndTerms() {
                           name="date_6"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_start_change_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -792,12 +811,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ord_start_change_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 6)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -822,6 +843,7 @@ export default function DatesAndTerms() {
                           name="date_7"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_end_change_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -829,12 +851,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ord_end_change_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 7)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -863,6 +887,7 @@ export default function DatesAndTerms() {
                           name="date_8"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_start_second_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -870,12 +895,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ord_start_second_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 8)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -900,6 +927,7 @@ export default function DatesAndTerms() {
                           name="date_9"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ord_end_second_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -907,12 +935,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ord_end_second_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 9)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -959,6 +989,7 @@ export default function DatesAndTerms() {
                           name="date_10"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_start_update_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -966,12 +997,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ext_start_update_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 10)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -996,6 +1029,7 @@ export default function DatesAndTerms() {
                           name="date_11"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_end_update_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1003,12 +1037,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ext_end_update_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 11)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1037,6 +1073,7 @@ export default function DatesAndTerms() {
                           name="date_12"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_start_sort_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1044,12 +1081,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ext_start_sort_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 12)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1074,6 +1113,7 @@ export default function DatesAndTerms() {
                           name="date_13"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_end_sort_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1081,12 +1121,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ext_end_sort_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 13)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1115,6 +1157,7 @@ export default function DatesAndTerms() {
                           name="date_14"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_start_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1122,12 +1165,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ext_start_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 14)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1152,6 +1197,7 @@ export default function DatesAndTerms() {
                           name="date_15"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_end_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1159,12 +1205,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ext_end_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 15)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1193,6 +1241,7 @@ export default function DatesAndTerms() {
                           name="date_16"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_start_change_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1200,12 +1249,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ext_start_change_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 16)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1229,6 +1280,7 @@ export default function DatesAndTerms() {
                           id="end_date"
                           name="date_17"
                           onChange={(e) => handleDateChange(e)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1236,12 +1288,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ext_end_change_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 17)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1270,6 +1324,7 @@ export default function DatesAndTerms() {
                           name="date_18"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_start_second_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1277,12 +1332,14 @@ export default function DatesAndTerms() {
                           id="start_time"
                           value={checkTimeOrDefault(ext_start_second_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 18)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
@@ -1307,6 +1364,7 @@ export default function DatesAndTerms() {
                           name="date_19"
                           onChange={(e) => handleDateChange(e)}
                           value={checkDateOrDefault(ext_end_second_eval_protocols)}
+                          disabled={isCloseCycleChecked}
                         />
                         <input
                           type="time"
@@ -1314,12 +1372,14 @@ export default function DatesAndTerms() {
                           id="end_time"
                           value={checkTimeOrDefault(ext_end_second_eval_protocols)}
                           onChange={(e) => handleTimeChange(e.target.value, 19)}
+                          disabled={isCloseCycleChecked}
                         />
                         <button
                           className="btn btn-primary dropdown-toggle"
                           type="button"
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
+                          disabled={isCloseCycleChecked}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
                           {timesArray.map((time, index) => (
