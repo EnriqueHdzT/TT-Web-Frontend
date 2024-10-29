@@ -1,8 +1,7 @@
 import "./MonitoreoProtocolo.scss";
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faAnglesDown } from "@fortawesome/free-solid-svg-icons";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { faChevronLeft, faAnglesDown, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 // Tipo literal para el estatus
 type Estatus = "recepcion" | "evaluacion" | "rechazo";
@@ -53,50 +52,67 @@ const MonitoreoProtocolo: React.FC<MonitoreoProtocoloProps> = ({ titulo }) => {
       </div>
       <div className="info-container">
         <h1 className="titulo">Título de TT: {titulo}</h1>
-        <div className="estatus-contenedor">
-
-          <div className="estatus-columna">
-
-            <div className="estatus-recepcion">
-            <div className="icore"><FontAwesomeIcon icon={faAnglesDown} /></div>
-              <div className="text-pro">Recepción de protocolo
-              <p>fecha</p></div>
+        <div className="general-contenedor">
+          <div className="row-container">
+            <div className="box status blue">
+              <div className="icore ico-blue">
+                <FontAwesomeIcon icon={faAnglesDown} />
+              </div>
+              <div className="text-pro">
+                Recepción de protocolo
+                <p>fecha</p>
+              </div>
             </div>
-
-            <div className="estatus-evaluacion">
-            <div className="icore"><FontAwesomeIcon icon={faStar} /></div>
-              <div className="text-pro">Evaluación de protocolo
-              <p>fecha</p></div>
-            </div>
-
-            <div className="estatus-evaluacion">
-            <div className="icore"><FontAwesomeIcon icon={faStar} /></div>
-              <div className="text-pro">Evaluación de protocolo
-              <p>fecha</p></div>
-            </div>
-
-            <div className="estatus-rechazo">
-            <div className="icore"><FontAwesomeIcon icon={faStar} /></div>
-              <div className="text-pro">Rechazo de protocolo
-              <p>fecha</p></div>
+            <div className="box info">
+            <div className="tx-info">Tu protocolo fue recibido exitosamente, ya puedes revisar los
+              detalles del protocolo y su seguimiento</div>
+              <a href="/"><button className="blue">Ver evaluación</button></a>
             </div>
           </div>
-
-          <div className="estatus-columna2">
-            <div className="estatus-recepcion">
-              <p>{estatus === "recepcion" ? "En proceso" : "Tu protocolo fue recibido exitosamente, ya puedes revisar los detalles del protocolo y su seguimiento "}</p>
+          <div className="row-container">
+            <div className="box status green">
+              <div className="icore ico-green">
+              <FontAwesomeIcon icon={faCheck} />
+              </div>
+              <div className="text-pro">
+                Sinodal 1 - Evaluación de protocolo
+                <p>fecha</p>
+              </div>
             </div>
-
-            <div className="estatus-evaluacion">
-              <p>{estatus === "evaluacion" ? "En proceso" : estatus === "rechazo" ? "Pendiente" : "Completado"}</p>
+            <div className="box info">
+            <div className="tx-info">Tu protocolo fue evaluado exitosamente por un sinodal, espera a mayores informes.
             </div>
-
-            <div className="estatus-evaluacion">
-              <p>{estatus === "evaluacion" ? "En proceso" : estatus === "rechazo" ? "Pendiente" : "Completado"}</p>
+            <a href="/"><button className="green">Ver evaluación</button></a></div>
+          </div>
+          <div className="row-container">
+            <div className="box status green">
+              <div className="icore ico-green">
+              <FontAwesomeIcon icon={faCheck} />
+              </div>
+              <div className="text-pro">
+                Sinodal 2 - Evaluación de protocolo
+                <p>fecha</p>
+              </div>
             </div>
-
-            <div className="estatus-rechazo">
-              <p>{estatus === "rechazo" ? "En proceso" : "Pendiente"}</p>
+            <div className="box info">
+            <div className="tx-info">Tu protocolo fue evaluado exitosamente por un sinodal, espera a mayores informes.
+            </div>
+            <a href="/"><button className="green">Ver evaluación</button></a>
+            </div>
+          </div>
+          <div className="row-container">
+            <div className="box status red">
+              <div className="icore ico-red">
+              <FontAwesomeIcon icon={faXmark} />
+              </div>
+              <div className="text-pro">
+                Sinodal 3 - Evaluación de protocolo
+                <p>fecha</p>
+              </div>
+            </div>
+            <div className="box info">
+              <div className="tx-info">Tu protocolo fue rechazado por un sinodal, espera a mayores informes.</div>
+              <a href="/"><button className="red">Ver evaluación</button></a>
             </div>
           </div>
         </div>

@@ -11,8 +11,9 @@ $cont-gray: #e6e6e6;
 $users-cont: #ededed;
 $protoco: #5db1f9;
 $rechazo: #ff725e;
-$protoclaro: #E3F2FF;
-$rechaclaro: #FFEDEB;
+$aceptado: #47caa1;
+$protoclaro: #e3f2ff;
+$rechaclaro: #ffedeb;
 
 /*========== Font and typography ==========*/
 $black-fontd: #2c2c2c;
@@ -30,7 +31,7 @@ $gray-pass: #a2a2a2;
   .tt-a {
     margin-top: 0.8rem;
     padding-left: 4%;
-    width: 25%;
+    width: 40%;
     height: auto;
     color: $black-fontd;
     font: 500 1rem "Poppins";
@@ -58,34 +59,27 @@ $gray-pass: #a2a2a2;
     margin: 1rem 5%;
   }
 
-  .estatus-contenedor {
-    gap: 10px;
-    width: 90%;
+  .general-contenedor {
+    gap: 1rem;
     height: 70vh; /* Ajustamos para que ocupe toda la pantalla */
+    width: 90%;
     display: flex;
+    margin: auto auto;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: auto auto;
 
-    .estatus-columna {
-      color: $body-color;
+    .row-container {
+      display: flex;
+      gap: 1rem; // Espacio entre los divs en la misma fila
       font: 500 0.85rem "Poppins";
 
-      .estatus-recepcion,
-      .estatus-evaluacion {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: auto;
-        background-color: $protoco;
+      .box {
+        padding: 1rem;
         border-radius: 10px;
-        margin-bottom: 5%;
-        padding: 1rem 6rem 1rem 1rem;
-
-        p {
-          margin: 0;
-          font: 500 0.7rem "Poppins";
-        }
+        display: flex;
+        justify-content: left;
+        align-items: center;
 
         .icore {
           width: 50px;
@@ -93,71 +87,69 @@ $gray-pass: #a2a2a2;
           background-color: $body-color;
           border-radius: 10px;
           margin: 0 20px 0 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 20px;
+        }
+        p {
+          margin: 0;
+          font: 500 0.7rem "Poppins";
+        }
+
+        .ico-blue {
           color: $protoco;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 20px;
         }
-      }
-
-      .estatus-rechazo {
-        background-color: $rechazo;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: auto;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        padding: 1rem 7rem 1rem 1rem;
-
-        p {
-          margin: 0;
-          font: 500 0.7rem "Poppins";
+        .ico-green {
+          color: $aceptado;
         }
-
-        .icore {
-          width: 50px;
-          height: 50px;
-          background-color: $body-color;
-          border-radius: 10px;
-          margin: 0 20px 0 10px;
+        .ico-red {
           color: $rechazo;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 20px;
         }
       }
-    }
 
-    .estatus-columna2 {
-        color: $black-fontd;
-        font: 500 0.85rem "Poppins";
-  
-        .estatus-recepcion,
-        .estatus-evaluacion {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: auto;
-           background-color: $protoclaro;
-          border-radius: 10px;
-          margin-bottom: 15px;
-          height: 50px;
-          padding: 1rem 6rem 1rem 1rem;
+      .info {
+        flex: 2; // Ocupa más espacio en la fila
+        background-color: #e0e0e0;
+        min-width: 400px;
+        max-width: 800px;
+        font: 400 0.8rem "Poppins";
+        display: flex;
+        justify-content: space-between;
+
+        .tx-info {
+          width: 600px;
+          padding: 0 20px;
+          background-color: #e0e0e0;
         }
 
-        .estatus-rechazo {
-            background-color: $rechaclaro;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: auto;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            padding: 1rem 7rem 1rem 1rem;
+        button {
+          align-self: flex-end; // Coloca el botón en la parte inferior
+          color: $body-color;
+          border-radius: 15px;
+          padding: 5px 20px;
+          margin-right: 3%;
         }
+      }
+
+      .status {
+        flex: 1; // Ocupa menos espacio en la fila
+        background-color: $protoco;
+        min-width: 390px;
+        max-width: 400px;
+      }
+
+      .blue {
+        background-color: $protoco;
+      }
+
+      .green {
+        background-color: $aceptado;
+      }
+
+      .red {
+        background-color: $rechazo;
+      }
     }
   }
 }
