@@ -84,7 +84,6 @@ export default function App() {
                 <Route path="/users/:id" element={<UserInfo />} />
                 <Route path="/protocols" element={<SubirProtocolo />} />
                 <Route path="/dates" element={<DatesAndTerms />} />
-                <Route path="/seeprotocols" element={<VerProtocolos />} />
                 <Route path="/password" element={<Password />} />
                 <Route path="/verinfo" element={<VerInfo />} />{" "}
               </>
@@ -94,6 +93,7 @@ export default function App() {
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar}/> } />
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar}/> } />
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo /> } />
+            <Route path="/seeprotocols" element={<VerProtocolos />} />
 
 
             <Route path="*" element={<Navigate to="/" />} />
