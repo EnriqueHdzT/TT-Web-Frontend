@@ -20,6 +20,8 @@ import EvaluarProtocolo from "./components/EvaluarProtocolo/EvaluarPro";
 import ClasificarProtocolo from "./components/ClasificarProtocolo/ClasificarProtocolo";
 import ValidarProtocolo from "./components/ValidarProtocolo/ValidarProtocolo";
 import MonitoreoProtocolo from "./components/MonitoreoProtocolo/MonitoreoProtocolo";
+import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
+import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
 
 
 import "./App.scss";
@@ -73,10 +75,12 @@ export default function App() {
         <div className="app-body">
           <Routes>
             <Route path="/" element={<Homepage />} />
+            <Route path="/paginaprincipal" element={<PaginaPrincipal />} />
             <Route path="/login" element={<Login setAuth={setAuth} />} />
             <Route path="/register" element={<StudentRegister />} />
             <Route path="/verify" element={<VerifiCorreo />} />
             <Route path="/validate" element={<ValidateCorreo />} />
+            <Route path="/recuperarpassword" element={<RecuperarPassword />} />
             // Protected routes
             {isAuth ? (
               <>

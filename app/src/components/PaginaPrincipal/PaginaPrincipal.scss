@@ -16,7 +16,7 @@ $blue: #1c90f3;
 $gray-pass: #a2a2a2;
 
 // HomePage.scss
-.homepage {
+.pagprin {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,13 +28,13 @@ $gray-pass: #a2a2a2;
   
 .toppg {
   width: 90%;
-  height: 35vh;
+  height: 44vh;
   min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 30px;
-  background-color: #D2E9FD;
+  background-color: #90CAF9;
   
 }
 
@@ -47,19 +47,19 @@ $gray-pass: #a2a2a2;
 }
 
 .leftpg {
-  flex: 2;
+  flex: 1;
   background-color: #90CAF9;
-  height: 40vh;
-  min-height: 260px;
+  height: 35vh;
+  min-height: 250px;
   display: flex;
   border-radius: 30px;
 }
 
 .rightpg {
-  flex: 1;
+  flex: 2;
   background-color: #90CAF9;
-  height: 40vh;
-  min-height: 260px;
+  height: 35vh;
+  min-height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
