@@ -17,6 +17,7 @@ import Password from "./components/Password/Password";
 import VerInfo from "./components/VerInfo/VerInfo";
 
 import "./App.scss";
+import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContrasena.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
@@ -67,6 +68,7 @@ export default function App() {
             <Route path="/register" element={<StudentRegister />} />
             <Route path="/verify" element={<VerifiCorreo />} />
             <Route path="/validate" element={<ValidateCorreo />} />
+            <Route path="/recuperar/:id" element={<RecuperarContrasena />} />
             // Protected routes
             {isAuth ? (
               <>

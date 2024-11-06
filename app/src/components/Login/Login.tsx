@@ -81,6 +81,7 @@ export default function Login({ setAuth }: LoginProps) {
         formData.append("email", LoginData.email);
         const hashedPassword = SHA256(LoginData.password).toString();
         formData.append("password", hashedPassword);
+
         const response = await fetch("http://127.0.0.1:8000/api/login", {
           method: "POST",
           headers: {
@@ -89,15 +90,21 @@ export default function Login({ setAuth }: LoginProps) {
           body: formData as BodyInit,
         });
 
-        if (!response.ok) {
-          throw new Error("Login failed");
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem("token", data.token);
+          setAuth(true);
+          navigate("/");
+        } else {
+          const errorData = await response.json();
+          setToastTitle("Error");
+          setToastMessage(errorData.message || "Error al iniciar sesión");
+          const toastBoostrap = ToastRef ? Toast?.getOrCreateInstance(ToastRef) : null;
+          if (toastBoostrap) {
+            toastBoostrap.show();
+          }
         }
-
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        setAuth(true);
-        navigate("/");
-      } catch (error: unknown) {
+      } catch (error) {
         setToastTitle("Error");
         setToastMessage("Error al iniciar sesión");
         const toastBoostrap = ToastRef ? Toast?.getOrCreateInstance(ToastRef) : null;
@@ -107,6 +114,7 @@ export default function Login({ setAuth }: LoginProps) {
       }
     }
   }
+
   if (!localStorage.getItem("token")) {
     return (
       <div className="contenedor-form">
