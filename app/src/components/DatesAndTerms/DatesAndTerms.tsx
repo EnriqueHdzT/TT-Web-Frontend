@@ -163,7 +163,7 @@ export default function DatesAndTerms() {
     if (!localStorage.getItem("token")) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]);
 
   const updateCurrentTerm = (newTerm: string) => {
     setCurrentTerm(newTerm);
@@ -289,24 +289,30 @@ export default function DatesAndTerms() {
   // Fill UI with data from Values
   useEffect(() => {
     const newTermData = { ...currentTermData };
+    setIsCloseCycleChecked(newTermData.status);
 
     const formatDate = (
-      date: Date | null | undefined,
+      date: Date | string | null | undefined,
       dateSetter: (date: string) => void,
       timeSetter: (time: string) => void
     ) => {
-      const formattedDate = date instanceof Date ? date.toISOString().split("T")[0] : "";
+      if (typeof date === "string") {
+        date = new Date(date);
+      }
+
+      const formattedDate = date instanceof Date && !isNaN(date.getTime()) ? date.toISOString().split("T")[0] : "";
       const formattedTime =
-        date instanceof Date
+        date instanceof Date && !isNaN(date.getTime())
           ? date.toLocaleTimeString("en-GB", {
               hour: "2-digit",
               minute: "2-digit",
             })
           : "";
-      console.log(formattedDate, formattedTime);
+
       timeSetter(formattedTime);
       dateSetter(formattedDate);
     };
+
     formatDate(
       newTermData.ord_start_update_protocols,
       setDate_ord_start_update_protocols,
@@ -394,7 +400,7 @@ export default function DatesAndTerms() {
     if (prevTermData !== currentTermData) {
       setIsDataChanged(true);
     }
-  }, [currentTermData]);
+  }, [currentTermData, prevTermData]);
 
   const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement> | string, index: number | undefined) => {
     const value = typeof event === "string" ? event : event.target.value;
@@ -402,7 +408,12 @@ export default function DatesAndTerms() {
 
     const updateCurrentTermData = (name: string) => {
       const newCurrentTermData = { ...currentTermData };
-      const date = newCurrentTermData[name] ?? new Date();
+      let date = newCurrentTermData[name];
+      if (!date) {
+        date = new Date();
+      } else {
+        date = new Date(date);
+      }
       date.setHours(Number(value.split(":")[0]));
       date.setMinutes(Number(value.split(":")[1]));
       newCurrentTermData[name] = date;
@@ -475,6 +486,13 @@ export default function DatesAndTerms() {
     }
   };
 
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsCloseCycleChecked(event.target.checked);
+    const newCurrentTermData = { ...currentTermData };
+    newCurrentTermData.status = event.target.checked;
+    setCurrentTermData(newCurrentTermData);
+  }
+
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const [year, month, day] = event.target.value.split("-");
 
@@ -485,6 +503,8 @@ export default function DatesAndTerms() {
         newDate = new Date();
         newDate.setHours(0);
         newDate.setMinutes(0);
+      } else {
+        newDate = new Date(newDate);
       }
       newDate.setFullYear(Number(year));
       newDate.setMonth(Number(month) - 1);
@@ -582,7 +602,7 @@ export default function DatesAndTerms() {
         formData.append(key, gmtDate);
       }
     });
-    console.log(formData);
+
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/date`, {
         method: "PUT",
@@ -603,6 +623,43 @@ export default function DatesAndTerms() {
       console.error("Error updating data:", error);
     }
   };
+
+  const handleDelete = async () => {
+    try {
+      const formData = new URLSearchParams();
+      formData.append("cycle", currentTerm);
+
+      const response = await fetch(`http://127.0.0.1:8000/api/date`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "application/json",
+        },
+        body: formData as BodyInit,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete data");
+      }
+
+      const newListOfTerms = listOfTerms.filter((term) => term.cycle !== currentTerm);
+      
+      if (newListOfTerms.length === 0) {
+        setListOfTerms([]);
+        setIsListOfTermsEmpty(true);
+        setCurrentTerm("");
+      } else {
+        setListOfTerms(newListOfTerms);
+        setCurrentTerm(newListOfTerms[0].cycle);
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
+
+  const handleReset = () => {
+    setCurrentTermData(prevTermData);
+  }
 
   return (
     <div className="dates_and_terms">
@@ -1605,13 +1662,15 @@ export default function DatesAndTerms() {
                 id="danger-outlined"
                 autoComplete="off"
                 checked={isCloseCycleChecked}
-                onChange={(e) => setIsCloseCycleChecked(e.target.checked)}
+                onChange={(e) => handleStatusChange(e)}
               />
-              <button className="btn btn-danger">Borrar Periodo</button>
+              <button className="btn btn-danger" onClick={handleDelete}>
+                Borrar Periodo
+              </button>
             </div>
             <div className="col-4" />
             <div className="col">
-              <button className="btn btn-outline-primary" disabled={!isDataChanged}>
+              <button className="btn btn-outline-primary" disabled={!isDataChanged} onClick={handleReset}>
                 Restablecer Datos
               </button>
               <button className="btn btn-primary" disabled={!isDataChanged} onClick={handleSave}>
