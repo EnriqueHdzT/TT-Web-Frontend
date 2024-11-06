@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 import "./VerUsuarios.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,7 +19,7 @@ const academies = ["Ciencia de Datos", "Ciencias Basicas", "Ciencias de la Compu
 export default function VerUsuarios() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("token") || localStorage.getItem("userType") === "") {
+    if (!localStorage.getItem("token") /* || localStorage.getItem("userType") === "" */) {
       navigate("/");
     }
   });
@@ -31,6 +33,23 @@ export default function VerUsuarios() {
   const [currentPage, setCurrentPage] = useState(urlData[5]);
   const [maxPage, setMaxPage] = useState(1);
   const [users, setUsers] = useState([]);
+  const [newStudentEmail, setNewStudentEmail] = useState("");
+  const [newStudentName, setNewStudentName] = useState("");
+  const [newStudentLastName, setNewStudentLastName] = useState("");
+  const [newStudentSecondLastName, setNewStudentSecondLastName] = useState("");
+  const [newStudentBoleta, setNewStudentBoleta] = useState("");
+  const [newStudentCareer, setNewStudentCareer] = useState("");
+  const [newStudentCurriculum, setNewStudentCurriculum] = useState("");
+
+  const [newStaffEmail, setNewStaffEmail] = useState("");
+  const [newStaffName, setNewStaffName] = useState("");
+  const [newStaffLastName, setNewStaffLastName] = useState("");
+  const [newStaffSecondLastName, setNewStaffSecondLastName] = useState("");
+  const [newStaffPrecedencia, setNewStaffPrecedencia] = useState("");
+  const [newStaffAcademia, setNewStaffAcademia] = useState("");
+  const [newStaffUserType, setNewStaffUserType] = useState("");
+
+  const popupRef = useRef(null);
 
   const getUsers = async () => {
     try {
@@ -75,6 +94,25 @@ export default function VerUsuarios() {
     } else {
       setCurrentPage(value);
     }
+  };
+
+  const onPopupClose = () => {
+    setNewStudentEmail("");
+    setNewStudentName("");
+    setNewStudentLastName("");
+    setNewStudentSecondLastName("");
+    setNewStudentBoleta("");
+    setNewStudentCareer("");
+    setNewStudentCurriculum("");
+
+    setNewStaffEmail("");
+    setNewStaffName("");
+    setNewStaffLastName("");
+    setNewStaffSecondLastName("");
+    setNewStaffPrecedencia("");
+    setNewStaffAcademia("");
+    setNewStaffUserType("");
+    popupRef.current?.close();
   };
 
   const updateUserType = (value) => {
@@ -137,6 +175,67 @@ export default function VerUsuarios() {
       });
   };
 
+  const handleNewStudent = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", newStudentEmail);
+      formData.append("name", newStudentName);
+      formData.append("lastName", newStudentLastName);
+      formData.append("secondLastName", newStudentSecondLastName);
+      formData.append("boleta", newStudentBoleta);
+      formData.append("career", newStudentCareer);
+      newStudentCurriculum === "" ? formData.append("curriculum", "2020") : formData.append("curriculum", newStudentCurriculum);
+
+      const response = await fetch("http://127.0.0.1:8000/api/createStudent", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error("Error al crear usuario");
+      }
+      onPopupClose();
+      navigate(0);
+    } catch (error) {
+      console.error("Error al crear usuario");
+    }
+  };
+
+  const handleNewStaff = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", newStaffEmail);
+      formData.append("name", newStaffName);
+      formData.append("lastName", newStaffLastName);
+      formData.append("secondLastName", newStaffSecondLastName);
+      formData.append("precedence", newStaffPrecedencia);
+      formData.append("academy", newStaffAcademia);
+      formData.append("userType", newStaffUserType);
+
+      const response = await fetch("http://127.0.0.1:8000/api/createStaff", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error("Error al crear usuario");
+      }
+
+      onPopupClose();
+      navigate(0);
+    } catch (error) {
+      console.error("Error al crear usuario");
+    }
+  };
+
   return (
     <div>
       <div className="head-usr">
@@ -197,9 +296,216 @@ export default function VerUsuarios() {
           ) : (
             <></>
           )}
-          <button className="plus-us">
-            Nuevo Usuario <FontAwesomeIcon icon={faPlus} className="icon-us" />
-          </button>
+          <Popup
+            ref={popupRef}
+            trigger={(open) => (
+              <button type="button" className="plus-us">
+                Nuevo Usuario <FontAwesomeIcon icon={faPlus} className="icon-us" />
+              </button>
+            )}
+            modal
+            nested
+            closeOnDocumentClick={false}
+          >
+            {(close) => (
+              <>
+                <ul className="nav nav-tabs nav-justified row" id="myTab" role="tablist">
+                  <li className="nav-item" role="presentation">
+                    <button
+                      className="nav-link active"
+                      id="home-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#home-tab-pane"
+                      type="button"
+                      role="tab"
+                      aria-controls="home-tab-pane"
+                      aria-selected="true"
+                    >
+                      Crear Alumno
+                    </button>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <button
+                      className="nav-link"
+                      id="profile-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#profile-tab-pane"
+                      type="button"
+                      role="tab"
+                      aria-controls="profile-tab-pane"
+                      aria-selected="false"
+                    >
+                      Crear Docente
+                    </button>
+                  </li>
+                </ul>
+                <div className="tab-content" id="myTabContent">
+                  <div
+                    className="tab-pane fade show active"
+                    id="home-tab-pane"
+                    role="tabpanel"
+                    aria-labelledby="home-tab"
+                    tabIndex="0"
+                  >
+                    <form className="form-group" onSubmit={(e) => handleNewStudent(e)}>
+                      <input
+                        type="email"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Correo Institucional"
+                        onChange={(e) => setNewStudentEmail(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Nombre(s)"
+                        onChange={(e) => setNewStudentName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Primer Apellido"
+                        onChange={(e) => setNewStudentLastName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Segundo Apellido"
+                        onChange={(e) => setNewStudentSecondLastName(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Boleta del alumno"
+                        onChange={(e) => setNewStudentBoleta(e.target.value)}
+                        required
+                      />
+
+                      <select
+                        className="form-select mt-3 mb-3"
+                        required
+                        value={newStudentCareer}
+                        onChange={(e) => setNewStudentCareer(e.target.value)}
+                      >
+                        <option value="" disabled hidden>
+                          Carrera
+                        </option>
+                        <option value="ISW">Ingenieria en Sistemas Computacionales</option>
+                        <option value="IIA">Ingenieria en Inteligencia Artificial</option>
+                        <option value="LCD">Licenciatura en Ciencia de Datos</option>
+                      </select>
+
+                      {newStudentCareer === "ISW" && (
+                        <select
+                          name="plan_de_estudios"
+                          className="form-select mt-3 mb-3"
+                          value={newStudentCurriculum}
+                          onChange={(e) => setNewStudentCurriculum(e.target.value)}
+                        >
+                          <option value="" disabled hidden>
+                            Plan de estudios
+                          </option>
+                          <option value="2009">2009</option>
+                          <option value="2020">2020</option>
+                        </select>
+                      )}
+                      <button className="btn btn-outline-danger" onClick={onPopupClose}>
+                        Cerrar
+                      </button>
+                      <button type="submit" className="btn btn-primary">
+                        Crear Alumno
+                      </button>
+                    </form>
+                  </div>
+                  <div
+                    className="tab-pane fade"
+                    id="profile-tab-pane"
+                    role="tabpanel"
+                    aria-labelledby="profile-tab"
+                    tabIndex="0"
+                  >
+                    <form className="form-group" onSubmit={(e) => handleNewStaff(e)}>
+                      <input
+                        type="email"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Correo Institucional"
+                        onChange={(e) => setNewStaffEmail(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Nombre(s)"
+                        onChange={(e) => setNewStaffName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Primer Apellido"
+                        onChange={(e) => setNewStaffLastName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Segundo Apellido"
+                        onChange={(e) => setNewStaffSecondLastName(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Precedencia"
+                        onChange={(e) => setNewStaffPrecedencia(e.target.value)}
+                        required
+                      />
+
+                      {newStaffPrecedencia === "ESCOM" && (
+                        <select
+                          className="form-select mt-3 mb-3"
+                          value={newStaffAcademia}
+                          onChange={(e) => setNewStaffAcademia(e.target.value)}
+                        >
+                          <option value="" disabled hidden>
+                            Academia
+                          </option>
+                          <option value="0">Computo</option>
+                          <option value="1">IA</option>
+                          <option value="2">Ciencia de Datos</option>
+                        </select>
+                      )}
+
+                      <select
+                        className="form-select mt-3 mb-3"
+                        required
+                        value={newStaffUserType}
+                        onChange={(e) => setNewStaffUserType(e.target.value)}
+                      >
+                        <option value="" disabled hidden>
+                          Tipo de Usuario
+                        </option>
+                        <option value="Prof">Profesor</option>
+                        <option value="PresAcad">Presidente de Academia</option>
+                        <option value="JefeDepAcad">Jefe de Departamento</option>
+                        <option value="AnaCATT">Analista de la CATT</option>
+                        <option value="SecEjec">Secretario Ejecutivo</option>
+                        <option value="SecTec">Secretario Técnico</option>
+                        <option value="Presidente">Presidente</option>
+                      </select>
+                      <button className="btn btn-outline-danger" onClick={onPopupClose}>
+                        Cerrar
+                      </button>
+                      <button type="submit" className="btn btn-primary">
+                        Crear Docente
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </>
+            )}
+          </Popup>
         </div>
       </div>
       <div className="container-users">
