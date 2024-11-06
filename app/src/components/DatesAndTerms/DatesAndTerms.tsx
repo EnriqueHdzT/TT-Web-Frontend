@@ -104,7 +104,7 @@ const timesArray = [
   "23:30",
 ];
 
-export default function DatesAndTerms() {
+export default function DatesAndTerms({ userType = "" }) {
   const navigate = useNavigate();
   const popupRef = useRef(null);
   const [currentTerm, setCurrentTerm] = useState("");
@@ -160,10 +160,12 @@ export default function DatesAndTerms() {
   const [isDataChanged, setIsDataChanged] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    const validUserTypes = ["AnaCATT", "SecEjec", "SecTec", "Presidente"];
+
+    if (!localStorage.getItem("token") || !validUserTypes.includes(userType)) {
       navigate("/");
     }
-  }, [navigate]);
+  }, []);
 
   const updateCurrentTerm = (newTerm: string) => {
     setCurrentTerm(newTerm);
@@ -491,7 +493,7 @@ export default function DatesAndTerms() {
     const newCurrentTermData = { ...currentTermData };
     newCurrentTermData.status = event.target.checked;
     setCurrentTermData(newCurrentTermData);
-  }
+  };
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const [year, month, day] = event.target.value.split("-");
@@ -643,7 +645,7 @@ export default function DatesAndTerms() {
       }
 
       const newListOfTerms = listOfTerms.filter((term) => term.cycle !== currentTerm);
-      
+
       if (newListOfTerms.length === 0) {
         setListOfTerms([]);
         setIsListOfTermsEmpty(true);
@@ -659,7 +661,7 @@ export default function DatesAndTerms() {
 
   const handleReset = () => {
     setCurrentTermData(prevTermData);
-  }
+  };
 
   return (
     <div className="dates_and_terms">

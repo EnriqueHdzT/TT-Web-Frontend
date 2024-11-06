@@ -31,10 +31,14 @@ export default function App() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setAuth(true);
+    } else {
+      setAuth(false);
     }
 
     if (localStorage.getItem("userType")) {
       setUserType(localStorage.getItem("userType") as string);
+    } else {
+      setUserType("");
     }
   }, []);
 
@@ -70,7 +74,7 @@ export default function App() {
   return (
     <div className="page-container">
       <Router>
-        <Navbar isAuth={isAuth} />
+        <Navbar isAuth={isAuth} userType={userType} />
         <div className="app-body">
           <Routes>
             <Route path="/" element={<Homepage />} />
@@ -81,7 +85,7 @@ export default function App() {
             <Route path="/usuarios" element={<VerUsuarios />} />
             <Route path="/usuarios/:id" element={<VerInfo />} />
             <Route path="/subir_protocolo" element={<SubirProtocolo />} />
-            <Route path="/fechas" element={<DatesAndTerms />} />
+            <Route path="/fechas" element={<DatesAndTerms userType={userType} />} />
             <Route path="/protocolos" element={<VerProtocolos />} />
             <Route path="/cambiar_contraseña" element={<Password />} />
             <Route path="/cambiar_contraseña/:token" element={<Password />} />

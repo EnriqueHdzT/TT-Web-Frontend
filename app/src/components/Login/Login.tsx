@@ -96,6 +96,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
 
         const data = await response.json();
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userType", data.userType === null ? "" : data.userType);
         setAuth(true);
         setUserType(data.userType === null ? "" : data.userType);
         navigate("/");
