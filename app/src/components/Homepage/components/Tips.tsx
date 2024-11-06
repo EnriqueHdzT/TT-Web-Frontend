@@ -7,9 +7,9 @@ import {
 
 const Tips = () => {
   const [buttons, setButtons] = useState([
-    "¿Cómo escoger a tu director?",
-    "¿Cómo registrarme a ESCATT?",
-    "¿Cómo registrar un protocolo?",
+    "Ruta de Protocolo",
+    "Recomendaciones",
+    "Tutorial ESCATT",
     "Ruta de protocolo",
     "Tip 5",
     "Tip 6",

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
-import Homepage from "./components/Homepage/Homepage";
 import Login from "./components/Login/Login";
 import StudentRegister from "./components/StudentRegister/StudentRegister";
 import VerifiCorreo from "./components/VerifiCorreo/VerifiCorreo";
@@ -22,6 +21,7 @@ import ValidarProtocolo from "./components/ValidarProtocolo/ValidarProtocolo";
 import MonitoreoProtocolo from "./components/MonitoreoProtocolo/MonitoreoProtocolo";
 import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
 import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
+import VerMas from "./components/VerMas/VerMas";
 
 
 import "./App.scss";
@@ -74,8 +74,7 @@ export default function App() {
         <Navbar isAuth={isAuth} />
         <div className="app-body">
           <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/paginaprincipal" element={<PaginaPrincipal />} />
+            <Route path="/" element={<PaginaPrincipal />} />
             <Route path="/login" element={<Login setAuth={setAuth} />} />
             <Route path="/register" element={<StudentRegister />} />
             <Route path="/verify" element={<VerifiCorreo />} />
@@ -85,8 +84,8 @@ export default function App() {
             {isAuth ? (
               <>
                 <Route path="/users" element={<VerUsuarios />} />
-                <Route path="/users/:id" element={<UserInfo />} />
-                <Route path="/protocols" element={<SubirProtocolo />} />
+                <Route path="/users/:id" element={<UserInfo />} />                
+                <Route path="/protocols" element={<SubirProtocolo />} />                
                 <Route path="/dates" element={<DatesAndTerms />} />
                 <Route path="/password" element={<Password />} />
                 <Route path="/verinfo" element={<VerInfo />} />{" "}
@@ -98,6 +97,8 @@ export default function App() {
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar}/> } />
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo /> } />
             <Route path="/seeprotocols" element={<VerProtocolos />} />
+            <Route path="/vermas" element={<VerMas />} />
+            
 
 
             <Route path="*" element={<Navigate to="/" />} />

@@ -30,7 +30,7 @@ return(
             {showPopup && (
         <div className="popup-background" onClick={togglePopup}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
-            <div className="popup-content">
+            <div className="popup_content">
             <h1>Agregar Palabras Clave</h1>
             <div className="item3">
               <div className="tit-2">Palabra Clave <input type="text" placeholder="Ingresa palabras clave" value={palabra} onChange={(e) => setPalabra(e.target.value)} />

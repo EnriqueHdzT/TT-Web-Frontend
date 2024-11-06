@@ -1,5 +1,3 @@
-// Avisos.tsx
-
 import "./Avisos.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,42 +9,42 @@ import {
 import { useState, useEffect } from "react";
 
 const Avisos = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const slides = [
+  const [slides, setSlides] = useState([
     {
       id: 1,
-      image: "https://via.placeholder.com/400x400?text=Image+1",
+      image: "https://i.imgur.com/GPTo4e3.png?text=Image+1",
       titua: "Titulo del aviso",
       info: "Ultimas noticias que sube la CATT a última hora, por ejemplo algunos percances con el tiempo, nuevas fechas, cambios en el sistema, formularios para subir el protocolo, avisos sobre búsqueda de profesores que les interesa un equipo de trabajo, etc.",
       tiempo: "8 minutes ago",
     },
     {
       id: 2,
-      image: "https://via.placeholder.com/400x400?text=Image+2",
+      image: "https://i.imgur.com/1TI56nh.png?text=Image+2",
       titua: "Titulo del aviso",
       info: "Información sobre el segundo aviso",
       tiempo: "8 minutes ago",
     },
     {
       id: 3,
-      image: "https://via.placeholder.com/400x400?text=Image+3",
+      image: "https://i.imgur.com/wXApbD0.png?text=Image+3",
       titua: "Titulo del aviso",
       info: "Información sobre el tercer aviso",
       tiempo: "8 minutes ago",
     },
-  ];
+  ]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
   };
-
 
   const prevSlide = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + slides.length) % slides.length
     );
   };
+
   // useEffect para hacer el carrusel automático
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,13 +54,25 @@ const Avisos = () => {
     return () => clearInterval(interval); // Limpia el intervalo cuando el componente se desmonta
   }, []);
 
+  const agregarAviso = () => {
+    const newId = slides.length > 0 ? Math.max(...slides.map((slide) => slide.id)) + 1 : 1;
+    const nuevoAviso = {
+      id: newId,
+      image: "https://i.imgur.com/placeholder.png", // Imagen de ejemplo
+      titua: `Titulo del aviso ${newId}`,
+      info: `Información del aviso ${newId}`,
+      tiempo: "Justo ahora",
+    };
+    setSlides([...slides, nuevoAviso]);
+  };
+
   return (
     <div className="avisos-ppg">
       <div className="aviso-top">
         <div className="aviso-title">Avisos Recientes</div>
         <div className="add-button-container">
-          <button className="add-button">
-          <FontAwesomeIcon icon={faCirclePlus} />
+          <button className="add-button" onClick={agregarAviso}>
+            <FontAwesomeIcon icon={faCirclePlus} />
           </button>
         </div>
       </div>
@@ -83,7 +93,9 @@ const Avisos = () => {
             </div>
             <div className="fila-inferior">
               <div className="div-tiempo">{slides[currentIndex].tiempo}</div>
-              <div className="div-vermas"><a href="/"><button>Ver mas</button></a></div>
+              <div className="div-vermas">
+                <a href="/"><button>Ver más</button></a>
+              </div>
             </div>
           </div>
           <div className="imagec">

@@ -23,14 +23,14 @@ const Avisos = () => {
     },
     {
       id: 2,
-      image: "https://via.placeholder.com/400x400?text=Image+2",
+      image: "https://i.imgur.com/lwBkfXj.png?text=Image+2",
       titua: "Titulo del aviso",
       info: "Información sobre el segundo aviso",
       tiempo: "8 minutes ago",
     },
     {
       id: 3,
-      image: "https://via.placeholder.com/400x400?text=Image+3",
+      image: "https://i.imgur.com/1TI56nh.png?text=Image+3",
       titua: "Titulo del aviso",
       info: "Información sobre el tercer aviso",
       tiempo: "8 minutes ago",

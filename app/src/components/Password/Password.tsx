@@ -62,7 +62,7 @@ export default function Password() {
           Contraseña
         </div>
       </div>
-      <div className="body-pass">
+      <div className="body-pass-s">
         <p>
           Elige una contraseña segura y no la utilices en otras cuentas.
           <br></br>
