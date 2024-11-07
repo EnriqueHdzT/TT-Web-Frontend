@@ -68,7 +68,7 @@ export default function App() {
             <Route path="/register" element={<StudentRegister />} />
             <Route path="/verify" element={<VerifiCorreo />} />
             <Route path="/validate" element={<ValidateCorreo />} />
-            <Route path="/recuperar/:id" element={<RecuperarContrasena />} />
+            <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
             // Protected routes
             {isAuth ? (
               <>
