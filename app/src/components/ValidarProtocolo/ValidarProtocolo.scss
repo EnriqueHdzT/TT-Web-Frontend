@@ -15,7 +15,6 @@ $black-fontd: #2c2c2c;
 $blue: #1c90f3;
 $gray-pass: #a2a2a2;
 
-
 .headdocumento {
   width: 100%;
   max-width: 100%;
@@ -43,11 +42,12 @@ $gray-pass: #a2a2a2;
 
 // DocumentoSplitView.scss
 
-.split_container {
+.split-container {
   display: flex; /* Alineamos los elementos hijos en un flex container */
   flex-direction: row; /* Aseguramos que los hijos estén en una fila (default, pero por si acaso) */
   width: 100%;
-  height: 80vh; /* Toda la altura de la pantalla */
+  height: 70vh; /* Toda la altura de la pantalla */
+  margin-top: 1rem;
 }
 
 @media (min-height: 800px) {
@@ -56,7 +56,7 @@ $gray-pass: #a2a2a2;
   }
 }
 
-.left_panel {
+.left-panel {
   width: 40%; /* Panel izquierdo ocupa el 50% */
   transition: width 0.3s ease;
   padding: 15px 0 20px 20px;
@@ -93,84 +93,79 @@ $gray-pass: #a2a2a2;
   color: $blue;
 }
 
-.info_containerd {
+.info-container {
   font: 400 1rem "Poppins";
-  margin-top: 2%;
   margin-left: 5%;
   display: flex;
   flex-direction: column;
   width: auto;
-  height: 75vh;
+  height: 65vh;
   overflow: auto;
-  scrollbar-width: thin; 
-  scrollbar-color: #D7D7D7 $body-color;
+  scrollbar-width: thin;
+  scrollbar-color: #d7d7d7 $body-color;
 
   &::-webkit-scrollbar {
     width: 5px;
-    border-radius: 10px; 
+    border-radius: 10px;
   }
-
 
   h1 {
     font: 600 1rem "Poppins";
     line-height: 20px;
   }
 
-  .identificadord {
+  .identificador,
+  .fecha-evaluacion {
     font: 500 0.8rem "Poppins";
     margin: 0;
   }
-  .palabra-claved{
+
+  .palabras-clave {
     font: 500 0.8rem "Poppins";
-    margin: 0;
+    margin-top: 10px;
+
+    .palabra-clave-contenedor {
+      display: flex;
+      flex-wrap: wrap; // Permite que los elementos se ajusten en varias filas
+      width: 95%;
+      gap: 10px; // Espaciado entre cada palabra clave
+      margin-top: 10px;
+      font: 500 0.7rem "Poppins";
+
+      .palabra-clave-item {
+        flex: 1 1 45%; // Asegura que los elementos ocupen aproximadamente el 45% del ancho del contenedor
+        margin: auto;
+        background-color: $blue;
+        border-radius: 20px;
+        color: $cont-gray;
+        padding: 5px 10px;
+        text-align: center;
+      }
+    }
   }
-  
-  form{
+
+  .academias {
+    width: 95%;
+
+    label {
+      text-transform: uppercase;
+      font: 500 0.8rem "Poppins";
+    }
+  }
+
+  form {
     font: 600 0.9rem "Poppins";
     padding-top: 15px;
 
-    label{
-      margin-top: 10px;
-    }
-    select{
-      width: 95%;
-      height: auto;
-      outline: none;
-      border: none;
-      background-color: $dropdown-list-color;
-      font: 400 0.9rem "Poppins";
-      color: $black-fontd;
-
-    }
-
-    input{
-      width: 95%;
-      height: auto;
-      outline: none;
-      border: none;
-      background-color: $dropdown-list-color;
-      font: 400 0.9rem "Poppins";
-    }
-
-    textarea{
-      width: 95%;
-      height: auto;
-      outline: none;
-      border: none;
-      background-color: $dropdown-list-color;
-    }
-    
-    button{
+    button {
       background-color: $blue;
       color: $body-color;
       padding: 5px 20px;
       border-radius: 20px;
       float: right;
-      margin: 1rem 5% 0 0;
-
+      margin: 1rem 0 0 0;
     }
   }
-
 }
 
 @media (min-height: 800px) {
@@ -179,6 +174,20 @@ $gray-pass: #a2a2a2;
   }
 }
 
-button{
+button {
   background-color: #fff;
+}
+
+.button-vr {
+  font: 600 0.8rem "Poppins";
+  margin-top: 10px;
+  button {
+    background-color: $body-color;
+    border: 2px solid $blue;
+    color: $blue;
+    padding: 5px 20px;
+    border-radius: 20px;
+    float: right;
+    margin: 1rem 5% 0 0;
+  }
 }

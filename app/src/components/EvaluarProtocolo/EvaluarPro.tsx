@@ -106,15 +106,15 @@ const EvaluarPro: React.FC<EvaluarProtocoloProps> = ({
           Evaluar
         </div>
       </div>
-      <div className="split-container">
+      <div className="split_container">
         {/* Sección izquierda */}
-        <div className={`left-panel ${isMinimized ? "minimized" : ""}`}>
-          <div className="info-container">
+        <div className={`left_panel ${isMinimized ? "minimized" : ""}`}>
+          <div className="info_containerd">
             <h1 className="titulo">Título de TT: {titulo}</h1>
-            <p className="identificador">
+            <p className="identificadord">
               Núm. de Registro de TT: {identificador}
             </p>
-            <p className="palabra-clave">
+            <p className="palabra-claved">
               Fecha de Evaluación: {fechaEvaluacion}
             </p>
 

@@ -101,85 +101,72 @@ $gray-pass: #a2a2a2;
   width: auto;
   height: 65vh;
   overflow: auto;
-  scrollbar-width: thin; 
-  scrollbar-color: #D7D7D7 $body-color;
+  scrollbar-width: thin;
+  scrollbar-color: #d7d7d7 $body-color;
 
   &::-webkit-scrollbar {
     width: 5px;
-    border-radius: 10px; 
+    border-radius: 10px;
   }
-
 
   h1 {
     font: 600 1rem "Poppins";
     line-height: 20px;
   }
 
-  .identificador, .fecha-evaluacion {
+  .identificador,
+  .fecha-evaluacion {
     font: 500 0.8rem "Poppins";
     margin: 0;
   }
 
-  .palabras-clave{
+  .palabras-clave {
     font: 500 0.8rem "Poppins";
     margin-top: 10px;
 
-    ul{ display: flex;
-        color: $body-color;
+    .palabra-clave-contenedor {
+      display: flex;
+      flex-wrap: wrap; // Permite que los elementos se ajusten en varias filas
+      width: 95%;
+      gap: 10px; // Espaciado entre cada palabra clave
+      margin-top: 10px;
+      font: 500 0.7rem "Poppins";
 
-        li{
-            background-color: $blue;
-            
-        }
+      .palabra-clave-item {
+        flex: 1 1 45%; // Asegura que los elementos ocupen aproximadamente el 45% del ancho del contenedor
+        margin: auto;
+        background-color: $blue;
+        border-radius: 20px;
+        color: $cont-gray;
+        padding: 5px 10px;
+        text-align: center;
+      }
     }
   }
-  
-  form{
+
+  .academias {
+    width: 95%;
+
+    label {
+      text-transform: uppercase;
+      font: 500 0.8rem "Poppins";
+    }
+  }
+
+  form {
     font: 600 0.9rem "Poppins";
     padding-top: 15px;
 
-    label{
-      margin-top: 10px;
-    }
-    select{
-      width: 95%;
-      height: auto;
-      outline: none;
-      border: none;
-      background-color: $dropdown-list-color;
-      font: 400 0.9rem "Poppins";
-      color: $black-fontd;
 
-    }
-
-    input{
-      width: 95%;
-      height: auto;
-      outline: none;
-      border: none;
-      background-color: $dropdown-list-color;
-      font: 400 0.9rem "Poppins";
-    }
-
-    textarea{
-      width: 95%;
-      height: auto;
-      outline: none;
-      border: none;
-      background-color: $dropdown-list-color;
-    }
-    
-    button{
+    button {
       background-color: $blue;
       color: $body-color;
       padding: 5px 20px;
       border-radius: 20px;
       float: right;
-      margin: 1rem 5% 0 0;
-
+      margin: 1rem 0 0 0;
     }
   }
-
 }
 
 @media (min-height: 800px) {
@@ -188,7 +175,6 @@ $gray-pass: #a2a2a2;
   }
 }
 
-button{
+button {
   background-color: #fff;
 }
-

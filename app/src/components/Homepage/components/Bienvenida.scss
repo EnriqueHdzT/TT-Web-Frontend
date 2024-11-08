@@ -1,0 +1,55 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+
+.bienvenida {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  .mensaje {
+    display: flex;
+    align-items: center; // Centra verticalmente el texto dentro de mensaje
+    justify-content: right;
+    width: 50%;
+    height: 100%;
+    color: $black-fontd;
+    font: 700 2.5rem "Poppins";
+    text-align: center;
+  }
+
+  .imag {
+    display: flex;
+    align-items: center; // Centra verticalmente el contenido de imag
+    justify-content: center;
+    width: 50%; // Ajusta el tamaño de la imagen
+    height: 100%; // Ajusta el tamaño de la imagen
+    max-width: 32%;
+    background-image: url("https://i.imgur.com/GPTo4e3.png");
+    background-size: 150%; // La imagen se ajusta dentro del contenedor sin recortarse
+    background-repeat: no-repeat; // Evita que la imagen se repita
+    background-position: center 55%;
+  }
+
+  @media (max-width: 1200px) {
+    .imag {
+      width: 50%; // Ajusta el tamaño de la imagen
+    height: 100%; // Ajusta el tamaño de la imagen
+    max-width: 50%;
+    }
+  }
+  
+}
