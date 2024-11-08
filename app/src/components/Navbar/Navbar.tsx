@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileLines,
@@ -18,16 +18,70 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.scss";
 
-export default function Navbar({ isAuth = false, isSearchEnable = false }) {
+type UsersMap = {
+  Estudiante: string;
+  Prof: string;
+  PresAcad: string;
+  JefeDepAcad: string;
+  AnaCATT: string;
+  SecEjec: string;
+  SecTec: string;
+  Presidente: string;
+  [key: string]: string; // This is the index signature
+};
+
+const usersMap: UsersMap = {
+  Estudiante: "Estudiante",
+  Prof: "Profesor",
+  PresAcad: "Presidente de Academia",
+  JefeDepAcad: "Jefe de Departamento",
+  AnaCATT: "Analista de la CATT",
+  SecEjec: "Secretario Ejecutivo",
+  SecTec: "Secretario Técnico",
+  Presidente: "Presidente",
+};
+
+export default function Navbar({ isAuth = false, userType = "", isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isUpdateActive, setIsUpdateActive] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAvailability = async () => {
+      try {
+        const data = await fetch("http://127.0.0.1:8000/api/checkUpload", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!data.ok) {
+          throw new Error("Error al verificar la disponibilidad");
+        }
+
+        setIsUpdateActive(true);
+      } catch (e) {
+        console.error("Error al verificar la disponibilidad");
+        setIsUpdateActive(false);
+      }
+    };
+
+    if (userType === "") {
+      checkAvailability();
+    } else if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType)) {
+      setIsUpdateActive(true);
+    }
+  }, []);
 
   const handleScroll = () => {
-    const currentScrollPos = window.pageYOffset;
+    const currentScrollPos = window.scrollY;
     setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
     setPrevScrollPos(currentScrollPos);
   }; // para el scroll que no sirve aun xd
@@ -37,25 +91,24 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   };
 
   const renderAuthButtons = () => {
-    let location = useLocation();
     if (location.pathname === "/") {
       return (
         <>
           <a className="btn btn-primary" href="/login">
             Iniciar Sesión
           </a>
-          <a className="btn btn-outline-secondary" href="/register">
+          <a className="btn btn-outline-secondary" href="/registro">
             Registro del Alumno
           </a>
         </>
       );
     } else if (location.pathname === "/login") {
       return (
-        <a className="btn btn-outline-secondary" href="/register">
+        <a className="btn btn-outline-secondary" href="/registro">
           Registro del Alumno
         </a>
       );
-    } else if (location.pathname === "/register") {
+    } else if (location.pathname === "/registro") {
       return (
         <a className="btn btn-primary" href="/login">
           Iniciar Sesión
@@ -84,6 +137,9 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
           localStorage.removeItem("token");
           window.location.href = "/";
         } catch (error) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/");
           console.error("Error de red:", error);
         }
       }
@@ -112,35 +168,39 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
                 </span>
                 <ul className="dropdown-content">
                   <li>
-                    <a href="#">
+                    <a href="protocolos">
                       <FontAwesomeIcon icon={faFileLines} className="style-icon" />
-                      Protocolos
+                      Ver Protocolos
                     </a>
                   </li>
-                  <li>
-                    <a href="#">
+                  {isUpdateActive && (<li>
+                    <a href="subir_protocolo">
                       <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
-                      Avisos
+                      Subir Protocolo
                     </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <FontAwesomeIcon icon={faUser} className="style-icon" />
-                      Usuarios
-                    </a>
-                  </li>
+                  </li>)}
+                  {/* ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType) */true && (
+                    <li>
+                      <a href="usuarios">
+                        <FontAwesomeIcon icon={faUser} className="style-icon" />
+                        Ver Usuarios
+                      </a>
+                    </li>
+                  )}
                   <li>
                     <a href="#">
                       <FontAwesomeIcon icon={faComments} className="style-icon" />
                       Buzón
                     </a>
                   </li>
-                  <li>
-                    <a href="#">
-                      <FontAwesomeIcon icon={faClock} className="style-icon" />
-                      Fechas
-                    </a>
-                  </li>
+                  { ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType) && (
+                    <li>
+                      <a href="fechas">
+                        <FontAwesomeIcon icon={faClock} className="style-icon" />
+                        Fechas
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </div>
             ) : (
@@ -168,7 +228,7 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
           <div className="elements-right">
             {isAuth ? (
               <>
-                <div className="username-page">Analista de la CATT</div>
+                <div className="username-page">Bienvenido, {usersMap[userType === "" ? "Estudiante" : userType]}</div>
                 <div className="notifications">
                   <button>
                     <FontAwesomeIcon icon={faBell} />

@@ -1,7 +1,6 @@
 import "./SubirProtocolo.scss";
 import AgregarAlumnos from "./components/AgregarAlumnos/AgregarAlumnos";
 import AgregarDirector from "./components/AgregarDirector/AgregarDirector";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faPen } from "@fortawesome/free-solid-svg-icons";
 import AgregarPalabras from "./components/AgregarPalabras/AgregarPalabras";

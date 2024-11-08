@@ -84,8 +84,7 @@
     flex-wrap: wrap;
     justify-content: space-evenly; // Distribuye los elementos uniformemente en el contenedor
     margin: 0 30px;
-    position: absolute;
-    z-index: -10000;
+    position: relative;
   
     .item {
       width: calc(425px - 30px); // Tamaño inicial de los elementos (25% para que haya 4 elementos por fila)
