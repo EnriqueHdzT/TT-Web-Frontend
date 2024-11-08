@@ -27,11 +27,11 @@ import "./App.scss";
 export default function App() {
   const [isAuth, setAuth] = useState(false);
   const [userType, setUserType] = useState("");
-  
-  const pdfUrl = '/Protocolo.pdf';
-  const pdfEvaluar = '/Protocolo_2.pdf';
-  const pdfClasificar = '/Protocolo_2.pdf';
-  const pdfValidar = '/Protocolo.pdf';
+
+  const pdfUrl = "/Protocolo.pdf";
+  const pdfEvaluar = "/Protocolo_2.pdf";
+  const pdfClasificar = "/Protocolo_2.pdf";
+  const pdfValidar = "/Protocolo.pdf";
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -45,35 +45,6 @@ export default function App() {
     } else {
       setUserType("");
     }
-  }, []);
-
-  useEffect(() => {
-    const checkSession = async () => {
-      if (localStorage.getItem("token")) {
-        try {
-          const response = await fetch("http://127.0.0.1:8000/api/keepalive", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error("Error al chequear la sesión");
-          }
-
-          setAuth(true);
-        } catch {
-          localStorage.removeItem("token");
-          setAuth(false);
-        }
-      }
-    };
-
-    const intervalID = setInterval(checkSession, 1000 * 30);
-
-    return () => clearInterval(intervalID);
   }, []);
 
   return (
@@ -90,16 +61,16 @@ export default function App() {
             <Route path="/usuarios" element={<VerUsuarios />} />
             <Route path="/usuarios/:id" element={<VerInfo />} />
             <Route path="/subir_protocolo" element={<SubirProtocolo />} />
-            <Route path="/fechas" element={<DatesAndTerms userType={userType} />} />
+            <Route path="/fechas" element={<DatesAndTerms />} />
             <Route path="/protocolos" element={<VerProtocolos />} />
             <Route path="/cambiar_contraseña" element={<Password />} />
             <Route path="/cambiar_contraseña/:token" element={<Password />} />
             <Route path="/documento/:id" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
             <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
-            <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar}/> } />
+            <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar} />} />
             <Route path="/recuperarpassword" element={<RecuperarPassword />} />
-            <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo /> } />
+            <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo />} />
             <Route path="/vermas" element={<VerMas />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
