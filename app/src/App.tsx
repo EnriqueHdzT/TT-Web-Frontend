@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
-import Homepage from "./components/Homepage/Homepage";
 import Login from "./components/Login/Login";
 import StudentRegister from "./components/StudentRegister/StudentRegister";
 import VerifiCorreo from "./components/VerifiCorreo/VerifiCorreo";
@@ -15,11 +14,24 @@ import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
 import VerProtocolos from "./components/VerProtocolos/VerProtocolos";
 import Password from "./components/Password/Password";
 import VerInfo from "./components/VerInfo/VerInfo";
+import AbrirDocumento from "./components/AbrirDocumento/Documento";
+import EvaluarProtocolo from "./components/EvaluarProtocolo/EvaluarPro";
+import ClasificarProtocolo from "./components/ClasificarProtocolo/ClasificarProtocolo";
+import ValidarProtocolo from "./components/ValidarProtocolo/ValidarProtocolo";
+import MonitoreoProtocolo from "./components/MonitoreoProtocolo/MonitoreoProtocolo";
+import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
+import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
+import VerMas from "./components/VerMas/VerMas";
+
 
 import "./App.scss";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
+  const pdfUrl = '/Protocolo.pdf';
+  const pdfEvaluar = '/Protocolo_2.pdf';
+  const pdfClasificar = '/Protocolo_2.pdf';
+  const pdfValidar = '/Protocolo.pdf';
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -62,23 +74,33 @@ export default function App() {
         <Navbar isAuth={isAuth} />
         <div className="app-body">
           <Routes>
-            <Route path="/" element={<Homepage />} />
+            <Route path="/" element={<PaginaPrincipal />} />
             <Route path="/login" element={<Login setAuth={setAuth} />} />
             <Route path="/register" element={<StudentRegister />} />
             <Route path="/verify" element={<VerifiCorreo />} />
             <Route path="/validate" element={<ValidateCorreo />} />
+            <Route path="/recuperarpassword" element={<RecuperarPassword />} />
             // Protected routes
             {isAuth ? (
               <>
                 <Route path="/users" element={<VerUsuarios />} />
-                <Route path="/users/:id" element={<UserInfo />} />
-                <Route path="/protocols" element={<SubirProtocolo />} />
+                <Route path="/users/:id" element={<UserInfo />} />                
+                <Route path="/protocols" element={<SubirProtocolo />} />                
                 <Route path="/dates" element={<DatesAndTerms />} />
-                <Route path="/seeprotocols" element={<VerProtocolos />} />
                 <Route path="/password" element={<Password />} />
                 <Route path="/verinfo" element={<VerInfo />} />{" "}
               </>
             ) : null}
+            <Route path="/documento" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
+            <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar}/> } />
+            <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar}/> } />
+            <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar}/> } />
+            <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo /> } />
+            <Route path="/seeprotocols" element={<VerProtocolos />} />
+            <Route path="/vermas" element={<VerMas />} />
+            
+
+
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

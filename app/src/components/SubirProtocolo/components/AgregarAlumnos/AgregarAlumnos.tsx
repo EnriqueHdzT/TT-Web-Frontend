@@ -44,7 +44,7 @@ export default function AgregarAlumnos() {
       {showPopup && (
         <div className="popup-background" onClick={togglePopup}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
-            <div className="popup-content">
+            <div className="popup_content">
               <h1>Agregar Alumno</h1>
               <div className="item3">
                 <div className="tit-1">

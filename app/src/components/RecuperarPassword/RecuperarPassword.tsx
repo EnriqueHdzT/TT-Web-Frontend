@@ -1,10 +1,10 @@
-import "./Password.scss";
+import "./RecuperarPassword.scss";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
-export default function Password() {
+export default function RecuperarPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -54,15 +54,12 @@ export default function Password() {
 
   return (
     <div>
-      <div className="head-usr">
-        <div className="tl-u">
-          <a href="/" className="button-icon">
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </a>{" "}
+      <div className="head-usrr">
+        <div className="tl-ur">
           Contraseña
         </div>
       </div>
-      <div className="body-pass-s">
+      <div className="body-recupass">
         <p>
           Elige una contraseña segura y no la utilices en otras cuentas.
           <br></br>

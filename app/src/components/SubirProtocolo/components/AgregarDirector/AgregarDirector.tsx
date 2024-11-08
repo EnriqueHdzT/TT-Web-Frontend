@@ -41,7 +41,7 @@ return(
             {showPopup && (
         <div className="popup-background" onClick={togglePopup}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
-            <div className="popup-content">
+            <div className="popup_content">
             <h1>Agregar Director</h1>
             <div className="item3">
               <div className="tit-1">Correo Institucional<input type="email" placeholder="Ingresa el correo institucional del director" value={email} onChange={(e) => setEmail(e.target.value)} />
