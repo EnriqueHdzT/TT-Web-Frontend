@@ -26,7 +26,7 @@ import "./App.scss";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState<string | null>(null);
 
   const pdfUrl = "/Protocolo.pdf";
   const pdfEvaluar = "/Protocolo_2.pdf";
@@ -40,10 +40,10 @@ export default function App() {
       setAuth(false);
     }
 
-    if (localStorage.getItem("userType")) {
+    if (localStorage.getItem("userType") !== null) {
       setUserType(localStorage.getItem("userType") as string);
     } else {
-      setUserType("");
+      setUserType(null);
     }
   }, []);
 

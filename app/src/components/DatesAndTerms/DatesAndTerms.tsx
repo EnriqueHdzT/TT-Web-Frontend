@@ -228,7 +228,6 @@ export default function DatesAndTerms() {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-
             Accept: "application/json",
           },
         });

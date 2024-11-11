@@ -6,7 +6,7 @@ import ArchivoProtocolo from "./components/ArchivoProtocolo/ArchivoProtocolo";
 import AgregarSinodal from "./components/AgregarSinodal/AgregarSinodal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faPen, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -44,7 +44,9 @@ export default function SubirProtocolo() {
   const [sinodals, setSinodals] = useState<Array<SinodalData>>([]);
   const [keywords, setKeywords] = useState<Array<string>>([]);
   const [pdf, setPdf] = useState<File | null>(null);
-  const [userType, setUserType] = useState("");
+  const [protocolTerm, setProtocolTerm] = useState("");
+  const [listOfTerms, setListOfTerms] = useState([]);
+  const [userType, setUserType] = useState<string | null>(null);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -61,8 +63,8 @@ export default function SubirProtocolo() {
         const data = await fetch("http://127.0.0.1:8000/api/checkUpload", {
           method: "GET",
           headers: {
-            Accept: "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
           },
         });
         if (!data.ok) {
@@ -70,19 +72,44 @@ export default function SubirProtocolo() {
         }
       } catch (e) {
         console.error("Error al verificar la disponibilidad");
-        
+        navigate(-1);
       }
     };
-    if (userType === "") {
-      checkIfUploadEnabled();
+
+    async function fetchListOfTerms() {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/dates", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to get the list of terms");
+        }
+
+        const termsList = await response.json();
+        setListOfTerms(termsList);
+        console.log(termsList);
+      } catch (error) {
+        console.error("Error fetching terms");
+      }
+      if (userType === "") {
+        checkIfUploadEnabled();
+      }
     }
+
+    fetchListOfTerms();
   }, []);
 
   return (
     <div>
       <div className="head-pr">
         <div className="tl-u">
-          <FontAwesomeIcon icon={faAngleLeft} className="icon" /> Subir protocolos
+          <FontAwesomeIcon icon={faAngleLeft} className="icon" /> Subir
+          protocolos
         </div>
       </div>
 
@@ -116,14 +143,59 @@ export default function SubirProtocolo() {
           </div>
         </div>
         <div>
-          <AgregarAlumnos student={students} setStudents={setStudents} />
+          <AgregarAlumnos
+            userType={userType}
+            students={students}
+            setStudents={setStudents}
+          />
         </div>
         <div>
           <AgregarDirector director={directors} setDirectors={setDirectors} />
         </div>
-        {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType) && (
+        {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(
+          userType ?? ""
+        ) && (
           <div>
             <AgregarSinodal sinodal={sinodals} setDirectors={setSinodals} />
+          </div>
+        )}
+        {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(
+          userType ?? ""
+        ) && (
+          <div className="item">
+            <div className="tit-pr">Periodo del Protocol</div>
+            <div className="cont-pr">
+              {listOfTerms.length > 0 ? (
+                <div>
+                  <select
+                    className="form-select"
+                    value={protocolTerm}
+                    onChange={(e) => setProtocolTerm(e.target.value)}
+                  >
+                    <option value="" disabled hidden>
+                      Seleccionar Periodo
+                    </option>
+                    {listOfTerms.map((term, index) => (
+                      <option key={index} value={term.cycle}>
+                        {term.cycle}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="adv-pr">
+                    <FontAwesomeIcon
+                      icon={faCircleExclamation}
+                      className="adv-icon"
+                    />{" "}
+                    Si el periodo que buscas no se muestra, verifica que este exista
+                  </div>
+                </div>
+              ) : (
+                <div className="button-upload">
+                  No existen periodos disponibles, crea uno antes de registrar
+                  un protocolo
+                </div>
+              )}
+            </div>
           </div>
         )}
         <div>
@@ -135,7 +207,8 @@ export default function SubirProtocolo() {
       </div>
       <div className="protocol-button">
         {" "}
-        <button className="RD">Reiniciar Datos</button> <button className="SP">Subir Protocolo</button>
+        <button className="RD">Reiniciar Datos</button>{" "}
+        <button className="SP">Subir Protocolo</button>
       </div>
     </div>
   );

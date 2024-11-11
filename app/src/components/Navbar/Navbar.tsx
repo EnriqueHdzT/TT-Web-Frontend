@@ -41,7 +41,11 @@ const usersMap: UsersMap = {
   Presidente: "Presidente",
 };
 
-export default function Navbar({ isAuth = false, userType = "", isSearchEnable = false }) {
+export default function Navbar({
+  isAuth = false,
+  userType = null,
+  isSearchEnable = false,
+}) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -138,7 +142,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
         } catch (error) {
           localStorage.removeItem("token");
           localStorage.removeItem("userType");
-          navigate("/");
+          navigate(0);
           console.error("Error de red:", error);
         }
       }

@@ -1,8 +1,31 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleExclamation,
+  faCirclePlus,
+} from "@fortawesome/free-solid-svg-icons";
 
-export default function AgregarAlumnos() {
+interface StudentData {
+  email: string;
+  name: string;
+  lastname: string;
+  second_lastname: string;
+  student_id: string;
+  career: string;
+  curriculum: string;
+}
+
+interface Props {
+  userType: string | null;
+  students: StudentData[];
+  setStudents: React.Dispatch<React.SetStateAction<StudentData[]>>;
+}
+
+export default function AgregarAlumnos({
+  userType,
+  students,
+  setStudents,
+}: Props) {
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
