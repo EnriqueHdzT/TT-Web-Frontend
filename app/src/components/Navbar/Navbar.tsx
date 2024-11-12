@@ -41,11 +41,7 @@ const usersMap: UsersMap = {
   Presidente: "Presidente",
 };
 
-export default function Navbar({
-  isAuth = false,
-  userType = null,
-  isSearchEnable = false,
-}) {
+export default function Navbar({ isAuth = false, userType = null, isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -77,7 +73,7 @@ export default function Navbar({
     };
     if (userType === "") {
       checkAvailability();
-    } else if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType)) {
+    } else if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "")) {
       setIsUpdateActive(true);
     }
   }, [userType]);
@@ -159,6 +155,28 @@ export default function Navbar({
     };
   }, [prevScrollPos, visible]);
 
+  const handleProfile = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/userId", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Error al obtener el usuario");
+      }
+      const data = await response.json();
+      if (data.id) {
+        navigate(`/usuarios/${data.id}`);
+        navigate(0);
+      }
+    } catch (error) {
+      console.error("Error en el servidor");
+    }
+  };
+
   return (
     <header className="header">
       <nav className={`navbar navbar-expand-lg ${visible ? "" : "hidden"} ${isMobile ? "mobile" : ""}`}>
@@ -184,7 +202,7 @@ export default function Navbar({
                       </a>
                     </li>
                   )}
-                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType) && (
+                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
                       <a href="usuarios">
                         <FontAwesomeIcon icon={faUser} className="style-icon" />
@@ -192,13 +210,15 @@ export default function Navbar({
                       </a>
                     </li>
                   )}
-                  <li>
-                    <a href="#">
-                      <FontAwesomeIcon icon={faComments} className="style-icon" />
-                      Buzón
-                    </a>
-                  </li>
-                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType) && (
+                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
+                    <li>
+                      <a href="#">
+                        <FontAwesomeIcon icon={faComments} className="style-icon" />
+                        Buzón
+                      </a>
+                    </li>
+                  )}
+                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
                       <a href="fechas">
                         <FontAwesomeIcon icon={faClock} className="style-icon" />
@@ -233,7 +253,9 @@ export default function Navbar({
           <div className="elements-right">
             {isAuth ? (
               <>
-                <div className="username-page">Bienvenido, {usersMap[userType === "" ? "Estudiante" : userType]}</div>
+                <div className="username-page">
+                  Bienvenido, {usersMap[userType === "" || userType === null ? "Estudiante" : userType]}
+                </div>
                 <div className="notifications">
                   <button>
                     <FontAwesomeIcon icon={faBell} />
@@ -248,7 +270,7 @@ export default function Navbar({
                   </span>
                   <ul className="dropdown-content-us">
                     <li>
-                      <a href="#">
+                      <a onClick={(event) => handleProfile(event)}>
                         <FontAwesomeIcon icon={faCircleUser} className="style-icon" />
                         Ver perfil
                       </a>
