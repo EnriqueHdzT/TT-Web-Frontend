@@ -6,22 +6,34 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 const VerMas = () => {
   const vermas = {
     id: 1,
-    image: ["https://i.imgur.com/GPTo4e3.png", "https://i.imgur.com/GPTo4e3.png", "https://i.imgur.com/GPTo4e3.png"],
+    image: [
+      "https://i.imgur.com/wlo1EYZ.png",
+      "https://i.imgur.com/lwBkfXj.png",
+      "https://i.imgur.com/5bSp2FS.png"
+    ],
     titua: "Titulo del aviso 1",
     info: "Objetivo. - Diseñar la correspondiente comunicación en red de una serie de estaciones de carga para vehículos eléctricos, para de esta manera disponer de la información en tiempo real para tomar correctas decisiones.",
     tiempo: "8 minutes ago",
   };
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(vermas.titua);
+  const [info, setInfo] = useState(vermas.info);
 
-  // Función para abrir una imagen en grande
   const openImage = (img) => {
     setSelectedImage(img);
   };
 
-  // Función para cerrar la imagen en grande
   const closeImage = () => {
     setSelectedImage(null);
+  };
+
+  const toggleEdit = () => {
+    if (isEditing) {
+      console.log("Guardando cambios:", { title, info });
+    }
+    setIsEditing(!isEditing);
   };
 
   return (
@@ -32,17 +44,50 @@ const VerMas = () => {
             <FontAwesomeIcon icon={faBell} />
           </div>
           <div className="detalle-titulo">
-            <h1>{vermas.titua}</h1>
+            {isEditing ? (
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className={isEditing ? "edit-input" : ""}
+                autoFocus
+              />
+            ) : (
+              <h1>{title}</h1>
+            )}
             <h2>{vermas.tiempo}</h2>
           </div>
         </div>
         <div className="detail-medio">
-          <p className="detalle-info-texto">{vermas.info}</p>
+          {isEditing ? (
+            <textarea
+              value={info}
+              onChange={(e) => setInfo(e.target.value)}
+              className={isEditing ? "edit-textarea" : ""}
+            />
+          ) : (
+            <p className="detalle-info-texto">{info}</p>
+          )}
         </div>
+
+        <button className={isEditing ? "guardar-publicacion" : "editar-publicacion"} onClick={toggleEdit}>
+          {isEditing ? "Guardar publicación" : "Editar publicación"}
+        </button>
+        <button className="eliminar">
+          Eliminar Publicación
+        </button>
       </div>
 
-      {/* Miniaturas de imágenes con función de carrusel */}
-      <div className="detalle-imagenes">
+      <div
+        className="detalle-imagenes"
+        style={{
+          backgroundImage: `url(${
+            vermas.image.length > 0 ? vermas.image[0] : "https://i.imgur.com/wlo1EYZ.png"
+          })`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="thumbnail-container">
           {vermas.image.map((img, index) => (
             <img
@@ -56,7 +101,6 @@ const VerMas = () => {
         </div>
       </div>
 
-      {/* Imagen grande en el centro al seleccionar */}
       {selectedImage && (
         <div className="overlay" onClick={closeImage}>
           <div className="large-image-container" onClick={(e) => e.stopPropagation()}>
