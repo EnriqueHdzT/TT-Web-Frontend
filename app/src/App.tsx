@@ -8,7 +8,7 @@ import StudentRegister from "./components/StudentRegister/StudentRegister";
 import VerifiCorreo from "./components/VerifiCorreo/VerifiCorreo";
 import ValidateCorreo from "./components/ValidateCorreo/ValidateCorreo";
 import VerUsuarios from "./components/VerUsuarios/VerUsuarios";
-import UserInfo from "./components/UserInfo/UserInfo";
+//import UserInfo from "./components/UserInfo/UserInfo";
 import DatesAndTerms from "./components/DatesAndTerms/DatesAndTerms";
 import Footer from "./components/Footer/Footer";
 import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
@@ -16,8 +16,10 @@ import VerProtocolos from "./components/VerProtocolos/VerProtocolos";
 import Password from "./components/Password/Password";
 import VerInfo from "./components/VerInfo/VerInfo";
 
+
 import "./App.scss";
 import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContrasena.tsx";
+import HelpSection from "./components/Help/Ayuda.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
@@ -68,12 +70,13 @@ export default function App() {
             <Route path="/register" element={<StudentRegister />} />
             <Route path="/verify" element={<VerifiCorreo />} />
             <Route path="/validate" element={<ValidateCorreo />} />
+            <Route path="/ayuda" element={<HelpSection/>}/>
             <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
             // Protected routes
             {isAuth ? (
               <>
                 <Route path="/users" element={<VerUsuarios />} />
-                <Route path="/users/:id" element={<UserInfo />} />
+
                 <Route path="/protocols" element={<SubirProtocolo />} />
                 <Route path="/dates" element={<DatesAndTerms />} />
                 <Route path="/seeprotocols" element={<VerProtocolos />} />

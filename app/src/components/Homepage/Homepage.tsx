@@ -13,7 +13,7 @@ export default function Homepage() {
     <Bienvenida />
       </div>
       <div className="content">
-      <div className="leftpg"><Avisos /></div>
+      <div className="leftpg"><Avisos/></div>
       <div className="rightpg"><Tips /></div>
       </div>
     </div>
