@@ -28,7 +28,6 @@ export default function App() {
   const [isAuth, setAuth] = useState(false);
   const [userType, setUserType] = useState("");
   
-  const pdfUrl = '/Protocolo.pdf';
   const pdfEvaluar = '/Protocolo_2.pdf';
   const pdfClasificar = '/Protocolo_2.pdf';
   const pdfValidar = '/Protocolo.pdf';
@@ -94,7 +93,7 @@ export default function App() {
             <Route path="/protocolos" element={<VerProtocolos />} />
             <Route path="/cambiar_contraseña" element={<Password />} />
             <Route path="/cambiar_contraseña/:token" element={<Password />} />
-            <Route path="/documento/:id" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
+            <Route path="/documento/:id" element={<AbrirDocumento />} />
             <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar}/> } />
