@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 
 import "./VerUsuarios.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faPlus, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import FiltrosUsuario from "./components/FiltrosUsuario/FiltrosUsuario";
 import UserCard from "./components/UserCard/UserCard";
 import PageChanger from "./components/PageChanger/PageChanger";
@@ -11,14 +14,16 @@ const usersTypes = ["Alumnos", "Docentes"];
 const careers = ["ISW", "IIA", "LCD"];
 const curriculums = ["2009", "2020"];
 const precedences = ["Interino", "Externo"];
-const academies = [
-  "Ciencia de Datos",
-  "Ciencias Basicas",
-  "Ciencias de la Computacion",
-];
+const academies = ["Ciencia de Datos", "Ciencias Basicas", "Ciencias de la Computacion"];
 
 export default function VerUsuarios() {
-  let urlData = validateUrlData();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("token") /* || localStorage.getItem("userType") === "" */) {
+      navigate("/");
+    }
+  });
+  const urlData = validateUrlData();
 
   const [userType, setUserType] = useState(urlData[0]);
   const [career, setCareer] = useState(urlData[1]);
@@ -28,6 +33,23 @@ export default function VerUsuarios() {
   const [currentPage, setCurrentPage] = useState(urlData[5]);
   const [maxPage, setMaxPage] = useState(1);
   const [users, setUsers] = useState([]);
+  const [newStudentEmail, setNewStudentEmail] = useState("");
+  const [newStudentName, setNewStudentName] = useState("");
+  const [newStudentLastName, setNewStudentLastName] = useState("");
+  const [newStudentSecondLastName, setNewStudentSecondLastName] = useState("");
+  const [newStudentBoleta, setNewStudentBoleta] = useState("");
+  const [newStudentCareer, setNewStudentCareer] = useState("");
+  const [newStudentCurriculum, setNewStudentCurriculum] = useState("");
+
+  const [newStaffEmail, setNewStaffEmail] = useState("");
+  const [newStaffName, setNewStaffName] = useState("");
+  const [newStaffLastName, setNewStaffLastName] = useState("");
+  const [newStaffSecondLastName, setNewStaffSecondLastName] = useState("");
+  const [newStaffPrecedencia, setNewStaffPrecedencia] = useState("");
+  const [newStaffAcademia, setNewStaffAcademia] = useState("");
+  const [newStaffUserType, setNewStaffUserType] = useState("");
+
+  const popupRef = useRef(null);
 
   const getUsers = async () => {
     try {
@@ -35,6 +57,7 @@ export default function VerUsuarios() {
         method: "GET",
         headers: {
           Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
           ...(userType !== "" && { userType: userType }),
           ...(career !== "" && { career: career }),
           ...(curriculum !== "" && { curriculum: curriculum }),
@@ -44,11 +67,10 @@ export default function VerUsuarios() {
         },
       });
 
-      if (!response.ok){
-
+      if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
-      let data = await response.json();
+      const data = await response.json();
       setMaxPage(data.numPages);
       delete data.numPages;
       setUsers(Object.values(data));
@@ -61,27 +83,42 @@ export default function VerUsuarios() {
   useEffect(() => {
     getUsers();
   }, []);
-  
+
   useEffect(() => {
     getUsers();
   }, [userType, career, curriculum, precedence, academy, currentPage]);
 
   const updateCurrentPage = (value = 0) => {
-    if(value < 1 || value > maxPage){
-      console.log("La pagina que quieres acceder no es valida")
+    if (value < 1 || value > maxPage) {
+      console.log("La pagina que quieres acceder no es valida");
     } else {
-      setCurrentPage(value)
+      setCurrentPage(value);
     }
-  }
+  };
+
+  const onPopupClose = () => {
+    setNewStudentEmail("");
+    setNewStudentName("");
+    setNewStudentLastName("");
+    setNewStudentSecondLastName("");
+    setNewStudentBoleta("");
+    setNewStudentCareer("");
+    setNewStudentCurriculum("");
+
+    setNewStaffEmail("");
+    setNewStaffName("");
+    setNewStaffLastName("");
+    setNewStaffSecondLastName("");
+    setNewStaffPrecedencia("");
+    setNewStaffAcademia("");
+    setNewStaffUserType("");
+    popupRef.current?.close();
+  };
 
   const updateUserType = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("userType", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setUserType(value);
   };
@@ -89,11 +126,7 @@ export default function VerUsuarios() {
   const updateCareer = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("career", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setCareer(value);
   };
@@ -101,11 +134,7 @@ export default function VerUsuarios() {
   const updateCurriculum = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("curriculum", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setCurriculum(value);
   };
@@ -116,11 +145,7 @@ export default function VerUsuarios() {
     if (value === "") {
       queryParams.delete("academy");
     }
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
     setPrecedence(value);
   };
@@ -128,16 +153,12 @@ export default function VerUsuarios() {
   const updateAcademy = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("academy", value);
-    window.history.replaceState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
     setAcademy(value);
   };
 
   const handleDelete = (userId) => {
-    fetch(`http://127.0.0.1:8000/api/users/${userId}`, {
+    fetch(`http://127.0.0.1:8000/api/user/${userId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
@@ -154,6 +175,67 @@ export default function VerUsuarios() {
       });
   };
 
+  const handleNewStudent = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", newStudentEmail);
+      formData.append("name", newStudentName);
+      formData.append("lastName", newStudentLastName);
+      formData.append("secondLastName", newStudentSecondLastName);
+      formData.append("boleta", newStudentBoleta);
+      formData.append("career", newStudentCareer);
+      newStudentCurriculum === "" ? formData.append("curriculum", "2020") : formData.append("curriculum", newStudentCurriculum);
+
+      const response = await fetch("http://127.0.0.1:8000/api/createStudent", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error("Error al crear usuario");
+      }
+      onPopupClose();
+      navigate(0);
+    } catch (error) {
+      console.error("Error al crear usuario");
+    }
+  };
+
+  const handleNewStaff = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const formData = new URLSearchParams();
+      formData.append("email", newStaffEmail);
+      formData.append("name", newStaffName);
+      formData.append("lastName", newStaffLastName);
+      formData.append("secondLastName", newStaffSecondLastName);
+      formData.append("precedence", newStaffPrecedencia);
+      formData.append("academy", newStaffAcademia);
+      formData.append("userType", newStaffUserType);
+
+      const response = await fetch("http://127.0.0.1:8000/api/createStaff", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error("Error al crear usuario");
+      }
+
+      onPopupClose();
+      navigate(0);
+    } catch (error) {
+      console.error("Error al crear usuario");
+    }
+  };
+
   return (
     <div>
       <div className="head-usr">
@@ -167,12 +249,7 @@ export default function VerUsuarios() {
           />
           {userType === "Alumnos" ? (
             <>
-              <FiltrosUsuario
-                name={"Carrera"}
-                currentStatus={career}
-                options={careers}
-                onChange={updateCareer}
-              />
+              <FiltrosUsuario name={"Carrera"} currentStatus={career} options={careers} onChange={updateCareer} />
               {career === "ISW" ? (
                 <FiltrosUsuario
                   name={"Plan de Estudios"}
@@ -219,43 +296,246 @@ export default function VerUsuarios() {
           ) : (
             <></>
           )}
-          <button className="plus-us">
-            Nuevo Usuario <FontAwesomeIcon icon={faPlus} className="icon-us" />
-          </button>
+          <Popup
+            ref={popupRef}
+            trigger={(open) => (
+              <button type="button" className="plus-us">
+                Nuevo Usuario <FontAwesomeIcon icon={faPlus} className="icon-us" />
+              </button>
+            )}
+            modal
+            nested
+            closeOnDocumentClick={false}
+          >
+            {(close) => (
+              <>
+                <ul className="nav nav-tabs nav-justified row" id="myTab" role="tablist">
+                  <li className="nav-item" role="presentation">
+                    <button
+                      className="nav-link active"
+                      id="home-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#home-tab-pane"
+                      type="button"
+                      role="tab"
+                      aria-controls="home-tab-pane"
+                      aria-selected="true"
+                    >
+                      Crear Alumno
+                    </button>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <button
+                      className="nav-link"
+                      id="profile-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#profile-tab-pane"
+                      type="button"
+                      role="tab"
+                      aria-controls="profile-tab-pane"
+                      aria-selected="false"
+                    >
+                      Crear Docente
+                    </button>
+                  </li>
+                </ul>
+                <div className="tab-content" id="myTabContent">
+                  <div
+                    className="tab-pane fade show active"
+                    id="home-tab-pane"
+                    role="tabpanel"
+                    aria-labelledby="home-tab"
+                    tabIndex="0"
+                  >
+                    <form className="form-group" onSubmit={(e) => handleNewStudent(e)}>
+                      <input
+                        type="email"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Correo Institucional"
+                        onChange={(e) => setNewStudentEmail(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Nombre(s)"
+                        onChange={(e) => setNewStudentName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Primer Apellido"
+                        onChange={(e) => setNewStudentLastName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Segundo Apellido"
+                        onChange={(e) => setNewStudentSecondLastName(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Boleta del alumno"
+                        onChange={(e) => setNewStudentBoleta(e.target.value)}
+                        required
+                      />
+
+                      <select
+                        className="form-select mt-3 mb-3"
+                        required
+                        value={newStudentCareer}
+                        onChange={(e) => setNewStudentCareer(e.target.value)}
+                      >
+                        <option value="" disabled hidden>
+                          Carrera
+                        </option>
+                        <option value="ISW">Ingenieria en Sistemas Computacionales</option>
+                        <option value="IIA">Ingenieria en Inteligencia Artificial</option>
+                        <option value="LCD">Licenciatura en Ciencia de Datos</option>
+                      </select>
+
+                      {newStudentCareer === "ISW" && (
+                        <select
+                          name="plan_de_estudios"
+                          className="form-select mt-3 mb-3"
+                          value={newStudentCurriculum}
+                          onChange={(e) => setNewStudentCurriculum(e.target.value)}
+                        >
+                          <option value="" disabled hidden>
+                            Plan de estudios
+                          </option>
+                          <option value="2009">2009</option>
+                          <option value="2020">2020</option>
+                        </select>
+                      )}
+                      <button className="btn btn-outline-danger" onClick={onPopupClose}>
+                        Cerrar
+                      </button>
+                      <button type="submit" className="btn btn-primary">
+                        Crear Alumno
+                      </button>
+                    </form>
+                  </div>
+                  <div
+                    className="tab-pane fade"
+                    id="profile-tab-pane"
+                    role="tabpanel"
+                    aria-labelledby="profile-tab"
+                    tabIndex="0"
+                  >
+                    <form className="form-group" onSubmit={(e) => handleNewStaff(e)}>
+                      <input
+                        type="email"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Correo Institucional"
+                        onChange={(e) => setNewStaffEmail(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Nombre(s)"
+                        onChange={(e) => setNewStaffName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Primer Apellido"
+                        onChange={(e) => setNewStaffLastName(e.target.value)}
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Segundo Apellido"
+                        onChange={(e) => setNewStaffSecondLastName(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Precedencia"
+                        onChange={(e) => setNewStaffPrecedencia(e.target.value)}
+                        required
+                      />
+
+                      {newStaffPrecedencia === "ESCOM" && (
+                        <select
+                          className="form-select mt-3 mb-3"
+                          value={newStaffAcademia}
+                          onChange={(e) => setNewStaffAcademia(e.target.value)}
+                        >
+                          <option value="" disabled hidden>
+                            Academia
+                          </option>
+                          <option value="0">Computo</option>
+                          <option value="1">IA</option>
+                          <option value="2">Ciencia de Datos</option>
+                        </select>
+                      )}
+
+                      <select
+                        className="form-select mt-3 mb-3"
+                        required
+                        value={newStaffUserType}
+                        onChange={(e) => setNewStaffUserType(e.target.value)}
+                      >
+                        <option value="" disabled hidden>
+                          Tipo de Usuario
+                        </option>
+                        <option value="Prof">Profesor</option>
+                        <option value="PresAcad">Presidente de Academia</option>
+                        <option value="JefeDepAcad">Jefe de Departamento</option>
+                        <option value="AnaCATT">Analista de la CATT</option>
+                        <option value="SecEjec">Secretario Ejecutivo</option>
+                        <option value="SecTec">Secretario Técnico</option>
+                        <option value="Presidente">Presidente</option>
+                      </select>
+                      <button className="btn btn-outline-danger" onClick={onPopupClose}>
+                        Cerrar
+                      </button>
+                      <button type="submit" className="btn btn-primary">
+                        Crear Docente
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </>
+            )}
+          </Popup>
         </div>
       </div>
       <div className="container-users">
-        { users.length !== 0 ? 
-        (
+        {users.length !== 0 ? (
           <>
-          {users.map((user) => (
-            <UserCard
-              userKey={user.id}
-              email={user.email}
-              userType={user.staff ? "Docente" : "Alumno"}
-              name={
-                user.staff
-                  ? `${user.staff.name} ${user.staff.lastname} ${user.staff.second_lastname}`
-                  : `${user.student.name} ${user.student.lastname} ${user.student.second_lastname}`
-              }
-              cardText={
-                user.staff
-                  ? `${user.staff.precedence} ${
-                      user.staff.academy ? "- " + user.staff.academy : ""
-                    }`
-                  : `${user.student.career} ${"- " + user.student.curriculum}`
-              }
-              onDelete={() => handleDelete(user.id)}
-            />
-          ))}
+            {users.map((user) => (
+              <UserCard
+                userKey={user.id}
+                email={user.email}
+                userType={user.staff ? "Docente" : "Alumno"}
+                name={
+                  user.staff
+                    ? `${user.staff.name} ${user.staff.lastname} ${user.staff.second_lastname}`
+                    : `${user.student.name} ${user.student.lastname} ${user.student.second_lastname}`
+                }
+                cardText={
+                  user.staff
+                    ? `${user.staff.precedence} ${user.staff.academy ? "- " + user.staff.academy : ""}`
+                    : `${user.student.career} ${"- " + user.student.curriculum}`
+                }
+                onDelete={() => handleDelete(user.id)}
+              />
+            ))}
           </>
-        ) : (<h1>No se encontraron usuarios</h1>)}
+        ) : (
+          <h1>No se encontraron usuarios</h1>
+        )}
       </div>
       <div className="pageChanger">
-        <PageChanger 
-          currentPage={currentPage}
-          maxPages={maxPage}
-          onPageChange={updateCurrentPage}/>
+        <PageChanger currentPage={currentPage} maxPages={maxPage} onPageChange={updateCurrentPage} />
       </div>
     </div>
   );
@@ -279,9 +559,7 @@ function validateUrlData() {
     if (careerParam === "") {
       curriculumParam = "";
     } else {
-      curriculumParam = ["LCD", "IIA"].includes(careerParam)
-        ? "2020"
-        : curriculumParam;
+      curriculumParam = ["LCD", "IIA"].includes(careerParam) ? "2020" : curriculumParam;
     }
   } else if (userTypeParam === "Docentes") {
     careerParam = "";
@@ -314,18 +592,7 @@ function validateUrlData() {
     : (queryParams.delete("academy"), (academyParam = ""));
   queryParams.set("page", pageParam.toString());
 
-  window.history.replaceState(
-    {},
-    "",
-    `${window.location.pathname}?${queryParams}`
-  );
+  window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
 
-  return [
-    userTypeParam,
-    careerParam,
-    curriculumParam,
-    precedenceParam,
-    academyParam,
-    pageParam,
-  ];
+  return [userTypeParam, careerParam, curriculumParam, precedenceParam, academyParam, pageParam];
 }

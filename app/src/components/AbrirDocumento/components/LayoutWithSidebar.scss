@@ -1,0 +1,22 @@
+// src/components/LayoutWithSidebar.scss
+.layout {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .main-content {
+    flex: 1;
+    background-color: #f4f4f4;
+  }
+  
+  .sidebar {
+    width: 50%;
+    background-color: #ccc;
+    height: 100vh;
+  }
+  
+  .with-sidebar .main-content {
+    flex: 1;
+  }
+  

@@ -1,0 +1,155 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+$protoco: #5db1f9;
+$rechazo: #ff725e;
+$aceptado: #47caa1;
+$protoclaro: #e3f2ff;
+$rechaclaro: #ffedeb;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+
+.headdocumento {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  flex-wrap: wrap;
+  display: flex;
+
+  .tt-a {
+    margin-top: 0.8rem;
+    padding-left: 4%;
+    width: 40%;
+    height: auto;
+    color: $black-fontd;
+    font: 500 1rem "Poppins";
+    align-items: center; // horizontal
+    justify-content: start; // vertical
+    display: flex;
+
+    a {
+      padding-right: 1.5rem;
+    }
+  }
+}
+
+.info-container {
+  font: 400 1rem "Poppins";
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+
+  h1 {
+    font: 600 0.9rem "Poppins";
+    line-height: 20px;
+    margin: 1rem 5%;
+  }
+
+  .general-contenedor {
+    gap: 1rem;
+    height: 70vh; /* Ajustamos para que ocupe toda la pantalla */
+    width: 90%;
+    display: flex;
+    margin: auto auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .row-container {
+      display: flex;
+      gap: 1rem; // Espacio entre los divs en la misma fila
+      font: 500 0.85rem "Poppins";
+
+      .box {
+        padding: 1rem;
+        border-radius: 10px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+
+        .icore {
+          width: 50px;
+          height: 50px;
+          background-color: $body-color;
+          border-radius: 10px;
+          margin: 0 20px 0 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 20px;
+        }
+        p {
+          margin: 0;
+          font: 500 0.7rem "Poppins";
+        }
+
+        .ico-blue {
+          color: $protoco;
+        }
+        .ico-green {
+          color: $aceptado;
+        }
+        .ico-red {
+          color: $rechazo;
+        }
+      }
+
+      .info {
+        flex: 2; // Ocupa más espacio en la fila
+        background-color: #e0e0e0;
+        min-width: 400px;
+        max-width: 800px;
+        font: 400 0.8rem "Poppins";
+        display: flex;
+        justify-content: space-between;
+
+        .tx-info {
+          width: 600px;
+          padding: 0 20px;
+          background-color: #e0e0e0;
+        }
+
+        button {
+          align-self: flex-end; // Coloca el botón en la parte inferior
+          color: $body-color;
+          border-radius: 15px;
+          padding: 5px 20px;
+          margin-right: 3%;
+        }
+      }
+
+      .status {
+        flex: 1; // Ocupa menos espacio en la fila
+        background-color: $protoco;
+        min-width: 390px;
+        max-width: 400px;
+      }
+
+      .blue {
+        background-color: $protoco;
+      }
+
+      .green {
+        background-color: $aceptado;
+      }
+
+      .red {
+        background-color: $rechazo;
+      }
+    }
+  }
+}

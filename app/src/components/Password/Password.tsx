@@ -1,10 +1,12 @@
 import "./Password.scss";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 export default function Password() {
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -56,13 +58,13 @@ export default function Password() {
     <div>
       <div className="head-usr">
         <div className="tl-u">
-          <a href="/" className="button-icon">
+          <a className="button-icon" onClick={() => navigate(-1)}>
             <FontAwesomeIcon icon={faChevronLeft} />
           </a>{" "}
           Contraseña
         </div>
       </div>
-      <div className="body-pass">
+      <div className="body-pass-s">
         <p>
           Elige una contraseña segura y no la utilices en otras cuentas.
           <br></br>

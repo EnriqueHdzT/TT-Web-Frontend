@@ -1,0 +1,73 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+
+.headdocumento {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  flex-wrap: wrap;
+  display: flex;
+
+  .tt-a {
+    margin-top: 0.8rem;
+    padding-left: 4%;
+    width: 25%;
+    height: auto;
+    color: $black-fontd;
+    font: 500 1rem "Poppins";
+    align-items: center; // horizontal
+    justify-content: start; // vertical
+    display: flex;
+
+    a {
+      padding-right: 1.5rem;
+    }
+  }
+}
+
+.documentopen {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  
+
+  // Documento.scss
+  .vista-pdf {
+    width: 90%;
+    height: 70vh; /* Ajustamos para que ocupe toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto auto;    
+  }
+
+  @media (min-height: 800px) {
+    .vista-pdf {
+      height: 80vh;
+    }
+  }
+
+  .pdf-viewer {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+}

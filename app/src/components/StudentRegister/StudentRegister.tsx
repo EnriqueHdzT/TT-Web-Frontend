@@ -156,9 +156,6 @@ export default function StudentRegister() {
       <div className="card text-bg-light mb-3">
         <div className="card-body">
           <div className="d-flex align-items-left">
-            <a href="/login" className="me-2">
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </a>
             <h5 className="card-title">Registro de estudiante</h5>
           </div>
         </div>

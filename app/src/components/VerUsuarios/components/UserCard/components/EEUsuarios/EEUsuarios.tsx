@@ -14,7 +14,7 @@ export default function EEUsuarios ({ userKey, onDelete }) {
   };
 
   const onEdit = () => {
-    navigate(`/users/${userKey}`)
+    navigate(`/usuarios/${userKey}`)
   }
 
   return (

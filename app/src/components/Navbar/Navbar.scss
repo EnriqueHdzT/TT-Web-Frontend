@@ -21,7 +21,7 @@ $z-fixed: 9999;
 
 #header {
   position: fixed;
-  z-index: 1; /*Add this*/
+  z-index: 1;
   width: 100%;
 }
 
@@ -144,6 +144,7 @@ $z-fixed: 9999;
   display: flex;
   align-items: center;
   justify-content: end;
+  padding-top: 10px;
 
   .username-page {
     font: 600 16px / 16px "Poppins";
@@ -248,6 +249,5 @@ button {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
   transition: opacity 0.4s ease 0s;
 }

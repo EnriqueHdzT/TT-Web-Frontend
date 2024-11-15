@@ -1,0 +1,82 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+
+// HomePage.scss
+.homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 88vh;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  
+.toppg {
+  width: 90%;
+  height: 35vh;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  background-color: #D2E9FD;
+  
+}
+
+.content {
+  display: flex;
+  width: 90%;
+  margin-top: 20px;
+  gap: 20px;
+  height: 50%;
+}
+
+.leftpg {
+  flex: 2;
+  background-color: #90CAF9;
+  height: 40vh;
+  min-height: 260px;
+  display: flex;
+  border-radius: 30px;
+}
+
+.rightpg {
+  flex: 1;
+  background-color: #90CAF9;
+  height: 40vh;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+}
+
+
+// Responsividad para pantallas pequeñas
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+
+    .avisos,
+    .tips {
+      width: 100%;
+      height: 35vh; // Ajuste para que cada uno ocupe la mitad del 70vh
+    }
+  }
+}
+}
