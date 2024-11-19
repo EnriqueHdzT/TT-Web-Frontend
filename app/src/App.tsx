@@ -21,6 +21,7 @@ import MonitoreoProtocolo from "./components/MonitoreoProtocolo/MonitoreoProtoco
 import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
 import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
 import VerMas from "./components/VerMas/VerMas";
+import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
 
 import "./App.scss";
 
@@ -100,6 +101,7 @@ export default function App() {
             <Route path="/recuperarpassword" element={<RecuperarPassword />} />
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo /> } />
             <Route path="/vermas" element={<VerMas />} />
+            <Route path="/crear_publicacion" element={<CrearPublicacion />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
