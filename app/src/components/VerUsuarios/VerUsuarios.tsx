@@ -161,6 +161,7 @@ export default function VerUsuarios() {
     fetch(`http://127.0.0.1:8000/api/user/${userId}`, {
       method: "DELETE",
       headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         Accept: "application/json",
       },
     })
