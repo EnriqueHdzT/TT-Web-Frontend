@@ -14,7 +14,6 @@ interface LoginData {
 
 interface LoginProps {
   setAuth: (value: boolean) => void;
-  setUserType: (value: string) => void;
 }
 
 const InitialLoginData: LoginData = {
@@ -22,7 +21,7 @@ const InitialLoginData: LoginData = {
   password: "",
 };
 
-export default function Login({ setAuth, setUserType }: LoginProps) {
+export default function Login({ setAuth }: LoginProps) {
   const [LoginData, setLoginData] = useState(InitialLoginData);
   const [showPassword, setShowPassword] = useState(false);
   const [wrongEmail, setIsWrongEmail] = useState(true);
@@ -82,6 +81,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
         formData.append("email", LoginData.email);
         const hashedPassword = SHA256(LoginData.password).toString();
         formData.append("password", hashedPassword);
+
         const response = await fetch("http://127.0.0.1:8000/api/login", {
           method: "POST",
           headers: {
@@ -90,17 +90,21 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
           body: formData as BodyInit,
         });
 
-        if (!response.ok) {
-          throw new Error("Login failed");
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem("token", data.token);
+          setAuth(true);
+          navigate("/");
+        } else {
+          const errorData = await response.json();
+          setToastTitle("Error");
+          setToastMessage(errorData.message || "Error al iniciar sesión");
+          const toastBoostrap = ToastRef ? Toast?.getOrCreateInstance(ToastRef) : null;
+          if (toastBoostrap) {
+            toastBoostrap.show();
+          }
         }
-
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("userType", data.userType === null ? "" : data.userType);
-        setAuth(true);
-        setUserType(data.userType === null ? "" : data.userType);
-        navigate("/");
-      } catch (error: unknown) {
+      } catch (error) {
         setToastTitle("Error");
         setToastMessage("Error al iniciar sesión");
         const toastBoostrap = ToastRef ? Toast?.getOrCreateInstance(ToastRef) : null;
@@ -110,6 +114,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
       }
     }
   }
+
   if (!localStorage.getItem("token")) {
     return (
       <div className="contenedor-form">
@@ -186,10 +191,10 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
               </button>
             </form>
             <div className="messa-sesion">
-              <a href="/validar_correo" className="forget">
+              <a href="/validate" className="forget">
                 Olvidé mi contraseña
               </a>
-              <a href="/registro" className="register">
+              <a href="/register" className="register">
                 Registro para alumno
               </a>
             </div>

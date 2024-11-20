@@ -1,0 +1,83 @@
+  /*========== General ==========*/
+  $header-height: 4.5rem;
+  $body-color: #FAFAFB;
+
+  /*========== Colors ==========*/
+  $navbg-color: #F8F8F8;
+  $dropdown-bg-color: #FAFAFB;
+  $dropdown-hover-color: #EBEBEB;
+  $dropdown-list-color: #F4F4F4;
+  $search-blue: #1C90F3;
+  $cont-gray: #E6E6E6;
+
+  /*========== Font and typography ==========*/
+  $black-fontd: #2C2C2C;
+  $blue: #1C90F3;
+  $gray-pass: #A2A2A2;
+ 
+  .validate-email {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;  
+    align-items: center;  // Centra los elementos horizontalmente
+    justify-content: center;  // Centra los elementos verticalmente
+     width: 400px;
+
+  .flex-lg{
+    display: flex;
+    margin-top: 10px;
+  
+    label {
+        width: 50px;
+        height: 40px;
+        background-color: $blue;
+        display: grid;
+        place-content: center;
+        border-radius: 10px 0 0 10px;
+
+        .style-icon{
+            color: $body-color;
+            font-size: 18px;
+        }
+    }
+  
+    input {
+      width: 300px;
+      height: 40px;
+      padding: 8px;
+      margin-bottom: 16px;
+      font: 400 14px / 16px 'Poppins';
+      border:none;
+      outline: none;
+      border-radius: 0 10px 10px 0;
+      
+    }
+}
+     
+    button {
+      width: 230px;
+      height: 55px;
+      margin: 2dvb 0 2dvb 0;
+      background-color: $blue;
+      color: $black-fontd;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font: 500 15px / 18px 'Poppins';
+      color: $body-color;
+    }
+  }
+
+  .messa-re{
+    text-align: center;
+
+    a:link, a:visited, a:active {
+        text-decoration:none;
+    }
+    a.reg{
+        display: flex;
+        font: 500 12px'Poppins';
+        text-decoration:underline;
+        color: #727272;
+    }
+  }

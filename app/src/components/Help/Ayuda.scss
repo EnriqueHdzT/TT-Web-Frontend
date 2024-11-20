@@ -1,0 +1,194 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+$spacing-unit: 1rem;
+
+/*========== Colors ========== */
+$primary-color: #000000;
+$secondary-color: #357cbb;
+$neutral-light-color: #f8f8f8;
+$neutral-color: #000000;
+$neutral-dark-color: #2c2c2c;
+$white-color: #ffffff;
+$background-hover-color: #96c1ef;
+$background-secondary-color: #ededed;
+
+/*========== Font and typography ==========*/
+$font-family: 'Arial', 'Helvetica', sans-serif;
+$font-weight-base: 400;
+$font-weight-bold: 700;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+/* Establecemos la fuente globalmente */
+body {
+  font-family: $font-family;
+  color: $neutral-dark-color;
+  line-height: $line-height-base;
+}
+
+.help-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 88vh;
+  padding: $spacing-unit;
+  box-sizing: border-box;
+
+  .image-container {
+    flex: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: $spacing-unit;
+    img {
+      max-width: 100%;
+      border-radius: $spacing-unit;
+    }
+  }
+
+  .content-wrapper {
+    flex: 2;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5 * $spacing-unit;
+      font-size: 2rem;
+      color: $neutral-dark-color;
+    }
+
+    .faq {
+      background-color: $background-hover-color;
+      padding: $spacing-unit;
+      border-radius: $spacing-unit;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: $spacing-unit;
+
+      h3 {
+        margin-bottom: 1.5 * $spacing-unit;
+        font-size: 1.5rem;
+        color: $neutral-dark-color;
+      }
+
+      .faq-item {
+        margin-bottom: $spacing-unit;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        h4 {
+          margin-bottom: $spacing-unit / 2;
+          padding: $spacing-unit / 2;
+          background-color: $neutral-light-color;
+          border-radius: $spacing-unit / 2;
+          color: $neutral-dark-color;
+          font-size: 1.25rem;
+          border: 1px solid #dedede;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+
+        &.open {
+          h4 {
+            color: $white-color;
+            background-color: $secondary-color;
+          }
+
+          p {
+            margin-top: $spacing-unit / 2;
+            max-height: 200px;
+          }
+        }
+
+        &.selected {
+          background-color: $white-color;
+
+          h4 {
+            color: $primary-color;
+          }
+
+          p {
+            color: $primary-color;
+          }
+        }
+
+        p {
+          color: $neutral-color;
+          margin-left: $spacing-unit;
+          transition: max-height 0.3s ease-out;
+          overflow: hidden;
+          max-height: 0;
+        }
+      }
+    }
+
+    .contact-form {
+      background-color: $background-hover-color;
+      padding: $spacing-unit;
+      border-radius: $spacing-unit;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        margin-bottom: 1.5 * $spacing-unit;
+        font-size: 1.5rem;
+        color: $neutral-dark-color;
+      }
+
+      .form-group {
+        margin-bottom: $spacing-unit;
+
+        label {
+          display: block;
+          margin-bottom: $spacing-unit / 2;
+          color: $neutral-dark-color;
+        }
+
+        input, textarea {
+          width: 100%;
+          padding: $spacing-unit / 2;
+          box-sizing: border-box;
+          border: 1px solid $neutral-color;
+          border-radius: $spacing-unit / 2;
+          background-color: $neutral-light-color;
+          transition: border-color 0.3s;
+
+          &:focus {
+            border-color: $secondary-color;
+            outline: none;
+          }
+        }
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        padding: $spacing-unit / 2;
+        background-color: $secondary-color;
+        color: $white-color;
+        border: none;
+        cursor: pointer;
+        border-radius: $spacing-unit / 2;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: darken($secondary-color, 10%);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    .content-wrapper,
+    .image-container {
+      width: 100%;
+    }
+  }
+}

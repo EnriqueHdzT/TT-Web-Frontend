@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
+import Homepage from "./components/Homepage/Homepage";
 import Login from "./components/Login/Login";
 import StudentRegister from "./components/StudentRegister/StudentRegister";
 import VerifiCorreo from "./components/VerifiCorreo/VerifiCorreo";
 import ValidateCorreo from "./components/ValidateCorreo/ValidateCorreo";
 import VerUsuarios from "./components/VerUsuarios/VerUsuarios";
+//import UserInfo from "./components/UserInfo/UserInfo";
 import DatesAndTerms from "./components/DatesAndTerms/DatesAndTerms";
 import Footer from "./components/Footer/Footer";
 import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
@@ -24,7 +26,10 @@ import VerMas from "./components/VerMas/VerMas";
 import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
 import BuzonAyuda from "./components/Buzon/BuzonAyuda";
 
+
 import "./App.scss";
+import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContrasena.tsx";
+import HelpSection from "./components/Help/Ayuda.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
@@ -33,6 +38,7 @@ export default function App() {
   const pdfEvaluar = "/Protocolo_2.pdf";
   const pdfClasificar = "/Protocolo_2.pdf";
   const pdfValidar = "/Protocolo.pdf";
+
 
 
   useEffect(() => {
@@ -46,13 +52,14 @@ export default function App() {
       setUserType(localStorage.getItem("userType") as string);
     } else {
       setUserType(null);
+
     }
   }, []);
 
   return (
     <div className="page-container">
       <Router>
-        <Navbar isAuth={isAuth} userType={userType} />
+        <Navbar isAuth={isAuth} />
         <div className="app-body">
           <Routes>
             <Route path="/" element={<PaginaPrincipal />} />
@@ -71,7 +78,7 @@ export default function App() {
             <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar} />} />
-            <Route path="/recuperarpassword" element={<RecuperarPassword />} />
+            <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo />} />
             <Route path="/vermas" element={<VerMas />} />
             <Route path="/crear_publicacion" element={<CrearPublicacion />} />
