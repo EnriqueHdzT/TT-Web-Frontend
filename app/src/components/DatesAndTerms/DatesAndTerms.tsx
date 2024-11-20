@@ -104,7 +104,7 @@ const timesArray = [
   "23:30",
 ];
 
-export default function DatesAndTerms({ userType = "" }) {
+export default function DatesAndTerms() {
   const navigate = useNavigate();
   const popupRef = useRef(null);
   const [currentTerm, setCurrentTerm] = useState("");
@@ -161,6 +161,7 @@ export default function DatesAndTerms({ userType = "" }) {
 
   useEffect(() => {
     const validUserTypes = ["AnaCATT", "SecEjec", "SecTec", "Presidente"];
+    const userType = localStorage.getItem("userType") ?? "";
 
     if (!localStorage.getItem("token") || !validUserTypes.includes(userType)) {
       navigate("/");
@@ -227,7 +228,6 @@ export default function DatesAndTerms({ userType = "" }) {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-
             Accept: "application/json",
           },
         });

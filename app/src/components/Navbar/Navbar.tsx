@@ -41,7 +41,7 @@ const usersMap: UsersMap = {
   Presidente: "Presidente",
 };
 
-export default function Navbar({ isAuth = false, userType = "", isSearchEnable = false }) {
+export default function Navbar({ isAuth = false, userType = null, isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -69,16 +69,14 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
         setIsUpdateActive(true);
       } catch (e) {
         console.error("Error al verificar la disponibilidad");
-        setIsUpdateActive(false);
       }
     };
-
     if (userType === "") {
       checkAvailability();
-    } else if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType)) {
+    } else if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "")) {
       setIsUpdateActive(true);
     }
-  }, []);
+  }, [userType]);
 
   const handleScroll = () => {
     const currentScrollPos = window.scrollY;
@@ -135,11 +133,12 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
             throw new Error("Logout failed");
           }
           localStorage.removeItem("token");
+          localStorage.removeItem("userType");
           window.location.href = "/";
         } catch (error) {
           localStorage.removeItem("token");
           localStorage.removeItem("userType");
-          navigate("/");
+          navigate(0);
           console.error("Error de red:", error);
         }
       }
@@ -155,6 +154,28 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
       window.removeEventListener("resize", handleResize);
     };
   }, [prevScrollPos, visible]);
+
+  const handleProfile = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/userId", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Error al obtener el usuario");
+      }
+      const data = await response.json();
+      if (data.id) {
+        navigate(`/usuarios/${data.id}`);
+        navigate(0);
+      }
+    } catch (error) {
+      console.error("Error en el servidor");
+    }
+  };
 
   return (
     <header className="header">
@@ -173,13 +194,15 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                       Ver Protocolos
                     </a>
                   </li>
-                  {isUpdateActive && (<li>
-                    <a href="subir_protocolo">
-                      <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
-                      Subir Protocolo
-                    </a>
-                  </li>)}
-                  {/* ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType) */true && (
+                  {isUpdateActive && (
+                    <li>
+                      <a href="subir_protocolo">
+                        <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
+                        Subir Protocolo
+                      </a>
+                    </li>
+                  )}
+                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
                       <a href="usuarios">
                         <FontAwesomeIcon icon={faUser} className="style-icon" />
@@ -187,13 +210,15 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                       </a>
                     </li>
                   )}
-                  <li>
-                    <a href="#">
-                      <FontAwesomeIcon icon={faComments} className="style-icon" />
-                      Buzón
-                    </a>
-                  </li>
-                  { ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType) && (
+                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
+                    <li>
+                      <a href="#">
+                        <FontAwesomeIcon icon={faComments} className="style-icon" />
+                        Buzón
+                      </a>
+                    </li>
+                  )}
+                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
                       <a href="fechas">
                         <FontAwesomeIcon icon={faClock} className="style-icon" />
@@ -228,7 +253,9 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
           <div className="elements-right">
             {isAuth ? (
               <>
-                <div className="username-page">Bienvenido, {usersMap[userType === "" ? "Estudiante" : userType]}</div>
+                <div className="username-page">
+                  Bienvenido, {usersMap[userType === "" || userType === null ? "Estudiante" : userType]}
+                </div>
                 <div className="notifications">
                   <button>
                     <FontAwesomeIcon icon={faBell} />
@@ -243,7 +270,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                   </span>
                   <ul className="dropdown-content-us">
                     <li>
-                      <a href="#">
+                      <a onClick={(event) => handleProfile(event)}>
                         <FontAwesomeIcon icon={faCircleUser} className="style-icon" />
                         Ver perfil
                       </a>

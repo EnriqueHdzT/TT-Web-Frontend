@@ -15,6 +15,16 @@ import SubirProtocolo from "./components/SubirProtocolo/SubirProtocolo";
 import VerProtocolos from "./components/VerProtocolos/VerProtocolos";
 import Password from "./components/Password/Password";
 import VerInfo from "./components/VerInfo/VerInfo";
+import AbrirDocumento from "./components/AbrirDocumento/Documento";
+import EvaluarProtocolo from "./components/EvaluarProtocolo/EvaluarPro";
+import ClasificarProtocolo from "./components/ClasificarProtocolo/ClasificarProtocolo";
+import ValidarProtocolo from "./components/ValidarProtocolo/ValidarProtocolo";
+import MonitoreoProtocolo from "./components/MonitoreoProtocolo/MonitoreoProtocolo";
+import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
+import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
+import VerMas from "./components/VerMas/VerMas";
+import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
+import BuzonAyuda from "./components/Buzon/BuzonAyuda";
 
 
 import "./App.scss";
@@ -23,40 +33,27 @@ import HelpSection from "./components/Help/Ayuda.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
+  
+  const pdfEvaluar = "/Protocolo_2.pdf";
+  const pdfClasificar = "/Protocolo_2.pdf";
+  const pdfValidar = "/Protocolo.pdf";
+
+
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setAuth(true);
+    } else {
+      setAuth(false);
     }
-  }, []);
 
-  useEffect(() => {
-    const checkSession = async () => {
-      if (localStorage.getItem("token")) {
-        try {
-          const response = await fetch("http://127.0.0.1:8000/api/keepalive", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          });
+    if (localStorage.getItem("userType") !== null) {
+      setUserType(localStorage.getItem("userType") as string);
+    } else {
+      setUserType(null);
 
-          if (!response.ok) {
-            throw new Error("Error al chequear la sesión");
-          }
-
-          setAuth(true);
-        } catch {
-          localStorage.removeItem("token");
-          setAuth(false);
-        }
-      }
-    };
-
-    const intervalID = setInterval(checkSession, 1000 * 30);
-
-    return () => clearInterval(intervalID);
+    }
   }, []);
 
   return (
@@ -65,25 +62,27 @@ export default function App() {
         <Navbar isAuth={isAuth} />
         <div className="app-body">
           <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/login" element={<Login setAuth={setAuth} />} />
-            <Route path="/register" element={<StudentRegister />} />
-            <Route path="/verify" element={<VerifiCorreo />} />
-            <Route path="/validate" element={<ValidateCorreo />} />
-            <Route path="/ayuda" element={<HelpSection/>}/>
+            <Route path="/" element={<PaginaPrincipal />} />
+            <Route path="/login" element={<Login setAuth={setAuth} setUserType={setUserType} />} />
+            <Route path="/registro" element={<StudentRegister />} />
+            <Route path="/revisar_correo" element={<VerifiCorreo />} />
+            <Route path="/validar_correo" element={<ValidateCorreo />} />
+            <Route path="/usuarios" element={<VerUsuarios />} />
+            <Route path="/usuarios/:id" element={<VerInfo />} />
+            <Route path="/subir_protocolo" element={<SubirProtocolo />} />
+            <Route path="/fechas" element={<DatesAndTerms />} />
+            <Route path="/protocolos" element={<VerProtocolos />} />
+            <Route path="/cambiar_contraseña" element={<Password />} />
+            <Route path="/cambiar_contraseña/:token" element={<Password />} />
+            <Route path="/documento/:id" element={<AbrirDocumento />} />
+            <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
+            <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
+            <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar} />} />
             <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
-            // Protected routes
-            {isAuth ? (
-              <>
-                <Route path="/users" element={<VerUsuarios />} />
-
-                <Route path="/protocols" element={<SubirProtocolo />} />
-                <Route path="/dates" element={<DatesAndTerms />} />
-                <Route path="/seeprotocols" element={<VerProtocolos />} />
-                <Route path="/password" element={<Password />} />
-                <Route path="/verinfo" element={<VerInfo />} />{" "}
-              </>
-            ) : null}
+            <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo />} />
+            <Route path="/vermas" element={<VerMas />} />
+            <Route path="/crear_publicacion" element={<CrearPublicacion />} />
+            <Route path="/buzon" element={<BuzonAyuda />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
