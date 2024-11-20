@@ -22,6 +22,7 @@ import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
 import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
 import VerMas from "./components/VerMas/VerMas";
 import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
+import BuzonAyuda from "./components/Buzon/BuzonAyuda";
 
 import "./App.scss";
 
@@ -102,6 +103,7 @@ export default function App() {
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo /> } />
             <Route path="/vermas" element={<VerMas />} />
             <Route path="/crear_publicacion" element={<CrearPublicacion />} />
+            <Route path="/buzon" element={<BuzonAyuda />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
