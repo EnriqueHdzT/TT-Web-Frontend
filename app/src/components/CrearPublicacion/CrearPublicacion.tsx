@@ -32,7 +32,7 @@ const CrearPublicacion = () => {
     <div className="publi-detalle">
       <div className="detalle-publi">
         <div className="detail-psuperior">
-          <h1>Título de publicación</h1>
+          <h1>Título de publicaciónn</h1>
           <input
             type="text"
             value={title}
