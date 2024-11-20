@@ -21,6 +21,8 @@ import MonitoreoProtocolo from "./components/MonitoreoProtocolo/MonitoreoProtoco
 import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
 import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
 import VerMas from "./components/VerMas/VerMas";
+import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
+import BuzonAyuda from "./components/Buzon/BuzonAyuda";
 
 import "./App.scss";
 
@@ -28,7 +30,6 @@ export default function App() {
   const [isAuth, setAuth] = useState(false);
   const [userType, setUserType] = useState("");
   
-  const pdfUrl = '/Protocolo.pdf';
   const pdfEvaluar = '/Protocolo_2.pdf';
   const pdfClasificar = '/Protocolo_2.pdf';
   const pdfValidar = '/Protocolo.pdf';
@@ -94,13 +95,15 @@ export default function App() {
             <Route path="/protocolos" element={<VerProtocolos />} />
             <Route path="/cambiar_contraseña" element={<Password />} />
             <Route path="/cambiar_contraseña/:token" element={<Password />} />
-            <Route path="/documento/:id" element={<AbrirDocumento pdfUrl={pdfUrl} />} />
+            <Route path="/documento/:id" element={<AbrirDocumento />} />
             <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar}/> } />
             <Route path="/recuperarpassword" element={<RecuperarPassword />} />
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo /> } />
             <Route path="/vermas" element={<VerMas />} />
+            <Route path="/crear_publicacion" element={<CrearPublicacion />} />
+            <Route path="/buzon" element={<BuzonAyuda />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
