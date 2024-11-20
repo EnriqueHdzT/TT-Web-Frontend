@@ -191,7 +191,7 @@ export default function Login({ setAuth }: LoginProps) {
               </button>
             </form>
             <div className="messa-sesion">
-              <a href="/validate" className="forget">
+              <a href="/validar_correo" className="forget">
                 Olvidé mi contraseña
               </a>
               <a href="/register" className="register">

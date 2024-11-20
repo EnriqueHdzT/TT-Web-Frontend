@@ -14,7 +14,7 @@ export default function Footer() {
         <a>Términos de Uso | </a>
         <a>Políticas de Privacidad | </a>
         <a>Buzón de Sugerencias |</a>
-          <a href="/ayuda">AYUDA</a>
+          <a href="/buzon">AYUDA</a>
       </div>
       <div className="col">
         <a>LOGO</a>

@@ -66,7 +66,7 @@ export default function RecuperarContrasena() {
                 setTimeout(() => navigate("/"), 3000);
             } else {
                 setMessage(`Error: Ya no es valida tu solicitud`);
-                setTimeout(() => navigate("/validate"), 3000);
+                setTimeout(() => navigate("/cambiar_contraseña"), 3000);
             }
         } catch (error) {
             setMessage("Error al cambiar contraseña. Inténtalo más tarde.");
