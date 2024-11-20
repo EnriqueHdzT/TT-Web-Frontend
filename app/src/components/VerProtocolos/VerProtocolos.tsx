@@ -6,11 +6,21 @@ import Protocolinfo from "./components/Protocolinfo";
 
 export default function VerProtocolos() {
     const [ordenProtocol, setOrdenProtocol] = useState("Ordenar");
-    const [listOfOrden, setListOfOrden] = useState(["A validar","Activo","Aplazado","Cancelado"]);
+    const listOfOrden = {
+      "A validar": "waiting",
+      "Validado": "validated",
+      "Activo": "active",
+      "Aplazado": "classified",
+      "Cancelado": "canceled"
+    };
     const [isListOfOrden, setIsListOfOrden] = useState(true);
     const [ordenPeriodo, setOrdenPeriodo] = useState("Periodo");
-    const [listOfPeriodo, setListOfPeriodo] = useState(["2024-A","2023-B","2023-A","2022-B"]);
+    const listOfPeriodo = ["2024-1","2024-2","2023-1","2023-2"];
     const [isListOfPeriodo, setIsListOfPeriodo] = useState(true);
+    const [protocols, setProtocols] = useState([]);
+    const [loading, setLoading] = useState(false); 
+    const [currentPeriod, setCurrentPeriod] = useState("2024-1");
+    const [currentOrder, setCurrentOrder] = useState("");
   
     const updateOrdenProtocol = (newTerm: string) => {
       setOrdenProtocol(newTerm);
@@ -21,16 +31,44 @@ export default function VerProtocolos() {
       };
   
     useEffect(() => {
-      setIsListOfOrden(listOfOrden.length === 0);
+      setIsListOfOrden(Object.keys(listOfOrden).length === 0);
     }, [listOfOrden]);
-  
-    console.log("isListOfOrden: ", isListOfOrden);
 
     useEffect(() => {
         setIsListOfPeriodo(listOfPeriodo.length === 0);
       }, [listOfPeriodo]);
-    
-      console.log("isListOfPeriodo: ", isListOfPeriodo);
+
+    async function fetchProtocols(){
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      try {
+        const params = new URLSearchParams({ 
+          cycle: currentPeriod,
+          orderBy: listOfOrden[currentOrder], 
+        });
+        const response = await fetch(`http://127.0.0.1:8000/api/listProtocols/?${params}`, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const responseData = await response.json();
+        setProtocols(responseData.protocols);
+
+      } catch (error) {
+          console.log(error);
+      } finally {
+          setLoading(false);
+      }
+    };
+    console.log(currentPeriod)
+    useEffect(()=>{
+        fetchProtocols();
+    }, [currentOrder, currentPeriod]);
 
     return(
         <div>
@@ -50,9 +88,12 @@ export default function VerProtocolos() {
                   {ordenProtocol}
                 </button>
                 <ul className="dropdown-menu">
-                  {listOfOrden.map((term) => (
+                  {Object.keys(listOfOrden).map((term) => (
                     <li>
-                      <a className="dropdown-item" key={term} onClick={() => updateOrdenProtocol(term)}>
+                      <a className="dropdown-item" key={term} onClick={(e)=>{
+                        e.preventDefault();
+                        setCurrentOrder(e.target.innerText);
+                      }}>
                         {term}
                       </a>
                     </li>
@@ -76,7 +117,10 @@ export default function VerProtocolos() {
                 <ul className="dropdown-menu">
                   {listOfPeriodo.map((term) => (
                     <li>
-                      <a className="dropdown-item" key={term} onClick={() => updateOrdenPeriodo(term)}>
+                      <a className="dropdown-item" key={term} onClick={(e)=>{
+                        e.preventDefault();
+                        setCurrentPeriod(e.target.innerText);
+                      }}>
                         {term}
                       </a>
                     </li>
@@ -90,14 +134,14 @@ export default function VerProtocolos() {
                 </button>
           </div>
           </div>
-          {Protocolos.map((protocol) => (
+          {protocols.map((protocol) => (
             <Protocolinfo
-              idProtocol = {protocol.idProtocol}
-              titleProtocol = {protocol.titleProtocol}
-              statusProtocol = {protocol.statusProtocol}
-              studentList = {protocol.studentList}
-              directorList = {protocol.directorList}
-              sinodalList = {protocol.sinodalList}
+              idProtocol = {protocol.protocol_id}
+              titleProtocol = {protocol.title}
+              statusProtocol = {protocol.status}
+              // studentList = {protocol.studentList}
+              // directorList = {protocol.directorList}
+              // sinodalList = {protocol.sinodalList}
             />
           ))}
            
