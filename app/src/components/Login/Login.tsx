@@ -93,6 +93,7 @@ export default function Login({ setAuth }: LoginProps) {
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem("token", data.token);
+          localStorage.setItem("userType", data.userType);
           setAuth(true);
           navigate("/");
         } else {

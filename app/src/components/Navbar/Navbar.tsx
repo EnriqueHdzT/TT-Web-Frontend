@@ -41,7 +41,7 @@ const usersMap: UsersMap = {
   Presidente: "Presidente",
 };
 
-export default function Navbar({ isAuth = false, userType = null, isSearchEnable = false }) {
+export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -49,8 +49,17 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
   const [visible, setVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isUpdateActive, setIsUpdateActive] = useState(false);
+  const [userType, setUserType] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("userType") !== null) {
+      setUserType(localStorage.getItem("userType") ?? "");
+    } else {
+      setUserType("");
+    }
+  }, []);
 
   useEffect(() => {
     const checkAvailability = async () => {
@@ -189,14 +198,14 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                 </span>
                 <ul className="dropdown-content">
                   <li>
-                    <a href="protocolos">
+                    <a href="/protocolos">
                       <FontAwesomeIcon icon={faFileLines} className="style-icon" />
                       Ver Protocolos
                     </a>
                   </li>
                   {isUpdateActive && (
                     <li>
-                      <a href="subir_protocolo">
+                      <a href="/subir_protocolo">
                         <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
                         Subir Protocolo
                       </a>
@@ -204,7 +213,7 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                   )}
                   {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
-                      <a href="usuarios">
+                      <a href="/usuarios">
                         <FontAwesomeIcon icon={faUser} className="style-icon" />
                         Ver Usuarios
                       </a>
@@ -212,15 +221,7 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                   )}
                   {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
-                      <a href="#">
-                        <FontAwesomeIcon icon={faComments} className="style-icon" />
-                        Buzón
-                      </a>
-                    </li>
-                  )}
-                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
-                    <li>
-                      <a href="fechas">
+                      <a href="/fechas">
                         <FontAwesomeIcon icon={faClock} className="style-icon" />
                         Fechas
                       </a>

@@ -26,33 +26,22 @@ import VerMas from "./components/VerMas/VerMas";
 import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
 import BuzonAyuda from "./components/Buzon/BuzonAyuda";
 
-
 import "./App.scss";
 import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContrasena.tsx";
 import HelpSection from "./components/Help/Ayuda.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
-  const [userType, setUserType] = useState<string | null>(null);
-  
+
   const pdfEvaluar = "/Protocolo_2.pdf";
   const pdfClasificar = "/Protocolo_2.pdf";
   const pdfValidar = "/Protocolo.pdf";
-
-
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setAuth(true);
     } else {
       setAuth(false);
-    }
-
-    if (localStorage.getItem("userType") !== null) {
-      setUserType(localStorage.getItem("userType") as string);
-    } else {
-      setUserType(null);
-
     }
   }, []);
 
@@ -63,7 +52,7 @@ export default function App() {
         <div className="app-body">
           <Routes>
             <Route path="/" element={<PaginaPrincipal />} />
-            <Route path="/login" element={<Login setAuth={setAuth} setUserType={setUserType} />} />
+            <Route path="/login" element={<Login setAuth={setAuth} />} />
             <Route path="/registro" element={<StudentRegister />} />
             <Route path="/revisar_correo" element={<VerifiCorreo />} />
             <Route path="/validar_correo" element={<ValidateCorreo />} />
