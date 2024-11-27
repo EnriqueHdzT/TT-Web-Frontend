@@ -21,7 +21,6 @@ import ClasificarProtocolo from "./components/ClasificarProtocolo/ClasificarProt
 import ValidarProtocolo from "./components/ValidarProtocolo/ValidarProtocolo";
 import MonitoreoProtocolo from "./components/MonitoreoProtocolo/MonitoreoProtocolo";
 import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
-import RecuperarPassword from "./components/RecuperarPassword/RecuperarPassword";
 import VerMas from "./components/VerMas/VerMas";
 import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
 import BuzonAyuda from "./components/Buzon/BuzonAyuda";
@@ -29,12 +28,11 @@ import BuzonAyuda from "./components/Buzon/BuzonAyuda";
 
 import "./App.scss";
 import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContrasena.tsx";
-import HelpSection from "./components/Help/Ayuda.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
   const [userType, setUserType] = useState<string | null>(null);
-  
+
   const pdfEvaluar = "/Protocolo_2.pdf";
   const pdfClasificar = "/Protocolo_2.pdf";
   const pdfValidar = "/Protocolo.pdf";
@@ -80,7 +78,7 @@ export default function App() {
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar} />} />
             <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo />} />
-            <Route path="/vermas" element={<VerMas />} />
+            <Route path="/vermas/:tipo/:id" element={<VerMas />} />
             <Route path="/crear_publicacion" element={<CrearPublicacion />} />
             <Route path="/buzon" element={<BuzonAyuda />} />
             <Route path="*" element={<Navigate to="/" />} />
