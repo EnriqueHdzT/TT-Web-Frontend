@@ -18,17 +18,23 @@ $black-fontd: #2c2c2c;
 $blue: #1c90f3;
 $gray-pass: #a2a2a2;
 
-.t-basic {
+.info-contenedor{
   width: 100%;
-  height: auto;
   margin: 0 auto;
   flex-wrap: wrap;
   display: flex;
+  justify-content: center;
+  align-items: center;
+
+.t-basic {
+  width: 100%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  margin-top: 1%;
 
   .tl-u {
-    margin-top: 4rem;
     padding-left: 4%;
-    width: 50%;
+    width: 100%;
     height: 50px;
     color: $blue;
     font: 600 1.1rem "Poppins";
@@ -124,4 +130,5 @@ $gray-pass: #a2a2a2;
       margin-bottom: 5px;
     }
   }
+}
 }

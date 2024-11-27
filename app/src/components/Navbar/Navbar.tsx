@@ -92,23 +92,23 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
     if (location.pathname === "/") {
       return (
         <>
-          <a className="btn btn-primary" href="/login">
+          <a className="inicio-button" href="/login">
             Iniciar Sesión
           </a>
-          <a className="btn btn-outline-secondary" href="/registro">
+          <a className="registro-button" href="/registro">
             Registro del Alumno
           </a>
         </>
       );
-    } else if (location.pathname === "/login") {
+    } else if (location.pathname === "login") {
       return (
-        <a className="btn btn-outline-secondary" href="/registro">
+        <a className="registro-button" href="/registro">
           Registro del Alumno
         </a>
       );
     } else if (location.pathname === "/registro") {
       return (
-        <a className="btn btn-primary" href="/login">
+        <a className="inicio-button" href="/login">
           Iniciar Sesión
         </a>
       );
@@ -189,14 +189,14 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                 </span>
                 <ul className="dropdown-content">
                   <li>
-                    <a href="protocolos">
+                    <a href="/protocolos">
                       <FontAwesomeIcon icon={faFileLines} className="style-icon" />
                       Ver Protocolos
                     </a>
                   </li>
                   {isUpdateActive && (
                     <li>
-                      <a href="subir_protocolo">
+                      <a href="/subir_protocolo">
                         <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
                         Subir Protocolo
                       </a>
@@ -204,7 +204,7 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                   )}
                   {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
-                      <a href="usuarios">
+                      <a href="/usuarios">
                         <FontAwesomeIcon icon={faUser} className="style-icon" />
                         Ver Usuarios
                       </a>
@@ -212,7 +212,7 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                   )}
                   {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
-                      <a href="#">
+                      <a href="/buzon">
                         <FontAwesomeIcon icon={faComments} className="style-icon" />
                         Buzón
                       </a>
@@ -220,7 +220,7 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                   )}
                   {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
                     <li>
-                      <a href="fechas">
+                      <a href="/fechas">
                         <FontAwesomeIcon icon={faClock} className="style-icon" />
                         Fechas
                       </a>
@@ -264,6 +264,7 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                 <div className="profile-circle">
                   <img src="https://i.ibb.co/qRGfzdB/Clipped-9.png" className="profile-user" alt="Profile"></img>
                 </div>
+                <div className="z-nav">
                 <div className={`dropdown-user ${isOn ? "active" : ""}`} id="myDropdownus">
                   <span onClick={() => setIsOn(!isOn)}>
                     <FontAwesomeIcon icon={isOn ? faChevronUp : faChevronDown} className="style-gico" />
@@ -282,6 +283,7 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                       </a>
                     </li>
                   </ul>
+                </div>
                 </div>
               </>
             ) : (
