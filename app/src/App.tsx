@@ -32,6 +32,7 @@ import HelpSection from "./components/Help/Ayuda.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
+  const [userType, setUserType] = useState("");
 
   const pdfEvaluar = "/Protocolo_2.pdf";
   const pdfClasificar = "/Protocolo_2.pdf";
@@ -43,22 +44,27 @@ export default function App() {
     } else {
       setAuth(false);
     }
+
+    if (localStorage.getItem("userType")) {
+      setUserType(localStorage.getItem("userType") ?? "");
+    }
   }, []);
 
   return (
     <div className="page-container">
       <Router>
-        <Navbar isAuth={isAuth} />
+        <Navbar isAuth={isAuth} userType={userType} />
         <div className="app-body">
           <Routes>
             <Route path="/" element={<PaginaPrincipal />} />
-            <Route path="/login" element={<Login setAuth={setAuth} />} />
+            <Route path="/login" element={<Login setAuth={setAuth} setUserType={setUserType} />} />
             <Route path="/registro" element={<StudentRegister />} />
             <Route path="/revisar_correo" element={<VerifiCorreo />} />
             <Route path="/validar_correo" element={<ValidateCorreo />} />
             <Route path="/usuarios" element={<VerUsuarios />} />
             <Route path="/usuarios/:id" element={<VerInfo />} />
             <Route path="/subir_protocolo" element={<SubirProtocolo />} />
+            <Route path="/subir_protocolo/:id" element={<SubirProtocolo />} />
             <Route path="/fechas" element={<DatesAndTerms />} />
             <Route path="/protocolos" element={<VerProtocolos />} />
             <Route path="/cambiar_contraseña" element={<Password />} />

@@ -19,7 +19,7 @@ const academies = ["Ciencia de Datos", "Ciencias Basicas", "Ciencias de la Compu
 export default function VerUsuarios() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("token") /* || localStorage.getItem("userType") === "" */) {
+    if (!localStorage.getItem("token")) {
       navigate("/");
     }
   });
@@ -186,7 +186,9 @@ export default function VerUsuarios() {
       formData.append("secondLastName", newStudentSecondLastName);
       formData.append("boleta", newStudentBoleta);
       formData.append("career", newStudentCareer);
-      newStudentCurriculum === "" ? formData.append("curriculum", "2020") : formData.append("curriculum", newStudentCurriculum);
+      newStudentCurriculum === ""
+        ? formData.append("curriculum", "2020")
+        : formData.append("curriculum", newStudentCurriculum);
 
       const response = await fetch("http://127.0.0.1:8000/api/createStudent", {
         method: "POST",

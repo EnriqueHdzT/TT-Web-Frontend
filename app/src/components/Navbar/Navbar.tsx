@@ -5,7 +5,6 @@ import {
   faFileLines,
   faPenToSquare,
   faUser,
-  faComments,
   faClock,
   faBell,
   faCircleUser,
@@ -41,7 +40,7 @@ const usersMap: UsersMap = {
   Presidente: "Presidente",
 };
 
-export default function Navbar({ isAuth = false, isSearchEnable = false }) {
+export default function Navbar({ isAuth = false, userType = "", isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -49,17 +48,8 @@ export default function Navbar({ isAuth = false, isSearchEnable = false }) {
   const [visible, setVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isUpdateActive, setIsUpdateActive] = useState(false);
-  const [userType, setUserType] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (localStorage.getItem("userType") !== null) {
-      setUserType(localStorage.getItem("userType") ?? "");
-    } else {
-      setUserType("");
-    }
-  }, []);
 
   useEffect(() => {
     const checkAvailability = async () => {

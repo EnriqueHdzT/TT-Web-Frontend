@@ -1,79 +1,298 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
 
-export default function AgregarDirector() {
-    const [showPopup, setShowPopup] = useState(false);
-    const [email, setEmail] = useState('');
-    const [nombre, setNombre] = useState('');
-    const [Papellido, setPapellido] = useState('');
-    const [Sapellido, setSapellido] = useState('');
-    const [carrera, setCarrera] = useState('');
-    const [otro, setOtro] = useState('');
-    const [selectedFile, setSelectedFile] = useState(null);
-    
+interface DirectorData {
+  email: string;
+  name: string | null;
+  lastname: string | null;
+  second_lastname: string | null;
+  precedence: string | null;
+  academy: string | null;
+  cedula: File | null;
+}
+interface SinodalData {
+  email: string;
+}
 
-    const togglePopup = () => {
-      setShowPopup(!showPopup);
-    };
-  
-    const handleAgregar = () => {
-        // Aquí se envian a la base de datos ssdasd.
-        console.log('Valores ingresados:', { email, nombre, Papellido, Sapellido, carrera, otro });
-    
-        // Cerrar el Popup
-        setShowPopup(false);
+interface Props {
+  directors: DirectorData[];
+  sinodals: SinodalData[];
+  setDirectors: React.Dispatch<React.SetStateAction<DirectorData[]>>;
+}
+
+export default function AgregarDirector({ directors = [], sinodals = [], setDirectors }: Props) {
+  const [showPopup, setShowPopup] = useState(false);
+  const [email, setEmail] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [Papellido, setPapellido] = useState("");
+  const [Sapellido, setSapellido] = useState("");
+  const [precedencia, setPrecedencia] = useState("");
+  const [academia, setAcademia] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [tooManyDirectors, setTooManyDirectors] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+  const [showExtraData, setShowExtraData] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState(true);
+  const [sendButtonEnabled, setSendButtonEnabled] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
+
+  useEffect(() => {
+    if (directors.length >= 2) {
+      setTooManyDirectors(true);
+    } else {
+      setTooManyDirectors(false);
+    }
+  }, [directors]);
+
+  useEffect(() => {
+    const isEmailValid = email !== "" && /^[a-zA-Z0-9._%+-]+@(ipn\.mx)$/.test(email);
+    const isNameValid = nombre !== "";
+    const isPapellidoValid = Papellido !== "";
+    const isPrecedenciaValid = precedencia !== "";
+    const isAcademiaValid = precedencia === "ESCOM" ? academia !== "" : true;
+    const isCedulaValid = precedencia !== "ESCOM" ? selectedFile !== null : true;
+
+    setSendButtonEnabled(
+      isEmailValid && isNameValid && isPapellidoValid && isPrecedenciaValid && isAcademiaValid && isCedulaValid
+    );
+  }, [email, nombre, Papellido, precedencia, academia, selectedFile]);
+
+  const togglePopup = () => {
+    setEmail("");
+    setNombre("");
+    setPapellido("");
+    setSapellido("");
+    setPrecedencia("");
+    setAcademia("");
+    setSelectedFile(null);
+    setSendButtonEnabled(false);
+    setShowWarning(false);
+    setShowExtraData(false);
+    setEmailIsValid(true);
+    setEmailExists(false);
+    setShowPopup(!showPopup);
+  };
+
+  const checkIfUserExists = async () => {
+    try {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@(ipn\.mx)$/;
+      if (emailRegex.test(email)) {
+        const response = await fetch(`http://127.0.0.1:8000/api/userExists/${email}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Error al buscar el correo");
+        }
+
+        setShowWarning(false);
+        setShowExtraData(false);
+        setSendButtonEnabled(true);
+        setEmailIsValid(true);
+        handleAgregar();
+      } else {
+        setEmailIsValid(false);
+      }
+    } catch (error) {
+      console.error("Error al buscar el correo");
+      setShowWarning(true);
+      setEmailIsValid(true);
+      setShowExtraData(true);
+    }
+  };
+
+  const handleAgregar = () => {
+    const emailAlreadyExistsInDirectors = directors.some((director) => director.email === email);
+    const emailAlreadyExistsInSinodals = sinodals.some((sinodal) => sinodal.email === email);
+
+    if (!emailAlreadyExistsInDirectors && !emailAlreadyExistsInSinodals) {
+      const newStudent: DirectorData = {
+        email: email,
+        name: nombre === "" ? null : nombre,
+        lastname: Papellido === "" ? null : Papellido,
+        second_lastname: Sapellido === "" ? null : Sapellido,
+        precedence: precedencia === "" ? null : precedencia,
+        academy: academia === "" ? null : academia,
+        cedula: selectedFile,
       };
+      setDirectors((prevStudents) => [...prevStudents, newStudent]);
 
-      const handleFileUpload = (e) => {
-        const file = e.target.files[0]; // Obtiene el primer archivo seleccionado
-        setSelectedFile(file); // Almacena el archivo seleccionado en el estado
-        console.log('Archivo seleccionado:', file);
-        // Aquí puedes realizar alguna acción con el archivo, como enviarlo a un servidor
-      };
+      togglePopup();
+    } else {
+      setEmailExists(true);
+    }
+  };
 
-return(
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const targetFile = e.target as HTMLInputElement;
+    if (targetFile.files) {
+      const file = targetFile.files[0];
+      const maxFileSize = 6 * 1024 * 1024;
 
- <div className="item">
-  <div className="tit-pr">Director(es)</div>
-  <div className="cont-pr">Agrega los directores que participarán en el protocolo</div>
-  <div className="icon-pr" onClick={togglePopup}><FontAwesomeIcon icon={faCirclePlus} className="icon" /></div>
-            {showPopup && (
+      if (file.size <= maxFileSize) {
+        setSelectedFile(file);
+      } else {
+        alert("El archivo debe pesar menos de 6MB.");
+      }
+    }
+  };
+
+  const handleDirectorDelete = (index: number) => {
+    setDirectors((prevDirectors) => prevDirectors.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="item">
+      <div className="tit-pr">Director(es)</div>
+      <div className="cont-pr">Agrega los directores que participarán en el protocolo</div>
+      {!tooManyDirectors && (
+        <div className="icon-pr" onClick={togglePopup}>
+          <FontAwesomeIcon icon={faCirclePlus} className="icon" />
+        </div>
+      )}
+      {showPopup && (
         <div className="popup-background" onClick={togglePopup}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
             <div className="popup_content">
-            <h1>Agregar Director</h1>
-            <div className="item3">
-              <div className="tit-1">Correo Institucional<input type="email" placeholder="Ingresa el correo institucional del director" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <button>Buscar</button>
-              <div className="adven"><FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> 
-              El correo que has buscado no se encuentra registrado en la aplicación. Se enviará una notificación a su correo electrónico, o en cualquier otro caso acude directamente a la CATT.
+              <h1>Agregar Director</h1>
+              <div className="item3">
+                {directors.length === 0 && (
+                  <div className="adven">
+                    <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                    Recuerda que el primer director debe pertenecer a la ESCOM, ademas de estar registrado en la
+                    aplicación. Si este no se encuentra en el sistema acude a la CATT <br />
+                    <br />
+                  </div>
+                )}
+                <div className="tit-1">
+                  Correo Institucional
+                  <input
+                    type="email"
+                    placeholder="Ingresa el correo institucional del director"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <button onClick={checkIfUserExists}>Buscar</button>
+                  {showWarning && (
+                    <div className="adven">
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                      El correo que has buscado no se encuentra registrado en la aplicación.{" "}
+                    </div>
+                  )}
+                  {!emailIsValid && (
+                    <div className="adven">
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                      El correo no cumple con el formato esperado
+                    </div>
+                  )}
+                  {emailExists && (
+                    <div className="adven">
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                      El correo ya se encuentra registrado en este protocolo
+                    </div>
+                  )}
+                </div>
+                {showExtraData && directors.length !== 0 && (
+                  <div className="container">
+                    <div className="tit-2">
+                      Nombre(s){" "}
+                      <input
+                        type="text"
+                        placeholder="Nombre"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                      />
+                    </div>
+                    <div className="tit-2">
+                      Primer apellido{" "}
+                      <input
+                        type="text"
+                        placeholder="Ingresa el primer apellido"
+                        value={Papellido}
+                        onChange={(e) => setPapellido(e.target.value)}
+                      />
+                    </div>
+                    <div className="tit-2">
+                      Segundo apellido{" "}
+                      <input
+                        type="text"
+                        placeholder="Ingresa el segundo apellido"
+                        value={Sapellido}
+                        onChange={(e) => setSapellido(e.target.value)}
+                      />
+                    </div>
+                    <div className="tit-2">
+                      Escuela{" "}
+                      <input
+                        type="text"
+                        placeholder="Ingresa el nombre de la escuela de precedencia"
+                        value={precedencia}
+                        onChange={(e) => setPrecedencia(e.target.value)}
+                      />
+                    </div>
+                    {precedencia === "ESCOM" && (
+                      <div className="tit-2">
+                        Academia{" "}
+                        <input
+                          type="text"
+                          placeholder="Ingresa la academia a la que pertenece"
+                          value={academia}
+                          onChange={(e) => setAcademia(e.target.value)}
+                        />
+                      </div>
+                    )}
+                    {precedencia !== "ESCOM" && (
+                      <>
+                        <div className="tit-1">
+                          <div className="adven">
+                            <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                            No olvides agregar la cédula del profesor para asi generar su dada de alta en el sistema.
+                          </div>
+                        </div>
+                        <div className="tit-3">
+                          Cedula{" "}
+                          <div className="button-upload">
+                            <label htmlFor="file-upload" className="custom-file-upload">
+                              Selecciona un archivo
+                            </label>
+                            <input id="file-upload" type="file" onChange={handleFileUpload} />{" "}
+                            {selectedFile && <div className="ar-file">Archivo seleccionado: {selectedFile.name}</div>}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    <div className="adven">
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Recuerda que el archivo no
+                      debe pesar más de 6mb y debe pertenecer a un formato PDF
+                    </div>
+                  </div>
+                )}
+
+                <div className="b-agregar">
+                  <button onClick={handleAgregar} disabled={!sendButtonEnabled}>
+                    Agregar
+                  </button>
+                </div>
               </div>
-              </div>
-              <div className="tit-2">Nombre(s) <input type="text" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} /></div>
-              <div className="tit-2">Primer apellido <input type="text" placeholder="Ingresa el primer apellido" value={Papellido} onChange={(e) => setPapellido(e.target.value)} /></div>
-              <div className="tit-2">Segundo apellido <input type="text" placeholder="Ingresa el segundo apellido" value={Sapellido} onChange={(e) => setSapellido(e.target.value)} /></div>
-               <div className="tit-2">Escuela <div className='espa-d'><select className="s-es" value={carrera} onChange={(e) => setCarrera(e.target.value)}>
-                <option value="">Selecciona la procedencia del director</option>
-                <option value="escom">ESCOM</option>
-                <option value="cidetec">CIDETEC</option>
-                <option value="otro">Otro</option>
-              </select> </div><div className='o-v'><input type="text" placeholder="Otro valor" value={otro} onChange={(e) => setOtro(e.target.value)} /></div>
-              </div>
-              <div className="tit-1"><div className="adven"><FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> 
-              Al seleccionar otra escuela, especifica el nombre de su procedencia. No olvides agregar la cédula del profesor con los datos requeridos para su dada de alta en el sistema.</div></div>
-              <div className="tit-3">Cedula    <div className="button-upload">
-      <label htmlFor="file-upload" className="custom-file-upload">
-       Selecciona un archivo</label>
-      <input id="file-upload" type="file" onChange={handleFileUpload} /> {selectedFile && <div className='ar-file'>Archivo seleccionado: {selectedFile.name}</div>}
-    </div>
-              </div>
-              </div>
-              <div className="b-agregar"><button onClick={handleAgregar}>Agregar</button></div>
             </div>
           </div>
         </div>
       )}
-</div>
-)
+      <div className="directors">
+        {directors.map((director, index) => (
+          <div className="director" key={index}>
+            <div className="email">{director.email}</div>
+            <button>
+              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
