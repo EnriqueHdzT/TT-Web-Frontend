@@ -11,18 +11,29 @@ $dropdown-bg-color: #fafafb;
 $dropdown-hover-color: #ebebeb;
 $dropdown-list-color: #f4f4f4;
 $search-blue: #1c90f3;
+$primary-color: #000000;
+$secondary-color: #649bc8;
+$neutral-light-color: #f8f8f8; 
+$neutral-dark-color: #2c2c2c;
+$white-color: #ffffff;
+$background-hover-color: #96c1ef;
+$background-secondary-color: #ededed;
+
 
 /*========== Font and typography ==========*/
 $black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+$home-color: #90CAF9;
 
 /*========== z index ==========*/
-$z-fixed: 9999;
+$z-fixed: 10;
 //agregar botones de docentes
 
 #header {
   position: fixed;
-  z-index: 1;
   width: 100%;
+  z-index: 10;
 }
 
 .dropdown {
@@ -170,6 +181,7 @@ $z-fixed: 9999;
     position: relative;
     display: inline-block;
     margin: 0 3rem 0 0;
+    cursor: pointer;
 
     &.active .dropdown-content-us {
       display: block;
@@ -191,7 +203,6 @@ $z-fixed: 9999;
       background-color: $dropdown-bg-color;
       min-width: 180px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: $z-fixed;
       font: 500 14px / 16px "Poppins";
       border-radius: 10px;
       padding: 0;
@@ -251,3 +262,25 @@ button {
   width: 100%;
   transition: opacity 0.4s ease 0s;
 }
+
+.inicio-button{
+  color: $body-color;
+  text-decoration: none;
+  background-color: $blue;
+  font: 500 0.8rem "Poppins";
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin-right: 3%;
+
+}
+
+.registro-button{
+  color: $blue;
+  text-decoration: none;
+  font: 500 0.8rem "Poppins";
+  padding: 8px 18px;
+  border-radius: 20px;
+  margin-right: 9%;
+  border: 2px solid $blue;
+}
+

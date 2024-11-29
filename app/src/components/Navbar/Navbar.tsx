@@ -91,23 +91,23 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
     if (location.pathname === "/") {
       return (
         <>
-          <a className="btn btn-primary" href="/login">
+          <a className="inicio-button" href="/login">
             Iniciar Sesión
           </a>
-          <a className="btn btn-outline-secondary" href="/registro">
+          <a className="registro-button" href="/registro">
             Registro del Alumno
           </a>
         </>
       );
-    } else if (location.pathname === "/login") {
+    } else if (location.pathname === "login") {
       return (
-        <a className="btn btn-outline-secondary" href="/registro">
+        <a className="registro-button" href="/registro">
           Registro del Alumno
         </a>
       );
     } else if (location.pathname === "/registro") {
       return (
-        <a className="btn btn-primary" href="/login">
+        <a className="inicio-button" href="/login">
           Iniciar Sesión
         </a>
       );
@@ -255,6 +255,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                 <div className="profile-circle">
                   <img src="https://i.ibb.co/qRGfzdB/Clipped-9.png" className="profile-user" alt="Profile"></img>
                 </div>
+                <div className="z-nav">
                 <div className={`dropdown-user ${isOn ? "active" : ""}`} id="myDropdownus">
                   <span onClick={() => setIsOn(!isOn)}>
                     <FontAwesomeIcon icon={isOn ? faChevronUp : faChevronDown} className="style-gico" />
@@ -273,6 +274,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                       </a>
                     </li>
                   </ul>
+                </div>
                 </div>
               </>
             ) : (

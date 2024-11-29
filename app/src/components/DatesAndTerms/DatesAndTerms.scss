@@ -1,0 +1,282 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+$spacing-unit: 1rem;
+
+/*========== Colors ========== */
+$primary-color: #000000;
+$secondary-color: #649bc8;
+$neutral-light-color: #f8f8f8;
+$neutral-dark-color: #2c2c2c;
+$white-color: #ffffff;
+$background-hover-color: #96c1ef;
+$background-secondary-color: #ededed;
+$white-d: #f3f3f3;
+$back-bot: #E9ECEF;
+
+/*========== Font and typography ==========*/
+$font-family: "Arial", "Helvetica", sans-serif;
+$font-weight-base: 400;
+$font-weight-bold: 700;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
+$home-color: #90caf9;
+
+.dates_and_terms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+  box-sizing: border-box;
+  width: 100%;
+
+  @media (min-width: 1400px) {
+    min-height: 87vh;
+  }
+
+  .header-fechas {
+    width: 100%;
+    height: auto;
+    margin-top: 1%;
+
+    .row-fechas {
+      display: flex;
+
+      .title-fechas {
+        font: 600 1.3rem "Poppins";
+        padding: 0 0 0 5%;
+        width: 50%;
+
+        button {
+          background-color: transparent;
+          color: $blue;
+          margin-right: 2%;
+        }
+      }
+
+      .botones-fechas {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        margin-right: 5%;
+      
+        .margin-fe {
+          margin-right: 3%;
+          cursor: pointer;
+
+          .boton-fec {
+            background-color: #D2D6DA;
+            color: $black-fontd;
+            border-radius: 8px;
+            padding: 6px 20px;
+            font: 500 0.8rem "Poppins";
+          }
+
+          .dropdown-menu {
+            padding: 0;
+            border-radius: 10px;
+            font: 500 0.9rem "Poppins";
+            border: none;
+            z-index: 9;
+            background-color: #D2D6DA;
+            padding: 5px;
+
+            a {
+              color: $black-fontd;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              &:hover {
+                background-color: $back-bot;
+                border-radius: 10px;
+                color: $black-fontd;
+              }
+            }
+          }
+        }
+
+        .boton-ciclo {
+          border: 2px solid $blue;
+          border-radius: 10px;
+          padding: 5px 15px;
+          font: 500 0.8rem "Poppins";
+          color: $blue;
+
+          &:hover{
+            background-color: $back-bot;
+          }
+
+          .estilo-c {
+            color: $gray-pass;
+            padding: 0 0 0 5px;
+          }
+        }
+      }
+    }
+  }
+  .no_data {
+    font: 500 1.3rem "Poppins";
+    margin-top: 10%;
+  }
+
+  .page_body {
+    width: 90%;
+    margin-top: 2%;
+
+    .accordion-header {
+      .accordion-button {
+        font: 500 1.1rem "Poppins";
+        color: $black-fontd;
+        background-color: $body-color;
+        padding: 10px 20px 10px 30px;
+        color: $blue;
+        position: static;
+        
+        &:focus {
+          box-shadow: none;
+        }
+      
+      }
+      
+    }
+
+    .accordion-body {
+      h2 {
+        font: 400 0.9rem "Poppins";
+
+        b {
+          font-weight: 500;
+          color: $blue;
+        }
+      }
+
+      .form-control {
+        font: 400 0.8rem "Poppins";
+      }
+
+      .btn {
+        background-color: $blue;
+        border: none;
+      }
+
+      .col-auto {
+        font: 400 0.8rem "Poppins";
+        margin-top: 10px;
+      }
+      .dropdown-menu {
+        min-width: 100px !important;
+        width: auto;
+        height: 250px;
+        overflow: auto;
+        font: 400 0.8rem "Poppins";
+        cursor: pointer;
+
+        &::-webkit-scrollbar {
+            width: 9px; /* Ancho de la barra */
+          }
+  
+          &::-webkit-scrollbar-thumb {
+            background-color: $blue; /* Color del pulgar de scroll */
+            border-radius: 4px; /* Bordes redondeados del pulgar */
+          }
+  
+          &::-webkit-scrollbar-track {
+            /* Color del fondo de la barra de scroll */
+            border-radius: 4px;
+            background-color: $body-color;
+          }
+      }
+     
+
+      .second_date_text_ord,
+      .third_date_text_ord,
+      .fourth_date_text_ord,
+      .fifth_date_text_ord,
+      .second_date_text_ext,
+      .third_date_text_ext,
+      .fourth_date_text_ext,
+      .fifth_date_text_ext {
+        padding-top: 10px;
+      }
+    }
+
+    .row_botof{
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        margin-top: 1%;
+
+        .col_botof{
+            width: 50%;
+                    
+            .btn-outline-primary{
+                border: 1px solid $blue;
+                border-radius: 20px;
+                font: 500 0.8rem "Poppins";
+                color: $blue;
+                margin-right: 5%;
+                width: 150px;
+
+                &:hover{
+                    background-color: $back-bot;
+                }
+            }
+
+            .btn-danger1{
+                font: 500 0.8rem "Poppins";
+                background-color: #69B1EF;
+                border-radius: 20px;
+                border: none;
+                color: $body-color;
+                margin-right: 5%;
+                width: 150px;
+            }
+
+            .btn-danger2{
+                font: 500 0.8rem "Poppins";
+                background-color: #ff9f92;
+                border-radius: 20px;
+                border: none;
+                color: $black-fontd;
+                width: 150px;
+            }
+
+        }
+
+        .col_borg{
+            width: 50%;
+            display: flex;
+            justify-content: right;
+
+            .btn-outline-primary{
+                border: 1px solid $blue;
+                border-radius: 20px;
+                font: 500 0.8rem "Poppins";
+                color: $blue;
+                margin-right: 5%;
+                width: 150px;
+
+                &:hover{
+                    background-color: $back-bot;
+                }
+
+            }
+            .btn-primary{
+                border: none;
+                background-color: $blue;
+                border-radius: 20px;
+                font: 500 0.8rem "Poppins";
+                color: $body-color;
+                width: 150px;
+ 
+            }
+        }
+    }
+  }
+}

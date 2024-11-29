@@ -2,7 +2,7 @@ import "./Documento.scss";
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface DocumentoProps {
   pdfUrl: string;
@@ -12,6 +12,11 @@ const Documento: React.FC<DocumentoProps> = ( props ) => {
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState('');
   const { id: protocolId } = useParams();
+  const navigate = useNavigate();
+
+  function goBack() {
+    navigate(-1); // This will navigate back to the previous page
+  }
 
   async function fetchData(){
     const token = localStorage.getItem("token");
@@ -45,7 +50,7 @@ const Documento: React.FC<DocumentoProps> = ( props ) => {
     <div>
       <div className="headdocumento">
         <div className="tt-a">
-          <a href="/" className="button-icon">
+          <a className="button-icon" onClick={goBack}>
             <FontAwesomeIcon icon={faChevronLeft} />
           </a>{" "}
           Abrir Documento

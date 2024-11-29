@@ -1,5 +1,6 @@
 import "./Protocolinfo.scss";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
@@ -11,6 +12,13 @@ export default function Protocolinfo({
   directorList = [],
   sinodalList = [],
 }) {
+
+  const navigate = useNavigate();
+
+  function seeDocument(){
+    navigate(`/documento/${idProtocol}`);
+  };
+
   return (
     <div className="p-box">
       <div className="p-tit">
@@ -40,23 +48,23 @@ export default function Protocolinfo({
             </>
           )}
         </Popup>
-        <button type="button" className="btn btn-outline-primary">
+        <button type="button" className="btn btn-outline-primary" onClick={seeDocument}>
           Documento
         </button>
       </div>
-      <div className="p-info">
+      {/* <div className="p-info">
         <div className="p-alumn">
           {studentList.map((student) => (
-            <a key={student.idBoleta}>
-              {student.studentName + " " + student.idBoleta}
+            <a key={student.curriculum}>
+              {student.name + " " + student.curriculum}
               <br></br>
             </a>
           ))}
         </div>
         <div className="p-director">
           {directorList.map((director) => (
-            <a key={director.precedencia}>
-              {director.directorName + " " + director.precedencia}
+            <a key={director.precedence}>
+              {director.name + " " + director.precedence}
               <br></br>
             </a>
           ))}
@@ -64,12 +72,12 @@ export default function Protocolinfo({
         <div className="p-sinodal">
           {sinodalList.map((sinodal) => (
             <a key={sinodal.academy}>
-              {sinodal.sinodalName + " " + sinodal.academy}
+              {sinodal.name + " " + sinodal.academy}
               <br></br>
             </a>
           ))}
         </div>
-      </div>
+      </div> */}
       <div className="p-statu">
         <button type="button" className="btn btn-outline-primary">
           {statusProtocol}

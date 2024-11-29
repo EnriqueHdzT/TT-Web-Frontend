@@ -95,6 +95,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
           const data = await response.json();
           localStorage.setItem("token", data.token);
           localStorage.setItem("userType", data.userType ?? "");
+
           setAuth(true);
           setUserType(data.userType ?? "");
           navigate("/");
@@ -194,7 +195,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
               </button>
             </form>
             <div className="messa-sesion">
-              <a href="/validate" className="forget">
+              <a href="/validar_correo" className="forget">
                 Olvidé mi contraseña
               </a>
               <a href="/register" className="register">
