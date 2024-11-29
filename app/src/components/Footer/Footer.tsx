@@ -13,8 +13,7 @@ export default function Footer() {
       <div className="col-6">
         <a>Términos de Uso | </a>
         <a>Políticas de Privacidad | </a>
-        <a>Buzón de Sugerencias |</a>
-          <a href="/ayuda">AYUDA</a>
+        <a>Buzón de Sugerencias</a>
       </div>
       <div className="col">
         <a>LOGO</a>
