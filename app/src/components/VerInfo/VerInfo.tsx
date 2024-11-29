@@ -280,6 +280,7 @@ export default function VerInfo() {
 
   return (
     <div>
+      <div className="info-contenedor">
       <div className="t-basic">
         <div className="tl-u">Información Básica</div>
       </div>
@@ -580,6 +581,8 @@ export default function VerInfo() {
           </div>
         </div>
       </div>
+
+      <div className="botones-info">
       <button
         className="btn btn-outline-primary"
         disabled={!wasUserEdited}
@@ -594,6 +597,8 @@ export default function VerInfo() {
       >
         Guardar
       </button>
+      </div>
     </div>
+     </div>
   );
 }

@@ -3,20 +3,20 @@ import "./Footer.scss";
 export default function Footer() {
   return (
     <footer className="footer row">
+      <div className="footer-aling">
       <div className="col">
         <p>
-          Copyright © 2023 ESCATT
-          <br />
-          Todos los derechos reservados
+          Copyright © 2024 ESCATT
         </p>
       </div>
       <div className="col-6">
-        <a>Términos de Uso | </a>
-        <a>Políticas de Privacidad | </a>
-        <a>Buzón de Sugerencias</a>
+        <a href="/terminos_de_uso">Terminos de Uso</a>
+        <a href="/politicas_de_privacidad">Politicas de Privacidad </a>
+        <a href="/buzon">Buzon de ayuda</a>
       </div>
       <div className="col">
-        <a>LOGO</a>
+      <a href="/">LOGO</a>
+      </div>
       </div>
     </footer>
   );

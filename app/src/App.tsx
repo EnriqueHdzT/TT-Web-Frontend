@@ -24,6 +24,8 @@ import PaginaPrincipal from "./components/PaginaPrincipal/PaginaPrincipal";
 import VerMas from "./components/VerMas/VerMas";
 import CrearPublicacion from "./components/CrearPublicacion/CrearPublicacion";
 import BuzonAyuda from "./components/Buzon/BuzonAyuda";
+import PoliticasPrivacidad from "./components/PoliticasPrivacidad/Politicas.tsx";
+import Terminos from "./components/TerminosUso/TerminosUso.tsx";
 
 
 import "./App.scss";
@@ -81,6 +83,9 @@ export default function App() {
             <Route path="/vermas/:tipo/:id" element={<VerMas />} />
             <Route path="/crear_publicacion" element={<CrearPublicacion />} />
             <Route path="/buzon" element={<BuzonAyuda />} />
+            <Route path="/politicas_de_privacidad" element={<PoliticasPrivacidad />} />
+            <Route path="/terminos_de_uso" element={<Terminos />} />
+            
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
