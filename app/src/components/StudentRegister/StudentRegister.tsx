@@ -112,7 +112,7 @@ export default function StudentRegister() {
     try {
       const formData = new URLSearchParams();
       formData.append("first_lastName", studentData.first_lastName);
-      formData.append("second_lastName", studentData.second_lastName);
+      studentData.second_lastName !== "" && formData.append("second_lastName", studentData.second_lastName);
       formData.append("name", studentData.name);
       formData.append("email", studentData.email);
       formData.append("email_confirmation", studentData.email_confirmation);

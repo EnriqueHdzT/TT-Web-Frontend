@@ -1,48 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation, faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
 
-export default function AgregarPalabras() {
-    const [showPopup, setShowPopup] = useState(false);
-    const [carrera, setCarrera] = useState('');
-    const [palabra, setPalabra] = useState('');
-    
+interface Props {
+  keywords: string[];
+  setKeywords: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
-    const togglePopup = () => {
-      setShowPopup(!showPopup);
-    };
-  
-    const handleAgregar = () => {
-        // Aquí se envian a la base de datos ssdasd.
-        console.log('Valores ingresados:', { palabra, carrera });
-    
-        // Cerrar el Popup
-        setShowPopup(false);
-      };
+export default function AgregarPalabras({ keywords = [], setKeywords }: Props) {
+  const [showPopup, setShowPopup] = useState(false);
+  const [tooManyKeywords, setTooManyKeywords] = useState(false);
+  const [palabra, setPalabra] = useState("");
 
+  useEffect(() => {
+    if (keywords.length >= 4) {
+      setTooManyKeywords(true);
+    } else {
+      setTooManyKeywords(false);
+    }
+  }, [keywords]);
 
-return(
+  const togglePopup = () => {
+    setPalabra("");
+    setShowPopup(!showPopup);
+  };
 
-            <div className="item">
-<div className="tit-pr">Palabras Clave</div>
-            <div className="cont-pr">Ingresa las palabras clave</div>
-            <div className="icon-pr" onClick={togglePopup}><FontAwesomeIcon icon={faCirclePlus} className="icon" /></div>
-            {showPopup && (
+  const handleAgregar = () => {
+    if (palabra.trim() !== "") {
+      setKeywords((prevKeywords) => {
+        const newKeywords = [...prevKeywords];
+        newKeywords.push(palabra);
+        newKeywords.sort((a, b) => a.localeCompare(b));
+        return newKeywords;
+      });
+      togglePopup();
+    }
+  };
+
+  const handleKeywordDelete = (index: number) => {
+    setKeywords((prevDirectors) => prevDirectors.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="item">
+      <div className="tit-pr">Palabras Clave</div>
+      <div className="cont-pr">Ingresa las palabras clave</div>
+      {!tooManyKeywords && (
+        <div className="icon-pr" onClick={togglePopup}>
+          <FontAwesomeIcon icon={faCirclePlus} className="icon" />
+        </div>
+      )}
+      {showPopup && (
         <div className="popup-background" onClick={togglePopup}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
             <div className="popup_content">
-            <h1>Agregar Palabras Clave</h1>
-            <div className="item3">
-              <div className="tit-2">Palabra Clave <input type="text" placeholder="Ingresa palabras clave" value={palabra} onChange={(e) => setPalabra(e.target.value)} />
+              <h1>Agregar Palabras Clave</h1>
+              <div className="item3">
+                <div className="tit-2">
+                  Palabra Clave{" "}
+                  <input
+                    type="text"
+                    placeholder="Ingresa palabras clave"
+                    value={palabra}
+                    onChange={(e) => setPalabra(e.target.value)}
+                  />
+                </div>
+                <div className="tit-1">
+                  <div className="adven">
+                    <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                    Recuerda que la palabra clave debe estar directamente relacionada con tu protocolo, sin exceder en
+                    los caracteres especificados en los requerimientos.
+                  </div>
+                </div>
               </div>
-              <div className="tit-1"><div className="adven"><FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> 
-              Recuerda que la palabra clave debe estar directamente relacionada con tu protocolo, sin exceder en los caracteres especificados en los requerimientos.</div></div>
-               </div>
-              <div className="b-agregar"><button onClick={handleAgregar}>Agregar</button></div>
+              <div className="b-agregar">
+                <button onClick={handleAgregar}>Agregar</button>
+              </div>
             </div>
           </div>
         </div>
       )}
-</div>
-    )
+      <div className="keywords">
+        {keywords.map((keyword, index) => (
+          <div className="keyword" key={index}>
+            <div className="email">{keyword}</div>
+            <button>
+              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleKeywordDelete(index)} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

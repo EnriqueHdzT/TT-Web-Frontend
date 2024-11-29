@@ -27,19 +27,17 @@ import BuzonAyuda from "./components/Buzon/BuzonAyuda";
 import PoliticasPrivacidad from "./components/PoliticasPrivacidad/Politicas.tsx";
 import Terminos from "./components/TerminosUso/TerminosUso.tsx";
 
-
 import "./App.scss";
 import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContrasena.tsx";
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
-  const [userType, setUserType] = useState<string | null>(null);
+  const [userType, setUserType] = useState("");
+
 
   const pdfEvaluar = "/Protocolo_2.pdf";
   const pdfClasificar = "/Protocolo_2.pdf";
   const pdfValidar = "/Protocolo.pdf";
-
-
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -48,18 +46,15 @@ export default function App() {
       setAuth(false);
     }
 
-    if (localStorage.getItem("userType") !== null) {
-      setUserType(localStorage.getItem("userType") as string);
-    } else {
-      setUserType(null);
-
+    if (localStorage.getItem("userType")) {
+      setUserType(localStorage.getItem("userType") ?? "");
     }
   }, []);
 
   return (
     <div className="page-container">
       <Router>
-        <Navbar isAuth={isAuth} />
+        <Navbar isAuth={isAuth} userType={userType} />
         <div className="app-body">
           <Routes>
             <Route path="/" element={<PaginaPrincipal />} />
@@ -70,6 +65,7 @@ export default function App() {
             <Route path="/usuarios" element={<VerUsuarios />} />
             <Route path="/usuarios/:id" element={<VerInfo />} />
             <Route path="/subir_protocolo" element={<SubirProtocolo />} />
+            <Route path="/subir_protocolo/:id" element={<SubirProtocolo />} />
             <Route path="/fechas" element={<DatesAndTerms />} />
             <Route path="/protocolos" element={<VerProtocolos />} />
             <Route path="/cambiar_contraseña" element={<Password />} />

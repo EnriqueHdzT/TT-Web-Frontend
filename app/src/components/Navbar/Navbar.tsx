@@ -5,7 +5,6 @@ import {
   faFileLines,
   faPenToSquare,
   faUser,
-  faComments,
   faClock,
   faBell,
   faCircleUser,
@@ -41,7 +40,7 @@ const usersMap: UsersMap = {
   Presidente: "Presidente",
 };
 
-export default function Navbar({ isAuth = false, userType = null, isSearchEnable = false }) {
+export default function Navbar({ isAuth = false, userType = "", isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -207,14 +206,6 @@ export default function Navbar({ isAuth = false, userType = null, isSearchEnable
                       <a href="/usuarios">
                         <FontAwesomeIcon icon={faUser} className="style-icon" />
                         Ver Usuarios
-                      </a>
-                    </li>
-                  )}
-                  {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
-                    <li>
-                      <a href="/buzon">
-                        <FontAwesomeIcon icon={faComments} className="style-icon" />
-                        Buzón
                       </a>
                     </li>
                   )}
