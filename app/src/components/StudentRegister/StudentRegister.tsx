@@ -136,7 +136,8 @@ export default function StudentRegister() {
         throw new Error("Error al registrar el estudiante");
       }
       setStudentData(initialStudentData);
-      navigate("/verificar_correo");
+      navigate("/revisar_correo");
+
     } catch (error) {
       setToastTitle("Error");
       setToastMessage("Error al registrar el estudiante");

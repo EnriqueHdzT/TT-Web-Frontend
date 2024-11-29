@@ -1,35 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Tips.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCirclePlus, faBell
-} from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlus, faBell } from "@fortawesome/free-solid-svg-icons";
 
 const Tips = () => {
-  const [buttons, setButtons] = useState([
-    "Ruta de Protocolo",
-    "Recomendaciones",
-    "Tutorial ESCATT",
-    "Ruta de protocolo",
-    "Tip 5",
-    "Tip 6",
-    "Tip 7",
-    "Tip 8",
-  ]); // Ejemplo de datos; se cargarían desde la base de datos
-
+  const [buttons, setButtons] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const buttonsPerPage = 3; // Número de botones visibles por página
+  const buttonsPerPage = 3;
+  const navigate = useNavigate();
+
+  // Función para obtener los datos de la base de datos
+  const fetchTips = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/tip');
+      const data = await response.json();
+
+      const filteredData = data.filter(item => item.tipo_contenido === 'tip');
+      setButtons(filteredData); // Guarda el dato completo
+
+    } catch (error) {
+      console.error('Error al obtener los tips:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTips();
+  }, []);
 
   const addButton = () => {
-    const newButton = `${buttons.length + 1}`;
+    const newButton = { id: buttons.length + 1, titulo: `Tip ${buttons.length + 1}`, tipo: 'tip' };
     setButtons([...buttons, newButton]);
+    navigate('/crear_publicacion?tipo=tip'); // Navega a la página de crear publicación con el tipo de contenido
   };
 
   const maxPages = Math.ceil(buttons.length / buttonsPerPage);
-
   const currentButtons = buttons.slice(
-    currentPage * buttonsPerPage,
-    (currentPage + 1) * buttonsPerPage
+      currentPage * buttonsPerPage,
+      (currentPage + 1) * buttonsPerPage
   );
 
   const nextPage = () => {
@@ -41,35 +49,46 @@ const Tips = () => {
   };
 
   return (
-    <div className="tips-container">
-      <div className="tips-top">
-        <div className="tips-title">Tips Recientes</div>
-        <div className="add-button-container">
-          <button className="add-button" onClick={addButton}>
-          <FontAwesomeIcon icon={faCirclePlus} />
-          </button>
-        </div>
-      </div>
-      <div className="tips-content">
-        <div className="button-grid">
-          {currentButtons.map((buttonText, index) => (
-            <button key={index} className="tip-button">
-             <div className="campana">
-                <FontAwesomeIcon icon={faBell} />
-              </div> <div className="titip">{buttonText}</div>
+      <div className="tips-container">
+        <div className="tips-top">
+          <div className="tips-title">Tips Recientes</div>
+          <div className="add-button-container">
+            <button className="add-button" onClick={addButton}>
+              <FontAwesomeIcon icon={faCirclePlus} />
             </button>
-          ))}
+          </div>
         </div>
-        <div className="pagination-controls">
-          <button onClick={prevPage} disabled={currentPage === 0}>
-            Anterior
-          </button>
-          <button onClick={nextPage} disabled={currentPage === maxPages - 1}>
-            Siguiente
-          </button>
+        <div className="tips-content">
+          {buttons.length === 0 ? (
+              <p>No hay tips</p>
+          ) : (
+              <>
+                <div className="button-grid">
+                  {currentButtons.map((button, index) => (
+                      <button
+                          key={index}
+                          className="tip-button"
+                          onClick={() => navigate(`/vermas/tip/${button.id_contenido}`)} // Redirige con tipo e id
+                      >
+                        <div className="campana">
+                          <FontAwesomeIcon icon={faBell} />
+                        </div>
+                        <div className="titip">{button.titulo}</div>
+                      </button>
+                  ))}
+                </div>
+                <div className="pagination-controls">
+                  <button onClick={prevPage} disabled={currentPage === 0}>
+                    Anterior
+                  </button>
+                  <button onClick={nextPage} disabled={currentPage === maxPages - 1}>
+                    Siguiente
+                  </button>
+                </div>
+              </>
+          )}
         </div>
       </div>
-    </div>
   );
 };
 

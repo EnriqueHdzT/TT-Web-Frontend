@@ -34,7 +34,7 @@ import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContras
 export default function App() {
   const [isAuth, setAuth] = useState(false);
   const [userType, setUserType] = useState<string | null>(null);
-  
+
   const pdfEvaluar = "/Protocolo_2.pdf";
   const pdfClasificar = "/Protocolo_2.pdf";
   const pdfValidar = "/Protocolo.pdf";
@@ -80,7 +80,7 @@ export default function App() {
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar} />} />
             <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
             <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo />} />
-            <Route path="/vermas" element={<VerMas />} />
+            <Route path="/vermas/:tipo/:id" element={<VerMas />} />
             <Route path="/crear_publicacion" element={<CrearPublicacion />} />
             <Route path="/buzon" element={<BuzonAyuda />} />
             <Route path="/politicas_de_privacidad" element={<PoliticasPrivacidad />} />
