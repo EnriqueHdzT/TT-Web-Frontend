@@ -1,173 +1,202 @@
-  /*========== General ==========*/
-  $header-height: 4.5rem;
-  $body-color: #FAFAFB;
+/*========== General ==========*/
+$header-height: 4.5rem;
+$body-color: #fafafb;
 
-  /*========== Colors ==========*/
-  $navbg-color: #F8F8F8;
-  $dropdown-bg-color: #FAFAFB;
-  $dropdown-hover-color: #EBEBEB;
-  $dropdown-list-color: #F4F4F4;
-  $search-blue: #1C90F3;
-  $cont-gray: #E6E6E6;
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
 
-  /*========== Font and typography ==========*/
-  $black-fontd: #2C2C2C;
-  $blue: #1C90F3;
-  $gray-pass: #A2A2A2;
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
 
-   /*========== z index ==========*/
-  $z-fixed: 100;
+/*========== z index ==========*/
+$z-fixed: 100;
 
-.contenedor-form{
-    margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      background: linear-gradient(-45deg, #969696, #cc7acca2, #1c8ff3a6, #71acdfa1);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-  
-    @keyframes gradient {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
-    }
+.contenedor-forms {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(-45deg, #969696, #cc7acca2, #1c8ff3a6, #71acdfa1);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 
-    
-  .cont-sesion{
-    width: 500px;
-    height: 400px;
-    background-color: $cont-gray;
-    border-radius: 20px;
-    
+  @media (min-width: 1440px) {
+    height: 91vh;
   }
 
-  .title-s{
-    font: 500 22px / 16px 'Poppins';
+  @media (max-width: 1439px) {
+    height: 87vh;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+}
+
+.cont-sesion {
+  width: 50%;
+  min-width: 450px;
+  max-width: 500px;
+  height: auto;
+  background-color: $body-color;
+  border-radius: 20px;
+
+  .title-s {
+    font: 500 22px / 16px "Poppins";
     text-align: center;
-    margin-top: 40px;
+    margin: 7% 0 5% 0;
     color: $blue;
   }
 
 }
 
+
 .login-form {
-    margin-top: 40px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;  
-    align-items: center;  // Centra los elementos horizontalmente
-    justify-content: center;  // Centra los elementos verticalmente
-     width: 400px;
-     margin-top: 45px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centra los elementos horizontalmente
+  justify-content: center; // Centra los elementos verticalmente
+  width: 400px;
 
-  .flex-lg{
+  .flex-lg {
     display: flex;
-    margin-top: 10px;
-  
+
     label {
-        width: 50px;
-        height: 40px;
-        background-color: $blue;
-        display: grid;
-        place-content: center;
-        border-radius: 10px 0 0 10px;
-
-        .style-icon{
-            color: $body-color;
-            font-size: 18px;
-        }
+      width: 50px;
+      height: 45px;
+      min-height: 25px;
+      background-color: $blue;
+      display: grid;
+      place-content: center;
+      border-radius: 10px 0 0 10px;
     }
-  
+
     input {
-      width: 300px;
-      height: 40px;
+      width: 350px;
+      height: 45px;
       padding: 8px;
-      margin-bottom: 16px;
-      font: 400 14px / 16px 'Poppins';
-      border:none;
+      border: 1px solid #e0e0e0;
+      margin-bottom: 10px;
+      font: 400 13px "Poppins";
       outline: none;
       border-radius: 0 10px 10px 0;
-      
-    }
-}
-    .password-container {
-      position: relative;
-  
-      input {
-        padding-right: 30px; // Espacio para el icono
-      }
-  
-      .password-icon {
-        position: absolute;
-        right: 10px;
-        top: 20px;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: $gray-pass;
+      background-color: #ebecec;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
       }
     }
-  
-    button {
-      width: 230px;
-      height: 55px;
-      margin-top: 20px;
-      background-color: $blue;
-      color: $black-fontd;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font: 500 15px / 18px 'Poppins';
+
+    .style-icon {
       color: $body-color;
+      font-size: 15px;
     }
   }
 
-  .messa-sesion{
+  .alerta_s{
+    width: 400px;
+    font: 400 12px "Poppins";
     text-align: center;
+    margin-bottom: 10px;
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    border-radius: 10px;
+    padding: 10px;
+    line-height: 15px;
 
-    a:link, a:visited, a:active {
-        text-decoration:none;
-    }
-    a.forget{
-        display: block;
-        font: 500 12px / 18px 'Poppins';
-        text-decoration:underline;
-        color: #727272;
-        margin-top: 15px;
-    }
-    a.register{
-        display: block;
-        font: 700 13px / 18px 'Poppins';
-        color: $blue;
-        margin-top: 5px;
+    ul{
+      text-align: left;
+      list-style-type: circle;
     }
   }
-  
+  .password-container {
+    position: relative;
 
-  .message-adv{
-    width: 500px;
-    height: 70px;
-    background-color: $cont-gray;
+    input {
+      padding-right: 30px; // Espacio para el icono
+    }
+
+    .password-icon {
+      position: absolute;
+      right: 10px;
+      top: 20px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: $gray-pass;
+    }
+  }
+
+  button {
+    padding: 10px 60px;
+    margin-top: 2%;
+    background-color: $blue;
+    color: $black-fontd;
+    border: none;
     border-radius: 20px;
-    margin-top: 10px;
-    display: flex;
-    font: 400 12px / 18px 'Poppins';
-    padding: 15px 20px 0px 10px;
-    text-align: justify;
-
-    .adv-icon{
-        width: 30px;
-        padding: 5px 20px 10px 10px;
-        color: $blue;
-        font-size: 20px;
-    }
-
+    cursor: pointer;
+    font: 500 14px / 18px "Poppins";
+    color: $body-color;
   }
+}
+
+.messa-sesion {
+  text-align: center;
+
+  a:link,
+  a:visited,
+  a:active {
+    text-decoration: none;
+  }
+  a.forget {
+    display: block;
+    font: 500 12px / 18px "Poppins";
+    text-decoration: underline;
+    color: #727272;
+    margin-top: 15px;
+  }
+  a.register {
+    display: block;
+    font: 700 13px / 18px "Poppins";
+    color: $blue;
+    margin: 1% 0 2% 0;
+  }
+}
+
+.message-adv {
+  width: 500px;
+  height: 70px;
+  background-color: $cont-gray;
+  border-radius: 20px;
+  margin-top: 10px;
+  display: flex;
+  font: 400 12px / 18px "Poppins";
+  padding: 15px 20px 0px 10px;
+  text-align: justify;
+
+  .adv-icon {
+    width: 30px;
+    padding: 5px 20px 10px 10px;
+    color: $blue;
+    font-size: 20px;
+  }
+}

@@ -5,96 +5,94 @@ export default function Politicas() {
     <>
       <div className="politica-home">
         <div className="contene-poli">
-          <h1>Política de Privacidad</h1>
-
+          <h1>Aviso de Privacidad Integral</h1>
           <p>
-            <b>Última actualización: 26 de noviembre de 2024</b> <br></br>
-            Esta Política de Privacidad describe Nuestras políticas y
+            <b>Última actualización: 29 de noviembre de 2024</b> <br></br>
+            Este Aviso de Privacidad Integral describe Nuestras políticas y
             procedimientos sobre la recopilación, uso y divulgación de Su
             información cuando utiliza el Servicio y le informa sobre Sus
             derechos de privacidad y cómo la ley lo protege. Utilizamos sus
             datos personales para proporcionar y mejorar el Servicio. Al
             utilizar el Servicio, usted acepta la recopilación y el uso de
-            información de acuerdo con esta Política de privacidad. Esta
-            Política de privacidad se ha creado con la ayuda del Generador de
-            políticas de privacidad gratuito.
+            información de acuerdo con el Aviso de Privacidad Integral de la
+            Escuela Superior de Cómputo. <br />
+            <br />
+            La Escuela Superior de Cómputo del Instituto Politécnico Nacional
+            (ESCOM), con domicilio en la Unidad Profesional Adolfo López Mateos,
+            Av. Juan de Dios Bátiz s/n esq. Miguel Othón de Mendizábal, Col.
+            Zacatenco C.P. Gustavo A. Madero, CDMX, es la responsable del
+            tratamiento de los datos personales que nos proporcione, los cuales
+            serán protegidos conforme a lo dispuesto por la Ley General de
+            Protección de Datos Personales en Posesión de Sujetos Obligados, y
+            demás normatividad que resulte aplicable. Obtenido de Avisos de
+            Privacidad para Sujetos Obligados de Unidades del Niverl Superior de
+            ESCOM:{" "}
+            <b>
+              https://www.ipn.mx/proteccion-datos-personales/avisos-privacidad-integrales.html
+            </b>
           </p>
-          <h2>Interpretación y definiciones</h2>
-          <h3>Interpretación</h3>
+          <h2>¿Qué datos personales solicitamos y para qué fines?</h2>
           <p>
-            Las palabras cuya letra inicial está en mayúscula tienen
-            significados definidos en las siguientes condiciones. Las siguientes
-            definiciones tendrán el mismo significado independientemente de que
-            aparezcan en singular o en plural.
-          </p>
-          <h2>Definiciones</h2>
-          <p>
-            A los efectos de esta Política de Privacidad:
+            Los datos personales que solicitamos los utilizaremos para las
+            siguientes finalidades:
             <ul>
+              La ESCOM, utilizará sus datos personales para llevar a cabo las
+              finalidades que se detallan a continuación y que no requieren
+              consentimiento por escrito de la persona titular:
+              <li>Para la integración de los expedientes de los alumnos</li>
               <li>
-                <b>Cuenta</b> significa una cuenta única creada para que Usted
-                acceda a nuestro Servicio o partes de nuestro Servicio.
+                Para la integración de expedientes del personal Docente y
+                Personal de Apoyo y Asistencia a la Educación (PAAE),
+              </li>
+              <li>Para los alumnos que se hacen acreedores a una beca.</li>
+              <li>Para los alumnos de Servicio Social y Titulación.</li>
+              <li>
+                Para los contratos, en el Procedimiento de adjudicación directa
+                y pagos de servicio
+              </li>
+              <li>Para el préstamo de equipo de cómputo.</li>
+              <li>
+                Para realizar las gestiones de inscripción, reinscripción y/o
+                baja, correspondientes al ciclo escolar vigente.
               </li>
               <li>
-                <b>Afiliado</b> significa una entidad que controla, es
-                controlada por o está bajo control común con una parte, donde
-                "control" significa propiedad del 50% o más de las acciones,
-                participación patrimonial u otros valores con derecho a voto
-                para la elección de directores u otra autoridad administrativa.
+                Actas de evaluación de trabajo terminal Protocolo, Solicitud de
+                modificación
               </li>
               <li>
-                <b>La empresa</b> (a la que en este Acuerdo se hace referencia
-                como "la empresa", "nosotros", "nos" o "nuestro") se refiere a
-                ESCATT.{" "}
+                Para COSECOVI, Comisión de Honor, Actas de hechos y Actas
+                administrativas
               </li>
               <li>
-                <b>Las cookies</b> son pequeños archivos que un sitio web coloca
-                en su computadora, dispositivo móvil o cualquier otro
-                dispositivo y que contienen los detalles de su historial de
-                navegación en ese sitio web, entre sus muchos usos.
+                Para becas de Estímulo Institucional de Formación de
+                Investigadores (BEIFI),
               </li>
               <li>
-                <b>País</b> se refiere a: México
+                Año Sabático y Proyectos de Investigación, Beca Estudio de
+                Posgrado, Beca Tesis de Posgrado, Beca de Transición, Asistencia
+                a eventos académicos y Actividades de retribución social.
+              </li>
+              <li>Para las visitas escolares y tutorías Becas EDD y SIBE</li>
+              <li>
+                Para los concursos Oposición Ternas, Optativas internas y
+                externas, Electiva externa, formato de registro de acciones de
+                formación docente, inscripciones al CELEX y Personal externo de
+                CELEX
               </li>
               <li>
-                <b>Dispositivo</b> significa cualquier dispositivo que pueda
-                acceder al Servicio, como una computadora, un teléfono celular o
-                una tableta digital.
+                Personal que labora en los servicios (Cafetería, Barra de Café y
+                Fotocopiado) y Personal enviado por BBVA.
               </li>
-              <li>
-                <b>Datos Personales</b> son cualquier información relacionada
-                con una persona física identificada o identificable.
-              </li>
-              <li>
-                <b>El término servicio</b> se refiere al sitio web.
-              </li>
-              <li>
-                <b>Proveedor de servicios</b> significa cualquier persona física
-                o jurídica que procesa los datos en nombre de la Compañía. Se
-                refiere a empresas o individuos de terceros empleados por la
-                Compañía para facilitar el Servicio, para proporcionar el
-                Servicio en nombre de la Compañía, para realizar servicios
-                relacionados con el Servicio o para ayudar a la Compañía a
-                analizar cómo se utiliza el Servicio.
-              </li>
-              <li>
-                <b>Los datos de uso</b> se refieren a los datos recopilados
-                automáticamente, ya sea generados por el uso del Servicio o por
-                la propia infraestructura del Servicio (por ejemplo, la duración
-                de la visita a una página).
-              </li>
-              <li>
-                <b>El sitio web</b> se refiere a ESCATT, accesible desde
-                http://www.escatt.com
-              </li>
-              <li>
-                <b>Usted</b> significa el individuo que accede o utiliza el
-                Servicio, o la empresa u otra entidad legal en nombre de la cual
-                dicho individuo accede o utiliza el Servicio, según corresponda.
-              </li>
+              Para llevar a cabo las finalidades anteriores, la ESCOM recaba,
+              procesa y utiliza diversos datos personales de identificación y
+              contacto de las siguientes personas: estudiantes, padres y/o
+              tutores, proveedores, docentes, investigadoras, de apoyo y
+              asistencia a la educación, directivo y terceras; por ello se
+              pueden llegar a solicitar algunos de los siguientes datos
+              personales:
             </ul>
           </p>
-          <h2>Recopilación y uso de sus datos personales</h2>
+          <h2>Datos de identificación y contacto</h2>
           <h3>Tipos de datos recopilados</h3>
           <p>
             <b>Datos personales</b>
@@ -104,332 +102,230 @@ export default function Politicas() {
             puede utilizar para contactarlo o identificarlo. La información de
             identificación personal puede incluir, entre otras cosas:
             <ul>
-              <li>Dirección de correo electrónico.</li>
-              <li>Nombre y apellido.</li>
-              <li>Datos de uso.</li>
-            </ul>
-            <b>Datos de uso</b>
-            <br></br>
-            Los datos de uso se recopilan automáticamente al utilizar el
-            Servicio. Los datos de uso pueden incluir información como la
-            dirección de protocolo de Internet de su dispositivo (por ejemplo,
-            dirección IP), el tipo de navegador, la versión del navegador, las
-            páginas de nuestro Servicio que visita, la hora y la fecha de su
-            visita, el tiempo dedicado a esas páginas, identificadores únicos
-            del dispositivo y otros datos de diagnóstico. Cuando accede al
-            Servicio mediante o a través de un dispositivo móvil, podemos
-            recopilar cierta información automáticamente, incluyendo, entre
-            otros, el tipo de dispositivo móvil que utiliza, la identificación
-            única de su dispositivo móvil, la dirección IP de su dispositivo
-            móvil, su sistema operativo móvil, el tipo de navegador de Internet
-            móvil que utiliza, identificadores únicos de dispositivo y otros
-            datos de diagnóstico. También podemos recopilar información que su
-            navegador envía cada vez que visita nuestro Servicio o cuando accede
-            al Servicio mediante un dispositivo móvil.
-            <br></br>
-            <b>Tecnologías de seguimiento y cookies</b>
-            <br></br>
-            Utilizamos cookies y tecnologías de seguimiento similares para
-            rastrear la actividad en nuestro Servicio y almacenar cierta
-            información. Las tecnologías de seguimiento utilizadas son balizas,
-            etiquetas y scripts para recopilar y rastrear información y para
-            mejorar y analizar nuestro Servicio. Las tecnologías que utilizamos
-            pueden incluir:
-            <ul>
-              <li>
-                <b>Cookies o Cookies del Navegador.</b> Una cookie es un pequeño
-                archivo que se coloca en Su Dispositivo. Usted puede indicarle a
-                Su navegador que rechace todas las Cookies o que le indique
-                cuándo se envía una Cookie. Sin embargo, si no acepta las
-                Cookies, es posible que no pueda utilizar algunas partes de
-                nuestro Servicio. A menos que haya ajustado la configuración de
-                Su navegador para que rechace las Cookies, nuestro Servicio
-                puede utilizar Cookies.
-              </li>
-              <li>
-                <b>Balizas web.</b> Algunas secciones de nuestro Servicio y
-                nuestros correos electrónicos pueden contener pequeños archivos
-                electrónicos conocidos como balizas web (también conocidos como
-                gifs transparentes, etiquetas de píxeles y gifs de un solo
-                píxel) que permiten a la Compañía, por ejemplo, contar los
-                usuarios que han visitado esas páginas o han abierto un correo
-                electrónico y para otras estadísticas relacionadas con el sitio
-                web (por ejemplo, registrar la popularidad de una determinada
-                sección y verificar la integridad del sistema y del servidor).
-              </li>
-            </ul>
-            Las cookies pueden ser "persistentes" o "de sesión". Las cookies
-            persistentes permanecen en su computadora personal o dispositivo
-            móvil cuando se desconecta, mientras que las cookies de sesión se
-            eliminan tan pronto como cierra su navegador web. Obtenga más
-            información sobre las cookies en el artículo del sitio web de
-            Política de privacidad gratuita .
+              <li>Nombre.</li>
+              <li>Estado civil.</li>
+              <li>Registro Federal de Contribuyentes (RFC).</li>
+              <li>Clave Única de Registro de Población (CURP).</li>
+              <li>Lugar de nacimiento.</li>
+              <li>Fecha de nacimiento.</li>
+              <li>Acta de nacimiento.</li>
+              <li>Nacionalidad.</li>
+              <li>Domicilio.</li>
+              <li>Teléfono particular.</li>
+              <li>Teléfono celular.</li>
+              <li>Correo electrónico.</li>
+              <li>Firma autógrafa.</li>
+              <li>Edad.</li>
+              <li>Fotografía.</li>
+              <li>Datos de contacto en caso de emergencia.</li>
+              <li>Perfil de plataformas digitales.</li>
+              <li>Identificación oficial.</li>
+              <li>No. de Boleta.</li>
+            </ul>{" "}
             <br />
-            Utilizamos cookies de sesión y persistentes para los fines que se
-            detallan a continuación:
+            <b>Datos laborales</b>
+            <br></br>
             <ul>
-              <li>
-                <b>Cookies necesarias/esenciales</b> <br />
-                Tipo: Cookies de sesión <br />
-                Administrado por: Nosotros <br />
-                Finalidad: Estas cookies son esenciales para proporcionarle los
-                servicios disponibles a través del sitio web y permitirle
-                utilizar algunas de sus funciones. Ayudan a autenticar a los
-                usuarios y a evitar el uso fraudulento de las cuentas de
-                usuario. Sin estas cookies, no se pueden proporcionar los
-                servicios que ha solicitado y solo utilizamos estas cookies para
-                proporcionarle dichos servicios.
-              </li>
-              <li>
-                <b>Política de Cookies / Aviso de Aceptación de Cookies</b>{" "}
-                <br />
-                Tipo: Cookies persistentes <br />
-                Administrado por: Nosotros <br />
-                Finalidad: Estas Cookies identifican si los usuarios han
-                aceptado el uso de cookies en el Sitio Web.
-              </li>
+              <li>Puesto o cargo que desempeña.</li>
+              <li>Títulos.</li>
+              <li>Cédula profesional.</li>
+              <li>Certificados.</li>
+              <li>Reconocimientos.</li>
             </ul>
-            Para obtener más información sobre las cookies que utilizamos y sus
-            opciones con respecto a las cookies, visite nuestra Política de
-            cookies o la sección de Cookies de nuestra Política de privacidad.
-          </p>
-          <p>
-            {" "}
-            <h2>Uso de sus datos personales</h2>
-            La Compañía podrá utilizar los Datos Personales para los siguientes
-            fines:
+            <br></br>
+            <b>Datos Migratorios</b>
+            <br></br>
             <ul>
-              <li>
-                <b>Para proporcionar y mantener nuestro Servicio</b>, incluido
-                el seguimiento del uso del mismo.
-              </li>
-              <li>
-                <b>Para gestionar su cuenta:</b> para gestionar su registro como
-                usuario del Servicio. Los Datos Personales que proporcione
-                pueden darle acceso a diferentes funcionalidades del Servicio
-                que están disponibles para usted como usuario registrado.
-              </li>
-              <li>
-                <b>Para la ejecución de un contrato:</b> el desarrollo,
-                cumplimiento y ejecución del contrato de compra de los
-                productos, artículos o servicios que Usted ha adquirido o de
-                cualquier otro contrato con Nosotros a través del Servicio.
-              </li>
-              <li>
-                <b>Para comunicarnos con Usted:</b> Para comunicarnos con Usted
-                por correo electrónico, llamadas telefónicas, SMS u otras formas
-                equivalentes de comunicación electrónica, como las
-                notificaciones push de una aplicación móvil sobre
-                actualizaciones o comunicaciones informativas relacionadas con
-                las funcionalidades, productos o servicios contratados,
-                incluidas las actualizaciones de seguridad, cuando sea necesario
-                o razonable para su implementación.
-              </li>
-              <li>
-                <b>Para brindarle</b> noticias, ofertas especiales e información
-                general sobre otros bienes, servicios y eventos que ofrecemos y
-                que sean similares a los que ya ha comprado o consultado, a
-                menos que haya optado por no recibir dicha información.
-              </li>
-              <li>
-                <b>Para gestionar sus solicitudes:</b> Para atender y gestionar
-                las solicitudes que nos envíe.
-              </li>
-              <li>
-                <b>Para transferencias comerciales:</b> Podemos utilizar su
-                información para evaluar o llevar a cabo una fusión,
-                desinversión, reestructuración, reorganización, disolución u
-                otra venta o transferencia de algunos o todos nuestros activos,
-                ya sea como un negocio en marcha o como parte de una quiebra,
-                liquidación o procedimiento similar, en el que los datos
-                personales que tenemos sobre los usuarios de nuestro Servicio se
-                encuentran entre los activos transferidos.
-              </li>
-              <li>
-                <b>Para otros fines :</b> Podemos utilizar su información para
-                otros fines, como análisis de datos, identificación de
-                tendencias de uso, determinación de la efectividad de nuestras
-                campañas promocionales y para evaluar y mejorar nuestro
-                Servicio, productos, servicios, marketing y su experiencia.
-              </li>
+              <li>Calidad migratoria</li>
+              <li>Derechos de residencia</li>
             </ul>
-            Podemos compartir su información personal en las siguientes
-            situaciones:
+            <br></br>
+            <b>Datos Patrimoniales y/o financieros</b>
+            <br></br>
             <ul>
-              <li>
-                <b>Con proveedores de servicios:</b> Podemos compartir su
-                información personal con proveedores de servicios para
-                monitorear y analizar el uso de nuestro Servicio y para
-                comunicarnos con usted.
-              </li>
-              <li>
-                <b>Para transferencias comerciales:</b> Podemos compartir o
-                transferir su información personal en relación con, o durante
-                las negociaciones de, cualquier fusión, venta de activos de la
-                empresa, financiamiento o adquisición de la totalidad o parte de
-                nuestro negocio a otra empresa.
-              </li>
-              <li>
-                <b>Con afiliados:</b> podemos compartir su información con
-                nuestros afiliados, en cuyo caso les exigiremos que respeten
-                esta Política de privacidad. Los afiliados incluyen nuestra
-                empresa matriz y cualquier otra subsidiaria, socios de empresas
-                conjuntas u otras empresas que controlamos o que están bajo
-                control común con nosotros.
-              </li>
-              <li>
-                <b>Con socios comerciales:</b> Podemos compartir su información
-                con nuestros socios comerciales para ofrecerle ciertos
-                productos, servicios o promociones.
-              </li>
-              <li>
-                <b>Con otros usuarios:</b> cuando Usted comparte información
-                personal o interactúa de otra manera en áreas públicas con otros
-                usuarios, dicha información puede ser vista por todos los
-                usuarios y puede distribuirse públicamente en el exterior.
-              </li>
-              <li>
-                <b>Con su consentimiento :</b> Podemos divulgar su información
-                personal para cualquier otro propósito con su consentimiento.
-              </li>
+              <li>Cuentas bancarias.</li>
             </ul>
+            <br /> No se solicitarán datos personales sensibles.
           </p>
           <p>
-            <h2>Conservación de sus datos personales</h2>
-            La Compañía conservará sus Datos Personales únicamente durante el
-            tiempo que sea necesario para los fines establecidos en esta
-            Política de Privacidad. Conservaremos y utilizaremos sus Datos
-            Personales en la medida necesaria para cumplir con nuestras
-            obligaciones legales (por ejemplo, si estamos obligados a conservar
-            sus datos para cumplir con las leyes aplicables), resolver disputas
-            y hacer cumplir nuestros acuerdos y políticas legales. La Compañía
-            también conservará los Datos de uso para fines de análisis interno.
-            Los Datos de uso generalmente se conservan durante un período de
-            tiempo más corto, excepto cuando estos datos se utilizan para
-            fortalecer la seguridad o mejorar la funcionalidad de Nuestro
-            Servicio, o estamos obligados legalmente a conservar estos datos
-            durante períodos de tiempo más largos.
+            En términos de lo establecido en los artículos 21, 26, 27 de la Ley
+            General de Protección de Datos Personales en Posesión de Sujetos
+            Obligados, mediante el presente aviso de privacidad, se informa a la
+            persona titular o personas titulares de los datos personales, sobre
+            la existencia y características principales del tratamiento al que
+            serán sometidos sus datos personales, a fin de que pueda tomar
+            decisiones informadas al respecto y el consentimiento es tácito
+            cuando habiéndose puesto a disposición de la persona titular, éste
+            no manifieste su voluntad en sentido contrario, a través de alguno
+            de los medios de contacto establecidos en el presente aviso.
           </p>
           <p>
-            <h2>Transferencia de sus datos personales</h2>
-            Su información, incluidos los Datos Personales, se procesa en las
-            oficinas operativas de la Compañía y en cualquier otro lugar donde
-            se encuentren las partes involucradas en el procesamiento. Esto
-            significa que esta información puede transferirse a computadoras
-            ubicadas fuera de su estado, provincia, país u otra jurisdicción
-            gubernamental donde las leyes de protección de datos pueden diferir
-            de las de su jurisdicción y mantenerse en ellas. Su consentimiento a
-            esta Política de privacidad seguido de su envío de dicha información
-            representa su aceptación de dicha transferencia. La Compañía tomará
-            todas las medidas razonablemente necesarias para garantizar que sus
-            datos sean tratados de forma segura y de acuerdo con esta Política
-            de privacidad y no se realizará ninguna transferencia de sus datos
-            personales a una organización o un país a menos que existan
-            controles adecuados, incluida la seguridad de sus datos y otra
-            información personal.
-          </p>
-          <p>
-            <h2>Eliminar sus datos personales</h2>
-            Tiene derecho a eliminar o solicitar que le ayudemos a eliminar los
-            Datos Personales que hemos recopilado sobre usted. Nuestro
-            Servicio puede brindarle la posibilidad de eliminar cierta
-            información sobre usted desde el Servicio. Puede actualizar,
-            modificar o eliminar su información en cualquier momento iniciando
-            sesión en su cuenta, si tiene una, y visitando la sección de
-            configuración de la cuenta que le permite administrar su información
-            personal. También puede comunicarse con nosotros para solicitar
-            acceso, corregir o eliminar cualquier información personal que nos
-            haya proporcionado. Sin embargo, tenga en cuenta que es posible que necesitemos
-            conservar cierta información cuando tengamos una obligación legal o
-            una base legal para hacerlo.
-          </p>
-          <p>
-            <h2>Divulgación de sus datos personales</h2>
-            <h3>Transacciones comerciales</h3>
-            Si la Compañía participa en una fusión, adquisición o venta de
-            activos, sus Datos Personales pueden ser transferidos. Le
-            notificaremos antes de que sus Datos Personales sean transferidos y
-            queden sujetos a una Política de Privacidad diferente.
-            <h3>Aplicación de la ley</h3>
-            En determinadas circunstancias, la Compañía puede estar obligada a
-            divulgar sus Datos Personales si así lo exige la ley o en respuesta
-            a solicitudes válidas de autoridades públicas (por ejemplo, un
-            tribunal o una agencia gubernamental).
-            <h3>Otros requisitos legales</h3>
-            La Compañía podrá divulgar sus Datos Personales creyendo de buena fe
-            que dicha acción es necesaria para:
-            <ul>
-              <li>Cumplir con una obligación legal</li>
-              <li>
-                Proteger y defender los derechos o la propiedad de la Compañía.
-              </li>
-              <li>
-                Prevenir o investigar posibles irregularidades en relación con
-                el Servicio
-              </li>
-              <li>
-                Proteger la seguridad personal de los Usuarios del Servicio o
-                del público
-              </li>
-              <li>Protegerse contra la responsabilidad legal</li>
-            </ul>
-          </p>
-          <p>
-            <h2>Seguridad de sus datos personales</h2>
-            La seguridad de sus datos personales es importante para nosotros,
-            pero recuerde que ningún método de transmisión por Internet o método
-            de almacenamiento electrónico es 100 % seguro. Si bien nos
-            esforzamos por utilizar medios comercialmente aceptables para
-            proteger sus datos personales, no podemos garantizar su seguridad
-            absoluta.
-          </p>
-          <p>
-            {" "}
-            <h2>Privacidad de los niños</h2>
-            Nuestro Servicio no está dirigido a ninguna persona menor de 13
-            años. No recopilamos deliberadamente información de identificación
-            personal de ninguna persona menor de 13 años. Si usted es padre o
-            tutor y sabe que su hijo nos ha proporcionado datos personales,
-            comuníquese con nosotros. Si nos damos cuenta de que hemos
-            recopilado datos personales de cualquier persona menor de 13 años
-            sin verificar el consentimiento de los padres, tomamos medidas para
-            eliminar esa información de nuestros servidores. Si necesitamos
-            confiar en el consentimiento como base legal para procesar su
-            información y su país requiere el consentimiento de uno de sus
-            padres, es posible que solicitemos el consentimiento de sus padres
-            antes de recopilar y utilizar esa información.
-          </p>
-          <p>
-            {" "}
-            <h2>Enlaces a otros sitios web</h2>
-            Nuestro Servicio puede contener enlaces a otros sitios web que no
-            son operados por Nosotros. Si hace clic en un enlace de un tercero,
-            será dirigido al sitio de ese tercero. Le recomendamos
-            encarecidamente que revise la Política de privacidad de cada sitio
-            que visite. No tenemos control ni asumimos ninguna responsabilidad
-            por el contenido, las políticas de privacidad o las prácticas de
-            sitios o servicios de terceros.
-          </p>
-          <p>
-            <h2>Cambios a esta Política de Privacidad</h2>
-            Es posible que actualicemos nuestra Política de privacidad de vez en
-            cuando. Le notificaremos cualquier cambio publicando la nueva
-            Política de privacidad en esta página. Le informaremos por correo
-            electrónico y/o un aviso destacado en nuestro Servicio, antes de que
-            el cambio entre en vigencia y actualizaremos la fecha de "Última
-            actualización" en la parte superior de esta Política de privacidad.
-            Se recomienda revisar periódicamente esta Política de privacidad
-            para comprobar si se han producido cambios. Los cambios a esta
-            Política de privacidad entran en vigor cuando se publican en esta
-            página.
-          </p>
-          <p>
-            <h2>Contáctenos</h2>
-            Si tiene alguna pregunta sobre esta Política de Privacidad, puede
-            contactarnos:
+            <b>
+              ¿Con quién compartimos su información personal y para qué fines?
+            </b>{" "}
             <br />
-            Por correo electrónico: <b>catt_escom@ipn.mx</b>
+            Se informa que no se realizarán transferencias de datos personales,
+            salvo aquéllas que sean necesarias para atender requerimientos de
+            información de una autoridad competente, que estén debidamente
+            fundados y motivados.
           </p>
+          <p>
+            <b>
+              ¿Cuál es el fundamento para el tratamiento de datos personales?
+            </b>{" "}
+            <br />
+            La ESCOM dará tratamiento a los datos personales antes señalados con
+            fundamento en lo dispuesto en los artículos 1, 6, apartado A,
+            fracción II y 16, párrafo segundo, de la Constitución Política de
+            los Estados Unidos Mexicanos); 1, 3, fracciones II, III, IX, XI, XX,
+            XXI, XXII, XXIII, XXVIII y XXXIII, 4, 6, 7, 16, 17, 18, 19, 22,
+            fracciones I y V, 23, 24, 25, 26, 27 y 28, de la Ley General de
+            Protección de Datos Personales en Posesión de Sujetos Obligados; 1,
+            3, 9, 15, 16, 26 a 45 de los Lineamientos Generales de Protección de
+            Datos Personales para el Sector Público (Diario Oficial de la
+            Federación; Articulo 4, fracción XI de la Ley Orgánica del IPN;
+            artículo 2 numeral 4 inciso b, 1, 82 del Reglamento Orgánico del
+            Instituto Politécnico Nacional y Artículos 164, 167, 168 y 173 del
+            Reglamento Interno del Instituto Politécnico Nacional.{" "}
+          </p>
+          <p>
+            <b>¿Dónde puedo ejercer mis derechos ARCO?</b> <br />
+            Usted podrá presentar su solicitud para el ejercicio de los derechos
+            de acceso, rectificación, cancelación u oposición de sus datos
+            personales (derechos ARCO) directamente ante la Unidad de
+            Transparencia del IPN, cuyos datos de contacto son los siguientes:
+            <ul>
+              <li>Nombre de su titular: Mtro. Marx Yazalde Ortiz Correa</li>
+              <li>
+                Domicilio: Av. Wilfrido Massieu S/N, Edificio "Adolfo Ruiz
+                Cortines, Planta Baja, Colonia Unidad Profesional Adolfo López
+                Mateos, Zacatenco, Gustavo A. Madero, México, CP. 07738, Ciudad
+                de México, México{" "}
+              </li>
+              <li>Correo electrónico: acceinfo@ipn.mx</li>
+              <li>
+                Número telefónico y extensión: 5557296000 ext. 50128, 51992
+              </li>
+              <li>Otro dato de contacto: direccion_escom@ipn.mx</li>
+            </ul>
+            Asimismo, usted podrá presentar una solicitud de ejercicio de
+            derechos ARCO a través de la Plataforma Nacional de Transparencia,
+            disponible en <b>http://www.plataformadetransparencia.org.mx</b>, y
+            a través de los siguientes medios:
+          </p>
+          <p>
+            El titular por sí o mediante representante legal debidamente
+            acreditado, también podrá ejercer sus derechos de acceso,
+            rectificación, cancelación y oposición, formulando la solicitud
+            respectiva mediante escrito libre dirigido al correo electrónico{" "}
+            <b>direccion_escom@ipn.mx</b>
+          </p>
+          <p>
+            Con relación al procedimiento y requisitos para el ejercicio de sus
+            derechos ARCO, le informamos lo siguiente: <br />
+            <br />
+            La solicitud para el ejercicio de los derechos ARCO deberá contener:
+            <ul>
+              <li>
+                I. El nombre del titular y su domicilio o cualquier otro medio
+                para recibir notificaciones;{" "}
+              </li>
+              <li>
+                Los documentos que acrediten la identidad del titular y, en su
+                caso, la personalidad e identidad de su representante;{" "}
+              </li>
+              <li>
+                De ser posible, el área responsable que trata los datos
+                personales y ante el cual se presenta la solicitud;{" "}
+              </li>
+              <li>
+                La descripción clara y precisa de los datos personales respecto
+                de los que se busca ejercer alguno de los derechos ARCO, salvo
+                que se trate del derecho de acceso;
+              </li>
+              <li>
+                La descripción del derecho ARCO que se pretende ejercer, o bien,
+                lo que solicita el titular, y{" "}
+              </li>
+              <li>
+                Cualquier otro elemento o documento que facilite la localización
+                de los datos personales.
+              </li>
+            </ul>
+          </p>
+          <p>
+            Ahora bien, tratándose de una solicitud de acceso a datos
+            personales, deberá señalar la modalidad en la que prefiere que éstos
+            se reproduzcan; con relación a una solicitud de cancelación, deberá
+            señalar las causas que lo motiven a solicitar la supresión de sus
+            datos personales en los archivos, registros o bases de datos; en el
+            caso de la solicitud de oposición, deberá manifestar las causas
+            legítimas o la situación específica que lo llevan a solicitar el
+            cese en el tratamiento, así como el daño o perjuicio que le causaría
+            la persistencia del tratamiento, o en su caso, las finalidades
+            específicas respecto de las cuales requiere ejercer el derecho de
+            oposición; si se trata de una solicitud de rectificación, se sugiere
+            incluir los documentos que avalen la modificación solicitada;
+            finalmente, para la portabilidad de datos personales, podrá
+            acompañar a su solicitud el medio de almacenamiento para la
+            elaboración de la copia correspondiente, en caso de no
+            proporcionarlo deberá cubrir el costo correspondiente.
+          </p>
+          <p>
+            Los formularios, sistemas y otros métodos simplificados para
+            facilitarle el ejercicio de sus derechos ARCO podrá consultarlos en
+            <b> www.inai.org.mx.</b> Los medios para dar respuesta a su
+            solicitud serán los siguientes: <br /> <br />
+            Mediante correo electrónico registrado en la ESCOM, o escrito,
+            siempre que la solicitud de referencia se haya efectuado por el
+            mismo medio y se cuenten con todos los datos que hagan posible la
+            identificación y entrega de la respuesta al tratamiento.
+          </p>
+          <p>
+            La modalidad o medios de reproducción de los datos personales serán:{" "}
+            <br /> <br />
+            Según lo dispuesto en el numeral 92 de los Lineamientos Generales de
+            Protección de Datos Personales para el Sector Público, la modalidad
+            o medios de reproducción de los datos personales será a través de
+            consulta directa, en el sitio donde se encuentren, o mediante la
+            expedición de copias simples, copias certificadas, medios
+            magnéticos, ópticos, sonoros, visuales u holográficos, o cualquier
+            otra tecnología que determine el titular, debiendo señalar la
+            modalidad en la que prefiere que éstos se reproduzcan.{" "}
+          </p>
+          <p>
+            Los plazos establecidos dentro del procedimiento son: <br /> <br />
+            En todos los casos, el plazo de respuesta para el ejercicio de los
+            derechos es de 20 días hábiles, a partir del día siguiente en que se
+            ingrese la solicitud, el cual podrá ser ampliado hasta por 10 días
+            hábiles más. Por último, se le informa que usted tiene derecho a
+            presentar un recurso de revisión ante el INAI, cuando no esté
+            conforme con la respuesta, directamente en las instalaciones del
+            Instituto o a través de la Plataforma Nacional de Transparencia.
+            Para mayor información consulte www.inai.org.mx o llame al
+            01800-835-43-24.
+          </p>
+          <p>
+            ¿Cómo puede conocer los cambios en este aviso de privacidad? <br />{" "}
+            <br />
+            El presente aviso de privacidad puede sufrir modificaciones, cambios
+            o actualizaciones derivadas de nuevos requerimientos legales o por
+            otras causas.
+          </p>
+          <p>
+            Nos comprometemos a mantenerlo informado sobre los cambios que pueda
+            sufrir el presente aviso de privacidad, a través de la página
+            electrónica de la ESCOM del Instituto Politécnico Nacional:{" "}
+            <b>https://www.escom.ipn.mx</b>{" "}
+          </p>
+          <p>
+            <b>Otros datos de contacto:</b> <br />
+            Página de Internet: <b>https://www.escom.ipn.mx</b> <br />
+            Correo electrónico para la atención del público en general:{" "}
+            <b>direccion_escom@ipn.mx</b> <br />
+            Número telefónico para la atención del público en general:{" "}
+            <b>5557296000 Ext. 46188</b>
+          </p>{" "}
         </div>
       </div>
     </>

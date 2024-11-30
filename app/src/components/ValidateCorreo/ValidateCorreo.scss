@@ -15,58 +15,80 @@
   $blue: #1C90F3;
   $gray-pass: #A2A2A2;
  
-  .validate-email {
-    margin-top: 20px;
+  .cont-vers{
+    width: 500px;
+    height: auto;
+    min-width: 500px;
+    min-height: 290px;
+    background-color: $body-color;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1%;
+    
+    .title-contra{
+      width: 100%;
+      font: 600 22px / 16px "Poppins";
+      color: $blue;
+      text-align: center;
+      margin: 8% 0 7% 0;
+    }
+
+    button{
+      padding: 10px 70px;
+        background-color: $blue;
+        border: 1px solid #dadada;
+        border-radius: 20px;
+        cursor: pointer;
+        font: 500 15px "Poppins";
+        color: $body-color;
+        margin: 2% 0;
+    }
+  }
+  .validate-email-contra {
     display: flex;
     flex-direction: column;  
     align-items: center;  // Centra los elementos horizontalmente
     justify-content: center;  // Centra los elementos verticalmente
      width: 400px;
 
-  .flex-lg{
-    display: flex;
-    margin-top: 10px;
+     .flex-lg {
+      display: flex;
   
-    label {
+      label {
         width: 50px;
         height: 40px;
+        min-height: 25px;
         background-color: $blue;
         display: grid;
         place-content: center;
         border-radius: 10px 0 0 10px;
-
-        .style-icon{
-            color: $body-color;
-            font-size: 18px;
-        }
-    }
+      }
   
-    input {
-      width: 300px;
-      height: 40px;
-      padding: 8px;
-      margin-bottom: 16px;
-      font: 400 14px / 16px 'Poppins';
-      border:none;
-      outline: none;
-      border-radius: 0 10px 10px 0;
-      
+      input,
+      select {
+        width: 350px;
+        height: 40px;
+        padding: 8px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+        font: 400 13px "Poppins";
+        outline: none;
+        border-radius: 0 10px 10px 0;
+        background-color: #ebecec;
+
+        &:focus{
+          outline: none;
+  box-shadow: none;
+        }
+      }
+
+      .style-icon {
+        color: $body-color;
+        font-size: 15px;
+      }
     }
-}
-     
-    button {
-      width: 230px;
-      height: 55px;
-      margin: 2dvb 0 2dvb 0;
-      background-color: $blue;
-      color: $black-fontd;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font: 500 15px / 18px 'Poppins';
-      color: $body-color;
-    }
-  }
 
   .messa-re{
     text-align: center;
@@ -74,10 +96,27 @@
     a:link, a:visited, a:active {
         text-decoration:none;
     }
-    a.reg{
+    .reg{
         display: flex;
         font: 500 12px'Poppins';
         text-decoration:underline;
         color: #727272;
     }
   }
+
+  .alerta_r{
+    width: 400px;
+    font: 400 12px "Poppins";
+    text-align: center;
+    margin-bottom: 5px;
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    border-radius: 10px;
+    padding: 10px;
+
+    ul{
+      text-align: left;
+      list-style-type: circle;
+    }
+  }
+}
