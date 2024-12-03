@@ -4,6 +4,9 @@ import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-so
 
 interface SinodalData {
   email: string;
+  name: string | null;
+  lastname: string | null;
+  second_lastname: string | null;
 }
 
 interface DirectorData {
@@ -29,6 +32,9 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
   const [showWarning, setShowWarning] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [emailExists, setEmailExists] = useState(false);
+  const [nombre, setNombre] = useState("");
+  const [Papellido, setPapellido] = useState("");
+  const [Sapellido, setSapellido] = useState("");
 
   useEffect(() => {
     if (sinodals.length >= 3) {
@@ -65,6 +71,11 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
           throw new Error("Error al buscar el correo");
         }
 
+        const data = await response.json();
+        setNombre(data.name);
+        setPapellido(data.lastName);
+        setSapellido(data.secondLastName);
+
         setShowWarning(false);
         setEmailIsValid(true);
         handleAgregar();
@@ -85,6 +96,9 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
     if (!emailAlreadyExistsInDirectors && !emailAlreadyExistsInSinodals) {
       const newSinodal: SinodalData = {
         email: email,
+        name: nombre === "" ? null : nombre,
+        lastname: Papellido === "" ? null : Papellido,
+        second_lastname: Sapellido === "" ? null : Sapellido,
       };
       setSinodals((prevSinodals) => [...prevSinodals, newSinodal]);
 

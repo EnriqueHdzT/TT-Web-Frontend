@@ -57,6 +57,12 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           throw new Error("Error al buscar el correo");
         }
 
+        const data = await response.json();
+        setNombre(data.name);
+        setPapellido(data.lastName);
+        setSapellido(data.secondLastName);
+        
+
         setShowWarning(false);
         setShowExtraData(false);
         setSendButtonEnabled(true);
