@@ -14,9 +14,6 @@ export default function Footer() {
         <a href="/avisos_de_privacidad">Aviso de Privacidad Integral </a>
         <a href="/buzon">Buzon de ayuda</a>
       </div>
-      <div className="col">
-      <a href="/">LOGO</a>
-      </div>
       </div>
     </footer>
   );

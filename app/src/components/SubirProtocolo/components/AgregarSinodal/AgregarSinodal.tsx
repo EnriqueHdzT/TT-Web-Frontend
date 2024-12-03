@@ -102,7 +102,19 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
   return (
     <div className="item">
       <div className="tit-pr">Sinodal(es)</div>
-      <div className="cont-pr">Agrega los sinodales que participarán en el protocolo</div>
+      <div className="cont-pr">{sinodals.length > 0 ? (
+         sinodals.map((sinodal, index) => (
+           <div className="student" key={index}>
+            <span className="student_email">{sinodal.email}</span>
+            <button>
+              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleSinodalDelete(index)} />
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>Agrega los sinodales que participarán en el protocolo</p>
+      )}
+      </div>
       {!tooManySinodals && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
@@ -114,7 +126,7 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
             <div className="popup_content">
               <h1>Agregar Sinodal</h1>
               <div className="item3">
-                <div className="adven">
+                <div className="adven-pro">
                   <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
                   Todos los sinodales deben de existir en el sistema, si no lo estan puedes agregarlos en la seccion de
                   usuarios <br />
@@ -153,16 +165,7 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
           </div>
         </div>
       )}
-      <div className="directors">
-        {sinodals.map((sinodal, index) => (
-          <div className="director" key={index}>
-            <div className="email">{sinodal.email}</div>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleSinodalDelete(index)} />
-            </button>
-          </div>
-        ))}
-      </div>
+      
     </div>
   );
 }
