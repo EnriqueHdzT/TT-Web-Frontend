@@ -151,10 +151,26 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
     setDirectors((prevDirectors) => prevDirectors.filter((_, i) => i !== index));
   };
 
+  
   return (
     <div className="item">
       <div className="tit-pr">Director(es)</div>
-      <div className="cont-pr">Agrega los directores que participarán en el protocolo</div>
+      <div className="cont-pr">{directors.length > 0 ? (
+         directors.map((director, index) => (
+           <div className="student" key={index}>
+             <span className="student_name">
+                  {director.name || ""} {director.lastname || ""}{" "}
+                  {director.second_lastname || ""}
+                </span>
+            <span className="student_email">{director.email}</span>
+            <button>
+              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>Agrega los directores que participarán en el protocolo</p>
+      )}</div>
       {!tooManyDirectors && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
@@ -167,7 +183,7 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
               <h1>Agregar Director</h1>
               <div className="item3">
                 {directors.length === 0 && (
-                  <div className="adven">
+                  <div className="adven-pro">
                     <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
                     Recuerda que el primer director debe pertenecer a la ESCOM, ademas de estar registrado en la
                     aplicación. Si este no se encuentra en el sistema acude a la CATT <br />
@@ -288,16 +304,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
           </div>
         </div>
       )}
-      <div className="directors">
-        {directors.map((director, index) => (
-          <div className="director" key={index}>
-            <div className="email">{director.email}</div>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

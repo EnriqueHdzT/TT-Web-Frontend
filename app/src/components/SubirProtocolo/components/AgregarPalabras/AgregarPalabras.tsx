@@ -44,7 +44,18 @@ export default function AgregarPalabras({ keywords = [], setKeywords }: Props) {
   return (
     <div className="item">
       <div className="tit-pr">Palabras Clave</div>
-      <div className="cont-pr">Ingresa las palabras clave</div>
+      <div className="cont-pr">{keywords.length > 0 ? (
+         keywords.map((keyword, index) => (
+          <div className="keyword" key={index}>
+            <div className="kw">{keyword}</div>
+            <button>
+              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleKeywordDelete(index)} />
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>Ingresa las palabras clave</p>
+      )}</div>
       {!tooManyKeywords && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
@@ -54,7 +65,7 @@ export default function AgregarPalabras({ keywords = [], setKeywords }: Props) {
         <div className="popup-background" onClick={togglePopup}>
           <div className="popup" onClick={(e) => e.stopPropagation()}>
             <div className="popup_content">
-              <h1>Agregar Palabras Clave</h1>
+             <div className="pl"> <h1>Agregar Palabras Clave</h1></div>
               <div className="item3">
                 <div className="tit-2">
                   Palabra Clave{" "}
@@ -80,16 +91,6 @@ export default function AgregarPalabras({ keywords = [], setKeywords }: Props) {
           </div>
         </div>
       )}
-      <div className="keywords">
-        {keywords.map((keyword, index) => (
-          <div className="keyword" key={index}>
-            <div className="email">{keyword}</div>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleKeywordDelete(index)} />
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

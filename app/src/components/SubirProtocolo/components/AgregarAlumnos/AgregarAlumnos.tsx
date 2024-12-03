@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleExclamation,
+  faCirclePlus,
+  faClose,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface StudentData {
   email: string;
@@ -45,13 +49,16 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
     try {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx)$/;
       if (emailRegex.test(email)) {
-        const response = await fetch(`http://127.0.0.1:8000/api/userExists/${email}`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/userExists/${email}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Error al buscar el correo");
@@ -97,7 +104,9 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
   };
 
   const handleAgregar = () => {
-    const emailAlreadyExists = students.some((student) => student.email === email);
+    const emailAlreadyExists = students.some(
+      (student) => student.email === email
+    );
     if (!emailAlreadyExists) {
       const newStudent: StudentData = {
         email: email,
@@ -109,6 +118,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
         curriculum: carrera && carrera !== "ISW" ? "2020" : planestudio || null,
       };
       setStudents((prevStudents) => [...prevStudents, newStudent]);
+
       togglePopup();
     } else {
       setEmailExists(true);
@@ -120,22 +130,54 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
   };
 
   useEffect(() => {
-    const isEmailValid = email !== "" && /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/.test(email);
+    const isEmailValid =
+      email !== "" &&
+      /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/.test(email);
     const isNameValid = nombre !== "";
     const isPapellidoValid = Papellido !== "";
     const isBoletaValid = boleta !== "" && boleta.length === 10;
-    const isCarreraValid = carrera !== "" && ["ISW", "IIA", "LCD"].includes(carrera);
+    const isCarreraValid =
+      carrera !== "" && ["ISW", "IIA", "LCD"].includes(carrera);
     const isPlanEstudiosValid = carrera !== "ISW" ? planestudio !== "" : true;
 
     setSendButtonEnabled(
-      isEmailValid && isNameValid && isPapellidoValid && isBoletaValid && isCarreraValid && isPlanEstudiosValid
+      isEmailValid &&
+        isNameValid &&
+        isPapellidoValid &&
+        isBoletaValid &&
+        isCarreraValid &&
+        isPlanEstudiosValid
     );
   }, [email, nombre, Papellido, Sapellido, boleta, carrera, planestudio]);
 
   return (
     <div className="item">
       <div className="tit-pr">Alumno(s)</div>
-      <div className="cont-pr">Agrega los alumnos que participarán en el protocolo</div>
+      <div className="cont-pr">
+        {students.length > 0 ? (
+          students.map((alumno, index) => (
+            <div className="student" key={index}>
+              <div className="student_info">
+                <span className="student_name">
+                  {alumno.name || ""} {alumno.lastname || ""}{" "}
+                  {alumno.second_lastname || ""}
+                </span>
+                <span className="student_email">{alumno.email}</span>
+              </div>
+              <button>
+                <FontAwesomeIcon
+                  icon={faClose}
+                  className="icon"
+                  onClick={() => handleStudentDelete(index)}
+                />
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>Agrega los alumnos que participarán en el protocolo</p>
+        )}
+      </div>
+
       {!tooManyStudents && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
@@ -158,20 +200,30 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
                   <button onClick={checkIfUserExists}>Buscar</button>
                   {showWarning && (
                     <div className="adven">
-                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
-                      El correo institucional que has buscado no se encuentra registrado en la aplicación. Ingresa los
-                      siguientes datos para continuar
+                      <FontAwesomeIcon
+                        icon={faCircleExclamation}
+                        className="adv-icon"
+                      />
+                      El correo institucional que has buscado no se encuentra
+                      registrado en la aplicación. Ingresa los siguientes datos
+                      para continuar
                     </div>
                   )}
                   {!emailIsValid && (
                     <div className="adven">
-                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                      <FontAwesomeIcon
+                        icon={faCircleExclamation}
+                        className="adv-icon"
+                      />
                       El correo no cumple con el formato esperado
                     </div>
                   )}
                   {emailExists && (
                     <div className="adven">
-                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                      <FontAwesomeIcon
+                        icon={faCircleExclamation}
+                        className="adv-icon"
+                      />
                       El correo ya se encuentra registrado en este protocolo
                     </div>
                   )}
@@ -218,13 +270,22 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
                     <div className="tit-2">
                       Carrera{" "}
                       <div>
-                        <select value={carrera} onChange={(e) => setCarrera(e.target.value)}>
+                        <select
+                          value={carrera}
+                          onChange={(e) => setCarrera(e.target.value)}
+                        >
                           <option value="" disabled hidden>
                             Selecciona la carrera a la que pertenece el alumnno
                           </option>
-                          <option value="ISW">Ingeniería en Sistemas Computacionales</option>
-                          <option value="IIA">Ingeniería en Inteligencia Artificial</option>
-                          <option value="LCD">Licenciatura en Ciencia de Datos</option>
+                          <option value="ISW">
+                            Ingeniería en Sistemas Computacionales
+                          </option>
+                          <option value="IIA">
+                            Ingeniería en Inteligencia Artificial
+                          </option>
+                          <option value="LCD">
+                            Licenciatura en Ciencia de Datos
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -232,7 +293,11 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
                       <div className="tit-2">
                         Plan de estudio{" "}
                         <div>
-                          <select value={planestudio} className="ojio" onChange={(e) => setPlanestudio(e.target.value)}>
+                          <select
+                            value={planestudio}
+                            className="ojio"
+                            onChange={(e) => setPlanestudio(e.target.value)}
+                          >
                             <option value="" disabled hidden>
                               Selecciona el plan al que pertenece el alumnno
                             </option>
@@ -254,17 +319,6 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           </div>
         </div>
       )}
-
-      <div className="students">
-        {students.map((alumno, index) => (
-          <div className="student" key={index}>
-            <p className="student_email">{alumno.email}</p>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleStudentDelete(index)} />
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

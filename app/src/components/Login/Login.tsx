@@ -121,10 +121,9 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
 
   if (!localStorage.getItem("token")) {
     return (
-      <div className="contenedor-form">
-        <div className="card text-bg-light mb-3">
-          <div className="card-body">
-            <h5 className="card-title">Iniciar Sesión</h5>
+      <div className="contenedor-forms">
+        <div className="cont-sesion">
+            <div className="title-s">Iniciar Sesión</div>
 
             <form className="login-form">
               <div className="flex-lg">
@@ -144,9 +143,8 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
                 />
               </div>
               {wrongEmail && !isTypingEmail && LoginData.email !== "" ? (
-                <div className="adv-pr">
-                  <FontAwesomeIcon icon={faCircleXmark} className="adv-icon" /> El correo no cumple con la estructura
-                  esperada
+                <div className="alerta_s">El correo no cumple con la estructura
+                  esperada.
                 </div>
               ) : (
                 <></>
@@ -174,17 +172,15 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
                 </div>
               </div>
               {wrongPassword && !isTypingPassword && LoginData.password !== "" ? (
-                <div className="adv-incorrect-password">
-                  <p className="adv-incorrect-password-title">
-                    <FontAwesomeIcon icon={faCircleXmark} className="adv-icon" /> La contraseña no cumple con la
-                    estructura esperada
-                  </p>
-                  <p>Tu contraseña debe contener:</p>
-                  <ul className="adv-incorrect-password-list">
-                    <li>Al menos una mayúscula</li>
-                    <li>Al menos un digito</li>
+                <div className="alerta_s">
+                   La contraseña no cumple con la
+                estructura esperada. <br /> La contraseña debe contener:
+                
+                  <ul>
+                    <li>Al menos una mayúscula.</li>
+                    <li>Al menos un digito.</li>
                     <li>Al menos uno de los siguientes caracteres !, @, #, $, %, ^, &, ?, * </li>
-                    <li>Longitud mínima de 8 caracteres</li>
+                    <li>Longitud mínima de 8 caracteres.</li>
                   </ul>
                 </div>
               ) : (
@@ -202,13 +198,6 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
                 Registro para alumno
               </a>
             </div>
-          </div>
-        </div>
-        <div className="card text-bg-light">
-          <div className="card-body ">
-            <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> En caso de ser docente y no encontrarse
-            registrado en el sistema debes comunicarte con la CATT para llevar acabo el proceso.
-          </div>
         </div>
         <div className="toast-container position-fixed top-0 end-0 p-3">
           <div id="toast-popup" className="toast" role="alert" aria-live="assertive" aria-atomic="true">

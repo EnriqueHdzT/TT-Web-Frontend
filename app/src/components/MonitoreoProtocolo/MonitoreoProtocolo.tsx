@@ -53,6 +53,8 @@ const MonitoreoProtocolo: React.FC<MonitoreoProtocoloProps> = ({ titulo }) => {
       <div className="info-container">
         <h1 className="titulo">Título de TT: {titulo}</h1>
         <div className="general-contenedor">
+
+          {/* RECEPCION DE PROTOCOLO */ }
           <div className="row-container">
             <div className="box status blue">
               <div className="icore ico-blue">
@@ -69,6 +71,8 @@ const MonitoreoProtocolo: React.FC<MonitoreoProtocoloProps> = ({ titulo }) => {
               <a href="/"><button className="blue">Ver evaluación</button></a>
             </div>
           </div>
+          {/* EVALUACION SINODAL ACEPTADA */ }
+
           <div className="row-container">
             <div className="box status green">
               <div className="icore ico-green">
@@ -84,6 +88,8 @@ const MonitoreoProtocolo: React.FC<MonitoreoProtocoloProps> = ({ titulo }) => {
             </div>
             <a href="/"><button className="green">Ver evaluación</button></a></div>
           </div>
+
+           {/* EVALUACION SINODAL ACEPTADA */ }
           <div className="row-container">
             <div className="box status green">
               <div className="icore ico-green">
@@ -100,6 +106,8 @@ const MonitoreoProtocolo: React.FC<MonitoreoProtocoloProps> = ({ titulo }) => {
             <a href="/"><button className="green">Ver evaluación</button></a>
             </div>
           </div>
+
+           {/* EVALUACION SINODAL RECHAZADA */ }
           <div className="row-container">
             <div className="box status red">
               <div className="icore ico-red">

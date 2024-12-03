@@ -18,57 +18,173 @@ $gray-pass: #a2a2a2;
 /*========== z index ==========*/
 $z-fixed: 100;
 
-.cont-register {
-  width: 500px;
-  height: 70dvh;
-  min-height: 470px;
-  max-height: 600px;
-  background-color: $cont-gray;
-  border-radius: 20px;
-  margin-top: 5%;
-  display: grid;
-  align-items: center;
+.contenedor-form {
+  margin: 0 auto;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(-45deg, #969696, #cc7acca2, #1c8ff3a6, #71acdfa1);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 
-  button {
-    width: 20dvh;
-    height: 6dvh;
-    min-width: 150px;
-    min-height: 30px;
-    max-height: 50px;
-    margin: 1dvh 0 6dvh 0;
-    background-color: $blue;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font: 500 15px / 18px "Poppins";
-    color: $body-color;
+  @media (min-width: 1440px) {
+    height: 88vh;
   }
 
-  .elements-flex {
-    display: flex;
+  @media (max-width: 1439px) {
+    height: 83vh;
+  }
 
-    .title-r {
-      font: 500 22px / 16px "Poppins";
-      color: $blue;
-      margin-top: 4dvh;
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+.cont-register {
+  width: 50%;
+  min-width: 500px;
+  max-width: 600px;
+  height: auto;
+  background-color: $body-color;
+  border-radius: 20px;
+  display: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1%;
+
+  .title-r {
+    width: 100%;
+    font: 600 22px / 16px "Poppins";
+    color: $blue;
+    text-align: center;
+    margin: 40px 0 20px 0;
+  }
+
+  .regis-fo {
+    width: 100%;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Centra los elementos horizontalmente
+    justify-content: center;
+
+    .messg-top {
+      width: 400px;
+      height: auto;
+      font: 400 12px "Poppins";
+      text-transform: uppercase;
+      margin-bottom: 2%;
     }
 
-    a {
-      color: $blue;
-      font-size: 20px;
-      margin: 3.2dvh 15px 0 5px;
+    .butt-next {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+
+      button {
+        padding: 5px 20px;
+        background-color: #ebecec;
+        border: 1px solid #dadada;
+        border-radius: 20px;
+        cursor: pointer;
+        font: 500 12px "Poppins";
+        color: $gray-pass;
+      }
+
+      .registrando {
+        color: $blue;
+      }
+    }
+
+    .flex-lg {
+      display: flex;
+
+      label {
+        width: 50px;
+        height: 40px;
+        min-height: 25px;
+        background-color: $blue;
+        display: grid;
+        place-content: center;
+        border-radius: 10px 0 0 10px;
+      }
+
+      input,
+      select {
+        width: 350px;
+        height: 40px;
+        padding: 8px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+        font: 400 13px "Poppins";
+        outline: none;
+        border-radius: 0 10px 10px 0;
+        background-color: #ebecec;
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+      .style-icon {
+        color: $body-color;
+        font-size: 15px;
+      }
+
+      .password-container {
+        position: relative;
+
+        input {
+          padding-right: 45px; // Espacio para el icono
+        }
+
+        .password-icon {
+          position: absolute;
+          right: 15px;
+          top: 40%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          color: $gray-pass;
+        }
+      }
+    }
+
+    .alerta_r {
+      width: 400px;
+      font: 400 12px "Poppins";
+      text-align: center;
+      margin-bottom: 10px;
+      background-color: #f8d7da;
+      border: 1px solid #f1aeb5;
+      border-radius: 10px;
+      padding: 10px;
+
+      ul {
+        text-align: left;
+        list-style-type: circle;
+      }
     }
   }
 }
 
 .aviso-doc {
   width: 500px;
-  height: 7dvh;
-  max-height: 50px;
+  height: 50px;
   background-color: $cont-gray;
   border-radius: 20px;
-  margin-top: 10px;
+  margin-top: 5px;
   display: flex;
   font: 400 12px / 16px "Poppins";
   padding: 10px 20px 10px 10px;
@@ -77,76 +193,14 @@ $z-fixed: 100;
 
   .adv-icon {
     width: 30px;
-    padding: 0 15px 10px 5px;
+    padding: 5px 15px 10px 5px;
     color: $blue;
     font-size: 18px;
   }
 }
 
-.register-form {
-  min-height: 450px;
-  display: flex;
-  flex-direction: column;
-  align-items: center; // Centra los elementos horizontalmente
-  justify-content: center;
-
-  .messg-top {
-    margin: 2rem 0 10px 0;
-    width: 400px;
-    height: auto;
-    font: 500 13px / 16px "Poppins";
-  }
-
-  .flex-lg {
-    display: flex;
-
-    label {
-      width: 50px;
-      height: 3.5dvh;
-      min-height: 25px;
-      background-color: $blue;
-      display: grid;
-      place-content: center;
-      border-radius: 10px 0 0 10px;
-    }
-
-    input,
-    select {
-      width: 350px;
-      height: 3.5dvh;
-      min-height: 25px;
-      max-height: 40px;
-      padding: 8px;
-      margin-bottom: 10px;
-      font: 400 14px / 16px "Poppins";
-      border: none;
-      outline: none;
-      border-radius: 0 10px 10px 0;
-    }
-    .style-icon {
-      color: $body-color;
-      font-size: 18px;
-    }
-
-    .password-container {
-      position: relative;
-
-      input {
-        padding-right: 45px; // Espacio para el icono
-      }
-
-      .password-icon {
-        position: absolute;
-        right: 15px;
-        top: 40%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: $gray-pass;
-      }
-    }
-  }
-}
-#career,  #curriculum{
+#career,
+#curriculum {
   color: black;
 
   &:invalid {

@@ -36,6 +36,19 @@ $z-fixed: 10;
   z-index: 10;
 }
 
+.navbar_u{
+background-color: $body-color;
+width: 100%;
+height: 10vh;
+display: flex;
+position: relative;
+flex-wrap: wrap;
+align-items: center;
+justify-content: space-between;
+padding: 0.5rem 0;
+}
+
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -110,10 +123,12 @@ $z-fixed: 10;
   display: inline-block;
   margin-left: 2rem;
   font: 500 14px / 16px "Poppins";
-
   a {
     color: inherit;
     text-decoration: none;
+    
+    
+
   }
 }
 
@@ -246,6 +261,7 @@ $z-fixed: 10;
       }
     }
   }
+
 }
 
 button {

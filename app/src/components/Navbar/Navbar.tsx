@@ -223,7 +223,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
               <></>
             )}
             <div className="logo-h">
-              <a href="/">LOGO</a>
+              <a href="/">Logo</a>
             </div>
             {isSearchEnable ? (
               <div className="search-container">
