@@ -5,6 +5,7 @@ import {
   faCirclePlus,
   faClose,
 } from "@fortawesome/free-solid-svg-icons";
+import { Prev } from "react-bootstrap/esm/PageItem";
 
 interface StudentData {
   email: string;
@@ -64,11 +65,25 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           throw new Error("Error al buscar el correo");
         }
 
-        setShowWarning(false);
-        setShowExtraData(false);
-        setSendButtonEnabled(true);
-        setEmailIsValid(true);
-        handleAgregar();
+        const res = await response.json();     
+        const emailAlreadyExists = students.some(
+          (student) => student.email === email
+        );
+        if (!emailAlreadyExists) {
+          const newStudent: StudentData = {
+            email: email,
+            name: res.name,
+            lastname: res.lastName,
+            second_lastname: res.secondLastName,
+          };
+          setStudents((prevStudents) => [...prevStudents, newStudent]);
+          togglePopup();
+        }
+
+        else {
+          setEmailExists(true);
+       }
+       
       } else {
         setEmailIsValid(false);
       }

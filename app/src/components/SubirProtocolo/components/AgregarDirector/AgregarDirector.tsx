@@ -90,11 +90,27 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
           throw new Error("Error al buscar el correo");
         }
 
-        setShowWarning(false);
-        setShowExtraData(false);
-        setSendButtonEnabled(true);
-        setEmailIsValid(true);
-        handleAgregar();
+        const res = await response.json();     
+        const emailAlreadyExists = directors.some(
+          (director) => director.email === email
+        ) || sinodals.some(
+          (sinodal) => sinodal.email === email
+        );
+        if (!emailAlreadyExists) {
+          const newDirector: DirectorData = {
+            email: email,
+            name: res.name,
+            lastname: res.lastName,
+            second_lastname: res.secondLastName,
+          };
+          setDirectors((prevDirectors) => [...prevDirectors, newDirector]);
+          togglePopup();
+        }
+
+        else {
+          setEmailExists(true);
+        }
+     
       } else {
         setEmailIsValid(false);
       }
