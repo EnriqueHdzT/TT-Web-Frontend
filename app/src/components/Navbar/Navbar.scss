@@ -13,18 +13,17 @@ $dropdown-list-color: #f4f4f4;
 $search-blue: #1c90f3;
 $primary-color: #000000;
 $secondary-color: #649bc8;
-$neutral-light-color: #f8f8f8; 
+$neutral-light-color: #f8f8f8;
 $neutral-dark-color: #2c2c2c;
 $white-color: #ffffff;
 $background-hover-color: #96c1ef;
 $background-secondary-color: #ededed;
 
-
 /*========== Font and typography ==========*/
 $black-fontd: #2c2c2c;
 $blue: #1c90f3;
 $gray-pass: #a2a2a2;
-$home-color: #90CAF9;
+$home-color: #90caf9;
 
 /*========== z index ==========*/
 $z-fixed: 10;
@@ -36,18 +35,17 @@ $z-fixed: 10;
   z-index: 10;
 }
 
-.navbar_u{
-background-color: $body-color;
-width: 100%;
-height: 10vh;
-display: flex;
-position: relative;
-flex-wrap: wrap;
-align-items: center;
-justify-content: space-between;
-padding: 0.5rem 0;
+.navbar_u {
+  background-color: $body-color;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
 }
-
 
 .dropdown {
   position: relative;
@@ -121,14 +119,24 @@ padding: 0.5rem 0;
 .logo-h {
   position: relative;
   display: inline-block;
-  margin-left: 2rem;
+  margin-left: 1rem;
   font: 500 14px / 16px "Poppins";
+  width: 100px;
+  height: 15px;
+  align-items: center;
+  justify-content: center;
+
   a {
     color: inherit;
     text-decoration: none;
     
-    
-
+    .lh {
+      height: 15px;
+      background-image: url("/logos.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
   }
 }
 
@@ -261,7 +269,6 @@ padding: 0.5rem 0;
       }
     }
   }
-
 }
 
 button {
@@ -279,7 +286,7 @@ button {
   transition: opacity 0.4s ease 0s;
 }
 
-.inicio-button{
+.inicio-button {
   color: $body-color;
   text-decoration: none;
   background-color: $blue;
@@ -287,10 +294,9 @@ button {
   padding: 10px 20px;
   border-radius: 20px;
   margin-right: 3%;
-
 }
 
-.registro-button{
+.registro-button {
   color: $blue;
   text-decoration: none;
   font: 500 0.8rem "Poppins";
@@ -299,4 +305,3 @@ button {
   margin-right: 9%;
   border: 2px solid $blue;
 }
-

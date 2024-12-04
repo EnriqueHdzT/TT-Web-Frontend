@@ -223,7 +223,8 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
               <></>
             )}
             <div className="logo-h">
-              <a href="/">Logo</a>
+              <a href="/"> <div className="lh"></div>
+                </a>
             </div>
             {isSearchEnable ? (
               <div className="search-container">
@@ -253,7 +254,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                   </button>
                 </div>
                 <div className="profile-circle">
-                  <img src="https://i.ibb.co/qRGfzdB/Clipped-9.png" className="profile-user" alt="Profile"></img>
+                  <img src="/1.png" className="profile-user" alt="Profile"></img>
                 </div>
                 <div className="z-nav">
                 <div className={`dropdown-user ${isOn ? "active" : ""}`} id="myDropdownus">
