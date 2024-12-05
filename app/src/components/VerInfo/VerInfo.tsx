@@ -584,14 +584,14 @@ export default function VerInfo() {
 
       <div className="botones-info">
       <button
-        className="btn btn-outline-primary"
+        className="restablece"
         disabled={!wasUserEdited}
         onClick={handleReset}
       >
         Restablecer Datos
       </button>{" "}
       <button
-        className="btn btn-primary"
+        className="guardar_b"
         disabled={!wasUserEdited}
         onClick={handleSave}
       >
