@@ -84,7 +84,8 @@ const Preguntas = () => {
               </button>
               <div className="botones-container">
                 {botones.length === 0 ? (
-                    <p>No hay preguntas</p>
+                
+                <p> No hay preguntas</p>
                 ) : (
                     botonesActuales.map((boton, index) => (
                         <button

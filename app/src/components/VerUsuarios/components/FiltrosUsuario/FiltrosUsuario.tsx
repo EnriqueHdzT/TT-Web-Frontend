@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './FiltroUsuario.scss';
-import { faCircleUp, faCircleDown } from "@fortawesome/free-regular-svg-icons";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function FiltrosUsuario ({ name = '', currentStatus='', options = [''], onChange}) {
@@ -26,7 +26,7 @@ export default function FiltrosUsuario ({ name = '', currentStatus='', options =
     <div className="dropdown-header" onClick={toggleDropdown}>
       <button className="dropdown-button">
         {selectedOption}
-        <span className={`arrow ${isOpen ? 'open' : ''}`}><FontAwesomeIcon icon={isOpen ? faCircleUp : faCircleDown}/></span>
+        <span className={`arrow ${isOpen ? 'open' : ''}`}><FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown}/></span>
       </button>
     </div>
     {isOpen && (

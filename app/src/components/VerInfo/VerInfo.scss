@@ -81,22 +81,23 @@ $gray-pass: #a2a2a2;
     padding: 5px;
     background-color: $body-color;
     border-bottom: 1px solid $gray-2;  
-    height: 40px;   
+    height: 40px;  
 
-    .title {
+     .title {
       font: 500 13px "Poppins";
       color: $black-fontd;
       width: 20%;
+      max-width: 200px;
     }
 
     .value {
       color: $dark-1;
       font: 400 13px "Poppins";
-      width: 60%;
+      width: 80%;
     }
 
     .con-ico {
-      width: 20%;
+      width: 10%;
       text-align: right;
       font-size: 13px;
 
@@ -108,10 +109,11 @@ $gray-pass: #a2a2a2;
 
     input,
     select {
-      width: 60%;
-      font-size: 12px;
-      border: 1px solid $gray-2;
+      width: 70%;
       border-radius: 4px;
+      border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    font: 400 0.8rem "Poppins";
 
       &:focus {
         outline: none;
@@ -130,5 +132,30 @@ $gray-pass: #a2a2a2;
       margin-bottom: 5px;
     }
   }
+}
+
+.botones-info{
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  padding-right: 6%;
+  margin: 1% 0;
+.restablece{
+  border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    font: 400 0.8rem 'Poppins';
+    padding: 5px 15px;
+    border-radius: 15px;
+    color: $dark-1;
+    margin-right: 2%;
+}
+.guardar_b{
+  background-color: $blue;
+  color: $body-color;
+  padding: 5px 15px;
+    border-radius: 15px;
+    font: 400 0.8rem 'Poppins';
+}
+
 }
 }

@@ -832,7 +832,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="input-group mb-3" style={{padding:"10px 10px 0 10px"}}>
                     <input
-                      className="form-select"
+                      className="form-num"
                       type="number"
                       min="2020"
                       placeholder="Ingrese año"
@@ -845,6 +845,7 @@ export default function DatesAndTerms() {
                         fontFamily: '"Poppins", sans-serif',
                         fontSize: "0.9rem",
                         marginRight: "1rem",
+                        padding: "0 1rem",
                       }}
                     />
                     <select

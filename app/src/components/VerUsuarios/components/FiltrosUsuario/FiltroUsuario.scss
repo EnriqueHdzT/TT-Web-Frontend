@@ -51,7 +51,7 @@
   
   
     .dropdown-menu {
-      position:relative;
+      position:absolute;
       display: block;
       padding: 0;
       background-color: $dropdown-bg-color;
@@ -59,7 +59,7 @@
       margin-top: 10px;
       font: 400 12px 'Poppins';
       border-radius: 10px;
-      z-index: 2;
+      z-index: 1;
 
     }
   

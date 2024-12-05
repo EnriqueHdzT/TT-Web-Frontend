@@ -16,30 +16,39 @@
  $blue: #1C90F3;
  $gray-pass: #A2A2A2;
 
-.head-usr{
+ .conte-usuarios{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+  box-sizing: border-box;
   width: 100%;
-  min-width: 1300px; 
+
+  @media (min-width: 1400px) {
+    min-height: 87vh;
+  }
+
+ 
+.head-usus{
+  width: 100%;
   height: auto;
   margin: 0 auto;
   flex-wrap: wrap;
   display: flex;
+  margin-top: 2%;
 
-  .tl-u{
-    margin-top: 5.5rem;
-    padding-left: 4%;
+  .tl-usu{
     width: 25%;
-    height: 50px;
     color: $black-fontd;
-    font: 400 1.1rem 'Poppins';
-    align-items: center;  // horizontal
-  justify-content: start; // vertical
-  display: flex; 
+    font: 600 1.2rem "Poppins";
+  display: flex;
+  padding-left: 5%;
   }
 
   .select-usr{
-    margin-top: 5.5rem;
     width: 75%;
-    height: 50px;
+    margin-top: 2%;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -75,6 +84,8 @@
       }
 
     }
+
+      
   }
   
 }
@@ -84,15 +95,21 @@
     flex-wrap: wrap;
     justify-content: space-evenly; // Distribuye los elementos uniformemente en el contenedor
     margin: 0 30px;
-    position: relative;
-  
+    gap: 1.5rem;
+
+    .no-usuarios{
+      margin-top: 23vh;
+      h1{
+        font: 500 1rem 'Poppins';
+      }
+    }
+ 
     .item {
       width: calc(425px - 30px); // Tamaño inicial de los elementos (25% para que haya 4 elementos por fila)
       background-color: $users-cont;
       height: 170px;
       border-radius: 20px;
       margin-top: 8vh;
-      
   
       @media (min-width: 768px) {
         width: calc(425px - 10px); // Cuando el tamaño de la pantalla sea igual o menor a 768px, los elementos ocuparán el 33.33% del ancho para tener un máximo de 3 elementos por fila
@@ -192,4 +209,80 @@
   }
       
     }
+
+  
   }
+
+  .pageChanger{
+    margin-top: 3%;
+  }
+
+
+}
+
+div.popup-content {
+  border: none;
+  border-radius: 15px;
+  padding: 10px;
+  
+
+  .nav{
+    font: 500 0.9rem 'Poppins';
+  }
+
+  input{
+    border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    font: 400 0.8rem 'Poppins';
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      background-color: #ebecec;
+      border: 1px solid $blue;
+    }
+  }
+
+  select{
+    border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    font: 400 0.8rem 'Poppins';
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      background-color: #ebecec;
+      border: 1px solid $blue;
+    }
+  }
+
+  form{
+  button.btn-outline-danger{
+    background-color: #f8d7da;
+    border: 1px solid #f1aeb5;
+    font: 400 12px "Poppins";
+    border-radius: 10px;
+    margin-right: 1%;
+
+    &:hover{
+      color: #c76f77;
+    }
+
+  }
+  button.btn-primary{
+    background-color: $blue;
+      border: 1px solid $blue;
+      border-radius: 10px;
+      font: 400 12px "Poppins";
+  }
+
+  .flx_b{
+    display: flex;
+    justify-content: right;
+  }
+}
+
+  .row{
+    --bs-gutter-x: none;
+  }
+}

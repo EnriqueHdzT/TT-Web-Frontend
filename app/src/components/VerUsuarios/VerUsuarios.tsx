@@ -241,8 +241,9 @@ export default function VerUsuarios() {
 
   return (
     <div>
-      <div className="head-usr">
-        <div className="tl-u">Viendo Usuarios</div>
+      <div className="conte-usuarios">
+      <div className="head-usus">
+        <div className="tl-usu">Viendo Usuarios</div>
         <div className="select-usr">
           <FiltrosUsuario
             name={"Tipo de Usuario"}
@@ -300,7 +301,8 @@ export default function VerUsuarios() {
             <></>
           )}
           <Popup
-            ref={popupRef}
+              ref={popupRef}
+              className="popup-content"
             trigger={(open) => (
               <button type="button" className="plus-us">
                 Nuevo Usuario <FontAwesomeIcon icon={faPlus} className="icon-us" />
@@ -311,7 +313,8 @@ export default function VerUsuarios() {
             closeOnDocumentClick={false}
           >
             {(close) => (
-              <>
+                <>
+                  
                 <ul className="nav nav-tabs nav-justified row" id="myTab" role="tablist">
                   <li className="nav-item" role="presentation">
                     <button
@@ -413,13 +416,14 @@ export default function VerUsuarios() {
                           <option value="2009">2009</option>
                           <option value="2020">2020</option>
                         </select>
-                      )}
+                        )}
+                        <div className="flx_b">
                       <button className="btn btn-outline-danger" onClick={onPopupClose}>
                         Cerrar
                       </button>
                       <button type="submit" className="btn btn-primary">
                         Crear Alumno
-                      </button>
+                      </button></div>
                     </form>
                   </div>
                   <div
@@ -496,16 +500,18 @@ export default function VerUsuarios() {
                         <option value="SecEjec">Secretario Ejecutivo</option>
                         <option value="SecTec">Secretario Técnico</option>
                         <option value="Presidente">Presidente</option>
-                      </select>
+                        </select>
+                        
+                        <div className="flx_b">
                       <button className="btn btn-outline-danger" onClick={onPopupClose}>
                         Cerrar
                       </button>
                       <button type="submit" className="btn btn-primary">
                         Crear Docente
-                      </button>
+                      </button></div>
                     </form>
                   </div>
-                </div>
+                    </div>
               </>
             )}
           </Popup>
@@ -534,12 +540,14 @@ export default function VerUsuarios() {
             ))}
           </>
         ) : (
-          <h1>No se encontraron usuarios</h1>
+          <div className="no-usuarios">
+            < h1 > No se encontraron usuarios</h1></div>
         )}
       </div>
       <div className="pageChanger">
         <PageChanger currentPage={currentPage} maxPages={maxPage} onPageChange={updateCurrentPage} />
       </div>
+    </div>
     </div>
   );
 }

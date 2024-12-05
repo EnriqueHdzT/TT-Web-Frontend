@@ -71,14 +71,21 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
           throw new Error("Error al buscar el correo");
         }
 
-        const data = await response.json();
-        setNombre(data.name);
-        setPapellido(data.lastName);
-        setSapellido(data.secondLastName);
-
-        setShowWarning(false);
-        setEmailIsValid(true);
-        handleAgregar();
+        const res = await response.json();
+        const emailAlreadyExists =
+          directors.some((director) => director.email === email) || sinodals.some((sinodal) => sinodal.email === email);
+        if (!emailAlreadyExists) {
+          const newSinodal: SinodalData = {
+            email: email,
+            name: res.name,
+            lastname: res.lastName,
+            second_lastname: res.secondLastName,
+          };
+          setSinodals((prevSinodals) => [...prevSinodals, newSinodal]);
+          togglePopup();
+        } else {
+          setEmailExists(true);
+        }
       } else {
         setEmailIsValid(false);
       }
@@ -116,18 +123,22 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
   return (
     <div className="item">
       <div className="tit-pr">Sinodal(es)</div>
-      <div className="cont-pr">{sinodals.length > 0 ? (
-         sinodals.map((sinodal, index) => (
-           <div className="student" key={index}>
-            <span className="student_email">{sinodal.email}</span>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleSinodalDelete(index)} />
-            </button>
-          </div>
-        ))
-      ) : (
-        <p>Agrega los sinodales que participarán en el protocolo</p>
-      )}
+      <div className="cont-pr">
+        {sinodals.length > 0 ? (
+          sinodals.map((sinodal, index) => (
+            <div className="student" key={index}>
+              <span className="student_name">
+                {sinodal.name || ""} {sinodal.lastname || ""} {sinodal.second_lastname || ""}
+              </span>
+              <span className="student_email">{sinodal.email}</span>
+              <button>
+                <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleSinodalDelete(index)} />
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>Agrega los sinodales que participarán en el protocolo</p>
+        )}
       </div>
       {!tooManySinodals && (
         <div className="icon-pr" onClick={togglePopup}>
@@ -179,7 +190,6 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
           </div>
         </div>
       )}
-      
     </div>
   );
 }
