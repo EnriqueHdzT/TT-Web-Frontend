@@ -3,40 +3,34 @@ import { useEffect, useState } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Protocolinfo from "./components/Protocolinfo";
+import axios from "axios";
 
 export default function VerProtocolos() {
-    const [ordenProtocol, setOrdenProtocol] = useState("Ordenar");
     const listOfOrden = {
       "A validar": "waiting",
       "Validado": "validated",
       "Activo": "active",
       "Aplazado": "classified",
-      "Cancelado": "canceled"
+      "Cancelado": "canceled",
     };
-    const [isListOfOrden, setIsListOfOrden] = useState(true);
-    const [ordenPeriodo, setOrdenPeriodo] = useState("Periodo");
-    const listOfPeriodo = ["2024-1","2024-2","2023-1","2023-2"];
-    const [isListOfPeriodo, setIsListOfPeriodo] = useState(true);
+
+    const [listOfPeriodo, setListOfPeriodo] = useState(["Todos"]);
     const [protocols, setProtocols] = useState([]);
     const [loading, setLoading] = useState(false); 
-    const [currentPeriod, setCurrentPeriod] = useState("2024-1");
+    const [currentPeriod, setCurrentPeriod] = useState("Todos");
     const [currentOrder, setCurrentOrder] = useState("");
-  
-    const updateOrdenProtocol = (newTerm: string) => {
-      setOrdenProtocol(newTerm);
-    };
 
-    const updateOrdenPeriodo = (newTerm: string) => {
-        setOrdenPeriodo(newTerm);
-      };
-  
-    useEffect(() => {
-      setIsListOfOrden(Object.keys(listOfOrden).length === 0);
-    }, [listOfOrden]);
-
-    useEffect(() => {
-        setIsListOfPeriodo(listOfPeriodo.length === 0);
-      }, [listOfPeriodo]);
+    useEffect(()=>{
+      axios.get(`http://127.0.0.1:8000/api/datesList`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setListOfPeriodo(["Todos", ...response.data]);
+      })
+      .catch((error) => console.log(error));
+    }, []);
 
     async function fetchProtocols(){
       setLoading(true);
@@ -65,7 +59,7 @@ export default function VerProtocolos() {
           setLoading(false);
       }
     };
-    console.log(currentPeriod)
+
     useEffect(()=>{
         fetchProtocols();
     }, [currentOrder, currentPeriod]);
@@ -75,63 +69,55 @@ export default function VerProtocolos() {
             <div className="headprotocolo">
             <div className="tl-p">Viendo Protocolos</div>
           <div className="col-p">
-            {isListOfOrden ? (
-              <></>
-            ) : (
-              <div className="dropdown-center d-inline">
-                <button
-                  className="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {ordenProtocol}
-                </button>
-                <ul className="dropdown-menu">
-                  {Object.keys(listOfOrden).map((term) => (
-                    <li>
-                      <a className="dropdown-item" key={term} onClick={(e)=>{
-                        e.preventDefault();
-                        setCurrentOrder(e.target.innerText);
-                      }}>
-                        {term}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {isListOfPeriodo ? (
-              <></>
-            ) : (
-              <div className="dropdown-center d-inline">
-                <button
-                  className="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {ordenPeriodo}
-                </button>
-                <ul className="dropdown-menu">
-                  {listOfPeriodo.map((term) => (
-                    <li>
-                      <a className="dropdown-item" key={term} onClick={(e)=>{
-                        e.preventDefault();
-                        setCurrentPeriod(e.target.innerText);
-                      }}>
-                        {term}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div className="dropdown-center d-inline">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {currentOrder || "Ordenar"}
+              </button>
+              <ul className="dropdown-menu">
+                {Object.keys(listOfOrden).map((term) => (
+                  <li>
+                    <a className="dropdown-item" key={term} onClick={(e)=>{
+                      e.preventDefault();
+                      setCurrentOrder(e.target.innerText);
+                    }}>
+                      {term}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
             
-                <button type="button" className="btn btn-outline-primary">
-                  Agregar Protocolo +
-                </button>
+            <div className="dropdown-center d-inline">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {currentPeriod == "Todos" ? "Periodo" : currentPeriod}
+              </button>
+              <ul className="dropdown-menu">
+                {listOfPeriodo.map((term) => (
+                  <li>
+                    <a className="dropdown-item" key={term} onClick={(e)=>{
+                      e.preventDefault();
+                      setCurrentPeriod(e.target.innerText);
+                    }}>
+                      {term}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <button type="button" className="btn btn-outline-primary">
+              Agregar Protocolo +
+            </button>
           </div>
           </div>
           {protocols.map((protocol) => (
