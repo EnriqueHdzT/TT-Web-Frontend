@@ -65,15 +65,17 @@ $gray-pass: #a2a2a2;
     padding-bottom: 11px;
     border-bottom: 1px solid $gray-pass;
     height: auto;
+    
 
     .tit-pr {
       font: 500 0.9rem "Poppins";
       width: 20%;
+      max-width: 220px;
       padding-left: 30px;
     }
 
     .cont-pr {
-      width: 70%;
+      width: 100%;
       text-overflow: ellipsis; /* Agrega puntos suspensivos al final del texto cortado */
 
       input {
@@ -85,11 +87,15 @@ $gray-pass: #a2a2a2;
         text-overflow: ellipsis; /* Agrega puntos suspensivos al final del texto cortado */
       }
 
+      select{
+        margin: 0 0;
+      }
       p {
         padding: 0;
         margin: 0;
       }
 
+      
       .student{
         width: 100%;
         height: auto;
@@ -97,6 +103,7 @@ $gray-pass: #a2a2a2;
         font: 400 0.8rem "Poppins";
         align-items: center;
         margin-bottom: 10px;
+        
         gap:10px;
 
         &:last-child {
@@ -106,7 +113,6 @@ $gray-pass: #a2a2a2;
         .student_info{
           display: flex;
           gap:10px;
-
 
         }
 
@@ -430,11 +436,12 @@ $gray-pass: #a2a2a2;
     .tit-pr {
       font: 500 0.9rem "Poppins";
       width: 20%;
+      max-width: 220px;
       padding-left: 30px;
     }
 
     .cont-pr {
-      width: 80%;
+      width: 100%;
       align-items: center;
       display: block;
       font: 400 0.9rem "Poppins";

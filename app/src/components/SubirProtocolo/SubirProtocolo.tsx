@@ -298,7 +298,7 @@ export default function SubirProtocolo() {
         )}
         {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
           <div className="item">
-            <div className="tit-pr">Periodo del Protocol</div>
+            <div className="tit-pr">Periodo del Protocolo</div>
             <div className="cont-pr">
               {listOfTerms.length > 0 ? (
                 <div>

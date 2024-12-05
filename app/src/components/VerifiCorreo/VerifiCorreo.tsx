@@ -5,10 +5,10 @@ export default function VerifiCorreo() {
       <div className="cont-ver">
         <div className="title-ver">Verifica tu correo</div>
         <div className="cont-txtver">
-          Se envió un mensaje a tu correo.
+          Se envió un link de verificación de correo a tu cuenta, favor de revisarla entre los mensajes recientes o como spam.
           <br />
           <br />
-          Por favor, sigue el link dentro de este para continuar.
+          Una vez verificado tu correo podrás ingresar correctamente a la aplicación.
         </div>
         <button>
         <a href="/login">
