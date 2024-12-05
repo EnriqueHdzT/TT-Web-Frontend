@@ -8,7 +8,6 @@ interface DirectorData {
   lastname: string | null;
   second_lastname: string | null;
   precedence: string | null;
-  academy: string | null;
   cedula: File | null;
 }
 interface SinodalData {
@@ -28,7 +27,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
   const [Papellido, setPapellido] = useState("");
   const [Sapellido, setSapellido] = useState("");
   const [precedencia, setPrecedencia] = useState("");
-  const [academia, setAcademia] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [tooManyDirectors, setTooManyDirectors] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -50,13 +48,12 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
     const isNameValid = nombre !== "";
     const isPapellidoValid = Papellido !== "";
     const isPrecedenciaValid = precedencia !== "";
-    const isAcademiaValid = precedencia === "ESCOM" ? academia !== "" : true;
     const isCedulaValid = precedencia !== "ESCOM" ? selectedFile !== null : true;
 
     setSendButtonEnabled(
-      isEmailValid && isNameValid && isPapellidoValid && isPrecedenciaValid && isAcademiaValid && isCedulaValid
+      isEmailValid && isNameValid && isPapellidoValid && isPrecedenciaValid && isCedulaValid
     );
-  }, [email, nombre, Papellido, precedencia, academia, selectedFile]);
+  }, [email, nombre, Papellido, precedencia, selectedFile]);
 
   const togglePopup = () => {
     setEmail("");
@@ -64,7 +61,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
     setPapellido("");
     setSapellido("");
     setPrecedencia("");
-    setAcademia("");
     setSelectedFile(null);
     setSendButtonEnabled(false);
     setShowWarning(false);
@@ -99,6 +95,8 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
             name: res.name,
             lastname: res.lastName,
             second_lastname: res.secondLastName,
+            precedence: null,
+            cedula: null,
           };
           setDirectors((prevDirectors) => [...prevDirectors, newDirector]);
           togglePopup();
@@ -127,7 +125,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
         lastname: Papellido === "" ? null : Papellido,
         second_lastname: Sapellido === "" ? null : Sapellido,
         precedence: precedencia === "" ? null : precedencia,
-        academy: academia === "" ? null : academia,
         cedula: selectedFile,
       };
       setDirectors((prevStudents) => [...prevStudents, newStudent]);
@@ -261,17 +258,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
                         onChange={(e) => setPrecedencia(e.target.value)}
                       />
                     </div>
-                    {precedencia === "ESCOM" && (
-                      <div className="tit-2">
-                        Academia{" "}
-                        <input
-                          type="text"
-                          placeholder="Ingresa la academia a la que pertenece"
-                          value={academia}
-                          onChange={(e) => setAcademia(e.target.value)}
-                        />
-                      </div>
-                    )}
                     {precedencia !== "ESCOM" && (
                       <>
                         <div className="tit-1">
