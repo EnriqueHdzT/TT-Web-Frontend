@@ -30,10 +30,9 @@ const CrearPublicacion = () => {
       }
       formData.append('tipo_contenido', tipoContenido);
       if (selectedImages.length > 0) {
-        formData.append('url_imagen', selectedImages[0]);
+        formData.append('url_imagen', selectedImages[0]); // Usa la URL de la imagen
       }
       formData.append('fecha', new Date().toISOString().split('T')[0]);
-
 
       const response = await axios.post(`http://127.0.0.1:8000/api/${tipoContenido}crear`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
@@ -49,9 +48,29 @@ const CrearPublicacion = () => {
     }
   };
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = async (event) => {
     const files = Array.from(event.target.files);
-    setSelectedImages(files);
+
+    if (files.length > 0) {
+      try {
+        const formData = new FormData();
+        formData.append("imagen", files[0]);
+
+        const response = await axios.post("http://127.0.0.1:8000/api/subir-imagen", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (response.data.url_imagen) {
+          console.log("Imagen subida con éxito:", response.data);
+          setSelectedImages([response.data.url_imagen]);
+        }
+      } catch (error) {
+        console.error("Error al subir la imagen:", error);
+        alert("Error al subir la imagen");
+      }
+    } else {
+      alert("Por favor selecciona una imagen para subir");
+    }
   };
 
   const handleRemoveImage = (index) => {
@@ -112,6 +131,7 @@ const CrearPublicacion = () => {
             {selectedImages.length > 0 ? (
                 selectedImages.map((image, index) => (
                     <div key={index} className="image-info">
+                      <img src={image} alt="Uploaded" className="uploaded-image"/>
                       <div className="cont-pi">{image.name}</div>
                       <button onClick={() => handleRemoveImage(index)} className="quitar-img">Quitar</button>
                     </div>
