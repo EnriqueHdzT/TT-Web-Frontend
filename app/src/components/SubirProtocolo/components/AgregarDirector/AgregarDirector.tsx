@@ -90,12 +90,9 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
           throw new Error("Error al buscar el correo");
         }
 
-        const res = await response.json();     
-        const emailAlreadyExists = directors.some(
-          (director) => director.email === email
-        ) || sinodals.some(
-          (sinodal) => sinodal.email === email
-        );
+        const res = await response.json();
+        const emailAlreadyExists =
+          directors.some((director) => director.email === email) || sinodals.some((sinodal) => sinodal.email === email);
         if (!emailAlreadyExists) {
           const newDirector: DirectorData = {
             email: email,
@@ -105,12 +102,9 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
           };
           setDirectors((prevDirectors) => [...prevDirectors, newDirector]);
           togglePopup();
-        }
-
-        else {
+        } else {
           setEmailExists(true);
         }
-     
       } else {
         setEmailIsValid(false);
       }
@@ -162,26 +156,26 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
     setDirectors((prevDirectors) => prevDirectors.filter((_, i) => i !== index));
   };
 
-  
   return (
     <div className="item">
       <div className="tit-pr">Director(es)</div>
-      <div className="cont-pr">{directors.length > 0 ? (
-         directors.map((director, index) => (
-           <div className="student" key={index}>
-             <span className="student_name">
-                  {director.name || ""} {director.lastname || ""}{" "}
-                  {director.second_lastname || ""}
-                </span>
-            <span className="student_email">{director.email}</span>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
-            </button>
-          </div>
-        ))
-      ) : (
-        <p>Agrega los directores que participarán en el protocolo</p>
-      )}</div>
+      <div className="cont-pr">
+        {directors.length > 0 ? (
+          directors.map((director, index) => (
+            <div className="student" key={index}>
+              <span className="student_name">
+                {director.name || ""} {director.lastname || ""} {director.second_lastname || ""}
+              </span>
+              <span className="student_email">{director.email}</span>
+              <button>
+                <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>Agrega los directores que participarán en el protocolo</p>
+        )}
+      </div>
       {!tooManyDirectors && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
