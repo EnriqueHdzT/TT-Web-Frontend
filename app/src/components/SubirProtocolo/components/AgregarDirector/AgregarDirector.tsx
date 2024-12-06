@@ -8,7 +8,6 @@ interface DirectorData {
   lastname: string | null;
   second_lastname: string | null;
   precedence: string | null;
-  academy: string | null;
   cedula: File | null;
 }
 interface SinodalData {
@@ -28,7 +27,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
   const [Papellido, setPapellido] = useState("");
   const [Sapellido, setSapellido] = useState("");
   const [precedencia, setPrecedencia] = useState("");
-  const [academia, setAcademia] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [tooManyDirectors, setTooManyDirectors] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -50,13 +48,12 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
     const isNameValid = nombre !== "";
     const isPapellidoValid = Papellido !== "";
     const isPrecedenciaValid = precedencia !== "";
-    const isAcademiaValid = precedencia === "ESCOM" ? academia !== "" : true;
     const isCedulaValid = precedencia !== "ESCOM" ? selectedFile !== null : true;
 
     setSendButtonEnabled(
-      isEmailValid && isNameValid && isPapellidoValid && isPrecedenciaValid && isAcademiaValid && isCedulaValid
+      isEmailValid && isNameValid && isPapellidoValid && isPrecedenciaValid && isCedulaValid
     );
-  }, [email, nombre, Papellido, precedencia, academia, selectedFile]);
+  }, [email, nombre, Papellido, precedencia, selectedFile]);
 
   const togglePopup = () => {
     setEmail("");
@@ -64,7 +61,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
     setPapellido("");
     setSapellido("");
     setPrecedencia("");
-    setAcademia("");
     setSelectedFile(null);
     setSendButtonEnabled(false);
     setShowWarning(false);
@@ -90,27 +86,23 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
           throw new Error("Error al buscar el correo");
         }
 
-        const res = await response.json();     
-        const emailAlreadyExists = directors.some(
-          (director) => director.email === email
-        ) || sinodals.some(
-          (sinodal) => sinodal.email === email
-        );
+        const res = await response.json();
+        const emailAlreadyExists =
+          directors.some((director) => director.email === email) || sinodals.some((sinodal) => sinodal.email === email);
         if (!emailAlreadyExists) {
           const newDirector: DirectorData = {
             email: email,
             name: res.name,
             lastname: res.lastName,
             second_lastname: res.secondLastName,
+            precedence: null,
+            cedula: null,
           };
           setDirectors((prevDirectors) => [...prevDirectors, newDirector]);
           togglePopup();
-        }
-
-        else {
+        } else {
           setEmailExists(true);
         }
-     
       } else {
         setEmailIsValid(false);
       }
@@ -133,7 +125,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
         lastname: Papellido === "" ? null : Papellido,
         second_lastname: Sapellido === "" ? null : Sapellido,
         precedence: precedencia === "" ? null : precedencia,
-        academy: academia === "" ? null : academia,
         cedula: selectedFile,
       };
       setDirectors((prevStudents) => [...prevStudents, newStudent]);
@@ -162,26 +153,26 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
     setDirectors((prevDirectors) => prevDirectors.filter((_, i) => i !== index));
   };
 
-  
   return (
     <div className="item">
       <div className="tit-pr">Director(es)</div>
-      <div className="cont-pr">{directors.length > 0 ? (
-         directors.map((director, index) => (
-           <div className="student" key={index}>
-             <span className="student_name">
-                  {director.name || ""} {director.lastname || ""}{" "}
-                  {director.second_lastname || ""}
-                </span>
-            <span className="student_email">{director.email}</span>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
-            </button>
-          </div>
-        ))
-      ) : (
-        <p>Agrega los directores que participarán en el protocolo</p>
-      )}</div>
+      <div className="cont-pr">
+        {directors.length > 0 ? (
+          directors.map((director, index) => (
+            <div className="student" key={index}>
+              <span className="student_name">
+                {director.name || ""} {director.lastname || ""} {director.second_lastname || ""}
+              </span>
+              <span className="student_email">{director.email}</span>
+              <button>
+                <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>Agrega los directores que participarán en el protocolo</p>
+        )}
+      </div>
       {!tooManyDirectors && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
@@ -267,17 +258,6 @@ export default function AgregarDirector({ directors = [], sinodals = [], setDire
                         onChange={(e) => setPrecedencia(e.target.value)}
                       />
                     </div>
-                    {precedencia === "ESCOM" && (
-                      <div className="tit-2">
-                        Academia{" "}
-                        <input
-                          type="text"
-                          placeholder="Ingresa la academia a la que pertenece"
-                          value={academia}
-                          onChange={(e) => setAcademia(e.target.value)}
-                        />
-                      </div>
-                    )}
                     {precedencia !== "ESCOM" && (
                       <>
                         <div className="tit-1">
