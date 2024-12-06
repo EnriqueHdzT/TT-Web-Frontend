@@ -26,7 +26,6 @@ interface DirectorData {
   lastname: string | null;
   second_lastname: string | null;
   precedence: string | null;
-  academy: string | null;
   cedula: File | null;
 }
 
@@ -225,8 +224,7 @@ export default function SubirProtocolo() {
     ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
       formData.append("sinodals", JSON.stringify(sinodals));
     formData.append("keywords", JSON.stringify(keywords));
-    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
-      formData.append("term", protocolTerm);
+    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && formData.append("term", protocolTerm);
 
     if (pdf) {
       formData.append("pdf", pdf);
@@ -316,7 +314,7 @@ export default function SubirProtocolo() {
                       </option>
                     ))}
                   </select>
-                  
+
                   <div className="adv-periodo">
                     <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Si el periodo que buscas no se
                     muestra, verifica que este exista
