@@ -100,32 +100,32 @@ const VerMas = () => {
   };
 
   const handleImageUpload = async (event) => {
-    const files = Array.from(event.target.files);
-    if (files.length > 0) {
+    const file = event.target.files[0];
+    if (file) {
       try {
         const formData = new FormData();
-        formData.append("imagen", files[0]);
+        formData.append("imagen", file);
 
         const response = await axios.post("http://127.0.0.1:8000/api/subir-imagen", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        if (response.data.url_imagen) {
-          console.log("Imagen subida con éxito:", response.data);
+        if (response.data.url) {
+          // Asegúrate de actualizar tanto el campo de imagen como url_imagen si es necesario
           setAviso(prevAviso => ({
             ...prevAviso,
-            url_imagen: response.data.url_imagen, // Actualiza la URL principal si es necesario
-            image: [...prevAviso.image, response.data.url_imagen] // Actualiza la lista de imágenes
+            url_imagen: response.data.url, // Aquí si necesitas establecer el campo de url_imagen
+            image: [...prevAviso.image, response.data.url]
           }));
+          alert("Imagen subida a URL: " + response.data.url);
         }
       } catch (error) {
         console.error("Error al subir la imagen:", error);
         alert("Error al subir la imagen");
       }
-    } else {
-      alert("Por favor selecciona una imagen para subir");
     }
   };
+
 
   if (!aviso) {
     return <p>Cargando informacion</p>;

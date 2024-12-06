@@ -33,7 +33,24 @@ const MonitoreoProtocolo: React.FC = () => {
     if (id) {
       axios.get(`http://127.0.0.1:8000/api/monitoreo/${id}`)
           .then(response => {
-            setMonitoreoData(response.data);
+            const data = response.data;
+            const transformedData: MonitoreoData = {
+              id: data.id,
+              nombreproyecto: data.NombreProyecto,
+              sinodal1es: data.Sinodal1Es,
+              estatussin1: data.EstatusSin1.toLowerCase(),
+              fechasinodal1: data.FechaSinodal1,
+              observacionsino1: data.ObservacionSino1,
+              sinodal2es: data.Sinodal2Es,
+              estatussin2: data.EstatusSin2.toLowerCase(),
+              fechasinodal2: data.FechaSinodal2,
+              observacionsino2: data.ObservacionSino2,
+              sinodal3es: data.Sinodal3Es,
+              estatussin3: data.EstatusSin3.toLowerCase(),
+              fechasinodal3: data.FechaSinodal3,
+              observacionsino3: data.ObservacionSino3,
+            };
+            setMonitoreoData(transformedData);
           })
           .catch(error => {
             console.error('Error al obtener los datos:', error);

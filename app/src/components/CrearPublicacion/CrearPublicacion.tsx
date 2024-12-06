@@ -49,27 +49,27 @@ const CrearPublicacion = () => {
   };
 
   const handleImageUpload = async (event) => {
-    const files = Array.from(event.target.files);
-
-    if (files.length > 0) {
+    const file = event.target.files[0];
+    if (file) {
       try {
         const formData = new FormData();
-        formData.append("imagen", files[0]);
+        formData.append("imagen", file);
 
         const response = await axios.post("http://127.0.0.1:8000/api/subir-imagen", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
-        if (response.data.url_imagen) {
-          console.log("Imagen subida con éxito:", response.data);
-          setSelectedImages([response.data.url_imagen]);
+        if (response.data.url) {
+          setSelectedImages(prev => [...prev, response.data.url]);
+          alert("Imagen subida a URL: " + response.data.url);
+        } else if (response.data.error) {
+          console.error("Error del servidor:", response.data.error);
+          alert("Error del servidor: " + response.data.error);
         }
       } catch (error) {
         console.error("Error al subir la imagen:", error);
         alert("Error al subir la imagen");
       }
-    } else {
-      alert("Por favor selecciona una imagen para subir");
     }
   };
 
