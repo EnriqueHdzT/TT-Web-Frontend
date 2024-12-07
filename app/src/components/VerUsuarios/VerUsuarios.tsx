@@ -617,8 +617,6 @@ export default function VerUsuarios() {
                             Tipo de Usuario
                           </option>
                           <option value="Prof">Profesor</option>
-                          <option value="PresAcad">Presidente de Academia</option>
-                          <option value="JefeDepAcad">Jefe de Departamento</option>
                           <option value="AnaCATT">Analista de la CATT</option>
                           <option value="SecEjec">Secretario Ejecutivo</option>
                           <option value="SecTec">Secretario Técnico</option>

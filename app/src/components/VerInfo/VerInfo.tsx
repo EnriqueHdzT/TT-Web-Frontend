@@ -10,8 +10,6 @@ interface StaffTypesMap {
 
 const staffTypesMap: StaffTypesMap = {
   Prof: "Profesor",
-  PresAcad: "Presidente de Academia",
-  JefeDepAcad: "Jefe de Departamento",
   AnaCATT: "Analista de la CATT",
   SecEjec: "Secretario Ejecutivo",
   SecTec: "Secretario Técnico",
@@ -498,8 +496,6 @@ export default function VerInfo() {
                       Seleccione un tipo de docente
                     </option>
                     <option value="Prof">Profesor</option>
-                    <option value="PresAcad">Presidente de Academia</option>
-                    <option value="JefeDepAcad">Jefe de Departamento</option>
                     <option value="AnaCATT">Analista de la CATT</option>
                     <option value="SecEjec">Secretario Ejecutivo</option>
                     <option value="SecTec">Secretario Técnico</option>
