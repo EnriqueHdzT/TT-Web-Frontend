@@ -583,8 +583,8 @@ export default function VerInfo() {
             <span className="title">Cambiar contraseña:</span>
             <span className="value">Elige una contraseña segura</span>
             <div className="con-ico">
-              <a href="/cambiar_contraseña">
-                <FontAwesomeIcon className="edit-icon" icon={faChevronRight} />
+              <a href={`/cambiar_contraseña/${userId}`}>
+                <FontAwesomeIcon className="edit-icon" icon={faChevronRight}/>
               </a>
             </div>
           </div>
