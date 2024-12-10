@@ -41,7 +41,9 @@ export default function VerUsuarios() {
       if (careerParam === "") {
         curriculumParam = "";
       } else {
-        curriculumParam = ["LCD", "IIA"].includes(careerParam) ? "2020" : curriculumParam;
+        curriculumParam = ["LCD", "IIA"].includes(careerParam)
+          ? "2020"
+          : curriculumParam;
       }
     } else if (userTypeParam === "Docentes") {
       careerParam = "";
@@ -74,9 +76,20 @@ export default function VerUsuarios() {
       : (queryParams.delete("academy"), (academyParam = ""));
     queryParams.set("page", pageParam.toString());
 
-    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams}`
+    );
 
-    return [userTypeParam, careerParam, curriculumParam, precedenceParam, academyParam, pageParam];
+    return [
+      userTypeParam,
+      careerParam,
+      curriculumParam,
+      precedenceParam,
+      academyParam,
+      pageParam,
+    ];
   }
 
   const urlData = validateUrlData();
@@ -127,8 +140,12 @@ export default function VerUsuarios() {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
-      const usersArray = Object.values(data).filter((item) => typeof item === "object" && (item.staff || item.student));
-      const numPages = Object.values(data).filter((item) => typeof item === "object" && item.numPages);
+      const usersArray = Object.values(data).filter(
+        (item) => typeof item === "object" && (item.staff || item.student)
+      );
+      const numPages = Object.values(data).filter(
+        (item) => typeof item === "object" && item.numPages
+      );
       setUsers(usersArray);
       setMaxPage(numPages[0].numPages);
     } catch (error) {
@@ -198,7 +215,11 @@ export default function VerUsuarios() {
   const updateUserType = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("userType", value);
-    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams}`
+    );
 
     setUserType(value);
   };
@@ -206,7 +227,11 @@ export default function VerUsuarios() {
   const updateCareer = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("career", value);
-    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams}`
+    );
 
     setCareer(value);
   };
@@ -214,7 +239,11 @@ export default function VerUsuarios() {
   const updateCurriculum = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("curriculum", value);
-    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams}`
+    );
 
     setCurriculum(value);
   };
@@ -225,7 +254,11 @@ export default function VerUsuarios() {
     if (value === "") {
       queryParams.delete("academy");
     }
-    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams}`
+    );
 
     setPrecedence(value);
   };
@@ -233,7 +266,11 @@ export default function VerUsuarios() {
   const updateAcademy = (value) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("academy", value);
-    window.history.replaceState({}, "", `${window.location.pathname}?${queryParams}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams}`
+    );
     setAcademy(value);
   };
 
@@ -263,7 +300,9 @@ export default function VerUsuarios() {
       formData.append("email", newStudentEmail);
       formData.append("name", newStudentName);
       formData.append("lastName", newStudentLastName);
-      newStudentSecondLastName !== "" ? formData.append("secondLastName", newStudentSecondLastName) : null;
+      newStudentSecondLastName !== ""
+        ? formData.append("secondLastName", newStudentSecondLastName)
+        : null;
       formData.append("boleta", newStudentBoleta);
       formData.append("career", newStudentCareer);
       newStudentCurriculum === ""
@@ -296,9 +335,13 @@ export default function VerUsuarios() {
       formData.append("email", newStaffEmail);
       formData.append("name", newStaffName);
       formData.append("lastName", newStaffLastName);
-      newStaffSecondLastName !== "" && formData.append("secondLastName", newStaffSecondLastName);
+      newStaffSecondLastName !== "" &&
+        formData.append("secondLastName", newStaffSecondLastName);
       formData.append("precedence", newStaffPrecedencia);
-      newStaffAcademia.length > 0 && newStaffAcademia.forEach((academy) => formData.append("academy[]", academy));
+      newStaffAcademia.length > 0 &&
+        newStaffAcademia.forEach((academy) =>
+          formData.append("academy[]", academy)
+        );
       formData.append("userType", newStaffUserType);
 
       const response = await fetch("http://127.0.0.1:8000/api/createStaff", {
@@ -334,7 +377,12 @@ export default function VerUsuarios() {
             />
             {userType === "Alumnos" ? (
               <>
-                <FiltrosUsuario name={"Carrera"} currentStatus={career} options={careers} onChange={updateCareer} />
+                <FiltrosUsuario
+                  name={"Carrera"}
+                  currentStatus={career}
+                  options={careers}
+                  onChange={updateCareer}
+                />
                 {career === "ISW" ? (
                   <FiltrosUsuario
                     name={"Plan de Estudios"}
@@ -386,7 +434,8 @@ export default function VerUsuarios() {
               className="popup-content"
               trigger={(open) => (
                 <button type="button" className="plus-us">
-                  Nuevo Usuario <FontAwesomeIcon icon={faPlus} className="icon-us" />
+                  Nuevo Usuario{" "}
+                  <FontAwesomeIcon icon={faPlus} className="icon-us" />
                 </button>
               )}
               modal
@@ -395,7 +444,11 @@ export default function VerUsuarios() {
             >
               {(close) => (
                 <>
-                  <ul className="nav nav-tabs nav-justified row" id="myTab" role="tablist">
+                  <ul
+                    className="nav nav-tabs nav-justified row"
+                    id="myTab"
+                    role="tablist"
+                  >
                     <li className="nav-item" role="presentation">
                       <button
                         className="nav-link active"
@@ -433,7 +486,10 @@ export default function VerUsuarios() {
                       aria-labelledby="home-tab"
                       tabIndex="0"
                     >
-                      <form className="form-group" onSubmit={(e) => handleNewStudent(e)}>
+                      <form
+                        className="form-group"
+                        onSubmit={(e) => handleNewStudent(e)}
+                      >
                         <input
                           type="email"
                           className="form-control mt-3 mb-3"
@@ -452,14 +508,18 @@ export default function VerUsuarios() {
                           type="text"
                           className="form-control mt-3 mb-3"
                           placeholder="Primer Apellido"
-                          onChange={(e) => setNewStudentLastName(e.target.value)}
+                          onChange={(e) =>
+                            setNewStudentLastName(e.target.value)
+                          }
                           required
                         />
                         <input
                           type="text"
                           className="form-control mt-3 mb-3"
                           placeholder="Segundo Apellido"
-                          onChange={(e) => setNewStudentSecondLastName(e.target.value)}
+                          onChange={(e) =>
+                            setNewStudentSecondLastName(e.target.value)
+                          }
                         />
                         <input
                           type="text"
@@ -478,9 +538,15 @@ export default function VerUsuarios() {
                           <option value="" disabled hidden>
                             Carrera
                           </option>
-                          <option value="ISW">Ingenieria en Sistemas Computacionales</option>
-                          <option value="IIA">Ingenieria en Inteligencia Artificial</option>
-                          <option value="LCD">Licenciatura en Ciencia de Datos</option>
+                          <option value="ISW">
+                            Ingenieria en Sistemas Computacionales
+                          </option>
+                          <option value="IIA">
+                            Ingenieria en Inteligencia Artificial
+                          </option>
+                          <option value="LCD">
+                            Licenciatura en Ciencia de Datos
+                          </option>
                         </select>
 
                         {newStudentCareer === "ISW" && (
@@ -488,7 +554,9 @@ export default function VerUsuarios() {
                             name="plan_de_estudios"
                             className="form-select mt-3 mb-3"
                             value={newStudentCurriculum}
-                            onChange={(e) => setNewStudentCurriculum(e.target.value)}
+                            onChange={(e) =>
+                              setNewStudentCurriculum(e.target.value)
+                            }
                           >
                             <option value="" disabled hidden>
                               Plan de estudios
@@ -498,7 +566,10 @@ export default function VerUsuarios() {
                           </select>
                         )}
                         <div className="flx_b">
-                          <button className="btn btn-outline-danger" onClick={onPopupClose}>
+                          <button
+                            className="btn btn-outline-danger"
+                            onClick={onPopupClose}
+                          >
                             Cerrar
                           </button>
                           <button type="submit" className="btn btn-primary">
@@ -514,7 +585,10 @@ export default function VerUsuarios() {
                       aria-labelledby="profile-tab"
                       tabIndex="0"
                     >
-                      <form className="form-group" onSubmit={(e) => handleNewStaff(e)}>
+                      <form
+                        className="form-group"
+                        onSubmit={(e) => handleNewStaff(e)}
+                      >
                         <input
                           type="email"
                           className="form-control mt-3 mb-3"
@@ -540,13 +614,17 @@ export default function VerUsuarios() {
                           type="text"
                           className="form-control mt-3 mb-3"
                           placeholder="Segundo Apellido"
-                          onChange={(e) => setNewStaffSecondLastName(e.target.value)}
+                          onChange={(e) =>
+                            setNewStaffSecondLastName(e.target.value)
+                          }
                         />
                         <input
                           type="text"
                           className="form-control mt-3 mb-3"
                           placeholder="Precedencia"
-                          onChange={(e) => setNewStaffPrecedencia(e.target.value)}
+                          onChange={(e) =>
+                            setNewStaffPrecedencia(e.target.value)
+                          }
                           required
                         />
 
@@ -557,15 +635,24 @@ export default function VerUsuarios() {
                               className="form-control mt-3 mb-3"
                               placeholder="Ingresa las academias separadas por comas"
                               value={rawAcademyInput}
-                              onChange={(e) => setRawAcademyInput(e.target.value)}
+                              onChange={(e) =>
+                                setRawAcademyInput(e.target.value)
+                              }
                               onBlur={() => {
-                                const academies = rawAcademyInput
+                                const academias = rawAcademyInput
                                   .split(",")
                                   .map((academy) => academy.trim())
-                                  .filter((academy) => academy !== "" && academy !== "Todos"); // Filter out "Todos"
+                                  .filter((academy) => academy !== "");
 
-                                const uniqueAcademies = Array.from(new Set(academies));
+                                const validAcademies = academias.filter(
+                                  (academy) => academies.includes(academy)
+                                );
+
+                                const uniqueAcademies = Array.from(
+                                  new Set(validAcademies)
+                                );
                                 setNewStaffAcademia(uniqueAcademies);
+                                setRawAcademyInput(validAcademies.join(", "));
                               }}
                             />
                             <div className="input-group-append">
@@ -575,33 +662,43 @@ export default function VerUsuarios() {
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                               >
-                                <span className="visually-hidden">Toggle Dropdown</span>
+                                <span className="visually-hidden">
+                                  Toggle Dropdown
+                                </span>
                               </button>
                               <ul className="dropdown-menu dropdown-menu-end">
-                                {academies
-                                  .filter((academy) => academy !== "Todos") // Filter out "Todos" from the dropdown list
-                                  .map((academy, index) => (
-                                    <li key={index}>
-                                      <a
-                                        className="dropdown-item"
-                                        href="#"
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          // Append the selected academy to the current input
-                                          setRawAcademyInput((prevInput) => {
-                                            // Check if the academy is already in the input
-                                            const academiesList = prevInput.split(",").map((academy) => academy.trim());
-                                            if (!academiesList.includes(academy)) {
-                                              return prevInput ? `${prevInput}, ${academy}` : academy;
-                                            }
-                                            return prevInput;
-                                          });
-                                        }}
-                                      >
-                                        {academy}
-                                      </a>
-                                    </li>
-                                  ))}
+                                {academies.map((academy, index) => (
+                                  <li key={index}>
+                                    <a
+                                      className="dropdown-item"
+                                      href="#"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        setRawAcademyInput((prevInput) => {
+                                          const academiesList = prevInput
+                                            .split(",")
+                                            .map((academy) => academy.trim());
+
+                                          if (
+                                            !academiesList.includes(academy)
+                                          ) {
+                                            return prevInput
+                                              ? `${prevInput}, ${academy}`
+                                              : academy;
+                                          }
+                                          return prevInput;
+                                        });
+                                        setNewStaffAcademia((prevAcademies) =>
+                                          Array.from(
+                                            new Set([...prevAcademies, academy])
+                                          )
+                                        );
+                                      }}
+                                    >
+                                      {academy}
+                                    </a>
+                                  </li>
+                                ))}
                               </ul>
                             </div>
                           </div>
@@ -624,7 +721,10 @@ export default function VerUsuarios() {
                         </select>
 
                         <div className="flx_b">
-                          <button className="btn btn-outline-danger" onClick={onPopupClose}>
+                          <button
+                            className="btn btn-outline-danger"
+                            onClick={onPopupClose}
+                          >
                             Cerrar
                           </button>
                           <button type="submit" className="btn btn-primary">
@@ -650,20 +750,27 @@ export default function VerUsuarios() {
                   name={
                     user.staff
                       ? `${user.staff.name} ${user.staff.lastname} ${
-                          user.staff.second_lastname ? user.staff.second_lastname : ""
+                          user.staff.second_lastname
+                            ? user.staff.second_lastname
+                            : ""
                         }`
                       : `${user.student.name} ${user.student.lastname} ${
-                          user.student.second_lastname ? user.student.second_lastname : ""
+                          user.student.second_lastname
+                            ? user.student.second_lastname
+                            : ""
                         }`
                   }
                   cardText={
                     user.staff
                       ? `${user.staff.precedence} ${
-                          user.staff.academies && user.staff.academies.length > 0
+                          user.staff.academies &&
+                          user.staff.academies.length > 0
                             ? "- " + user.staff.academies.join(", ")
                             : ""
                         }`
-                      : `${user.student.career} ${"- " + user.student.curriculum}`
+                      : `${user.student.career} ${
+                          "- " + user.student.curriculum
+                        }`
                   }
                   onDelete={() => handleDelete(user.id)}
                 />
@@ -676,7 +783,11 @@ export default function VerUsuarios() {
           )}
         </div>
         <div className="pageChanger">
-          <PageChanger currentPage={currentPage} maxPages={maxPage} onPageChange={updateCurrentPage} />
+          <PageChanger
+            currentPage={currentPage}
+            maxPages={maxPage}
+            onPageChange={updateCurrentPage}
+          />
         </div>
       </div>
     </div>
