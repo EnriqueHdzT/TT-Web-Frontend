@@ -106,6 +106,10 @@ $gray-pass: #a2a2a2;
           grid-template-columns: 1fr 1fr;
           gap: 10px;
           width: 90%;
+         
+          p{
+            font: 500 0.8rem "Poppins";
+          }
         }
 
         .boton-preg {

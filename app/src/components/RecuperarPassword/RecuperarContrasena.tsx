@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { SHA256 } from "crypto-js";
+import "./RecuperarContrasena.scss";
 
 export default function RecuperarContrasena() {
     const [newPassword, setNewPassword] = useState('');
@@ -75,7 +76,7 @@ export default function RecuperarContrasena() {
     }
 
     return (
-        <div className="contenedor-form">
+        <div className="contenedor-forms">
             <div className="cont-ver">
                 <div className="title-v"></div>
                 <form className="validate-email">

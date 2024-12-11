@@ -112,7 +112,7 @@ export default function BuzonAyuda() {
       </div>
 
       <div className="image-conten">
-        <img src="https://i.imgur.com/USd0dO0.png" alt="Ejemplo" />
+        <img src="/2.png" alt="Ejemplo" />
       </div>
     </div>
   );

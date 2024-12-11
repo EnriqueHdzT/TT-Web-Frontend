@@ -2,11 +2,7 @@ import "./VerInfo.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPen,
-  faSave,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPen, faSave, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 interface StaffTypesMap {
   [key: string]: string;
@@ -32,7 +28,7 @@ interface UserData {
   carrera: string;
   pEstudio: string;
   procedencia: string;
-  academia: string;
+  academia: Array<string>;
   email: string;
   emailper: string;
   telefono: string;
@@ -48,7 +44,7 @@ const InitialUserData: UserData = {
   carrera: "",
   pEstudio: "",
   procedencia: "",
-  academia: "",
+  academia: [],
   email: "",
   emailper: "",
   telefono: "",
@@ -68,6 +64,7 @@ export default function VerInfo() {
   const [isEditingTelefono, setIsEditingTelefono] = useState(false);
   const [isEditingStaffType, setIsEditingStaffType] = useState(false);
   const [userId, setUserId] = useState("");
+  const [rawAcademyInput, setRawAcademyInput] = useState("");
   const [wasUserEdited, setWasUserEdited] = useState(false);
 
   const [initialUserData, setInitialUserData] = useState(InitialUserData);
@@ -79,12 +76,13 @@ export default function VerInfo() {
   const [carrera, setCarrera] = useState("");
   const [planDeEstudio, setPlanDeEstudio] = useState("");
   const [procedencia, setProcedencia] = useState("");
-  const [academia, setAcademia] = useState("");
+  const [academies, setAcademies] = useState(initialUserData.academia);
   const [staffType, setStaffType] = useState("");
   const [email, setEmail] = useState("");
   const [emailper, setEmailper] = useState("");
   const [telefono, setTelefono] = useState("");
   const [userType, setUserType] = useState("");
+  const [allAcademies, setAllAcademies] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,44 +90,64 @@ export default function VerInfo() {
       window.location.href = "/login";
     }
     setUserId(window.location.href.split("/")[4]);
-  }, []);
-
-  useEffect(() => {
-    const getUserData = async () => {
+    const getAcademies = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/user/${userId}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch("http://127.0.0.1:8000/api/academies", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
 
         const data = await response.json();
-        console.log(data.userType);
+        setAllAcademies(data);
+      } catch (error) {
+        setAllAcademies([]);
+        console.error("Error al obtener las academies:", error);
+      }
+    };
+    getAcademies();
+  }, []);
 
-        setUserType(data.userType ? data.userType : "student");
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/user/${userId}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const data = await response.json();
+        console.log(data);
+
+        setUserType(data.user_type ? data.user_type : "student");
         setLastName(data.lastname ? data.lastname : "");
         setSecondLastName(data.second_lastname ? data.second_lastname : "");
         setName(data.name ? data.name : "");
         setEmail(data.email ? data.email : "");
         setEmailper(data.altern_email ? data.altern_email : "");
         setTelefono(data.phone_number ? data.phone_number : "");
-        if (data.userType === "student") {
+        if (data.user_type === "student") {
           setBoleta(data.student_id ? data.student_id : "");
           setCarrera(data.career ? data.career : "");
           setPlanDeEstudio(data.curriculum ? data.curriculum : "");
         }
-        if (data.userType === "staff") {
+        if (data.user_type === "staff") {
           setProcedencia(data.precedence ? data.precedence : "");
-          setAcademia(data.academy ? data.academy : "");
+          setAcademies(data.academies ? data.academies : "");
+          setRawAcademyInput(data.academies && Array.isArray(data.academies) ? data.academies.join(", ") : "");
           setStaffType(data.staff_type ? data.staff_type : "");
         }
 
@@ -168,7 +186,7 @@ export default function VerInfo() {
       carrera !== initialUserData.carrera ||
       planDeEstudio !== initialUserData.pEstudio ||
       procedencia !== initialUserData.procedencia ||
-      academia !== initialUserData.academia ||
+      academies !== initialUserData.academia ||
       staffType !== initialUserData.staffType ||
       email !== initialUserData.email ||
       emailper !== initialUserData.emailper ||
@@ -186,7 +204,7 @@ export default function VerInfo() {
     carrera,
     planDeEstudio,
     procedencia,
-    academia,
+    academies,
     staffType,
     email,
     emailper,
@@ -195,13 +213,11 @@ export default function VerInfo() {
 
   const toggleEditName = () => setIsEditingName(!isEditingName);
   const toggleLastName = () => setIsEditingLastName(!isEditingLastName);
-  const toggleSecondLastName = () =>
-    setIsEditingSecondLastName(!isEditingSecondLastName);
+  const toggleSecondLastName = () => setIsEditingSecondLastName(!isEditingSecondLastName);
   const toggleEditBoleta = () => setIsEditingBoleta(!isEditingBoleta);
   const toggleEditCarrera = () => setIsEditingCarrera(!isEditingCarrera);
   const toggleEditPEstudio = () => setIsEditingPEstudio(!isEditingPEstudio);
-  const toggleEditProcedencia = () =>
-    setIsEditingProcedencia(!isEditingProcedencia);
+  const toggleEditProcedencia = () => setIsEditingProcedencia(!isEditingProcedencia);
   const toggleEditAcademia = () => setIsEditingAcademia(!isEditingAcademia);
   const toggleEditEmail = () => setIsEditingEmail(!isEditingEmail);
   const toggleEditEmailper = () => setIsEditingEmailper(!isEditingEmailper);
@@ -215,7 +231,7 @@ export default function VerInfo() {
     setCarrera(initialUserData.carrera);
     setPlanDeEstudio(initialUserData.pEstudio);
     setProcedencia(initialUserData.procedencia);
-    setAcademia(initialUserData.academia);
+    setAcademies(initialUserData.academia);
     setStaffType(initialUserData.staffType);
     setEmail(initialUserData.email);
     setEmailper(initialUserData.emailper);
@@ -228,30 +244,20 @@ export default function VerInfo() {
       try {
         const formData = new URLSearchParams();
 
-        if (name && name !== initialUserData.name)
-          formData.append("name", name);
-        if (lastname && lastname !== initialUserData.lastName)
-          formData.append("lastName", lastname);
+        if (name && name !== initialUserData.name) formData.append("name", name);
+        if (lastname && lastname !== initialUserData.lastName) formData.append("lastName", lastname);
         if (secondlastname && secondlastname !== initialUserData.secondLastName)
           formData.append("secondLastName", secondlastname);
-        if (boleta && boleta !== initialUserData.boleta)
-          formData.append("studentId", boleta);
-        if (carrera && carrera !== initialUserData.carrera)
-          formData.append("career", carrera);
-        if (planDeEstudio && planDeEstudio !== initialUserData.pEstudio)
-          formData.append("curriculum", planDeEstudio);
-        if (procedencia && procedencia !== initialUserData.procedencia)
-          formData.append("precedence", procedencia);
-        if (academia && academia !== initialUserData.academia)
-          formData.append("academy", academia);
-        if (staffType && staffType !== initialUserData.staffType)
-          formData.append("userType", staffType);
-        if (email && email !== initialUserData.email)
-          formData.append("email", email);
-        if (emailper && emailper !== initialUserData.emailper)
-          formData.append("alternEmail", emailper);
-        if (telefono && telefono !== initialUserData.telefono)
-          formData.append("phoneNumber", telefono);
+        if (boleta && boleta !== initialUserData.boleta) formData.append("studentId", boleta);
+        if (carrera && carrera !== initialUserData.carrera) formData.append("career", carrera);
+        if (planDeEstudio && planDeEstudio !== initialUserData.pEstudio) formData.append("curriculum", planDeEstudio);
+        if (procedencia && procedencia !== initialUserData.procedencia) formData.append("precedence", procedencia);
+        if (academies && academies !== initialUserData.academia)
+          academies.forEach((academy) => formData.append("academy[]", academy));
+        if (staffType && staffType !== initialUserData.staffType) formData.append("userType", staffType);
+        if (email && email !== initialUserData.email) formData.append("email", email);
+        if (emailper && emailper !== initialUserData.emailper) formData.append("alternEmail", emailper);
+        if (telefono && telefono !== initialUserData.telefono) formData.append("phoneNumber", telefono);
         if (userId) formData.append("id", userId);
 
         const response = await fetch("http://127.0.0.1:8000/api/user", {
@@ -281,324 +287,318 @@ export default function VerInfo() {
   return (
     <div>
       <div className="info-contenedor">
-      <div className="t-basic">
-        <div className="tl-u">Información Básica</div>
-      </div>
-      <div className="body-pass">
-        <div className="info-item">
-          <span className="title">Primer Apellido:</span>
-          {isEditingLastName ? (
-            <input
-              type="text"
-              name="lastname"
-              value={lastname}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          ) : (
-            <span className="value">{lastname}</span>
-          )}
-          <div className="con-ico">
-            <FontAwesomeIcon
-              className="edit-icon"
-              onClick={toggleLastName}
-              icon={isEditingLastName ? faSave : faPen}
-            />
-          </div>
+        <div className="t-basic">
+          <div className="tl-u">Información Básica</div>
         </div>
-        <div className="info-item">
-          <span className="title">Segundo Apellido:</span>
-          {isEditingSecondLastName ? (
-            <input
-              type="text"
-              name="name"
-              value={secondlastname}
-              onChange={(e) => setSecondLastName(e.target.value)}
-            />
-          ) : (
-            <span className="value">{secondlastname}</span>
-          )}
-          <div className="con-ico">
-            <FontAwesomeIcon
-              className="edit-icon"
-              onClick={toggleSecondLastName}
-              icon={isEditingSecondLastName ? faSave : faPen}
-            />
-          </div>
-        </div>
-        <div className="info-item">
-          <span className="title">Nombre:</span>
-          {isEditingName ? (
-            <input
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          ) : (
-            <span className="value">{name}</span>
-          )}
-          <div className="con-ico">
-            <FontAwesomeIcon
-              className="edit-icon"
-              onClick={toggleEditName}
-              icon={isEditingName ? faSave : faPen}
-            />
-          </div>
-        </div>
-        {userType === "student" && (
-          <>
-            <div className="info-item">
-              <span className="title">Boleta:</span>
-              {isEditingBoleta ? (
-                <input
-                  type="text"
-                  name="boleta"
-                  value={boleta}
-                  onChange={(e) => setBoleta(e.target.value)}
-                />
-              ) : (
-                <span className="value">{boleta}</span>
-              )}
-              <div className="con-ico">
-                <FontAwesomeIcon
-                  className="edit-icon"
-                  onClick={toggleEditBoleta}
-                  icon={isEditingBoleta ? faSave : faPen}
-                />
-              </div>
+        <div className="body-pass">
+          <div className="info-item">
+            <span className="title">Primer Apellido:</span>
+            {isEditingLastName ? (
+              <input type="text" name="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} />
+            ) : (
+              <span className="value">{lastname}</span>
+            )}
+            <div className="con-ico">
+              <FontAwesomeIcon
+                className="edit-icon"
+                onClick={toggleLastName}
+                icon={isEditingLastName ? faSave : faPen}
+              />
             </div>
-            <div className="info-item">
-              <span className="title">Carrera:</span>
-              {isEditingCarrera ? (
-                <select
-                  value={carrera}
-                  onChange={(e) => setCarrera(e.target.value)}
-                >
-                  <option value="" disabled hidden>
-                    Seleccione una carrera
-                  </option>
-                  <option value="ISW">
-                    Ingenieria en Sistemas Computacionales
-                  </option>
-                  <option value="IIA">
-                    Ingenieria en Inteligencia Artificial
-                  </option>
-                  <option value="LCD">Licenciatura en Ciencia de Datos</option>
-                </select>
-              ) : (
-                <span className="value">{carrera}</span>
-              )}
-              <div className="con-ico">
-                <FontAwesomeIcon
-                  className="edit-icon"
-                  onClick={toggleEditCarrera}
-                  icon={isEditingCarrera ? faSave : faPen}
-                />
-              </div>
+          </div>
+          <div className="info-item">
+            <span className="title">Segundo Apellido:</span>
+            {isEditingSecondLastName ? (
+              <input
+                type="text"
+                name="name"
+                value={secondlastname}
+                onChange={(e) => setSecondLastName(e.target.value)}
+              />
+            ) : (
+              <span className="value">{secondlastname}</span>
+            )}
+            <div className="con-ico">
+              <FontAwesomeIcon
+                className="edit-icon"
+                onClick={toggleSecondLastName}
+                icon={isEditingSecondLastName ? faSave : faPen}
+              />
             </div>
-            {carrera === "ISW" && (
+          </div>
+          <div className="info-item">
+            <span className="title">Nombre:</span>
+            {isEditingName ? (
+              <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+            ) : (
+              <span className="value">{name}</span>
+            )}
+            <div className="con-ico">
+              <FontAwesomeIcon className="edit-icon" onClick={toggleEditName} icon={isEditingName ? faSave : faPen} />
+            </div>
+          </div>
+          {userType === "student" && (
+            <>
               <div className="info-item">
-                <span className="title">Plan de Estudio:</span>
-                {isEditingPEstudio ? (
-                  <select
-                    value={planDeEstudio}
-                    onChange={(e) => setPlanDeEstudio(e.target.value)}
-                  >
+                <span className="title">Boleta:</span>
+                {isEditingBoleta ? (
+                  <input type="text" name="boleta" value={boleta} onChange={(e) => setBoleta(e.target.value)} />
+                ) : (
+                  <span className="value">{boleta}</span>
+                )}
+                <div className="con-ico">
+                  <FontAwesomeIcon
+                    className="edit-icon"
+                    onClick={toggleEditBoleta}
+                    icon={isEditingBoleta ? faSave : faPen}
+                  />
+                </div>
+              </div>
+              <div className="info-item">
+                <span className="title">Carrera:</span>
+                {isEditingCarrera ? (
+                  <select value={carrera} onChange={(e) => setCarrera(e.target.value)}>
                     <option value="" disabled hidden>
-                      Seleccione un plan de estudio
+                      Seleccione una carrera
                     </option>
-                    <option value="2009">Plan del 2009</option>
-                    <option value="2020">Plan del 2020</option>
+                    <option value="ISW">Ingenieria en Sistemas Computacionales</option>
+                    <option value="IIA">Ingenieria en Inteligencia Artificial</option>
+                    <option value="LCD">Licenciatura en Ciencia de Datos</option>
                   </select>
                 ) : (
-                  <span className="value">{planDeEstudio}</span>
+                  <span className="value">{carrera}</span>
                 )}
                 <div className="con-ico">
                   <FontAwesomeIcon
                     className="edit-icon"
-                    onClick={toggleEditPEstudio}
-                    icon={isEditingPEstudio ? faSave : faPen}
+                    onClick={toggleEditCarrera}
+                    icon={isEditingCarrera ? faSave : faPen}
                   />
                 </div>
               </div>
-            )}
-          </>
-        )}
-
-        {userType === "staff" && (
-          <>
-            <div className="info-item">
-              <span className="title">Precedencia:</span>
-              {isEditingProcedencia ? (
-                <input
-                  type="text"
-                  name="procedencia"
-                  value={procedencia}
-                  onChange={(e) => setProcedencia(e.target.value)}
-                />
-              ) : (
-                <span className="value">{procedencia.toUpperCase()}</span>
+              {carrera === "ISW" && (
+                <div className="info-item">
+                  <span className="title">Plan de Estudio:</span>
+                  {isEditingPEstudio ? (
+                    <select value={planDeEstudio} onChange={(e) => setPlanDeEstudio(e.target.value)}>
+                      <option value="" disabled hidden>
+                        Seleccione un plan de estudio
+                      </option>
+                      <option value="2009">Plan del 2009</option>
+                      <option value="2020">Plan del 2020</option>
+                    </select>
+                  ) : (
+                    <span className="value">{planDeEstudio}</span>
+                  )}
+                  <div className="con-ico">
+                    <FontAwesomeIcon
+                      className="edit-icon"
+                      onClick={toggleEditPEstudio}
+                      icon={isEditingPEstudio ? faSave : faPen}
+                    />
+                  </div>
+                </div>
               )}
-              <div className="con-ico">
-                <FontAwesomeIcon
-                  className="edit-icon"
-                  onClick={toggleEditProcedencia}
-                  icon={isEditingProcedencia ? faSave : faPen}
-                />
-              </div>
-            </div>
-            {procedencia === "ESCOM" && (
+            </>
+          )}
+
+          {userType === "staff" && (
+            <>
               <div className="info-item">
-                <span className="title">Academia:</span>
-                {isEditingAcademia ? (
+                <span className="title">Precedencia:</span>
+                {isEditingProcedencia ? (
                   <input
                     type="text"
-                    name="academia"
-                    value={academia}
-                    onChange={(e) => setAcademia(e.target.value)}
+                    name="procedencia"
+                    value={procedencia}
+                    onChange={(e) => setProcedencia(e.target.value)}
                   />
                 ) : (
-                  <span className="value">{academia.toUpperCase()}</span>
+                  <span className="value">{procedencia.toUpperCase()}</span>
                 )}
                 <div className="con-ico">
                   <FontAwesomeIcon
                     className="edit-icon"
-                    onClick={toggleEditAcademia}
-                    icon={isEditingAcademia ? faSave : faPen}
+                    onClick={toggleEditProcedencia}
+                    icon={isEditingProcedencia ? faSave : faPen}
                   />
                 </div>
               </div>
-            )}
-            <div className="info-item">
-              <span className="title">Tipo de Docente:</span>
-              {isEditingStaffType ? (
-                <select
-                  name="staffType"
-                  value={staffType}
-                  onChange={(e) => setStaffType(e.target.value)}
-                >
-                  <option value="" disabled hidden>
-                    Seleccione un tipo de docente
-                  </option>
-                  <option value="Prof">Profesor</option>
-                  <option value="PresAcad">Presidente de Academia</option>
-                  <option value="JefeDepAcad">Jefe de Departamento</option>
-                  <option value="AnaCATT">Analista de la CATT</option>
-                  <option value="SecEjec">Secretario Ejecutivo</option>
-                  <option value="SecTec">Secretario Técnico</option>
-                  <option value="Presidente">Presidente</option>
-                </select>
-              ) : (
-                <span className="value">{staffTypesMap[staffType]}</span>
-              )}
-              <div className="con-ico">
-                <FontAwesomeIcon
-                  className="edit-icon"
-                  onClick={() => setIsEditingStaffType(!isEditingStaffType)}
-                  icon={isEditingStaffType ? faSave : faPen}
-                />
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-      <div className="t-basic2">
-        <div className="tl-u">Información de contacto</div>
-      </div>
-      <div className="body-pass">
-        <div className="info-item">
-          <span className="title">Correo electrónico:</span>
-          {isEditingEmail ? (
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="value-input"
-            />
-          ) : (
-            <span className="value">{email}</span>
-          )}
-          <div className="con-ico">
-            <FontAwesomeIcon
-              className="edit-icon"
-              onClick={toggleEditEmail}
-              icon={isEditingEmail ? faSave : faPen}
-            />
-          </div>
-        </div>
-        <div className="info-item">
-          <span className="title">Correo personal:</span>
-          {isEditingEmailper ? (
-            <input
-              type="email"
-              value={emailper}
-              onChange={(e) => setEmailper(e.target.value)}
-              className="value-input"
-            />
-          ) : (
-            <span className="value">{emailper}</span>
-          )}
-          <div className="con-ico">
-            <FontAwesomeIcon
-              className="edit-icon"
-              onClick={toggleEditEmailper}
-              icon={isEditingEmailper ? faSave : faPen}
-            />
-          </div>
-        </div>
-        <div className="info-item">
-          <span className="title">Teléfono personal:</span>
-          {isEditingTelefono ? (
-            <input
-              type="text"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-              className="value-input"
-            />
-          ) : (
-            <span className="value">{telefono}</span>
-          )}
-          <div className="con-ico">
-            <FontAwesomeIcon
-              className="edit-icon"
-              onClick={toggleEditTelefono}
-              icon={isEditingTelefono ? faSave : faPen}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="t-basic2">
-        <div className="tl-u">Contraseña</div>
-      </div>
-      <div className="body-pass">
-        <div className="info-item">
-          <span className="title">Cambiar contraseña:</span>
-          <span className="value">Elige una contraseña segura</span>
-          <div className="con-ico">
-            <a href="/cambiar_contraseña">
-              <FontAwesomeIcon className="edit-icon" icon={faChevronRight} />
-            </a>
-          </div>
-        </div>
-      </div>
+              {procedencia === "ESCOM" && (
+                <div className="info-item">
+                  <span className="title">Academia:</span>
+                  {isEditingAcademia ? (
+                    <div className="input-group mb-3">
+                      <input
+                        type="text"
+                        className="form-control mt-3 mb-3"
+                        placeholder="Ingresa las academias separadas por comas"
+                        value={rawAcademyInput}
+                        onChange={(e) => setRawAcademyInput(e.target.value)}
+                        onBlur={() => {
+                          const academies = rawAcademyInput
+                            .split(",")
+                            .map((academy) => academy.trim())
+                            .filter((academy) => academy !== "");
 
-      <div className="botones-info">
-      <button
-        className="btn btn-outline-primary"
-        disabled={!wasUserEdited}
-        onClick={handleReset}
-      >
-        Restablecer Datos
-      </button>{" "}
-      <button
-        className="btn btn-primary"
-        disabled={!wasUserEdited}
-        onClick={handleSave}
-      >
-        Guardar
-      </button>
+                          const uniqueAcademies = Array.from(new Set(academies));
+                          setAcademies(uniqueAcademies);
+                        }}
+                      />
+                      <div className="input-group-append">
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span className="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul className="dropdown-menu dropdown-menu-end">
+                          {allAcademies.map((academy, index) => (
+                            <li key={index}>
+                              <a
+                                className="dropdown-item"
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setRawAcademyInput((prevInput) => {
+                                    const academiesList = prevInput.split(",").map((academy) => academy.trim());
+                                    if (!academiesList.includes(academy)) {
+                                      return prevInput ? `${prevInput}, ${academy}` : academy;
+                                    }
+                                    return prevInput;
+                                  });
+                                }}
+                              >
+                                {academy}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ) : (
+                    <span className="value">{rawAcademyInput}</span>
+                  )}
+                  <div className="con-ico">
+                    <FontAwesomeIcon
+                      className="edit-icon"
+                      onClick={toggleEditAcademia}
+                      icon={isEditingAcademia ? faSave : faPen}
+                    />
+                  </div>
+                </div>
+              )}
+              <div className="info-item">
+                <span className="title">Tipo de Docente:</span>
+                {isEditingStaffType ? (
+                  <select name="staffType" value={staffType} onChange={(e) => setStaffType(e.target.value)}>
+                    <option value="" disabled hidden>
+                      Seleccione un tipo de docente
+                    </option>
+                    <option value="Prof">Profesor</option>
+                    <option value="PresAcad">Presidente de Academia</option>
+                    <option value="JefeDepAcad">Jefe de Departamento</option>
+                    <option value="AnaCATT">Analista de la CATT</option>
+                    <option value="SecEjec">Secretario Ejecutivo</option>
+                    <option value="SecTec">Secretario Técnico</option>
+                    <option value="Presidente">Presidente</option>
+                  </select>
+                ) : (
+                  <span className="value">{staffTypesMap[staffType]}</span>
+                )}
+                <div className="con-ico">
+                  <FontAwesomeIcon
+                    className="edit-icon"
+                    onClick={() => setIsEditingStaffType(!isEditingStaffType)}
+                    icon={isEditingStaffType ? faSave : faPen}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="t-basic2">
+          <div className="tl-u">Información de contacto</div>
+        </div>
+        <div className="body-pass">
+          <div className="info-item">
+            <span className="title">Correo electrónico:</span>
+            {isEditingEmail ? (
+              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="value-input" />
+            ) : (
+              <span className="value">{email}</span>
+            )}
+            <div className="con-ico">
+              <FontAwesomeIcon className="edit-icon" onClick={toggleEditEmail} icon={isEditingEmail ? faSave : faPen} />
+            </div>
+          </div>
+          <div className="info-item">
+            <span className="title">Correo personal:</span>
+            {isEditingEmailper ? (
+              <input
+                type="email"
+                value={emailper}
+                onChange={(e) => setEmailper(e.target.value)}
+                className="value-input"
+              />
+            ) : (
+              <span className="value">{emailper}</span>
+            )}
+            <div className="con-ico">
+              <FontAwesomeIcon
+                className="edit-icon"
+                onClick={toggleEditEmailper}
+                icon={isEditingEmailper ? faSave : faPen}
+              />
+            </div>
+          </div>
+          <div className="info-item">
+            <span className="title">Teléfono personal:</span>
+            {isEditingTelefono ? (
+              <input
+                type="text"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+                className="value-input"
+              />
+            ) : (
+              <span className="value">{telefono}</span>
+            )}
+            <div className="con-ico">
+              <FontAwesomeIcon
+                className="edit-icon"
+                onClick={toggleEditTelefono}
+                icon={isEditingTelefono ? faSave : faPen}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="t-basic2">
+          <div className="tl-u">Contraseña</div>
+        </div>
+        <div className="body-pass">
+          <div className="info-item">
+            <span className="title">Cambiar contraseña:</span>
+            <span className="value">Elige una contraseña segura</span>
+            <div className="con-ico">
+              <a href="/cambiar_contraseña">
+                <FontAwesomeIcon className="edit-icon" icon={faChevronRight} />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="botones-info">
+          <button className="restablece" disabled={!wasUserEdited} onClick={handleReset}>
+            Restablecer Datos
+          </button>{" "}
+          <button className="guardar_b" disabled={!wasUserEdited} onClick={handleSave}>
+            Guardar
+          </button>
+        </div>
       </div>
     </div>
-     </div>
   );
 }

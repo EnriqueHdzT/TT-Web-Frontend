@@ -92,7 +92,8 @@ export default function Password() {
 
           <div className="detail-p">
             <h1>Seguridad de la contraseña:</h1>
-            Utiliza al menos 8 caracteres. No uses una contraseña de otro sitio
+            Utiliza al menos 8 caracteres. Al menos uno de los caracter especiales ~, !, @, #, $, %, ^, &, * <br />
+Al menos un numero. Al menos una letra mayúscula. Al menos una letra minuscula. <br />No uses una contraseña de otro sitio
             ni un nombre demasiado obvio, como el de tu mascota.
           </div>
 

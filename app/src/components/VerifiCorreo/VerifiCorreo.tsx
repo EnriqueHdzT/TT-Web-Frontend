@@ -1,18 +1,19 @@
 import "./VerifiCorreo.scss";
 export default function VerifiCorreo() {
   return (
-    <div className="contenedor-form">
+    <div className="contenedor-forms">
       <div className="cont-ver">
-        <div className="title-v">Verifica tu correo</div>
-        <div className="cont-txt text-center">
-          Se envió un mensaje a tu correo.
+        <div className="title-ver">Verifica tu correo</div>
+        <div className="cont-txtver">
+          Se envió un link de verificación de correo a tu cuenta, favor de revisarla entre los mensajes recientes o como spam.
           <br />
           <br />
-          Por favor, sigue el link dentro de este para continuar.
+          Una vez verificado tu correo podrás ingresar correctamente a la aplicación.
         </div>
-        <a href="/login" className="btn btn-primary">
+        <button>
+        <a href="/login">
           Iniciar Sesión
-        </a>
+        </a></button>
       </div>
     </div>
   );

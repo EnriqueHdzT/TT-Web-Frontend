@@ -26,7 +26,6 @@ interface DirectorData {
   lastname: string | null;
   second_lastname: string | null;
   precedence: string | null;
-  academy: string | null;
   cedula: File | null;
 }
 
@@ -225,8 +224,7 @@ export default function SubirProtocolo() {
     ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
       formData.append("sinodals", JSON.stringify(sinodals));
     formData.append("keywords", JSON.stringify(keywords));
-    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
-      formData.append("term", protocolTerm);
+    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && formData.append("term", protocolTerm);
 
     if (pdf) {
       formData.append("pdf", pdf);
@@ -256,7 +254,7 @@ export default function SubirProtocolo() {
           <button onClick={() => navigate(-1)}>
             <FontAwesomeIcon icon={faAngleLeft} className="icon" />
           </button>{" "}
-          Subir protocolos
+          Subir protocolo
         </div>
       </div>
 
@@ -298,12 +296,12 @@ export default function SubirProtocolo() {
         )}
         {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
           <div className="item">
-            <div className="tit-pr">Periodo del Protocol</div>
+            <div className="tit-pr">Periodo del Protocolo</div>
             <div className="cont-pr">
               {listOfTerms.length > 0 ? (
                 <div>
                   <select
-                    className="form-select"
+                    className="form-periodo"
                     value={protocolTerm}
                     onChange={(e) => setProtocolTerm(e.target.value)}
                   >
@@ -316,13 +314,14 @@ export default function SubirProtocolo() {
                       </option>
                     ))}
                   </select>
-                  <div className="adv-pr">
+
+                  <div className="adv-periodo">
                     <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Si el periodo que buscas no se
                     muestra, verifica que este exista
                   </div>
                 </div>
               ) : (
-                <div className="button-upload">
+                <div className="adv-periodo">
                   <FontAwesomeIcon icon={faCircleXmark} className="adv-icon" />
                   No existen periodos disponibles, crea uno antes de registrar un protocolo
                 </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faBell } from "@fortawesome/free-solid-svg-icons";
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import "./VerMas.scss";
 
 // Componente VerMas
@@ -91,26 +92,40 @@ const VerMas = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAviso(prevAviso => ({
-          ...prevAviso,
-          image: [...prevAviso.image, reader.result]
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const removeImage = (index) => {
     setAviso(prevAviso => ({
       ...prevAviso,
       image: prevAviso.image.filter((_, imgIndex) => imgIndex !== index)
     }));
   };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("imagen", file);
+
+        const response = await axios.post("http://127.0.0.1:8000/api/subir-imagen", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (response.data.url) {
+          // Asegúrate de actualizar tanto el campo de imagen como url_imagen si es necesario
+          setAviso(prevAviso => ({
+            ...prevAviso,
+            url_imagen: response.data.url, // Aquí si necesitas establecer el campo de url_imagen
+            image: [...prevAviso.image, response.data.url]
+          }));
+          alert("Imagen subida a URL: " + response.data.url);
+        }
+      } catch (error) {
+        console.error("Error al subir la imagen:", error);
+        alert("Error al subir la imagen");
+      }
+    }
+  };
+
 
   if (!aviso) {
     return <p>Cargando informacion</p>;
@@ -208,7 +223,7 @@ const VerMas = () => {
                       type="file"
                       id="fileInput"
                       accept="image/*"
-                      onChange={handleFileChange}
+                      onChange={handleImageUpload}
                       style={{ display: "none" }}
                   />
                 </>

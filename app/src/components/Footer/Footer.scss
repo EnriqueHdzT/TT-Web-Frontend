@@ -37,8 +37,16 @@ $home-color: #90caf9;
     text-align: center;
     font: 500 0.7rem "Poppins";
     align-items: center; // horizontal
-    justify-content: center; // vertical
     display: flex;
+  }
+
+  .col{
+    margin-left: 5%;
+  }
+
+  .col-6{
+    justify-content: right;
+    margin-right: 3%;
   }
 
   p {

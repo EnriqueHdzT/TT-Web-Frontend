@@ -11,11 +11,8 @@ export default function Footer() {
       </div>
       <div className="col-6">
         <a href="/terminos_de_uso">Terminos de Uso</a>
-        <a href="/politicas_de_privacidad">Politicas de Privacidad </a>
+        <a href="/avisos_de_privacidad">Aviso de Privacidad Integral </a>
         <a href="/buzon">Buzon de ayuda</a>
-      </div>
-      <div className="col">
-      <a href="/">LOGO</a>
       </div>
       </div>
     </footer>

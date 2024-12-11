@@ -24,23 +24,23 @@
     min-width: 500px;
     max-height: 350px;
     min-height: 290px;
-    background-color: $cont-gray;
+    background-color: $body-color;
     border-radius: 20px;
     display: flex;
     flex-direction: column;  
     align-items: center;
 
-    .title-v{
+    .title-ver{
         font: 500 22px / 16px 'Poppins';
         text-align: center;
-        margin-top: 5dvh;
+        margin-top: 9%;
         color: $blue;
       }
 
-    .cont-txt{
+    .cont-txtver{
     width: 380px;
     height: 80px;
-    text-align: justify;
+    text-align: center;
     font: 400 15px / 18px 'Poppins';
     margin: 6dvh 0 5dvh 0;
     }
@@ -56,6 +56,12 @@
     cursor: pointer;
     font: 500 15px / 18px 'Poppins';
     color: $body-color;
+
+    a{
+      color: $body-color;
+      text-decoration: none;
+
+    }
   }
 
 }

@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import {
   faEnvelope,
-  faChevronLeft,
+  faAngleRight,
+  faAngleLeft,
   faUser,
   faHashtag,
   faGraduationCap,
@@ -107,6 +108,33 @@ export default function StudentRegister() {
     }
   };
 
+  const [step, setStep] = useState(1); // Paso inicial
+
+  const handleNextStep = () => {
+    // Validación antes de avanzar al paso 2
+    if (step === 1) {
+      // Verifica que el nombre y el primer apellido estén completos
+      if (!studentData.name || !studentData.first_lastName) {
+        alert("Por favor, completa todos los campos requeridos en este paso.");
+        return; // No permite avanzar al siguiente paso si los campos no están completos
+      }
+    }
+    if (step === 2) {
+      // Verifica que el nombre y el primer apellido estén completos
+      if (!studentData.email || !studentData.email_confirmation || !studentData.usr_id) {
+        alert("Por favor, completa todos los campos requeridos en este paso.");
+        return; // No permite avanzar al siguiente paso si los campos no están completos
+      }
+    }
+    setStep(step + 1);
+  };
+  
+  
+  const handlePrevStep = () => {
+    setStep(step - 1);
+  };
+  
+
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -154,14 +182,15 @@ export default function StudentRegister() {
 
   return (
     <div className="contenedor-form">
-      <div className="card text-bg-light mb-3">
-        <div className="card-body">
-          <div className="d-flex align-items-left">
-            <h5 className="card-title">Registro de estudiante</h5>
-          </div>
+      <div className="cont-register">
+        <div className="title-r">
+          Registro de estudiante
         </div>
+        <div className="regis-fo">
         <form onSubmit={handleSubmit} className="register-form">
-          <div className="messg-top">Recuerda ingresar datos consistentes</div>
+          <div className="messg-top">Registro de estudiantes ESCOM</div>
+          {step === 1 && (
+  <>
           <div className="flex-lg">
             <label htmlFor="name">
               <FontAwesomeIcon icon={faUser} className="style-icon" />
@@ -203,8 +232,17 @@ export default function StudentRegister() {
               onChange={handleChange}
               placeholder="Segundo apellido"
             />
-          </div>
-
+                </div>
+                <div className="butt-next">
+              <button type="button" onClick={handleNextStep}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                   
+                  </button>
+                  </div>
+  </>
+)}
+{step === 2 && (
+  <>
           <div className="flex-lg">
             <label htmlFor="emailEntry">
               <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
@@ -222,7 +260,7 @@ export default function StudentRegister() {
           </div>
 
           {wrongEmail && (
-            <div className="alert alert-danger text-center" role="alert">
+            <div className="alerta_r" role="alert">
               El correo no cumple con la estructura esperada *@alumno.ipn.mx
             </div>
           )}
@@ -244,7 +282,7 @@ export default function StudentRegister() {
           </div>
 
           {emailConfirmationNotMatch && !isTypingEmailConfirmation && (
-            <div className="alert alert-danger text-center" role="alert">
+            <div className="alerta_r" role="alert">
               Los correos no coinciden
             </div>
           )}
@@ -262,7 +300,19 @@ export default function StudentRegister() {
               placeholder="Número de boleta"
               required
             />
-          </div>
+              </div>
+              <div className="butt-next">
+              <button type="button" onClick={handlePrevStep}>
+              <FontAwesomeIcon icon={faAngleLeft}/>
+    </button>
+    <button type="button" onClick={handleNextStep}>
+    <FontAwesomeIcon icon={faAngleRight}/>
+                  </button>
+                  </div>
+  </>
+          )}
+          {step === 3 && (
+  <>
           <div className="flex-lg">
             <label htmlFor="career">
               <FontAwesomeIcon icon={faGraduationCap} className="style-icon" />
@@ -325,7 +375,7 @@ export default function StudentRegister() {
           </div>
 
           {wrongPassword && !isTypingPassword && (
-            <div className="alert alert-danger text-center" role="alert">
+            <div className="alerta_r" role="alert">
               La contraseñas no cumplen con la estructura esperada:
               <br />
               <ul>
@@ -359,25 +409,29 @@ export default function StudentRegister() {
           </div>
 
           {passwordConfirmationNotMatch && !isTypingPasswordConfirmation && (
-            <div className="alert alert-danger text-center" role="alert">
+            <div className="alerta_r" role="alert">
               Las contraseñas no coinciden
             </div>
-          )}
-
-          <button className="btn btn-primary mb-3" type="submit">
-            Registrar
-          </button>
-        </form>
+                )}
+                <div className="butt-next">
+                <button type="button" onClick={handlePrevStep}>
+                <FontAwesomeIcon icon={faAngleLeft}/>
+    </button>
+    <button type="submit" className="registrando">
+    Registrar
+                  </button>
+                  </div>
+  </>
+)}
+          </form>
+          </div>
       </div>
 
-      <div className="card text-bg-light mb-3">
-        <div className="card-body">
-          <h5 className="card-title">
+      <div className="aviso-doc">
             <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
             En caso de ser docente y no encontrarse registrado en el sistema debes comunicarte con la CATT para llevar
             acabo el proceso.
-          </h5>
-        </div>
+       
       </div>
       <div className="toast-container position-fixed top-0 end-0 p-3">
         <div id="toast-popup" className="toast" role="alert" aria-live="assertive" aria-atomic="true">

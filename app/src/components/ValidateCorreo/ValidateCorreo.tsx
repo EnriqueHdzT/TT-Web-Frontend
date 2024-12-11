@@ -60,10 +60,10 @@ export default function ValidateCorreo() {
     }
 
     return (
-        <div className="contenedor-form">
-            <div className="cont-ver">
-                <div className="title-v">Recuperar contraseña</div>
-                <form className="validate-email">
+        <div className="contenedor-forms">
+            <div className="cont-vers">
+                <div className="title-contra">Recuperar contraseña</div>
+                <form className="validate-email-contra">
                     <div className="flex-lg">
                         <label htmlFor="email">
                             <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
@@ -92,10 +92,10 @@ export default function ValidateCorreo() {
                             required
                         />
                     </div>
-                    <div>
-                        <button onClick={onClickSave}>Recuperar</button>
-                    </div>
-                    {message && <div className="message">{message}</div>}
+                    {message && <div className="message alerta_r">{message}</div>}
+                    
+                        <button onClick={onClickSave} >Recuperar</button>
+                  
                 </form>
                 <div className="messa-re">
                     <a href="/login" className="reg">

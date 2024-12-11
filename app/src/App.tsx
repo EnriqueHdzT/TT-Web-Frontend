@@ -75,11 +75,11 @@ export default function App() {
             <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
             <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar} />} />
             <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
-            <Route path="/monitoreoprotocolo" element={<MonitoreoProtocolo />} />
+            <Route path="/monitoreoprotocolo/:id" element={<MonitoreoProtocolo />} />
             <Route path="/vermas/:tipo/:id" element={<VerMas />} />
             <Route path="/crear_publicacion" element={<CrearPublicacion />} />
             <Route path="/buzon" element={<BuzonAyuda />} />
-            <Route path="/politicas_de_privacidad" element={<PoliticasPrivacidad />} />
+            <Route path="/avisos_de_privacidad" element={<PoliticasPrivacidad />} />
             <Route path="/terminos_de_uso" element={<Terminos />} />
             
             <Route path="*" element={<Navigate to="/" />} />

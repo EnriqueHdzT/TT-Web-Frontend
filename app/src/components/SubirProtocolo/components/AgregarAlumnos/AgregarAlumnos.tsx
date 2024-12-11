@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
+import { Prev } from "react-bootstrap/esm/PageItem";
 
 interface StudentData {
   email: string;
@@ -57,11 +58,20 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           throw new Error("Error al buscar el correo");
         }
 
-        setShowWarning(false);
-        setShowExtraData(false);
-        setSendButtonEnabled(true);
-        setEmailIsValid(true);
-        handleAgregar();
+        const res = await response.json();
+        const emailAlreadyExists = students.some((student) => student.email === email);
+        if (!emailAlreadyExists) {
+          const newStudent: StudentData = {
+            email: email,
+            name: res.name,
+            lastname: res.lastName,
+            second_lastname: res.secondLastName,
+          };
+          setStudents((prevStudents) => [...prevStudents, newStudent]);
+          togglePopup();
+        } else {
+          setEmailExists(true);
+        }
       } else {
         setEmailIsValid(false);
       }
@@ -103,6 +113,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
         curriculum: carrera && carrera !== "ISW" ? "2020" : planestudio || null,
       };
       setStudents((prevStudents) => [...prevStudents, newStudent]);
+
       togglePopup();
     } else {
       setEmailExists(true);
@@ -129,7 +140,26 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
   return (
     <div className="item">
       <div className="tit-pr">Alumno(s)</div>
-      <div className="cont-pr">Agrega los alumnos que participarán en el protocolo</div>
+      <div className="cont-pr">
+        {students.length > 0 ? (
+          students.map((alumno, index) => (
+            <div className="student" key={index}>
+              <div className="student_info">
+                <span className="student_name">
+                  {alumno.name || ""} {alumno.lastname || ""} {alumno.second_lastname || ""}
+                </span>
+                <span className="student_email">{alumno.email}</span>
+              </div>
+              <button>
+                <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleStudentDelete(index)} />
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>Agrega los alumnos que participarán en el protocolo</p>
+        )}
+      </div>
+
       {!tooManyStudents && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
@@ -248,17 +278,6 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           </div>
         </div>
       )}
-
-      <div className="students">
-        {students.map((alumno, index) => (
-          <div className="student" key={index}>
-            <p className="student_email">{alumno.email}</p>
-            <button>
-              <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleStudentDelete(index)} />
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
