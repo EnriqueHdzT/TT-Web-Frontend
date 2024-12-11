@@ -2,7 +2,11 @@ import "./VerInfo.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faSave, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faSave,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface StaffTypesMap {
   [key: string]: string;
@@ -10,8 +14,6 @@ interface StaffTypesMap {
 
 const staffTypesMap: StaffTypesMap = {
   Prof: "Profesor",
-  PresAcad: "Presidente de Academia",
-  JefeDepAcad: "Jefe de Departamento",
   AnaCATT: "Analista de la CATT",
   SecEjec: "Secretario Ejecutivo",
   SecTec: "Secretario Técnico",
@@ -117,13 +119,16 @@ export default function VerInfo() {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/user/${userId}`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/user/${userId}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -147,7 +152,11 @@ export default function VerInfo() {
         if (data.user_type === "staff") {
           setProcedencia(data.precedence ? data.precedence : "");
           setAcademies(data.academies ? data.academies : "");
-          setRawAcademyInput(data.academies && Array.isArray(data.academies) ? data.academies.join(", ") : "");
+          setRawAcademyInput(
+            data.academies && Array.isArray(data.academies)
+              ? data.academies.join(", ")
+              : ""
+          );
           setStaffType(data.staff_type ? data.staff_type : "");
         }
 
@@ -161,7 +170,7 @@ export default function VerInfo() {
           carrera: data.career ? data.career : "",
           pEstudio: data.curriculum ? data.curriculum : "",
           procedencia: data.precedence ? data.precedence : "",
-          academia: data.academy ? data.academy : "",
+          academia: data.academy ? data.academy : [],
           email: data.email ? data.email : "",
           emailper: data.altern_email ? data.altern_email : "",
           telefono: data.phone_number ? data.phone_number : "",
@@ -213,11 +222,13 @@ export default function VerInfo() {
 
   const toggleEditName = () => setIsEditingName(!isEditingName);
   const toggleLastName = () => setIsEditingLastName(!isEditingLastName);
-  const toggleSecondLastName = () => setIsEditingSecondLastName(!isEditingSecondLastName);
+  const toggleSecondLastName = () =>
+    setIsEditingSecondLastName(!isEditingSecondLastName);
   const toggleEditBoleta = () => setIsEditingBoleta(!isEditingBoleta);
   const toggleEditCarrera = () => setIsEditingCarrera(!isEditingCarrera);
   const toggleEditPEstudio = () => setIsEditingPEstudio(!isEditingPEstudio);
-  const toggleEditProcedencia = () => setIsEditingProcedencia(!isEditingProcedencia);
+  const toggleEditProcedencia = () =>
+    setIsEditingProcedencia(!isEditingProcedencia);
   const toggleEditAcademia = () => setIsEditingAcademia(!isEditingAcademia);
   const toggleEditEmail = () => setIsEditingEmail(!isEditingEmail);
   const toggleEditEmailper = () => setIsEditingEmailper(!isEditingEmailper);
@@ -244,20 +255,30 @@ export default function VerInfo() {
       try {
         const formData = new URLSearchParams();
 
-        if (name && name !== initialUserData.name) formData.append("name", name);
-        if (lastname && lastname !== initialUserData.lastName) formData.append("lastName", lastname);
+        if (name && name !== initialUserData.name)
+          formData.append("name", name);
+        if (lastname && lastname !== initialUserData.lastName)
+          formData.append("lastName", lastname);
         if (secondlastname && secondlastname !== initialUserData.secondLastName)
           formData.append("secondLastName", secondlastname);
-        if (boleta && boleta !== initialUserData.boleta) formData.append("studentId", boleta);
-        if (carrera && carrera !== initialUserData.carrera) formData.append("career", carrera);
-        if (planDeEstudio && planDeEstudio !== initialUserData.pEstudio) formData.append("curriculum", planDeEstudio);
-        if (procedencia && procedencia !== initialUserData.procedencia) formData.append("precedence", procedencia);
+        if (boleta && boleta !== initialUserData.boleta)
+          formData.append("studentId", boleta);
+        if (carrera && carrera !== initialUserData.carrera)
+          formData.append("career", carrera);
+        if (planDeEstudio && planDeEstudio !== initialUserData.pEstudio)
+          formData.append("curriculum", planDeEstudio);
+        if (procedencia && procedencia !== initialUserData.procedencia)
+          formData.append("precedence", procedencia);
         if (academies && academies !== initialUserData.academia)
           academies.forEach((academy) => formData.append("academy[]", academy));
-        if (staffType && staffType !== initialUserData.staffType) formData.append("userType", staffType);
-        if (email && email !== initialUserData.email) formData.append("email", email);
-        if (emailper && emailper !== initialUserData.emailper) formData.append("alternEmail", emailper);
-        if (telefono && telefono !== initialUserData.telefono) formData.append("phoneNumber", telefono);
+        if (staffType && staffType !== initialUserData.staffType)
+          formData.append("userType", staffType);
+        if (email && email !== initialUserData.email)
+          formData.append("email", email);
+        if (emailper && emailper !== initialUserData.emailper)
+          formData.append("alternEmail", emailper);
+        if (telefono && telefono !== initialUserData.telefono)
+          formData.append("phoneNumber", telefono);
         if (userId) formData.append("id", userId);
 
         const response = await fetch("http://127.0.0.1:8000/api/user", {
@@ -294,7 +315,12 @@ export default function VerInfo() {
           <div className="info-item">
             <span className="title">Primer Apellido:</span>
             {isEditingLastName ? (
-              <input type="text" name="lastname" value={lastname} onChange={(e) => setLastName(e.target.value)} />
+              <input
+                type="text"
+                name="lastname"
+                value={lastname}
+                onChange={(e) => setLastName(e.target.value)}
+              />
             ) : (
               <span className="value">{lastname}</span>
             )}
@@ -329,12 +355,21 @@ export default function VerInfo() {
           <div className="info-item">
             <span className="title">Nombre:</span>
             {isEditingName ? (
-              <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             ) : (
               <span className="value">{name}</span>
             )}
             <div className="con-ico">
-              <FontAwesomeIcon className="edit-icon" onClick={toggleEditName} icon={isEditingName ? faSave : faPen} />
+              <FontAwesomeIcon
+                className="edit-icon"
+                onClick={toggleEditName}
+                icon={isEditingName ? faSave : faPen}
+              />
             </div>
           </div>
           {userType === "student" && (
@@ -342,7 +377,12 @@ export default function VerInfo() {
               <div className="info-item">
                 <span className="title">Boleta:</span>
                 {isEditingBoleta ? (
-                  <input type="text" name="boleta" value={boleta} onChange={(e) => setBoleta(e.target.value)} />
+                  <input
+                    type="text"
+                    name="boleta"
+                    value={boleta}
+                    onChange={(e) => setBoleta(e.target.value)}
+                  />
                 ) : (
                   <span className="value">{boleta}</span>
                 )}
@@ -357,13 +397,22 @@ export default function VerInfo() {
               <div className="info-item">
                 <span className="title">Carrera:</span>
                 {isEditingCarrera ? (
-                  <select value={carrera} onChange={(e) => setCarrera(e.target.value)}>
+                  <select
+                    value={carrera}
+                    onChange={(e) => setCarrera(e.target.value)}
+                  >
                     <option value="" disabled hidden>
                       Seleccione una carrera
                     </option>
-                    <option value="ISW">Ingenieria en Sistemas Computacionales</option>
-                    <option value="IIA">Ingenieria en Inteligencia Artificial</option>
-                    <option value="LCD">Licenciatura en Ciencia de Datos</option>
+                    <option value="ISW">
+                      Ingenieria en Sistemas Computacionales
+                    </option>
+                    <option value="IIA">
+                      Ingenieria en Inteligencia Artificial
+                    </option>
+                    <option value="LCD">
+                      Licenciatura en Ciencia de Datos
+                    </option>
                   </select>
                 ) : (
                   <span className="value">{carrera}</span>
@@ -380,7 +429,10 @@ export default function VerInfo() {
                 <div className="info-item">
                   <span className="title">Plan de Estudio:</span>
                   {isEditingPEstudio ? (
-                    <select value={planDeEstudio} onChange={(e) => setPlanDeEstudio(e.target.value)}>
+                    <select
+                      value={planDeEstudio}
+                      onChange={(e) => setPlanDeEstudio(e.target.value)}
+                    >
                       <option value="" disabled hidden>
                         Seleccione un plan de estudio
                       </option>
@@ -441,8 +493,15 @@ export default function VerInfo() {
                             .map((academy) => academy.trim())
                             .filter((academy) => academy !== "");
 
-                          const uniqueAcademies = Array.from(new Set(academies));
+                          const validAcademies = academies.filter((academy) =>
+                            allAcademies.includes(academy)
+                          );
+
+                          const uniqueAcademies = Array.from(
+                            new Set(validAcademies)
+                          );
                           setAcademies(uniqueAcademies);
+                          setRawAcademyInput(validAcademies.join(", "));
                         }}
                       />
                       <div className="input-group-append">
@@ -452,7 +511,9 @@ export default function VerInfo() {
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <span className="visually-hidden">Toggle Dropdown</span>
+                          <span className="visually-hidden">
+                            Toggle Dropdown
+                          </span>
                         </button>
                         <ul className="dropdown-menu dropdown-menu-end">
                           {allAcademies.map((academy, index) => (
@@ -463,12 +524,22 @@ export default function VerInfo() {
                                 onClick={(e) => {
                                   e.preventDefault();
                                   setRawAcademyInput((prevInput) => {
-                                    const academiesList = prevInput.split(",").map((academy) => academy.trim());
+                                    const academiesList = prevInput
+                                      .split(",")
+                                      .map((academy) => academy.trim());
+
                                     if (!academiesList.includes(academy)) {
-                                      return prevInput ? `${prevInput}, ${academy}` : academy;
+                                      return prevInput
+                                        ? `${prevInput}, ${academy}`
+                                        : academy;
                                     }
                                     return prevInput;
                                   });
+                                  setAcademies((prevAcademies) =>
+                                    Array.from(
+                                      new Set([...prevAcademies, academy])
+                                    )
+                                  );
                                 }}
                               >
                                 {academy}
@@ -493,13 +564,15 @@ export default function VerInfo() {
               <div className="info-item">
                 <span className="title">Tipo de Docente:</span>
                 {isEditingStaffType ? (
-                  <select name="staffType" value={staffType} onChange={(e) => setStaffType(e.target.value)}>
+                  <select
+                    name="staffType"
+                    value={staffType}
+                    onChange={(e) => setStaffType(e.target.value)}
+                  >
                     <option value="" disabled hidden>
                       Seleccione un tipo de docente
                     </option>
                     <option value="Prof">Profesor</option>
-                    <option value="PresAcad">Presidente de Academia</option>
-                    <option value="JefeDepAcad">Jefe de Departamento</option>
                     <option value="AnaCATT">Analista de la CATT</option>
                     <option value="SecEjec">Secretario Ejecutivo</option>
                     <option value="SecTec">Secretario Técnico</option>
@@ -526,12 +599,21 @@ export default function VerInfo() {
           <div className="info-item">
             <span className="title">Correo electrónico:</span>
             {isEditingEmail ? (
-              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="value-input" />
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="value-input"
+              />
             ) : (
               <span className="value">{email}</span>
             )}
             <div className="con-ico">
-              <FontAwesomeIcon className="edit-icon" onClick={toggleEditEmail} icon={isEditingEmail ? faSave : faPen} />
+              <FontAwesomeIcon
+                className="edit-icon"
+                onClick={toggleEditEmail}
+                icon={isEditingEmail ? faSave : faPen}
+              />
             </div>
           </div>
           <div className="info-item">
@@ -591,10 +673,18 @@ export default function VerInfo() {
         </div>
 
         <div className="botones-info">
-          <button className="restablece" disabled={!wasUserEdited} onClick={handleReset}>
+          <button
+            className="restablece"
+            disabled={!wasUserEdited}
+            onClick={handleReset}
+          >
             Restablecer Datos
           </button>{" "}
-          <button className="guardar_b" disabled={!wasUserEdited} onClick={handleSave}>
+          <button
+            className="guardar_b"
+            disabled={!wasUserEdited}
+            onClick={handleSave}
+          >
             Guardar
           </button>
         </div>

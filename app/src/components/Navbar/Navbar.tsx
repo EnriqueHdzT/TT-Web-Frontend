@@ -20,20 +20,16 @@ import "./Navbar.scss";
 type UsersMap = {
   Estudiante: string;
   Prof: string;
-  PresAcad: string;
-  JefeDepAcad: string;
   AnaCATT: string;
   SecEjec: string;
   SecTec: string;
   Presidente: string;
-  [key: string]: string; // This is the index signature
+  [key: string]: string;
 };
 
 const usersMap: UsersMap = {
   Estudiante: "Estudiante",
   Prof: "Profesor",
-  PresAcad: "Presidente de Academia",
-  JefeDepAcad: "Jefe de Departamento",
   AnaCATT: "Analista de la CATT",
   SecEjec: "Secretario Ejecutivo",
   SecTec: "Secretario Técnico",
