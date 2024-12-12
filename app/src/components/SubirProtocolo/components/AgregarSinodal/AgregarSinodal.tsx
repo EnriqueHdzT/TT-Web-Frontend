@@ -15,7 +15,6 @@ interface DirectorData {
   lastname: string | null;
   second_lastname: string | null;
   precedence: string | null;
-  academy: string | null;
   cedula: File | null;
 }
 
@@ -32,9 +31,6 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
   const [showWarning, setShowWarning] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [emailExists, setEmailExists] = useState(false);
-  const [nombre, setNombre] = useState("");
-  const [Papellido, setPapellido] = useState("");
-  const [Sapellido, setSapellido] = useState("");
 
   useEffect(() => {
     if (sinodals.length >= 3) {
@@ -95,25 +91,6 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
       setShowWarning(true);
       setEmailIsValid(true);
     }
-  };
-
-  const handleAgregar = () => {
-    const emailAlreadyExistsInDirectors = directors.some((director) => director.email === email);
-    const emailAlreadyExistsInSinodals = sinodals.some((sinodal) => sinodal.email === email);
-    if (!emailAlreadyExistsInDirectors && !emailAlreadyExistsInSinodals) {
-      const newSinodal: SinodalData = {
-        email: email,
-        name: nombre === "" ? null : nombre,
-        lastname: Papellido === "" ? null : Papellido,
-        second_lastname: Sapellido === "" ? null : Sapellido,
-      };
-      setSinodals((prevSinodals) => [...prevSinodals, newSinodal]);
-
-      togglePopup();
-    } else {
-      setEmailExists(true);
-    }
-    console.log(sinodals);
   };
 
   const handleSinodalDelete = (index: number) => {

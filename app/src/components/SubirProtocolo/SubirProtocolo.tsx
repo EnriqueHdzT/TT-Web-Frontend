@@ -6,7 +6,11 @@ import ArchivoProtocolo from "./components/ArchivoProtocolo/ArchivoProtocolo";
 import AgregarSinodal from "./components/AgregarSinodal/AgregarSinodal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faCircleExclamation, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleLeft,
+  faCircleExclamation,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -68,7 +72,8 @@ export default function SubirProtocolo() {
   const [protocolTerm, setProtocolTerm] = useState("");
   const [listOfTerms, setListOfTerms] = useState<string[]>([]);
   const [userType, setUserType] = useState<string | null>(null);
-  const [protocolPrevData, setProtocolPrevData] = useState<ProtocolData>(initialProtocolData);
+  const [protocolPrevData, setProtocolPrevData] =
+    useState<ProtocolData>(initialProtocolData);
   const [isUploadEnabled, setIsUploadEnabled] = useState(false);
   const [protocolID, setProtocolID] = useState<string | null>(null);
 
@@ -95,7 +100,9 @@ export default function SubirProtocolo() {
       checkIfUploadEnabled();
       getStudentEmail();
     }
-    if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "")) {
+    if (
+      ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "")
+    ) {
       fetchListOfTerms();
       console.log(userType);
     }
@@ -105,12 +112,22 @@ export default function SubirProtocolo() {
     const isTitleValid = protocolTitle.trim() !== "";
     const isSummaryValid = protocolSummary.trim() !== "";
     const isStudentsValid =
-      students.length > 0 && students.length <= 4 && students.every((student) => student.email !== "");
+      students.length > 0 &&
+      students.length <= 4 &&
+      students.every((student) => student.email !== "");
     const isDirectorsValid =
-      directors.length > 0 && directors.length <= 2 && directors.every((director) => director.email !== "");
+      directors.length > 0 &&
+      directors.length <= 2 &&
+      directors.every((director) => director.email !== "");
     const isSinodalsValid =
-      userType === "" ? true : sinodals.length === 3 && sinodals.every((sinodal) => sinodal.email !== "");
-    const isKeywordsValid = keywords.length > 0 && keywords.length <= 4 && keywords.every((keyword) => keyword !== "");
+      userType === ""
+        ? true
+        : sinodals.length === 3 &&
+          sinodals.every((sinodal) => sinodal.email !== "");
+    const isKeywordsValid =
+      keywords.length > 0 &&
+      keywords.length <= 4 &&
+      keywords.every((keyword) => keyword !== "");
     const isPDFValid = pdf !== null;
     const isProtocolTermValid = userType === "" ? true : protocolTerm !== "";
     setIsUploadEnabled(
@@ -133,7 +150,17 @@ export default function SubirProtocolo() {
       isPDFValid,
       isProtocolTermValid
     );
-  }, [protocolTitle, protocolSummary, students, directors, sinodals, keywords, pdf, protocolTerm, listOfTerms]);
+  }, [
+    protocolTitle,
+    protocolSummary,
+    students,
+    directors,
+    sinodals,
+    keywords,
+    pdf,
+    protocolTerm,
+    listOfTerms,
+  ]);
 
   async function fetchListOfTerms() {
     try {
@@ -171,9 +198,9 @@ export default function SubirProtocolo() {
       const data = await response.json();
       const studentData: StudentData = {
         email: data.email,
-        name: null,
-        lastname: null,
-        second_lastname: null,
+        name: data.name,
+        lastname: data.lastName,
+        second_lastname: data.secondLastName ?? null,
         student_id: null,
         career: null,
         curriculum: null,
@@ -224,7 +251,8 @@ export default function SubirProtocolo() {
     ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
       formData.append("sinodals", JSON.stringify(sinodals));
     formData.append("keywords", JSON.stringify(keywords));
-    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && formData.append("term", protocolTerm);
+    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
+      formData.append("term", protocolTerm);
 
     if (pdf) {
       formData.append("pdf", pdf);
@@ -287,14 +315,26 @@ export default function SubirProtocolo() {
           <AgregarAlumnos students={students} setStudents={setStudents} />
         </div>
         <div>
-          <AgregarDirector directors={directors} sinodals={sinodals} setDirectors={setDirectors} />
+          <AgregarDirector
+            directors={directors}
+            sinodals={sinodals}
+            setDirectors={setDirectors}
+          />
         </div>
-        {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
+        {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(
+          userType ?? ""
+        ) && (
           <div>
-            <AgregarSinodal sinodals={sinodals} directors={directors} setSinodals={setSinodals} />
+            <AgregarSinodal
+              sinodals={sinodals}
+              directors={directors}
+              setSinodals={setSinodals}
+            />
           </div>
         )}
-        {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
+        {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(
+          userType ?? ""
+        ) && (
           <div className="item">
             <div className="tit-pr">Periodo del Protocolo</div>
             <div className="cont-pr">
@@ -316,14 +356,19 @@ export default function SubirProtocolo() {
                   </select>
 
                   <div className="adv-periodo">
-                    <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Si el periodo que buscas no se
-                    muestra, verifica que este exista
+                    <FontAwesomeIcon
+                      icon={faCircleExclamation}
+                      className="adv-icon"
+                    />{" "}
+                    Si el periodo que buscas no se muestra, verifica que este
+                    exista
                   </div>
                 </div>
               ) : (
                 <div className="adv-periodo">
                   <FontAwesomeIcon icon={faCircleXmark} className="adv-icon" />
-                  No existen periodos disponibles, crea uno antes de registrar un protocolo
+                  No existen periodos disponibles, crea uno antes de registrar
+                  un protocolo
                 </div>
               )}
             </div>
@@ -342,7 +387,11 @@ export default function SubirProtocolo() {
         <button className="RD" onClick={resetData} disabled={false}>
           Reiniciar Datos
         </button>{" "}
-        <button className="SP" onClick={createProtocol} disabled={!isUploadEnabled}>
+        <button
+          className="SP"
+          onClick={createProtocol}
+          disabled={!isUploadEnabled}
+        >
           {userType === "Estudiante" ? "Subir" : "Crear"} Protocolo
         </button>
       </div>
