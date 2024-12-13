@@ -1,8 +1,54 @@
+$header-height: 4.5rem;
+$body-color: #fafafb;
+
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+$cont-gray2: #e1e1e1;
+$dark-1: #737373;
+$gray-2: #ddd;
+
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #5ea1d9;
+$blue2: #1b86e4;
+$gray-pass: #a2a2a2;
+$fondoscr1: #e0e0e0;
+$fondoscr2: #ebecec;
+
 .page-container {
     position: relative;
     min-height: 100vh;
 }
 
+
 .app-body {
     padding-bottom: 2.5rem;
 }
+
+/* Aplica a todo el sitio web */
+
+  /* Para navegadores basados en WebKit (Chrome, Edge, Safari) */
+  ::-webkit-scrollbar {
+    width: 9px; /* Ancho del scroll */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Fondo del track */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: $blue; /* Color del thumb */
+    border-radius: 4px; /* Bordes redondeados */
+    border: 1px solid #f0f0f0; /* Espacio entre el scroll y el track */
+     }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: $blue2; /* Color del thumb al pasar el cursor */
+  }
+  
