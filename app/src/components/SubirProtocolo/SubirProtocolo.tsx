@@ -72,19 +72,7 @@ export default function SubirProtocolo() {
   const [protocolTerm, setProtocolTerm] = useState("");
   const [listOfTerms, setListOfTerms] = useState<string[]>([]);
   const [userType, setUserType] = useState<string | null>(null);
-  const [protocolPrevData, setProtocolPrevData] =
-    useState<ProtocolData>(initialProtocolData);
   const [isUploadEnabled, setIsUploadEnabled] = useState(false);
-  const [protocolID, setProtocolID] = useState<string | null>(null);
-
-  useEffect(() => {
-    const id = window.location.pathname.split("/").pop();
-    if (id !== "subir_protocolo" && id !== undefined) {
-      // get protocol data from the backend
-      setProtocolID(id);
-      console.log("Protocol ID: " + id);
-    }
-  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -104,7 +92,6 @@ export default function SubirProtocolo() {
       ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "")
     ) {
       fetchListOfTerms();
-      console.log(userType);
     }
   }, [userType]);
 
@@ -139,16 +126,6 @@ export default function SubirProtocolo() {
         isKeywordsValid &&
         isPDFValid &&
         isProtocolTermValid
-    );
-    console.log(
-      isTitleValid,
-      isSummaryValid,
-      isStudentsValid,
-      isDirectorsValid,
-      isSinodalsValid,
-      isKeywordsValid,
-      isPDFValid,
-      isProtocolTermValid
     );
   }, [
     protocolTitle,
@@ -211,6 +188,7 @@ export default function SubirProtocolo() {
       console.error("Error fetching student email");
     }
   };
+
   const checkIfUploadEnabled = async () => {
     try {
       const data = await fetch("http://127.0.0.1:8000/api/checkUpload", {
@@ -229,20 +207,7 @@ export default function SubirProtocolo() {
     }
   };
 
-  const resetData = () => {
-    setProtocolTitle(protocolPrevData.protocolTitle);
-    setProtocolSummary(protocolPrevData.protocolSummary);
-    setStudents(protocolPrevData.students);
-    setDirectors(protocolPrevData.directors);
-    setSinodals(protocolPrevData.sinodals);
-    setKeywords(protocolPrevData.keywords);
-    setPdf(protocolPrevData.file);
-    setProtocolTerm(protocolPrevData.protocolTerm);
-  };
-
   const createProtocol = async () => {
-    if (!isUploadEnabled) return;
-
     const formData = new FormData();
     formData.append("title", protocolTitle);
     formData.append("resume", protocolSummary);
@@ -259,19 +224,84 @@ export default function SubirProtocolo() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/createProtocol", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: formData,
-      });
+      // Crear el protocolo
+      const createResponse = await fetch(
+        "http://127.0.0.1:8000/api/createProtocol",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: formData,
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error("Error al subir el protocolo");
+      if (!createResponse.ok) {
+        const errorText = await createResponse.text();
+        console.error("Error al crear el protocolo:", errorText);
+        throw new Error(`HTTP Error ${createResponse.status}: ${createResponse.statusText}`);
       }
+
+      console.log("Protocolo creado exitosamente en la tabla protocols");
+
+      // Consultar el último protocolo insertado
+      const lastProtocolResponse = await fetch(
+        "http://127.0.0.1:8000/api/lastProtocol",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!lastProtocolResponse.ok) {
+        const errorText = await lastProtocolResponse.text();
+        console.error("Error al obtener el último protocolo:", errorText);
+        throw new Error(`HTTP Error ${lastProtocolResponse.status}: ${lastProtocolResponse.statusText}`);
+      }
+
+      const lastProtocolData = await lastProtocolResponse.json();
+      const protocolID = lastProtocolData.id; // Capturar el ID del último protocolo
+      console.log("Último protocolo insertado:", lastProtocolData);
+
+      if (!protocolID) {
+        throw new Error("No se pudo obtener el ID del último protocolo insertado.");
+      }
+
+      // Insertar estado inicial en protocol_status
+      const insertStatusResponse = await fetch(
+        "http://127.0.0.1:8000/api/insertProtocolStatus",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            protocol_id: protocolID,
+            previous_status: "",
+            current_status: "validating",
+            comment: "Protocolo subido y en proceso de validación",
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }),
+        }
+      );
+
+      if (!insertStatusResponse.ok) {
+        const responseText = await insertStatusResponse.text();
+        console.error("Error al insertar estado:", responseText);
+        throw new Error(
+          `HTTP Error ${insertStatusResponse.status}: ${insertStatusResponse.statusText}`
+        );
+      }
+
+      const statusData = await insertStatusResponse.json();
+      console.log("Estado inicial insertado en protocol_status:", statusData);
     } catch (error) {
-      console.error(error);
+      console.error("Error:", error);
     }
   };
 
@@ -383,16 +413,12 @@ export default function SubirProtocolo() {
         </div>
       </div>
       <div className="protocol-button">
-        {" "}
-        <button className="RD" onClick={resetData} disabled={false}>
-          Reiniciar Datos
-        </button>{" "}
         <button
           className="SP"
           onClick={createProtocol}
           disabled={!isUploadEnabled}
         >
-          {userType === "Estudiante" ? "Subir" : "Crear"} Protocolo
+          Subir Protocolo
         </button>
       </div>
     </div>
