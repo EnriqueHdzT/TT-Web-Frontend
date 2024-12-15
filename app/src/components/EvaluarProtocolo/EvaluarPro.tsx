@@ -44,7 +44,7 @@ export default function EvaluarPro() {
   const [title, setTitle] = useState("");
   const [identificador, setIdentificador] = useState("");
   const [fechaEvaluacion, setFechaEvaluacion] = useState<Date | null>(null);
-  const [pdf, setPdf] = useState<File | null>(null);
+  const [pdf, setPdf] = useState("");
   const [userType, setUserType] = useState<string | null>(null);
   const [editAllowed, setEditAllowed] = useState(false);
   const [questionsList, setQuestionsList] = useState<string[]>([]);
@@ -124,6 +124,29 @@ export default function EvaluarPro() {
       }
     };
 
+    const getPdf = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/getProtocolDocByID/${id}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Error al obtener los datos");
+        }
+        const data = await response.blob();
+        const url = URL.createObjectURL(data);
+        setPdf(url);
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+      }
+    };
+
     const isUserAllow = async () => {
       try {
         const response = await fetch(
@@ -148,8 +171,10 @@ export default function EvaluarPro() {
           console.log("setting editAllowed to true");
           setEditAllowed(true);
           getQuestionare();
+          getPdf();
         } else {
           getResponses();
+          getPdf();
         }
       } catch (error) {
         navigate(-1);
