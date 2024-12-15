@@ -5,6 +5,7 @@ import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons
 import Select from "react-select";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Protocolo {
   id: string;
@@ -126,9 +127,9 @@ const ClasificarProtocolo: React.FC = () => {
 
       await Promise.all(requests);
       alert("Protocolo enviado a todas las academias.");
+      navigate(-1);
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al enviar los datos.");
     }
   };
 
