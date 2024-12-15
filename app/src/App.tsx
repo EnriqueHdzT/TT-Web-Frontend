@@ -36,8 +36,7 @@ export default function App() {
 
 
   const pdfEvaluar = "/Protocolo_2.pdf";
-  const pdfClasificar = "/Protocolo_2.pdf";
-  const pdfValidar = "/Protocolo.pdf";
+  const pdfClasificar = "/Protocolo.pdf"
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -71,9 +70,9 @@ export default function App() {
             <Route path="/cambiar_contraseña" element={<Password />} />
             <Route path="/cambiar_contraseña/:id" element={<Password />} />
             <Route path="/documento/:id" element={<AbrirDocumento />} />
-            <Route path="/evaprotocolo/:id" element={<EvaluarProtocolo />} />
-            <Route path="/clasificarprotocolo" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
-            <Route path="/validarprotocolo" element={<ValidarProtocolo pdfValidar={pdfValidar} />} />
+            <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
+            <Route path="/clasificarprotocolo/:id" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
+            <Route path="/validarprotocolo/:id" element={<ValidarProtocolo />} />
             <Route path="/recuperar/:token" element={<RecuperarContrasena />} />
             <Route path="/monitoreoprotocolo/:id" element={<MonitoreoProtocolo />} />
             <Route path="/vermas/:tipo/:id" element={<VerMas />} />

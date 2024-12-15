@@ -1,252 +1,99 @@
 import "./EvaluarPro.scss";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
-interface ReplyToQuestion {
-  validation: boolean | null;
-  comment: string | null;
+interface EvaluarProtocoloProps {
+  pdfEvaluar: string;
+  titulo: string;
+  identificador: string;
+  fechaEvaluacion: string;
 }
 
-export default function EvaluarPro() {
-  const { id } = useParams();
-  const location = useLocation();
-  const navigate = useNavigate();
+interface FormData {
+  tituloProducto: string;
+  observacionesTitulo: string;
+  resumenPropuesta: string;
+  observacionesResumen: string;
+  palabrasClasificadas: string;
+  observacionesPalabras: string;
+  presentacionComprensible: string;
+  observacionesPresentacion: string;
+  objetivoPreciso: string;
+  observacionesObjetivo: string;
+  problemaClaro: string;
+  observacionesProblema: string;
+  contribucionJustificada: string;
+  observacionesContribucion: string;
+  viabilidadAdecuada: string;
+  observacionesViabilidad: string;
+  propuestaPertinente: string;
+  observacionesPropuesta: string;
+  calendarioAdecuado: string;
+  observacionesCalendario: string;
+  aprobadoProtocolo: string;
+  recomendacionAdicional: string;
+}
+
+const EvaluarPro: React.FC<EvaluarProtocoloProps> = ({
+  pdfEvaluar,
+  titulo,
+  identificador,
+  fechaEvaluacion,
+}) => {
   const [isMinimized, setIsMinimized] = useState(false); // Controla si el panel izquierdo está minimizado
-  const [identificador, setIdentificador] = useState("");
-  const [pdf, setPdf] = useState("");
-  const [editAllowed, setEditAllowed] = useState(false);
-  const [questionsList, setQuestionsList] = useState<string[]>([]);
-  const [replyToQuestion, setReplyToQuestion] = useState<ReplyToQuestion[]>([]);
-  const [isSendButtonDisabled, setIsSendButtonDisabled] = useState(true);
-  useEffect(() => {
-    const getQuestionare = async () => {
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:8000/api/getQuestionare",
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos");
-        }
-        const data = await response.json();
-        setQuestionsList(Object.keys(data));
-        setReplyToQuestion([]);
-        for (const key in data) {
-          setReplyToQuestion((prev) => [
-            ...prev,
-            { validation: null, comment: null },
-          ]);
-        }
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    const getResponses = async (sinodalID: string) => {
-      try {
-        const formData = new URLSearchParams();
-        formData.append("id", id as string);
-        formData.append("sinodal_id", sinodalID);
-
-        const response = await fetch("http://127.0.0.1:8000/api/getResponses", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: formData as BodyInit,
-        });
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos");
-        }
-        const data = await response.json();
-        setQuestionsList(Object.keys(data));
-        setReplyToQuestion([]);
-        for (const key in data) {
-          setReplyToQuestion((prev) => [
-            ...prev,
-            { validation: data[key].validation, comment: data[key].comment },
-          ]);
-        }
-      } catch (error) {
-        navigate(-1);
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    const getPdf = async () => {
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/getProtocolDocByID/${id}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos");
-        }
-        const data = await response.blob();
-        const url = URL.createObjectURL(data);
-        setPdf(url);
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    const getProtocolData = async () => {
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/getEvalProtData/${id}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos");
-        }
-        const data = await response.json();
-        setIdentificador(data.protocol_id);
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      }
-    };
-
-    const isUserAllow = async () => {
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/allowedEval/${id}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos");
-        }
-        const data = await response.json();
-        if (data.permissions === "not allowed") {
-          navigate(-1);
-          return;
-        }
-        if (data.permissions === "write") {
-          console.log("setting editAllowed to true");
-          setEditAllowed(true);
-          getQuestionare();
-          getPdf();
-          getProtocolData();
-        } else {
-          const queryParams = new URLSearchParams(location.search);
-          const sinodalID = queryParams.get("sinodalID");
-          if (!sinodalID){
-            navigate(-1);
-            return;
-          } else {
-            getResponses(sinodalID);
-            getPdf();
-            getProtocolData();  
-          }
-          
-        }
-      } catch (error) {
-        console.error("User not allowed", error);
-      }
-    };
-
-    isUserAllow();
-  }, []);
-
-  // useeffect if replyToQuestion values null keep isSendButtonDisabled true
-  useEffect(() => {
-    // Check if all fields have valid values (not null or empty)
-    const allFieldsFilled = replyToQuestion.every(
-      (reply) => reply.validation !== null
-    );
-
-    // Disable the send button if all fields are not filled
-    setIsSendButtonDisabled(!allFieldsFilled);
-  }, [replyToQuestion]);
+  const [formData, setFormData] = useState<FormData>({
+    tituloProducto: "",
+    observacionesTitulo: "",
+    resumenPropuesta: "",
+    observacionesResumen: "",
+    palabrasClasificadas: "",
+    observacionesPalabras: "",
+    presentacionComprensible: "",
+    observacionesPresentacion: "",
+    objetivoPreciso: "",
+    observacionesObjetivo: "",
+    problemaClaro: "",
+    observacionesProblema: "",
+    contribucionJustificada: "",
+    observacionesContribucion: "",
+    viabilidadAdecuada: "",
+    observacionesViabilidad: "",
+    propuestaPertinente: "",
+    observacionesPropuesta: "",
+    calendarioAdecuado: "",
+    observacionesCalendario: "",
+    aprobadoProtocolo: "",
+    recomendacionAdicional: "",
+  });
 
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized); // Alterna entre minimizar y expandir
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    interface Reply {
-      [key: string]: {
-        validation: boolean;
-        comment: string;
-      };
-    }
-
-    const reply: Reply = {};
-    questionsList.forEach((question, index) => {
-      reply[question] = {
-        validation: replyToQuestion[index].validation === true ? true : false,
-        comment: replyToQuestion[index].comment ?? "",
-      };
+    console.log("Datos del formulario:", formData);
+    console.log("Datos del documento:", {
+      pdfEvaluar,
+      titulo,
+      identificador,
+      fechaEvaluacion,
     });
-
-    const response = await fetch(
-      `http://127.0.0.1:8000/api/evaluateProtocol/${id}`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(reply),
-      }
-    );
-
-    if (response.ok) {
-      console.log("Respuestas enviadas correctamente");
-    } else {
-      console.error("Error al enviar las respuestas");
-    }
-  };
-
-  const updateValidation = (
-    index: number,
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const newReplyToQuestion = [...replyToQuestion];
-    newReplyToQuestion[index].validation =
-      e.target.value === "Si" ? true : false;
-    setReplyToQuestion(newReplyToQuestion);
-  };
-
-  const updateComment = (
-    index: number,
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const newReplyToQuestion = [...replyToQuestion];
-    newReplyToQuestion[index].comment = e.target.value;
-    setReplyToQuestion(newReplyToQuestion);
+    // Aquí se puede añadir la lógica para enviar los datos a una base de datos o entre usuarios
   };
 
   return (
@@ -256,64 +103,248 @@ export default function EvaluarPro() {
           <a href="/" className="button-icon">
             <FontAwesomeIcon icon={faChevronLeft} />
           </a>{" "}
-          Evaluacion de Protocolo
+          Evaluar
         </div>
       </div>
       <div className="split_container">
         {/* Sección izquierda */}
         <div className={`left_panel ${isMinimized ? "minimized" : ""}`}>
           <div className="info_containerd">
-            <h1 className="titulo">ID de Protocolo: </h1> <p>{identificador}</p>
+            <h1 className="titulo">Título de TT: {titulo}</h1>
+            <p className="identificadord">
+              Núm. de Registro de TT: {identificador}
+            </p>
+            <p className="palabra-claved">
+              Fecha de Evaluación: {fechaEvaluacion}
+            </p>
+
             {/* Formulario de evaluación */}
             <form onSubmit={handleSubmit}>
-              {questionsList.map((question, index) => (
-                <>
-                  <label key={index}>
-                    {" "}
-                    {index === questionsList.length - 1
-                      ? ""
-                      : index + 1 + "."}{" "}
-                    {question}
-                  </label>
-                  <br />
-                  <select
-                    name={question}
-                    value={
-                      replyToQuestion[index].validation === null
-                        ? ""
-                        : replyToQuestion[index].validation
-                        ? "Si"
-                        : "No"
-                    }
-                    onChange={(e) => {
-                      updateValidation(index, e);
-                    }}
-                    disabled={!editAllowed}
-                  >
-                    <option value="" disabled hidden>
-                      Seleccione una opcion
-                    </option>
-                    <option value="Si">Sí</option>
-                    <option value="No">No</option>
-                  </select>
-                  <label>Observaciones:</label>
-                  <br />
-                  <textarea
-                    name={question}
-                    value={replyToQuestion[index].comment ?? ""}
-                    onChange={(e) => {
-                      updateComment(index, e);
-                    }}
-                    placeholder="Escribe tus observaciones"
-                    disabled={!editAllowed}
-                  />
-                </>
-              ))}
-              {editAllowed && (
-                <button type="submit" disabled={isSendButtonDisabled}>
-                  Enviar
-                </button>
-              )}
+              <label>1. ¿El título corresponde al producto esperado?</label>
+              <br />
+              <select
+                name="tituloProducto"
+                value={formData.tituloProducto}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesTitulo"
+                value={formData.observacionesTitulo}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>
+                2. ¿El resumen expresa claramente la propuesta del TT, su
+                importancia y aplicación?
+              </label>
+              <br />
+              <select
+                name="resumenPropuesta"
+                value={formData.resumenPropuesta}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesResumen"
+                value={formData.observacionesResumen}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>
+                3. ¿Las palabras clave han sido clasificadas adecuadamente?
+              </label>
+              <br />
+              <select
+                name="palabrasClasificadas"
+                value={formData.palabrasClasificadas}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesPalabras"
+                value={formData.observacionesPalabras}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>
+                4. ¿La presentación del problema a resolver es comprensible?
+              </label>
+              <br />
+              <select
+                name="presentacionComprensible"
+                value={formData.presentacionComprensible}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesPresentacion"
+                value={formData.observacionesPresentacion}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>5. ¿El objetivo es preciso y relevante?</label>
+              <br />
+              <select
+                name="objetivoPreciso"
+                value={formData.objetivoPreciso}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesObjetivo"
+                value={formData.observacionesObjetivo}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>
+                6. ¿El planteamiento del problema y la tentativa solución
+                descrita son claros?
+              </label>
+              <br />
+              <select
+                name="problemaClaro"
+                value={formData.problemaClaro}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesProblema"
+                value={formData.observacionesProblema}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>
+                7. ¿Sus contribuciones o beneficios están completamente
+                justificados?
+              </label>
+              <br />
+              <select
+                name="contribucionJustificada"
+                value={formData.contribucionJustificada}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesContribucion"
+                value={formData.observacionesContribucion}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>8. ¿Su viabilidad es adecuada?</label>
+              <br />
+              <select
+                name="viabilidadAdecuada"
+                value={formData.viabilidadAdecuada}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesViabilidad"
+                value={formData.observacionesViabilidad}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>9. ¿La propuesta metodológica es pertinente?</label>
+              <br />
+              <select
+                name="propuestaPertinente"
+                value={formData.propuestaPertinente}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesPropuesta"
+                value={formData.observacionesPropuesta}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>
+                10. ¿El calendario de actividades por estudiantes es adecuado?
+              </label>
+              <br />
+              <select
+                name="calendarioAdecuado"
+                value={formData.calendarioAdecuado}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Observaciones:</label>
+              <br />
+              <textarea
+                name="observacionesCalendario"
+                value={formData.observacionesCalendario}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <label>Aprobado</label>
+              <br />
+              <select
+                name="aprobadoProtocolo"
+                value={formData.aprobadoProtocolo}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+              <label>Recomendaciones adicionales:</label>
+              <br />
+              <textarea
+                name="recomendacionAdicional"
+                value={formData.recomendacionAdicional}
+                onChange={handleChange}
+                placeholder="Escribe tus observaciones"
+              />
+              <button type="submit">Enviar</button>
             </form>
           </div>
         </div>
@@ -324,9 +355,11 @@ export default function EvaluarPro() {
         </button>
         {/* Sección derecha con el PDF */}
         <div className={`pdf-panel ${isMinimized ? "full-width" : ""}`}>
-          <iframe src={pdf} title="PDF Evaluar" className="pdf-viewer" />
+          <iframe src={pdfEvaluar} title="PDF Evaluar" className="pdf-viewer" />
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default EvaluarPro;
