@@ -1,6 +1,6 @@
 import "./EvaluarPro.scss";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
@@ -12,68 +12,17 @@ interface ReplyToQuestion {
   comment: string | null;
 }
 
-interface FormData {
-  tituloProducto: string;
-  observacionesTitulo: string;
-  resumenPropuesta: string;
-  observacionesResumen: string;
-  palabrasClasificadas: string;
-  observacionesPalabras: string;
-  presentacionComprensible: string;
-  observacionesPresentacion: string;
-  objetivoPreciso: string;
-  observacionesObjetivo: string;
-  problemaClaro: string;
-  observacionesProblema: string;
-  contribucionJustificada: string;
-  observacionesContribucion: string;
-  viabilidadAdecuada: string;
-  observacionesViabilidad: string;
-  propuestaPertinente: string;
-  observacionesPropuesta: string;
-  calendarioAdecuado: string;
-  observacionesCalendario: string;
-  aprobadoProtocolo: string;
-  recomendacionAdicional: string;
-}
-
 export default function EvaluarPro() {
   const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const [isMinimized, setIsMinimized] = useState(false); // Controla si el panel izquierdo está minimizado
-  const [title, setTitle] = useState("");
   const [identificador, setIdentificador] = useState("");
-  const [fechaEvaluacion, setFechaEvaluacion] = useState<Date | null>(null);
   const [pdf, setPdf] = useState("");
-  const [userType, setUserType] = useState<string | null>(null);
   const [editAllowed, setEditAllowed] = useState(false);
   const [questionsList, setQuestionsList] = useState<string[]>([]);
   const [replyToQuestion, setReplyToQuestion] = useState<ReplyToQuestion[]>([]);
-  const [formData, setFormData] = useState<FormData>({
-    tituloProducto: "",
-    observacionesTitulo: "",
-    resumenPropuesta: "",
-    observacionesResumen: "",
-    palabrasClasificadas: "",
-    observacionesPalabras: "",
-    presentacionComprensible: "",
-    observacionesPresentacion: "",
-    objetivoPreciso: "",
-    observacionesObjetivo: "",
-    problemaClaro: "",
-    observacionesProblema: "",
-    contribucionJustificada: "",
-    observacionesContribucion: "",
-    viabilidadAdecuada: "",
-    observacionesViabilidad: "",
-    propuestaPertinente: "",
-    observacionesPropuesta: "",
-    calendarioAdecuado: "",
-    observacionesCalendario: "",
-    aprobadoProtocolo: "",
-    recomendacionAdicional: "",
-  });
-
+  const [isSendButtonDisabled, setIsSendButtonDisabled] = useState(true);
   useEffect(() => {
     const getQuestionare = async () => {
       try {
@@ -92,6 +41,7 @@ export default function EvaluarPro() {
         }
         const data = await response.json();
         setQuestionsList(Object.keys(data));
+        setReplyToQuestion([]);
         for (const key in data) {
           setReplyToQuestion((prev) => [
             ...prev,
@@ -103,23 +53,34 @@ export default function EvaluarPro() {
       }
     };
 
-    const getResponses = async () => {
+    const getResponses = async (sinodalID: string) => {
       try {
+        const formData = new URLSearchParams();
+        formData.append("id", id as string);
+        formData.append("sinodal_id", sinodalID);
+
         const response = await fetch("http://127.0.0.1:8000/api/getResponses", {
-          method: "GET",
+          method: "POST",
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+          body: formData as BodyInit,
         });
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.json();
-        setTitle(data.titulo);
-        setIdentificador(data.identificador);
-        setFechaEvaluacion(data.fechaEvaluacion);
+        setQuestionsList(Object.keys(data));
+        setReplyToQuestion([]);
+        for (const key in data) {
+          setReplyToQuestion((prev) => [
+            ...prev,
+            { validation: data[key].validation, comment: data[key].comment },
+          ]);
+        }
       } catch (error) {
+        navigate(-1);
         console.error("Error al obtener los datos:", error);
       }
     };
@@ -142,6 +103,28 @@ export default function EvaluarPro() {
         const data = await response.blob();
         const url = URL.createObjectURL(data);
         setPdf(url);
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+      }
+    };
+
+    const getProtocolData = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/getEvalProtData/${id}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Error al obtener los datos");
+        }
+        const data = await response.json();
+        setIdentificador(data.protocol_id);
       } catch (error) {
         console.error("Error al obtener los datos:", error);
       }
@@ -172,48 +155,79 @@ export default function EvaluarPro() {
           setEditAllowed(true);
           getQuestionare();
           getPdf();
+          getProtocolData();
         } else {
-          getResponses();
-          getPdf();
+          const queryParams = new URLSearchParams(location.search);
+          const sinodalID = queryParams.get("sinodalID");
+          if (!sinodalID){
+            navigate(-1);
+            return;
+          } else {
+            getResponses(sinodalID);
+            getPdf();
+            getProtocolData();  
+          }
+          
         }
       } catch (error) {
-        navigate(-1);
         console.error("User not allowed", error);
       }
     };
 
     isUserAllow();
-    if (localStorage.getItem("userType")) {
-      setUserType(localStorage.getItem("userType"));
-    }
   }, []);
+
+  // useeffect if replyToQuestion values null keep isSendButtonDisabled true
+  useEffect(() => {
+    // Check if all fields have valid values (not null or empty)
+    const allFieldsFilled = replyToQuestion.every(
+      (reply) => reply.validation !== null
+    );
+
+    // Disable the send button if all fields are not filled
+    setIsSendButtonDisabled(!allFieldsFilled);
+  }, [replyToQuestion]);
 
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized); // Alterna entre minimizar y expandir
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Datos del formulario:", formData);
-    console.log("Datos del documento:", {
-      pdf,
-      title,
-      identificador,
-      fechaEvaluacion,
+
+    interface Reply {
+      [key: string]: {
+        validation: boolean;
+        comment: string;
+      };
+    }
+
+    const reply: Reply = {};
+    questionsList.forEach((question, index) => {
+      reply[question] = {
+        validation: replyToQuestion[index].validation === true ? true : false,
+        comment: replyToQuestion[index].comment ?? "",
+      };
     });
-    // Aquí se puede añadir la lógica para enviar los datos a una base de datos o entre usuarios
+
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/evaluateProtocol/${id}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(reply),
+      }
+    );
+
+    if (response.ok) {
+      console.log("Respuestas enviadas correctamente");
+    } else {
+      console.error("Error al enviar las respuestas");
+    }
   };
 
   const updateValidation = (
@@ -242,21 +256,14 @@ export default function EvaluarPro() {
           <a href="/" className="button-icon">
             <FontAwesomeIcon icon={faChevronLeft} />
           </a>{" "}
-          Evaluar
+          Evaluacion de Protocolo
         </div>
       </div>
       <div className="split_container">
         {/* Sección izquierda */}
         <div className={`left_panel ${isMinimized ? "minimized" : ""}`}>
           <div className="info_containerd">
-            <h1 className="titulo">Título de TT: {title}</h1>
-            <p className="identificadord">
-              Núm. de Registro de TT: {identificador}
-            </p>
-            <p className="palabra-claved">
-              Fecha de Evaluación: {fechaEvaluacion}
-            </p>
-
+            <h1 className="titulo">ID de Protocolo: </h1> <p>{identificador}</p>
             {/* Formulario de evaluación */}
             <form onSubmit={handleSubmit}>
               {questionsList.map((question, index) => (
@@ -302,7 +309,11 @@ export default function EvaluarPro() {
                   />
                 </>
               ))}
-              <button type="submit">Enviar</button>
+              {editAllowed && (
+                <button type="submit" disabled={isSendButtonDisabled}>
+                  Enviar
+                </button>
+              )}
             </form>
           </div>
         </div>
