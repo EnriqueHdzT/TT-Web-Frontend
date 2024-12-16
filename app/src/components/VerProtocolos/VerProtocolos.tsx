@@ -4,6 +4,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Protocolinfo from "./components/Protocolinfo";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function VerProtocolos() {
     const listOfOrden = {
@@ -19,6 +20,8 @@ export default function VerProtocolos() {
     const [loading, setLoading] = useState(false); 
     const [currentPeriod, setCurrentPeriod] = useState("Todos");
     const [currentOrder, setCurrentOrder] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(()=>{
       axios.get(`http://127.0.0.1:8000/api/datesList`, {
@@ -115,7 +118,7 @@ export default function VerProtocolos() {
               </ul>
             </div>
             
-            <button type="button" className="btn btn-outline-primary">
+            <button onClick={()=>navigate("/subir_protocolo")} type="button" className="btn btn-outline-primary">
               Agregar Protocolo +
             </button>
           </div>
