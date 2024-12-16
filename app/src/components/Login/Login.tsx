@@ -39,6 +39,12 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
     if (localStorage.getItem("token")) {
       navigate("/");
     }
+    if (!localStorage.getItem("userType")) {
+      setUserType("");
+    }
+    if (!localStorage.getItem("token")) {
+      setAuth(false);
+    }
   }, [navigate]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -90,11 +96,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
           },
           body: formData as BodyInit,
         });
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (response.ok) {
+        if (response.ok) {
           const data = await response.json();
           localStorage.setItem("token", data.token);
           localStorage.setItem("userType", data.userType ?? "");
