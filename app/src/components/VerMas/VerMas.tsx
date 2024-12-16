@@ -19,6 +19,11 @@ const VerMas = () => {
   const fetchAviso = async (tipo, id) => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/${tipo}/${id}`);
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      }
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.statusText}`);
       }
@@ -39,7 +44,11 @@ const VerMas = () => {
       const response = await fetch(`http://127.0.0.1:8000/api/${tipo}/${id}`, {
         method: 'DELETE'
       });
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error(`Error al eliminar: ${response.statusText}`);
       }
       alert("Eliminado correctamente");
@@ -59,7 +68,11 @@ const VerMas = () => {
         },
         body: JSON.stringify(aviso),
       });
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error(`Error al actualizar : ${response.statusText}`);
       }
       const data = await response.json();
@@ -109,8 +122,11 @@ const VerMas = () => {
         const response = await axios.post("http://127.0.0.1:8000/api/subir-imagen", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-
-        if (response.data.url) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (response.data.url) {
           // Asegúrate de actualizar tanto el campo de imagen como url_imagen si es necesario
           setAviso(prevAviso => ({
             ...prevAviso,

@@ -14,19 +14,24 @@ const Avisos = () => {
   // Función para obtener los datos de la base de datos
   const fetchAvisos = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/aviso');
+      const response = await fetch("http://127.0.0.1:8000/api/aviso");
       const data = await response.json();
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      }
 
-      const filteredData = data.filter(item => item.tipo_contenido === 'aviso');
+      const filteredData = data.filter((item) => item.tipo_contenido === "aviso");
 
       const processedData = filteredData.map((item) => ({
         ...item,
-        url_imagen: item.url_imagen.replace(/\\/g, '') || defaultImage
+        url_imagen: item.url_imagen.replace(/\\/g, "") || defaultImage,
       }));
 
       setSlides(processedData);
     } catch (error) {
-      console.error('Error al obtener los avisos:', error);
+      console.error("Error al obtener los avisos:", error);
     }
   };
 
@@ -61,57 +66,56 @@ const Avisos = () => {
       fecha: "Justo ahora",
     };
     setSlides([...slides, nuevoAviso]);
-    navigate('/crear_publicacion?tipo=aviso'); // Navega a la página de crear publicación con el tipo de contenido
+    navigate("/crear_publicacion?tipo=aviso"); // Navega a la página de crear publicación con el tipo de contenido
   };
 
   return (
-      <div className="avisos-ppg">
-        <div className="aviso-top">
-          <div className="aviso-title">Avisos Recientes</div>
-          <div className="add-button-container">
-            <button className="add-button" onClick={agregarAviso}>
-              <FontAwesomeIcon icon={faCirclePlus} />
-            </button>
-          </div>
-        </div>
-        <div className="caroussel">
-          {slides.length > 0 ? (
-              <div className="caroussel-2">
-                <button className="carousel-control-prevc" onClick={prevSlide}>
-                  <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
-                <div className="infoc">
-                  <div className="fila-superior">
-                    <div className="campana">
-                      <FontAwesomeIcon icon={faBell} />
-                    </div>
-                    <div className="titaviso">{slides[currentIndex].titulo}</div>
-                  </div>
-                  <div className="fila-media">
-                    <div className="div-info">{slides[currentIndex].descripcion}</div>
-                  </div>
-                  <div className="fila-inferior">
-                    <div className="div-tiempo">{slides[currentIndex].fecha}</div>
-                    <div className="div-vermas">
-                      <button onClick={() => navigate(`/vermas/aviso/${slides[currentIndex].id_contenido}`)}>Ver más</button>
-                    </div>
-                  </div>
-                </div>
-                <div className="imagec">
-                  <img
-                      src={slides[currentIndex].url_imagen || defaultImage}
-                      alt={`Slide ${slides[currentIndex].id}`}
-                  />
-                </div>
-                <button className="carousel-control-nextc" onClick={nextSlide}>
-                  <FontAwesomeIcon icon={faChevronRight} />
-                </button>
-              </div>
-          ) : (
-              <p>No hay avisos</p>
-          )}
+    <div className="avisos-ppg">
+      <div className="aviso-top">
+        <div className="aviso-title">Avisos Recientes</div>
+        <div className="add-button-container">
+          <button className="add-button" onClick={agregarAviso}>
+            <FontAwesomeIcon icon={faCirclePlus} />
+          </button>
         </div>
       </div>
+      <div className="caroussel">
+        {slides.length > 0 ? (
+          <div className="caroussel-2">
+            <button className="carousel-control-prevc" onClick={prevSlide}>
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <div className="infoc">
+              <div className="fila-superior">
+                <div className="campana">
+                  <FontAwesomeIcon icon={faBell} />
+                </div>
+                <div className="titaviso">{slides[currentIndex].titulo}</div>
+              </div>
+              <div className="fila-media">
+                <div className="div-info">{slides[currentIndex].descripcion}</div>
+              </div>
+              <div className="fila-inferior">
+                <div className="div-tiempo">{slides[currentIndex].fecha}</div>
+                <div className="div-vermas">
+                  <button onClick={() => navigate(`/vermas/aviso/${slides[currentIndex].id_contenido}`)}>
+                    Ver más
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="imagec">
+              <img src={slides[currentIndex].url_imagen || defaultImage} alt={`Slide ${slides[currentIndex].id}`} />
+            </div>
+            <button className="carousel-control-nextc" onClick={nextSlide}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </div>
+        ) : (
+          <p>No hay avisos</p>
+        )}
+      </div>
+    </div>
   );
 };
 

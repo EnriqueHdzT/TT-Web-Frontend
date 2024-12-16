@@ -74,6 +74,57 @@ export default function SubirProtocolo() {
   const [userType, setUserType] = useState<string | null>(null);
   const [isUploadEnabled, setIsUploadEnabled] = useState(false);
 
+  const [protocolID, setProtocolID] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getProtocolData = async (id: string) => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/protocol/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+          },
+        });
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
+          throw new Error("Failed to get the protocol data");
+        }
+        const data = await response.json();
+        setProtocolPrevData({
+          protocolTitle: data.title,
+          protocolSummary: data.resume,
+          students: data.students,
+          directors: data.directors,
+          sinodals: data.sinodals,
+          protocolTerm: data.cycle,
+          keywords: data.keywords,
+          file: null,
+        });
+        setProtocolTitle(data.title);
+        setProtocolSummary(data.resume);
+        setStudents(data.students);
+        setDirectors(data.directors);
+        setSinodals(data.sinodals);
+        setKeywords(data.keywords);
+        setPdf(null);
+        setProtocolTerm(data.cycle);
+      } catch (error) {
+        console.error("Error fetching protocol data");
+        navigate(-1);
+      }
+    };
+
+    const id = window.location.pathname.split("/").pop();
+    if (id !== "protocolo" && id !== undefined) {
+      setProtocolID(id);
+      getProtocolData(id);
+    }
+  }, []);
+
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/");
@@ -148,8 +199,11 @@ export default function SubirProtocolo() {
           Accept: "application/json",
         },
       });
-
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Failed to get the list of terms");
       }
 
@@ -169,7 +223,11 @@ export default function SubirProtocolo() {
           Accept: "application/json",
         },
       });
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Failed to get the student email");
       }
       const data = await response.json();
@@ -198,7 +256,11 @@ export default function SubirProtocolo() {
           Accept: "application/json",
         },
       });
-      if (!data.ok) {
+      if (data.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!data.ok) {
         throw new Error("Error al verificar la disponibilidad");
       }
     } catch (e) {
@@ -224,84 +286,84 @@ export default function SubirProtocolo() {
     }
 
     try {
-      // Crear el protocolo
-      const createResponse = await fetch(
-        "http://127.0.0.1:8000/api/createProtocol",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: formData,
-        }
-      );
-
-      if (!createResponse.ok) {
-        const errorText = await createResponse.text();
-        console.error("Error al crear el protocolo:", errorText);
-        throw new Error(`HTTP Error ${createResponse.status}: ${createResponse.statusText}`);
+      const response = await fetch("http://127.0.0.1:8000/api/protocol", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
+        throw new Error("Error al subir el protocolo");
       }
 
-      console.log("Protocolo creado exitosamente en la tabla protocols");
+      const data = await response.json();
 
-      // Consultar el último protocolo insertado
-      const lastProtocolResponse = await fetch(
-        "http://127.0.0.1:8000/api/lastProtocol",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!lastProtocolResponse.ok) {
-        const errorText = await lastProtocolResponse.text();
-        console.error("Error al obtener el último protocolo:", errorText);
-        throw new Error(`HTTP Error ${lastProtocolResponse.status}: ${lastProtocolResponse.statusText}`);
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        navigate(`${data.protocol}`);
+        navigate(0);
       }
-
-      const lastProtocolData = await lastProtocolResponse.json();
-      const protocolID = lastProtocolData.id; // Capturar el ID del último protocolo
-      console.log("Último protocolo insertado:", lastProtocolData);
-
-      if (!protocolID) {
-        throw new Error("No se pudo obtener el ID del último protocolo insertado.");
-      }
-
-      // Insertar estado inicial en protocol_status
-      const insertStatusResponse = await fetch(
-        "http://127.0.0.1:8000/api/insertProtocolStatus",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            protocol_id: protocolID,
-            previous_status: "",
-            current_status: "validating",
-            comment: "Protocolo subido y en proceso de validación",
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          }),
-        }
-      );
-
-      if (!insertStatusResponse.ok) {
-        const responseText = await insertStatusResponse.text();
-        console.error("Error al insertar estado:", responseText);
-        throw new Error(
-          `HTTP Error ${insertStatusResponse.status}: ${insertStatusResponse.statusText}`
-        );
-      }
-
-      const statusData = await insertStatusResponse.json();
-      console.log("Estado inicial insertado en protocol_status:", statusData);
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
+    }
+  };
+
+  const updateProtocol = async () => {
+    const formData = new FormData();
+    if (protocolTitle !== protocolPrevData.protocolTitle) {
+      formData.append("title", protocolTitle);
+    }
+    if (protocolSummary !== protocolPrevData.protocolSummary) {
+      formData.append("resume", protocolSummary);
+    }
+    if (JSON.stringify(students) !== JSON.stringify(protocolPrevData.students)) {
+      formData.append("students", JSON.stringify(students));
+    }
+    if (JSON.stringify(directors) !== JSON.stringify(protocolPrevData.directors)) {
+      formData.append("directors", JSON.stringify(directors));
+    }
+
+    if (JSON.stringify(keywords) !== JSON.stringify(protocolPrevData.keywords)) {
+      formData.append("keywords", JSON.stringify(keywords));
+    }
+    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
+      JSON.stringify(sinodals) !== JSON.stringify(protocolPrevData.sinodals) &&
+      formData.append("sinodals", JSON.stringify(sinodals));
+
+    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
+      protocolTerm !== protocolPrevData.protocolTerm &&
+      formData.append("term", protocolTerm);
+    if (pdf) {
+      formData.append("pdf", pdf);
+    }
+
+    try {
+      const id = window.location.pathname.split("/").pop();
+      const response = await fetch(`http://127.0.0.1:8000/api/protocol/${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
+        throw new Error("Error al actualizar el protocolo");
+      }
+
+      navigate(0);
+    } catch (error) {
+      alert("Error al actualizar el protocolo");
+      console.error(error);
     }
   };
 
@@ -413,13 +475,19 @@ export default function SubirProtocolo() {
         </div>
       </div>
       <div className="protocol-button">
-        <button
-          className="SP"
-          onClick={createProtocol}
-          disabled={!isUploadEnabled}
-        >
-          Subir Protocolo
-        </button>
+        {" "}
+        <button className="RD" onClick={resetData} disabled={false}>
+          Reiniciar Datos
+        </button>{" "}
+        {protocolID === null ? (
+          <button className="SP" onClick={createProtocol} disabled={!isUploadEnabled}>
+            {userType === "Estudiante" ? "Subir" : "Crear"} Protocolo
+          </button>
+        ) : (
+          <button className="SP" onClick={updateProtocol}>
+            Actualizar Protocolo
+          </button>
+        )}
       </div>
     </div>
   );

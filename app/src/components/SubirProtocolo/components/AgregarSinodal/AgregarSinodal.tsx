@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export default function AgregarSinodal({ sinodals = [], directors = [], setSinodals }: Props) {
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [tooManySinodals, setTooManySinodals] = useState(false);
@@ -62,8 +64,11 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Error al buscar el correo");
         }
 

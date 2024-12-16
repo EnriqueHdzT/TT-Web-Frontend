@@ -75,8 +75,11 @@ export default function RecuperarContrasena() {
                 },
                 body: formData as BodyInit,
             });
-
-            if (response.ok) {
+            if (response.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userType");
+                navigate("/login");
+              } else if (response.ok) {
                 setErrorMessage("Contraseña cambiada exitosamente");
                 setTimeout(() => navigate("/"), 3000);
             } else {

@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFileLines,
-  faPenToSquare,
-  faUser,
-  faClock,
-  faBell,
-  faCircleUser,
-} from "@fortawesome/free-regular-svg-icons";
+import { faFileLines, faPenToSquare, faUser, faClock, faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import {
   faChevronDown,
   faChevronUp,
@@ -57,7 +50,11 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        if (!data.ok) {
+        if (data.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!data.ok) {
           throw new Error("Error al verificar la disponibilidad");
         }
 
@@ -124,7 +121,11 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
-          if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userType");
+            navigate("/login");
+          } else if (!response.ok) {
             throw new Error("Logout failed");
           }
           localStorage.removeItem("token");
@@ -163,7 +164,11 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Error al obtener el usuario");
       }
       const data = await response.json();
@@ -193,9 +198,9 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                       Ver Protocolos
                     </a>
                   </li>
-                  {isUpdateActive && (
+                  {isUpdateActive && userType !== "Prof" && (
                     <li>
-                      <a href="/subir_protocolo">
+                      <a href="/protocolo">
                         <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
                         Subir Protocolo
                       </a>
@@ -223,8 +228,10 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
               <></>
             )}
             <div className="logo-h">
-              <a href="/"> <div className="lh"></div>
-                </a>
+              <a href="/">
+                {" "}
+                <div className="lh"></div>
+              </a>
             </div>
             {isSearchEnable ? (
               <div className="search-container">
@@ -257,25 +264,25 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                   <img src="/1.png" className="profile-user" alt="Profile"></img>
                 </div>
                 <div className="z-nav">
-                <div className={`dropdown-user ${isOn ? "active" : ""}`} id="myDropdownus">
-                  <span onClick={() => setIsOn(!isOn)}>
-                    <FontAwesomeIcon icon={isOn ? faChevronUp : faChevronDown} className="style-gico" />
-                  </span>
-                  <ul className="dropdown-content-us">
-                    <li>
-                      <a onClick={(event) => handleProfile(event)}>
-                        <FontAwesomeIcon icon={faCircleUser} className="style-icon" />
-                        Ver perfil
-                      </a>
-                    </li>
-                    <li>
-                      <a onClick={(event) => handleLogout(event)}>
-                        <FontAwesomeIcon icon={faArrowRightFromBracket} className="style-icon" />
-                        Cerrar Sesión
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                  <div className={`dropdown-user ${isOn ? "active" : ""}`} id="myDropdownus">
+                    <span onClick={() => setIsOn(!isOn)}>
+                      <FontAwesomeIcon icon={isOn ? faChevronUp : faChevronDown} className="style-gico" />
+                    </span>
+                    <ul className="dropdown-content-us">
+                      <li>
+                        <a onClick={(event) => handleProfile(event)}>
+                          <FontAwesomeIcon icon={faCircleUser} className="style-icon" />
+                          Ver perfil
+                        </a>
+                      </li>
+                      <li>
+                        <a onClick={(event) => handleLogout(event)}>
+                          <FontAwesomeIcon icon={faArrowRightFromBracket} className="style-icon" />
+                          Cerrar Sesión
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </>
             ) : (

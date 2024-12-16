@@ -39,6 +39,12 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
     if (localStorage.getItem("token")) {
       navigate("/");
     }
+    if (!localStorage.getItem("userType")) {
+      setUserType("");
+    }
+    if (!localStorage.getItem("token")) {
+      setAuth(false);
+    }
   }, [navigate]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +96,6 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
           },
           body: formData as BodyInit,
         });
-
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem("token", data.token);
@@ -123,81 +128,77 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
     return (
       <div className="contenedor-forms">
         <div className="cont-sesion">
-            <div className="title-s">Iniciar Sesión</div>
+          <div className="title-s">Iniciar Sesión</div>
 
-            <form className="login-form">
-              <div className="flex-lg">
-                <label className="form-label" htmlFor="email">
-                  <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
-                </label>
+          <form className="login-form">
+            <div className="flex-lg">
+              <label className="form-label" htmlFor="email">
+                <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                name="email"
+                value={LoginData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                placeholder="Correo Institucional"
+                required
+              />
+            </div>
+            {wrongEmail && !isTypingEmail && LoginData.email !== "" ? (
+              <div className="alerta_s">El correo no cumple con la estructura esperada.</div>
+            ) : (
+              <></>
+            )}
+
+            <div className="flex-lg">
+              <label htmlFor="password">
+                <FontAwesomeIcon icon={faLock} className="style-icon" />
+              </label>
+              <div className="password-container">
                 <input
-                  type="email"
+                  type={showPassword ? "text" : "password"}
                   className="form-control"
-                  id="email"
-                  name="email"
-                  value={LoginData.email}
+                  id="password"
+                  name="password"
+                  value={LoginData.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Correo Institucional"
+                  placeholder="Contraseña"
                   required
                 />
+                <span className="password-icon" onClick={togglePasswordVisibility}>
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </span>
               </div>
-              {wrongEmail && !isTypingEmail && LoginData.email !== "" ? (
-                <div className="alerta_s">El correo no cumple con la estructura
-                  esperada.
-                </div>
-              ) : (
-                <></>
-              )}
-
-              <div className="flex-lg">
-                <label htmlFor="password">
-                  <FontAwesomeIcon icon={faLock} className="style-icon" />
-                </label>
-                <div className="password-container">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    value={LoginData.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    placeholder="Contraseña"
-                    required
-                  />
-                  <span className="password-icon" onClick={togglePasswordVisibility}>
-                    <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-                  </span>
-                </div>
-              </div>
-              {wrongPassword && !isTypingPassword && LoginData.password !== "" ? (
-                <div className="alerta_s">
-                   La contraseña no cumple con la
-                estructura esperada. <br /> La contraseña debe contener:
-                
-                  <ul>
-                    <li>Al menos una mayúscula.</li>
-                    <li>Al menos un digito.</li>
-                    <li>Al menos uno de los siguientes caracteres !, @, #, $, %, ^, &, ?, * </li>
-                    <li>Longitud mínima de 8 caracteres.</li>
-                  </ul>
-                </div>
-              ) : (
-                <></>
-              )}
-              <button type="submit" onClick={(event) => onClickSave(event)}>
-                Entrar
-              </button>
-            </form>
-            <div className="messa-sesion">
-              <a href="/validar_correo" className="forget">
-                Olvidé mi contraseña
-              </a>
-              <a href="/register" className="register">
-                Registro para alumno
-              </a>
             </div>
+            {wrongPassword && !isTypingPassword && LoginData.password !== "" ? (
+              <div className="alerta_s">
+                La contraseña no cumple con la estructura esperada. <br /> La contraseña debe contener:
+                <ul>
+                  <li>Al menos una mayúscula.</li>
+                  <li>Al menos un digito.</li>
+                  <li>Al menos uno de los siguientes caracteres !, @, #, $, %, ^, &, ?, * </li>
+                  <li>Longitud mínima de 8 caracteres.</li>
+                </ul>
+              </div>
+            ) : (
+              <></>
+            )}
+            <button type="submit" onClick={(event) => onClickSave(event)}>
+              Entrar
+            </button>
+          </form>
+          <div className="messa-sesion">
+            <a href="/validar_correo" className="forget">
+              Olvidé mi contraseña
+            </a>
+            <a href="/register" className="register">
+              Registro para alumno
+            </a>
+          </div>
         </div>
         <div className="toast-container position-fixed top-0 end-0 p-3">
           <div id="toast-popup" className="toast" role="alert" aria-live="assertive" aria-atomic="true">

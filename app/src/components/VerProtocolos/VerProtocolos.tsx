@@ -1,5 +1,6 @@
 import "./VerProtocolos.scss";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Protocolinfo from "./components/Protocolinfo";
@@ -7,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function VerProtocolos() {
+  const navigate = useNavigate();
     const listOfOrden = {
       "A validar": "waiting",
       "Validado": "validated",
@@ -30,6 +32,11 @@ export default function VerProtocolos() {
         },
       })
       .then((response) => {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        }
         setListOfPeriodo(["Todos", ...response.data]);
       })
       .catch((error) => console.log(error));
@@ -49,8 +56,11 @@ export default function VerProtocolos() {
               Authorization: `Bearer ${token}`,
           },
         });
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const responseData = await response.json();

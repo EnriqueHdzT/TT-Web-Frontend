@@ -249,8 +249,11 @@ export default function DatesAndTerms() {
         },
         body: formData,
       });
-
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error(`Failed to create new cycle: ${newCycle}`);
       }
 
@@ -291,8 +294,11 @@ export default function DatesAndTerms() {
             Accept: "application/json",
           },
         });
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        }else if (!response.ok) {
           throw new Error("Failed to get the list of terms");
         }
 
@@ -332,8 +338,11 @@ export default function DatesAndTerms() {
             },
           }
         );
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error(
             `Failed to get data from the current term: ${currentTerm}`
           );
@@ -712,8 +721,11 @@ export default function DatesAndTerms() {
         },
         body: formData as BodyInit,
       });
-
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      }else if (!response.ok) {
         throw new Error("Failed to update data");
       }
 
@@ -737,8 +749,11 @@ export default function DatesAndTerms() {
         },
         body: formData as BodyInit,
       });
-
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      }else if (!response.ok) {
         throw new Error("Failed to delete data");
       }
 
