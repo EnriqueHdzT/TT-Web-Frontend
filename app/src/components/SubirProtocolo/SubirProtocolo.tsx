@@ -69,6 +69,7 @@ export default function SubirProtocolo() {
   const [listOfTerms, setListOfTerms] = useState<string[]>([]);
   const [userType, setUserType] = useState<string | null>(null);
   const [isUploadEnabled, setIsUploadEnabled] = useState(false);
+  const [protocolPrevData, setProtocolPrevData] = useState<ProtocolData>(initialProtocolData);
 
   const [protocolID, setProtocolID] = useState<string | null>(null);
 
@@ -104,8 +105,9 @@ export default function SubirProtocolo() {
         setKeywords(data.keywords);
         setPdf(null);
         setProtocolTerm(data.cycle);
+        console.log(data);
       } catch (error) {
-        console.error("Error fetching protocol data");
+        console.error(error);
         navigate(-1);
       }
     };
@@ -127,7 +129,7 @@ export default function SubirProtocolo() {
   }, [navigate]);
 
   useEffect(() => {
-    if (userType === "") {
+    if (userType === "" && protocolID === null) {
       checkIfUploadEnabled();
       getStudentEmail();
     }
@@ -144,7 +146,9 @@ export default function SubirProtocolo() {
     const isDirectorsValid =
       directors.length > 0 && directors.length <= 2 && directors.every((director) => director.email !== "");
     const isSinodalsValid =
-      userType === "" ? true : sinodals.length === 3 && sinodals.every((sinodal) => sinodal.email !== "");
+      userType === ""
+        ? true
+        : (sinodals.length === 3 && sinodals.every((sinodal) => sinodal.email !== "")) || sinodals.length === 0;
     const isKeywordsValid = keywords.length > 0 && keywords.length <= 4 && keywords.every((keyword) => keyword !== "");
     const isPDFValid = pdf !== null;
     const isProtocolTermValid = userType === "" ? true : protocolTerm !== "";
@@ -318,6 +322,16 @@ export default function SubirProtocolo() {
       alert("Error al actualizar el protocolo");
       console.error(error);
     }
+  };
+
+  const resetData = () => {
+    setProtocolTitle(protocolPrevData.protocolTitle);
+    setProtocolSummary(protocolPrevData.protocolSummary);
+    setStudents(protocolPrevData.students);
+    setDirectors(protocolPrevData.directors);
+    setSinodals(protocolPrevData.sinodals);
+    setProtocolTerm(protocolPrevData.protocolTerm);
+    setKeywords(protocolPrevData.keywords);
   };
 
   return (
