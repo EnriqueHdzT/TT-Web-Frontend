@@ -126,7 +126,7 @@ export default function VerProtocolos() {
               ))}
             </ul>
           </div>
-          {(userType !== "Student" || userType !== null) && (
+          {(userType === "AnaCATT" || userType === "Presidente" || userType === "SecTec" || userType === "SecEjec") && (
             <button onClick={() => navigate("/protocolo")} type="button" className="btn btn-outline-primary">
               Agregar Protocolo
             </button>

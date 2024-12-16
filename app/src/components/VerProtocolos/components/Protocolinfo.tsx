@@ -1,3 +1,4 @@
+import axios from "axios";
 import "./Protocolinfo.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -29,10 +30,23 @@ export default function Protocolinfo({
   function goToValidate() {
     navigate(`/validarprotocolo/${idProtocol}`);
   }
+  function goToClasify() {
+    navigate(`/clasificarprotocolo/${idProtocol}`);
+  }
 
   function seeStatus() {
     navigate(`/monitoreoprotocolo/${idProtocol}`);
   }
+
+  const runSelect = async () => {
+    const response = axios.get(`http://127.0.0.1:8000/api/selectProtocol/${uuidProtocol}`);
+    console.log(response);
+    if (response.status <= 200 && response.status > 300) {
+      window.location.reload();
+    } else {
+      console.log(response);
+    }
+  };
 
   return (
     <div className="p-box">
@@ -63,11 +77,28 @@ export default function Protocolinfo({
             </>
           )}
         </Popup> */}
-        {( userType == "Student" && statusProtocol == "validating") && (
-          <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
-            Validar
-          </button>
-        )}
+        {(userType == "AnaCATT" || userType == "SecTec" || userType == "SecEjec" || userType == "Presidente") &&
+          statusProtocol == "validating" && (
+            <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
+              Validar
+            </button>
+          )}
+        {(userType == "AnaCATT" || userType == "SecTec" || userType == "SecEjec" || userType == "Presidente") &&
+          statusProtocol == "classifying" && (
+            <button type="button" className="btn btn-outline-primary" onClick={goToClasify}>
+              Clasificar
+            </button>
+          )}
+        {(userType == "AnaCATT" ||
+          userType == "SecTec" ||
+          userType == "SecEjec" ||
+          userType == "Presidente" ||
+          userType == "Prof") &&
+          statusProtocol == "selecting" && (
+            <button type="button" className="btn btn-outline-primary" onClick={() => runSelect()}>
+              Seleccionar
+            </button>
+          )}
         <button type="button" className="btn btn-outline-primary" onClick={seeDocument}>
           Documento
         </button>

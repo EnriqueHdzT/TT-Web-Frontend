@@ -41,9 +41,10 @@ const ClasificarProtocolo: React.FC = () => {
     const fetchProtocolo = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/clasicar/${protocolId}`);
+        console.log(response.data);
         setProtocolo({
           ...response.data.protocolo,
-          keywords: JSON.parse(response.data.protocolo.keywords), // Si las keywords vienen como JSON
+          keywords: JSON.parse(response.data.keywords), // Si las keywords vienen como JSON
         });
       } catch (error) {
         console.error("Error al cargar el protocolo:", error);
@@ -86,7 +87,7 @@ const ClasificarProtocolo: React.FC = () => {
     }
     try {
       setLoading(true); // Inicia el estado de carga
-      const response = await fetch(`http://127.0.0.1:8000/api/getProDoc/${protocolId}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDoc/${protocolId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
