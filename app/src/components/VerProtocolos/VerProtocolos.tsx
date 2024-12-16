@@ -123,7 +123,14 @@ export default function VerProtocolos() {
             </button>
           </div>
           </div>
-          {protocols.map((protocol) => (
+          {loading ? 
+          <div style={{width: '100%', textAlign: 'center', marginTop: '2rem'}}>
+            <div className="spinner-grow text-primary " role="status">
+              <span className="sr-only">Cargando...</span>
+            </div>
+          </div>
+          :
+          protocols.map((protocol) => (
             <Protocolinfo
               uuidProtocol={protocol.id}
               idProtocol = {protocol.protocol_id}
@@ -134,10 +141,6 @@ export default function VerProtocolos() {
               // sinodalList = {protocol.sinodalList}
             />
           ))}
-           
-
-
-
         </div>
     )
 
