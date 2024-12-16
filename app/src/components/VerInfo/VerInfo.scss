@@ -107,6 +107,47 @@ $gray-pass: #a2a2a2;
       }
     }
 
+    .input-group{
+      width: 80%;
+      align-items: center;
+
+     
+      .form-control {
+        padding: 0 0.2rem;
+        margin: 0;
+        height: auto;
+        color:$black-fontd;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .input-group-append{
+       
+      button{
+        display: flex;
+        align-items: center;
+        margin-top: 1px;
+        padding: 0.46rem 0.5rem;
+        border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    border-radius: 0 5px 5px 0;
+    color:$dark-1;
+
+    &:hover{
+      color:$black-fontd;
+    }
+      }
+
+      ul{
+        border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    font: 400 0.8rem "Poppins";
+      }
+    }
+    }
     input,
     select {
       width: 80%;

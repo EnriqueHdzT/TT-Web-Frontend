@@ -124,7 +124,7 @@ export default function VerProtocolos() {
             <Protocolinfo
               idProtocol = {protocol.protocol_id}
               titleProtocol = {protocol.title}
-              statusProtocol = {protocol.status}
+              statusProtocol = {protocol.current_status}
               // studentList = {protocol.studentList}
               // directorList = {protocol.directorList}
               // sinodalList = {protocol.sinodalList}

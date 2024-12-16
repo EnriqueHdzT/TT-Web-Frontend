@@ -35,8 +35,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 88vh;
+  height: 88vh;
   width: 100%;
+
+  @media (min-width: 1440px) {
+    height: 86vh;
+  }
+
+  @media (max-width: 1439px) {
+    height: 78vh;
+  }
 
   .form-contenedor {
     display: flex;
@@ -54,7 +62,7 @@ body {
       h1 {
         font: 500 1.4rem "Poppins";
         padding: 0;
-        margin: 0 0 1rem 0;
+        margin: 0 0 1% 0;
       }
     }
 
@@ -136,7 +144,6 @@ body {
           }
 
           &::-webkit-scrollbar-thumb {
-            background-color: $blue; /* Color del pulgar de scroll */
             border-radius: 4px; /* Bordes redondeados del pulgar */
           }
 
