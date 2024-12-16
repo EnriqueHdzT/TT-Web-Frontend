@@ -11,6 +11,7 @@ $cont-gray: #e6e6e6;
 $users-cont: #ededed;
 $protoco: #5db1f9;
 $rechazo: #ff725e;
+$pasado: #a2a2a2;
 $aceptado: #47caa1;
 $protoclaro: #e3f2ff;
 $rechaclaro: #ffedeb;
@@ -149,6 +150,10 @@ $gray-pass: #a2a2a2;
 
       .red {
         background-color: $rechazo;
+      }
+
+      .gray {
+        background-color: $pasado;
       }
     }
   }

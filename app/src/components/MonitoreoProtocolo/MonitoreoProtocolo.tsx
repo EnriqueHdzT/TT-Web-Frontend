@@ -1,243 +1,160 @@
-// MonitoreoProtocolo.tsx
 import "./MonitoreoProtocolo.scss";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { faChevronLeft, faAnglesDown, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from 'react-router-dom';
+import { useEffect } from "react";
 
-type Estatus = "recepcion" | "aceptado" | "rechazo" | "espera";
+export default function MonitoreoProtocolo() {
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-interface MonitoreoData {
-  id: number;
-  nombreproyecto: string;
-  sinodal1es: string;
-  estatussin1: Estatus;
-  fechasinodal1: string;
-  observacionsino1: string;
-  sinodal2es: string;
-  estatussin2: Estatus;
-  fechasinodal2: string;
-  observacionsino2: string;
-  sinodal3es: string;
-  estatussin3: Estatus;
-  fechasinodal3: string;
-  observacionsino3: string;
-}
-
-const MonitoreoProtocolo: React.FC = () => {
-  const [monitoreoData, setMonitoreoData] = useState<MonitoreoData | null>(null);
-  const { id } = useParams<{ id: string }>();
+  const [current_status, set_current_status] = useState("selecting");
+  const [previous_status, set_previous_status] = useState("");
+  const [sinodals_count, set_sinodals_count] = useState(0);
+  const [evaluations_count, set_evaluations_count] = useState(0);
+  const [evaluations, set_evaluations] = useState([]);
 
   useEffect(() => {
-    if (id) {
-      axios.get(`http://127.0.0.1:8000/api/monitoreo/${id}`)
-          .then(response => {
-            const data = response.data;
-            const transformedData: MonitoreoData = {
-              id: data.id,
-              nombreproyecto: data.NombreProyecto,
-              sinodal1es: data.Sinodal1Es,
-              estatussin1: data.EstatusSin1.toLowerCase(),
-              fechasinodal1: data.FechaSinodal1,
-              observacionsino1: data.ObservacionSino1,
-              sinodal2es: data.Sinodal2Es,
-              estatussin2: data.EstatusSin2.toLowerCase(),
-              fechasinodal2: data.FechaSinodal2,
-              observacionsino2: data.ObservacionSino2,
-              sinodal3es: data.Sinodal3Es,
-              estatussin3: data.EstatusSin3.toLowerCase(),
-              fechasinodal3: data.FechaSinodal3,
-              observacionsino3: data.ObservacionSino3,
-            };
-            setMonitoreoData(transformedData);
-          })
-          .catch(error => {
-            console.error('Error al obtener los datos:', error);
-          });
-    }
-  }, [id]);
+    const fetchMonitorData = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/monitoreo/${id}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
-  if (!monitoreoData) {
-    return <div>Cargando...</div>;
-  }
+        if (!response.ok) {
+          throw new Error("Failed to fetch monitor data");
+        }
 
+        const monitorData = await response.json();
+
+        set_current_status(monitorData.current_status);
+        set_previous_status(monitorData.previous_status);
+        if (monitorData.sinodals_count) {
+          set_sinodals_count(monitorData.sinodals_count);
+        }
+        if (monitorData.evaluations_count) {
+          set_evaluations_count(monitorData.evaluations_count);
+        }
+        if (monitorData.evaluations) {
+          set_evaluations(monitorData.evaluations);
+        }
+
+        console.log(monitorData.current_status);
+      } catch (error) {
+        navigate(-1);
+        console.error("Error fetching monitor data:", error);
+      }
+    };
+
+    fetchMonitorData();
+  }, []);
   return (
-      <div>
-        <div className="headdocumento">
-          <div className="tt-a">
-            <a href="/" className="button-icon">
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </a>{" "}
-            Monitoreo de protocolo
-          </div>
-        </div>
-        <div className="info-container">
-          <h1 className="titulo">Título de TT: {monitoreoData.nombreproyecto}</h1>
-          <div className="general-contenedor">
-            {/* RECEPCION DE PROTOCOLO */ }
-            <div className="row-container">
-              <div className="box status blue">
-                <div className="icore ico-blue">
-                  <FontAwesomeIcon icon={faAnglesDown} />
-                </div>
-                <div className="text-pro">
-                  Recepción de protocolo
-                  <p>fecha</p>
-                </div>
-              </div>
-              <div className="box info">
-                <div className="tx-info">
-                  {monitoreoData.estatussin1 === "aceptado" &&
-                  monitoreoData.estatussin2 === "aceptado" &&
-                  monitoreoData.estatussin3 === "aceptado" ? (
-                      "Tu protocolo fue recibido exitosamente, ya puedes revisar los detalles del protocolo y su seguimiento"
-                  ) : (
-                      "Tu protocolo aún no ha sido aceptado, por favor revisa los detalles y vuelve a intentarlo"
-                  )}
-                </div>
-                <a href="/">
-                  <button className="blue">Ver evaluación</button>
-                </a>
-              </div>
-            </div>
-            {/* EVALUACION SINODAL ACEPTADA */}
-            <div className="row-container">
-              <div className={
-                `box status ${
-                    monitoreoData.estatussin1 === "aceptado" ? "green" :
-                        monitoreoData.estatussin1 === "rechazo" ? "red" :
-                            "espera"
-                }`
-              }>
-                <div className={
-                  `icore ${
-                      monitoreoData.estatussin1 === "aceptado" ? "ico-green" :
-                          monitoreoData.estatussin1 === "rechazo" ? "ico-red" :
-                              "ico-espera"
-                  }`
-                }>
-                  <FontAwesomeIcon icon={monitoreoData.estatussin1 === "aceptado" ? faCheck : monitoreoData.estatussin1 === "rechazo" ? faXmark : faAnglesDown}/>
-                </div>
-                <div className="text-pro">
-                  Sinodal 1 - {monitoreoData.sinodal1es}
-                  <p>{monitoreoData.fechasinodal1}</p>
-                </div>
-              </div>
-              <div className="box info">
-                <div className="tx-info">
-                  {monitoreoData.estatussin1 === "aceptado" ?
-                      "Tu protocolo fue recibido exitosamente: " + monitoreoData.observacionsino1 :
-                      monitoreoData.estatussin1 === "rechazo" ?
-                          "Tu protocolo fue rechazado: " + monitoreoData.observacionsino1 :
-                          "Tu protocolo está en espera de revisión"
-                  }
-                </div>
-                <a href="/">
-                <button className={
-                    monitoreoData.estatussin1 === "aceptado" ? "green" :
-                        monitoreoData.estatussin1 === "rechazo" ? "red" :
-                            "espera"
-                  }>
-                    Ver evaluación
-                  </button>
-                </a>
-              </div>
-            </div>
-
-            {/* EVALUACION SINODAL ACEPTADA */}
-            <div className="row-container">
-              <div className={
-                `box status ${
-                    monitoreoData.estatussin2 === "aceptado" ? "green" :
-                        monitoreoData.estatussin2 === "rechazo" ? "red" :
-                            "espera"
-                }`
-              }>
-                <div className={
-                  `icore ${
-                      monitoreoData.estatussin2 === "aceptado" ? "ico-green" :
-                          monitoreoData.estatussin2 === "rechazo" ? "ico-red" :
-                              "ico-espera"
-                  }`
-                }>
-                  <FontAwesomeIcon
-                      icon={monitoreoData.estatussin2 === "aceptado" ? faCheck : monitoreoData.estatussin2 === "rechazo" ? faXmark : faAnglesDown}/>
-                </div>
-                <div className="text-pro">
-                  Sinodal 2 - {monitoreoData.sinodal2es}
-                  <p>{monitoreoData.fechasinodal2}</p>
-                </div>
-              </div>
-              <div className="box info">
-                <div className="tx-info">
-                  {monitoreoData.estatussin2 === "aceptado" ?
-                      "Tu protocolo fue recibido exitosamente: " + monitoreoData.observacionsino2 :
-                      monitoreoData.estatussin2 === "rechazo" ?
-                          "Tu protocolo fue rechazado: " + monitoreoData.observacionsino2 :
-                          "Tu protocolo está en espera de revisión"
-                  }
-                </div>
-                <a href="/">
-                  <button className={
-                    monitoreoData.estatussin2 === "aceptado" ? "green" :
-                        monitoreoData.estatussin2 === "rechazo" ? "red" :
-                            "espera"
-                  }>
-                    Ver evaluación
-                  </button>
-                </a>
-              </div>
-            </div>
-
-            {/* EVALUACION SINODAL RECHAZADA */}
-            <div className="row-container">
-              <div className={
-                `box status ${
-                    monitoreoData.estatussin3 === "aceptado" ? "green" :
-                        monitoreoData.estatussin3 === "rechazo" ? "red" :
-                            "espera"
-                }`
-              }>
-                <div className={
-                  `icore ${
-                      monitoreoData.estatussin3 === "aceptado" ? "ico-green" :
-                          monitoreoData.estatussin3 === "rechazo" ? "ico-red" :
-                              "ico-espera"
-                  }`
-                }>
-                  <FontAwesomeIcon
-                      icon={monitoreoData.estatussin3 === "aceptado" ? faCheck : monitoreoData.estatussin3 === "rechazo" ? faXmark : faAnglesDown}/>
-                </div>
-                <div className="text-pro">
-                  Sinodal 3 - {monitoreoData.sinodal3es}
-                  <p>{monitoreoData.fechasinodal3}</p>
-                </div>
-              </div>
-              <div className="box info">
-                <div className="tx-info">
-                  {monitoreoData.estatussin3 === "aceptado" ?
-                      "Tu protocolo fue recibido exitosamente: " + monitoreoData.observacionsino3 :
-                      monitoreoData.estatussin3 === "rechazo" ?
-                          "Tu protocolo fue rechazado: " + monitoreoData.observacionsino3 :
-                          "Tu protocolo está en espera de revisión"
-                  }
-                </div>
-                <a href="/">
-                  <button className={
-                    monitoreoData.estatussin3 === "aceptado" ? "green" :
-                        monitoreoData.estatussin3 === "rechazo" ? "red" :
-                            "espera"
-                  }>
-                    Ver evaluación
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
+    <div>
+      <div className="headdocumento">
+        <div className="tt-a">
+          <a onClick={() => navigate(-1)} className="button-icon">
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </a>{" "}
+          Monitoreo de protocolo
         </div>
       </div>
-  );
-};
+      <div className="info-container">
+        <div className="general-contenedor">
+          <div className="row-container">
+            <div className="box status gray">
+              <div className="icore ico-blue">
+                <FontAwesomeIcon icon={faAnglesDown} />
+              </div>
+              <div className="text-pro">
+                {current_status === "validating" ? "Validando protocolo..." : "Protocolo validado"}
+              </div>
+            </div>
+            <div className="box info">
+              <div className="tx-info">
+                {current_status === "canceled" && previous_status === "validating"
+                  ? "El protocolo no fue aceptado, para mas información contacta con la CATT."
+                  : current_status === "validating"
+                  ? "El protocolo se encuentra en validación, se te notificara cuando este sea validado."
+                  : "El protocolo fue validado exitosamente."}
+              </div>
+            </div>
+          </div>
 
-export default MonitoreoProtocolo;
+          {(current_status === "selecting" ||
+            current_status === "evaluatingFirst" ||
+            current_status === "evaluatingSecond") && (
+            <div className="row-container">
+              <div className="box status green">
+                <div className="icore ico-green">
+                  <FontAwesomeIcon icon={faCheck} />
+                </div>
+                <div className="text-pro">
+                  {current_status === "selecting" ? "Asignando sinodales..." : "Evaluando protocolo..."}
+                </div>
+              </div>
+              <div className="box info">
+                <div className="tx-info">
+                  {current_status === "selecting"
+                    ? `El protocolo cuenta con ${sinodals_count} de 3 sinodales asignados.`
+                    : `El protocolo cuenta con ${evaluations_count} de 3 evaluaciones.`}
+                </div>
+              </div>
+            </div>
+          )}
+          {evaluations.length > 0 && (
+            <div className="row-container">
+              {evaluations.map((evaluation) => (
+                <div className="box status green">
+                  <div className="text-pro">
+                    {evaluation.name + evaluation.lastname + evaluation.second_lastname}
+                    <p>{evaluation.result === "approved" ? "Aprobado" : "Rechazado"}</p>
+                  </div>
+                  <a href="/">
+                    <button className="red">Ver evaluación</button>
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
+          {current_status === "correcting" && (
+            <div className="row-container">
+              <div className="box status red">
+                <div className="icore ico-red">
+                  <FontAwesomeIcon icon={faXmark} />
+                </div>
+                <div className="text-pro">Corrigiendo protocolo</div>
+              </div>
+              <div className="box info">
+                <div className="tx-info">
+                  El protocolo fue rechazado por uno o mas sinodales, esperando correcciones.
+                </div>
+              </div>
+            </div>
+          )}
+          {(current_status === "active" || current_status === "canceled") && (
+            <div className="row-container">
+              <div className="box status red">
+                <div className="icore ico-red">
+                  <FontAwesomeIcon icon={faXmark} />
+                </div>
+                <div className="text-pro">Proceso finalizado</div>
+              </div>
+              <div className="box info">
+                <div className="tx-info">
+                  {current_status === "canceled"
+                    ? "El protocolo fue rechazado, intente nuevamente el siguiente semestre."
+                    : "Felicidades! El protocolo fue aceptado, no olvides seguir los pasos siguientes para cursar tu TT."}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
