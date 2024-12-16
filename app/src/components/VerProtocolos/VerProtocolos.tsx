@@ -17,7 +17,7 @@ export default function VerProtocolos() {
 
     const [listOfPeriodo, setListOfPeriodo] = useState(["Todos"]);
     const [protocols, setProtocols] = useState([]);
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
     const [currentPeriod, setCurrentPeriod] = useState("Todos");
     const [currentOrder, setCurrentOrder] = useState("");
 
@@ -40,9 +40,9 @@ export default function VerProtocolos() {
       const token = localStorage.getItem("token");
       if (!token) return;
       try {
-        const params = new URLSearchParams({ 
+        const params = new URLSearchParams({
           cycle: currentPeriod,
-          orderBy: listOfOrden[currentOrder], 
+          orderBy: listOfOrden[currentOrder],
         });
         const response = await fetch(`http://127.0.0.1:8000/api/listProtocols/?${params}`, {
           headers: {
@@ -94,7 +94,7 @@ export default function VerProtocolos() {
                 ))}
               </ul>
             </div>
-            
+
             <div className="dropdown-center d-inline">
               <button
                 className="btn btn-secondary dropdown-toggle"
@@ -117,8 +117,8 @@ export default function VerProtocolos() {
                 ))}
               </ul>
             </div>
-            
             <button onClick={()=>navigate("/subir_protocolo")} type="button" className="btn btn-outline-primary">
+
               Agregar Protocolo +
             </button>
           </div>
