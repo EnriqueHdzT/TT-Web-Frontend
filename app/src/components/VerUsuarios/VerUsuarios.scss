@@ -163,10 +163,10 @@
     flex-direction: column;  
     align-items: left;  // Centra los elementos horizontalmente
     justify-content: center;
-    width: 100%;
+    width: 90%;
     height: 25%;
     color: $black-fontd;
-    margin: 1.4vh 0 0 10%;
+    margin: 3% 0 0 10%;
 
     }
     
@@ -218,6 +218,70 @@
   }
 
 
+}
+
+div.input-group-append{
+  display: flex;
+  align-items: center;
+  
+  button{
+    border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    align-items: center;
+    display: flex;
+        padding: 0.83rem 0.5rem;
+        border-radius: 0 5px 5px 0;
+        color:$black-fontd;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    color:$black-fontd;
+    }
+
+    &:hover{
+      color:$black-fontd;
+      border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    }
+    &:active{
+      background-color: inherit; /* No cambia el color al presionar */
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .btn-outline-secondary{
+    background-color: #ebecec;
+    color:$black-fontd;
+    border: 1px solid #e0e0e0;
+
+    &:hover{
+      color:$black-fontd;
+      border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    }
+  }
+
+
+  ul.dropdown-menu{
+    font: 500 0.8rem 'Poppins';
+    border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    flex-direction: column;
+    z-index: 2; 
+    position: absolute;
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+    li{
+      &:hover{
+      background-color: $blue;
+    }
+    }
+    
+  }
 }
 
 div.popup-content {

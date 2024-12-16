@@ -17,27 +17,64 @@ $gray-pass: #A2A2A2;
 
 .headprotocolo{
     width: 100%;
-    max-width: 100%;
-    height: auto;
-    margin: auto;
-    flex-wrap: wrap;
-    display: flex;
+    flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
 
+    .row-verproto{
+      display: flex;
+      align-items: center;
+      margin-top: 2%;
+    
     .tl-p{
-        margin-top: 4rem;
-        padding-left: 3rem;
-        height: 3rem;
-        color: $black-fontd;
-        font: 400 1.1rem 'Poppins';
-        flex: 1 0 0%;
+      font: 500 1.2rem "Poppins";
+      padding: 0 0 0 5%;
+      width: 50%;
+
+        a{
+          cursor: pointer;
+          padding-right: 2%;
+        }
       }
 
       .col-p{
-        margin-top: 4rem;
         flex: 1 0 0%;
+        width: 50%;
+        justify-content: center;
+        align-items:center ;
+        display: flex;
+        gap: 6%;
+
+
+        .dropdown-center{
+
+          .btn-secondary{
+            border-radius: 15px;
+            font: 400 0.85rem "Poppins";
+            padding: 6px 20px;
+            background-color: $gray-pass;
+            border: 1px solid $gray-pass;
+          }
+          ul{
+            font: 400 0.85rem "Poppins";
+            border: 1px solid #e0e0e0;
+    background-color: #ebecec;
+    li{
+      cursor: pointer;
+    }
+          }
+        }
+
+        .btn-outline-primary{
+          border: 1px solid $blue;
+          border-radius: 15px;
+          font: 400 0.85rem "Poppins";
+          padding: 6px 20px;
+        }
       }
 
     }
+  }
 
     .list-protocol{
       display: grid;

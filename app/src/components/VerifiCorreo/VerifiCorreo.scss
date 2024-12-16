@@ -1,67 +1,65 @@
- /*========== General ==========*/
- $header-height: 4.5rem;
- $body-color: #FAFAFB;
+/*========== General ==========*/
+$header-height: 4.5rem;
+$body-color: #fafafb;
 
- /*========== Colors ==========*/
- $navbg-color: #F8F8F8;
- $dropdown-bg-color: #FAFAFB;
- $dropdown-hover-color: #EBEBEB;
- $dropdown-list-color: #F4F4F4;
- $search-blue: #1C90F3;
- $cont-gray: #E6E6E6;
+/*========== Colors ==========*/
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
 
- /*========== Font and typography ==========*/
- $black-fontd: #2C2C2C;
- $blue: #1C90F3;
- $gray-pass: #A2A2A2;
+/*========== Font and typography ==========*/
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
 
-  /*========== z index ==========*/
- $z-fixed: 100;
- 
-.cont-ver{
-    width: 500px;
-    height: 60dvh;
-    min-width: 500px;
-    max-height: 350px;
-    min-height: 290px;
-    background-color: $body-color;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;  
-    align-items: center;
+/*========== z index ==========*/
+$z-fixed: 100;
 
-    .title-ver{
-        font: 500 22px / 16px 'Poppins';
-        text-align: center;
-        margin-top: 9%;
-        color: $blue;
-      }
+.cont-ver {
+  width: 500px;
+  height: 60dvh;
+  min-width: 500px;
+  max-height: 350px;
+  min-height: 290px;
+  background-color: $body-color;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    .cont-txtver{
+  .title-ver {
+    font: 500 22px / 16px "Poppins";
+    text-align: center;
+    margin-top: 9%;
+    color: $blue;
+  }
+
+  .cont-txtver {
     width: 380px;
     height: 80px;
     text-align: center;
-    font: 400 15px / 18px 'Poppins';
+    font: 400 15px / 18px "Poppins";
     margin: 6dvh 0 5dvh 0;
-    }
-
- button {
-    width: 230px;
-    height: 55px;
-    margin: 2% 0 10% 0;
-    background-color: $blue;
-    color: $black-fontd;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font: 500 15px / 18px 'Poppins';
-    color: $body-color;
-
-    a{
-      color: $body-color;
-      text-decoration: none;
-
-    }
   }
 
+  a {
+    color: $body-color;
+    text-decoration: none;
+    margin: 3% 0 10% 0;
+
+    button {
+      width: 230px;
+      height: 55px;
+      background-color: $blue;
+      color: $black-fontd;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font: 500 15px / 18px "Poppins";
+      color: $body-color;
+    }
+  }
 }

@@ -243,11 +243,6 @@ export default function Navbar({ isAuth = false, userType = "Student", isSearchE
                 <div className="username-page">
                   Bienvenido, {usersMap[userType === "Student" || userType === null ? "Estudiante" : userType]}
                 </div>
-                <div className="notifications">
-                  <button>
-                    <FontAwesomeIcon icon={faBell} />
-                  </button>
-                </div>
                 <div className="profile-circle">
                   <img src="/1.png" className="profile-user" alt="Profile"></img>
                 </div>

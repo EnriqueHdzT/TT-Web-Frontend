@@ -19,15 +19,18 @@ $gray-pass: #A2A2A2;
 .p-box{
     display: flex;
     flex-wrap: wrap;
-    width: 95%;
+    width: 90%;
     margin: auto;
     background-color: $users-cont;
     border-radius: 20px;
     padding: 1rem;
+    margin-top: 2%;
+    
 
     .p-tit {
-    font-size: 18px;
     width: 50%;
+    font: 400 0.9rem "Poppins";
+    padding-left: 2%;
     }
 
     .p-buttons{
@@ -35,10 +38,15 @@ $gray-pass: #A2A2A2;
         gap: 1rem;
         display: flex;
         justify-content: flex-end; 
+        padding-right: 2%;
 
         button {
             height: 2.2rem;
-            font-size: 14px;
+            font: 500 0.8rem "Poppins";
+            border-radius: 15px;
+            background-color: $blue;
+            color: $cont-gray;
+            border: none;
         }
     }
 
