@@ -24,14 +24,14 @@ export default function Protocolinfo({
     }
   }, []);
   function seeDocument() {
-    navigate(`/documento/${idProtocol}`);
+    navigate(`/documento/${uuidProtocol}`);
   }
 
   function goToValidate() {
-    navigate(`/validarprotocolo/${idProtocol}`);
+    navigate(`/validarprotocolo/${uuidProtocol}`);
   }
   function goToClasify() {
-    navigate(`/clasificarprotocolo/${idProtocol}`);
+    navigate(`/clasificarprotocolo/${uuidProtocol}`);
   }
 
   function seeStatus() {

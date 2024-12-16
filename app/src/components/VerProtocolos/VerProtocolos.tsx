@@ -57,6 +57,7 @@ export default function VerProtocolos() {
       }
       const responseData = await response.json();
       setProtocols(responseData.protocols);
+      console.log(responseData.protocols[0].id);
     } catch (error) {
       console.log(error);
     } finally {

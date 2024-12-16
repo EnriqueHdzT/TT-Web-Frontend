@@ -41,11 +41,17 @@ const ClasificarProtocolo: React.FC = () => {
     const fetchProtocolo = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/clasicar/${protocolId}`);
-        console.log(response.data);
         setProtocolo({
-          ...response.data.protocolo,
-          keywords: JSON.parse(response.data.keywords), // Si las keywords vienen como JSON
+          id: response.data.id,
+          protocol_id: response.data.protocol_id,
+          title: response.data.title,
+          resume: response.data.resume,
+          period: response.data.period,
+          keywords: JSON.parse(response.data.keywords),
         });
+        /* setProtocolo({
+
+        }); */
       } catch (error) {
         console.error("Error al cargar el protocolo:", error);
       }
@@ -87,7 +93,7 @@ const ClasificarProtocolo: React.FC = () => {
     }
     try {
       setLoading(true); // Inicia el estado de carga
-      const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDoc/${protocolId}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDocByID/${protocolId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -141,7 +147,7 @@ const ClasificarProtocolo: React.FC = () => {
 
       await Promise.all(requests); // Esperar todas las solicitudes
       alert("Protocolo enviado a todas las academias.");
-      navigate(-2); // Volver a la página anterior
+      //navigate(-2); // Volver a la página anterior
     } catch (error) {
       console.error("Error:", error);
     }
@@ -172,11 +178,10 @@ const ClasificarProtocolo: React.FC = () => {
                     <p className="identificador">
                       Núm. de Registro de TT: {protocolo.protocol_id}
                     </p>
-                    <p className="fecha-evaluacion">Fecha de Evaluación: {protocolo.period || "2024-01-01"}</p>
                     <div className="palabras-clave">
                       Palabras Clave:
                       <div className="palabra-clave-contenedor">
-                        {protocolo.keywords.map((palabra, index) => (
+                        {protocolo && protocolo.keywords.map((palabra, index) => (
                             <p key={index} className="palabra-clave-item">
                               {palabra}
                             </p>

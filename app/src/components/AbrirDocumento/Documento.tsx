@@ -22,7 +22,7 @@ const Documento: React.FC<DocumentoProps> = (props) => {
     const token = localStorage.getItem("token");
     if (!token) return;
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDoc/${protocolId}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDocByID/${protocolId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
