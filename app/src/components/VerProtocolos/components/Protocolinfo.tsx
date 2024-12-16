@@ -5,6 +5,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
 export default function Protocolinfo({
+  uuidProtocol = null,
   idProtocol = null,
   titleProtocol = null,
   statusProtocol = null,
@@ -19,6 +20,14 @@ export default function Protocolinfo({
     navigate(`/documento/${idProtocol}`);
   };
 
+  function goToValidate(){
+    navigate(`/validarprotocolo/${idProtocol}`);
+  }
+
+  function seeStatus(){
+    navigate(`/monitoreoprotocolo/${idProtocol}`);
+  }
+
   return (
     <div className="p-box">
       <div className="p-tit">
@@ -26,7 +35,7 @@ export default function Protocolinfo({
         {idProtocol}
       </div>
       <div className="p-buttons">
-        <Popup
+        {/* <Popup
           trigger={(open) => (
             <button type="button" className="btn btn-outline-primary">
               Validar
@@ -47,9 +56,16 @@ export default function Protocolinfo({
               </div>
             </>
           )}
-        </Popup>
+        </Popup> */}
+        {statusProtocol == 'validating' && 
+        <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
+          Validar
+        </button>}
         <button type="button" className="btn btn-outline-primary" onClick={seeDocument}>
           Documento
+        </button>
+        <button type="button" className="btn btn-outline-primary" onClick={seeStatus}>
+          Ver Status
         </button>
       </div>
       {/* <div className="p-info">

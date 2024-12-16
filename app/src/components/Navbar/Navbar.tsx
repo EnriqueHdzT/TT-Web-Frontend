@@ -135,6 +135,10 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
           localStorage.removeItem("userType");
           navigate(0);
           console.error("Error de red:", error);
+        } finally {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/");
         }
       }
     }

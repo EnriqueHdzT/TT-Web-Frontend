@@ -122,6 +122,7 @@ export default function VerProtocolos() {
           </div>
           {protocols.map((protocol) => (
             <Protocolinfo
+              uuidProtocol={protocol.id}
               idProtocol = {protocol.protocol_id}
               titleProtocol = {protocol.title}
               statusProtocol = {protocol.current_status}
