@@ -73,11 +73,48 @@ export default function SubirProtocolo() {
   const [protocolID, setProtocolID] = useState<string | null>(null);
 
   useEffect(() => {
+    const getProtocolData = async (id: string) => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/protocol/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to get the protocol data");
+        }
+        const data = await response.json();
+        console.log(data);
+        setProtocolPrevData({
+          protocolTitle: data.title,
+          protocolSummary: data.resume,
+          students: data.students,
+          directors: data.directors,
+          sinodals: data.sinodals,
+          protocolTerm: data.cycle,
+          keywords: data.keywords,
+          file: null,
+        });
+        setProtocolTitle(data.title);
+        setProtocolSummary(data.resume);
+        setStudents(data.students);
+        setDirectors(data.directors);
+        setSinodals(data.sinodals);
+        setKeywords(data.keywords);
+        setPdf(null);
+        setProtocolTerm(data.cycle);
+      } catch (error) {
+        console.error("Error fetching protocol data");
+        navigate(-1);
+      }
+    };
+
     const id = window.location.pathname.split("/").pop();
     if (id !== "subir_protocolo" && id !== undefined) {
-      // get protocol data from the backend
       setProtocolID(id);
-      console.log("Protocol ID: " + id);
+      getProtocolData(id);
     }
   }, []);
 
@@ -222,7 +259,7 @@ export default function SubirProtocolo() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/createProtocol", {
+      const response = await fetch("http://127.0.0.1:8000/api/protocol", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -236,6 +273,10 @@ export default function SubirProtocolo() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const updateProtocol = async () => {
+    if (!isUploadEnabled) return;
   };
 
   return (
@@ -333,9 +374,15 @@ export default function SubirProtocolo() {
         <button className="RD" onClick={resetData} disabled={false}>
           Reiniciar Datos
         </button>{" "}
-        <button className="SP" onClick={createProtocol} disabled={!isUploadEnabled}>
-          {userType === "Estudiante" ? "Subir" : "Crear"} Protocolo
-        </button>
+        {protocolID === null ? (
+          <button className="SP" onClick={createProtocol} disabled={!isUploadEnabled}>
+            {userType === "Estudiante" ? "Subir" : "Crear"} Protocolo
+          </button>
+        ) : (
+          <button className="SP" onClick={updateProtocol} disabled={!isUploadEnabled}>
+            Actualizar Protocolo
+          </button>
+        )}
       </div>
     </div>
   );
