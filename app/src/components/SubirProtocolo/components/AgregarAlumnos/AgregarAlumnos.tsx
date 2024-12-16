@@ -55,11 +55,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           },
         });
 
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (!response.ok) {
+        if (!response.ok) {
           throw new Error("Error al buscar el correo");
         }
 

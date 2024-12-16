@@ -121,11 +121,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
-          if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userType");
-            navigate("/login");
-          } else if (!response.ok) {
+          if (!response.ok) {
             throw new Error("Logout failed");
           }
           localStorage.removeItem("token");
@@ -164,11 +160,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Error al obtener el usuario");
       }
       const data = await response.json();

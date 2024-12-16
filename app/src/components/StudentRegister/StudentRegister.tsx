@@ -128,12 +128,10 @@ export default function StudentRegister() {
     }
     setStep(step + 1);
   };
-  
-  
+
   const handlePrevStep = () => {
     setStep(step - 1);
   };
-  
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -160,16 +158,11 @@ export default function StudentRegister() {
         },
         body: formData as BodyInit,
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Error al registrar el estudiante");
       }
       setStudentData(initialStudentData);
       navigate("/revisar_correo");
-
     } catch (error) {
       setToastTitle("Error");
       setToastMessage("Error al registrar el estudiante");
@@ -187,255 +180,251 @@ export default function StudentRegister() {
   return (
     <div className="contenedor-form">
       <div className="cont-register">
-        <div className="title-r">
-          Registro de estudiante
-        </div>
+        <div className="title-r">Registro de estudiante</div>
         <div className="regis-fo">
-        <form onSubmit={handleSubmit} className="register-form">
-          <div className="messg-top">Registro de estudiantes ESCOM</div>
-          {step === 1 && (
-  <>
-          <div className="flex-lg">
-            <label htmlFor="name">
-              <FontAwesomeIcon icon={faUser} className="style-icon" />
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={studentData.name}
-              onChange={handleChange}
-              placeholder="Nombre(s)"
-              required
-            />
-          </div>
-          <div className="flex-lg">
-            <label htmlFor="firstLastName">
-              <FontAwesomeIcon icon={faUser} className="style-icon" />
-            </label>
-            <input
-              type="text"
-              name="first_lastName"
-              id="firstLastName"
-              value={studentData.first_lastName}
-              onChange={handleChange}
-              placeholder="Primer apellido"
-              required
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="register-form">
+            <div className="messg-top">Registro de estudiantes ESCOM</div>
+            {step === 1 && (
+              <>
+                <div className="flex-lg">
+                  <label htmlFor="name">
+                    <FontAwesomeIcon icon={faUser} className="style-icon" />
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={studentData.name}
+                    onChange={handleChange}
+                    placeholder="Nombre(s)"
+                    required
+                  />
+                </div>
+                <div className="flex-lg">
+                  <label htmlFor="firstLastName">
+                    <FontAwesomeIcon icon={faUser} className="style-icon" />
+                  </label>
+                  <input
+                    type="text"
+                    name="first_lastName"
+                    id="firstLastName"
+                    value={studentData.first_lastName}
+                    onChange={handleChange}
+                    placeholder="Primer apellido"
+                    required
+                  />
+                </div>
 
-          <div className="flex-lg">
-            <label htmlFor="secondLastName">
-              <FontAwesomeIcon icon={faUser} className="style-icon" />
-            </label>
-            <input
-              type="text"
-              name="second_lastName"
-              id="secondLastName"
-              value={studentData.second_lastName}
-              onChange={handleChange}
-              placeholder="Segundo apellido"
-            />
+                <div className="flex-lg">
+                  <label htmlFor="secondLastName">
+                    <FontAwesomeIcon icon={faUser} className="style-icon" />
+                  </label>
+                  <input
+                    type="text"
+                    name="second_lastName"
+                    id="secondLastName"
+                    value={studentData.second_lastName}
+                    onChange={handleChange}
+                    placeholder="Segundo apellido"
+                  />
                 </div>
                 <div className="butt-next">
-              <button type="button" onClick={handleNextStep}>
+                  <button type="button" onClick={handleNextStep}>
                     <FontAwesomeIcon icon={faAngleRight} />
-                   
                   </button>
+                </div>
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <div className="flex-lg">
+                  <label htmlFor="emailEntry">
+                    <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="emailEntry"
+                    value={studentData.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Correo Institucional"
+                    required
+                  />
+                </div>
+
+                {wrongEmail && (
+                  <div className="alerta_r" role="alert">
+                    El correo no cumple con la estructura esperada *@alumno.ipn.mx
                   </div>
-  </>
-)}
-{step === 2 && (
-  <>
-          <div className="flex-lg">
-            <label htmlFor="emailEntry">
-              <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="emailEntry"
-              value={studentData.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Correo Institucional"
-              required
-            />
-          </div>
+                )}
 
-          {wrongEmail && (
-            <div className="alerta_r" role="alert">
-              El correo no cumple con la estructura esperada *@alumno.ipn.mx
-            </div>
-          )}
+                <div className="flex-lg">
+                  <label htmlFor="emailConfirmation">
+                    <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
+                  </label>
+                  <input
+                    type="email"
+                    name="email_confirmation"
+                    id="emailConfirmation"
+                    value={studentData.email_confirmation}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Confirmar Correo Institucional"
+                    required
+                  />
+                </div>
 
-          <div className="flex-lg">
-            <label htmlFor="emailConfirmation">
-              <FontAwesomeIcon icon={faEnvelope} className="style-icon" />
-            </label>
-            <input
-              type="email"
-              name="email_confirmation"
-              id="emailConfirmation"
-              value={studentData.email_confirmation}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              placeholder="Confirmar Correo Institucional"
-              required
-            />
-          </div>
+                {emailConfirmationNotMatch && !isTypingEmailConfirmation && (
+                  <div className="alerta_r" role="alert">
+                    Los correos no coinciden
+                  </div>
+                )}
 
-          {emailConfirmationNotMatch && !isTypingEmailConfirmation && (
-            <div className="alerta_r" role="alert">
-              Los correos no coinciden
-            </div>
-          )}
-
-          <div className="flex-lg">
-            <label htmlFor="student_id">
-              <FontAwesomeIcon icon={faHashtag} className="style-icon" />
-            </label>
-            <input
-              type="number"
-              id="student_id"
-              name="usr_id"
-              value={studentData.usr_id}
-              onChange={handleChange}
-              placeholder="Número de boleta"
-              required
-            />
-              </div>
-              <div className="butt-next">
-              <button type="button" onClick={handlePrevStep}>
-              <FontAwesomeIcon icon={faAngleLeft}/>
-    </button>
-    <button type="button" onClick={handleNextStep}>
-    <FontAwesomeIcon icon={faAngleRight}/>
+                <div className="flex-lg">
+                  <label htmlFor="student_id">
+                    <FontAwesomeIcon icon={faHashtag} className="style-icon" />
+                  </label>
+                  <input
+                    type="number"
+                    id="student_id"
+                    name="usr_id"
+                    value={studentData.usr_id}
+                    onChange={handleChange}
+                    placeholder="Número de boleta"
+                    required
+                  />
+                </div>
+                <div className="butt-next">
+                  <button type="button" onClick={handlePrevStep}>
+                    <FontAwesomeIcon icon={faAngleLeft} />
                   </button>
+                  <button type="button" onClick={handleNextStep}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                  </button>
+                </div>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <div className="flex-lg">
+                  <label htmlFor="career">
+                    <FontAwesomeIcon icon={faGraduationCap} className="style-icon" />
+                  </label>
+                  <select
+                    className="form-select"
+                    id="career"
+                    name="career"
+                    value={studentData.career}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled hidden>
+                      Selecciona tu Carrera:
+                    </option>
+                    <option value="ISW">Ingeniería en Sistemas Computacionales</option>
+                    <option value="IIA">Ingeniería en Inteligencia Artificial</option>
+                    <option value="LCD">Licenciatura en Ciencias de Datos</option>
+                  </select>
+                </div>
+                {studentData.career === "ISW" && (
+                  <div className="flex-lg">
+                    <label htmlFor="curriculum">
+                      <FontAwesomeIcon icon={faGraduationCap} className="style-icon" />
+                    </label>
+                    <select
+                      className="form-select"
+                      id="curriculum"
+                      name="curriculum"
+                      value={studentData.curriculum}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="" disabled hidden>
+                        Selecciona tu Plan de Estudios:
+                      </option>
+                      <option value="2009">2009</option>
+                      <option value="2020">2020</option>
+                    </select>
                   </div>
-  </>
-          )}
-          {step === 3 && (
-  <>
-          <div className="flex-lg">
-            <label htmlFor="career">
-              <FontAwesomeIcon icon={faGraduationCap} className="style-icon" />
-            </label>
-            <select
-              className="form-select"
-              id="career"
-              name="career"
-              value={studentData.career}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled hidden>
-                Selecciona tu Carrera:
-              </option>
-              <option value="ISW">Ingeniería en Sistemas Computacionales</option>
-              <option value="IIA">Ingeniería en Inteligencia Artificial</option>
-              <option value="LCD">Licenciatura en Ciencias de Datos</option>
-            </select>
-          </div>
-          {studentData.career === "ISW" && (
-            <div className="flex-lg">
-              <label htmlFor="curriculum">
-                <FontAwesomeIcon icon={faGraduationCap} className="style-icon" />
-              </label>
-              <select
-                className="form-select"
-                id="curriculum"
-                name="curriculum"
-                value={studentData.curriculum}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled hidden>
-                  Selecciona tu Plan de Estudios:
-                </option>
-                <option value="2009">2009</option>
-                <option value="2020">2020</option>
-              </select>
-            </div>
-          )}
-          <div className="flex-lg">
-            <label htmlFor="password">
-              <FontAwesomeIcon icon={faLock} className="style-icon" />
-            </label>
-            <div className="password-container">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                placeholder="Contraseña"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                required
-              />
-              <span className="password-icon" onClick={togglePasswordVisibility}>
-                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-              </span>
-            </div>
-          </div>
+                )}
+                <div className="flex-lg">
+                  <label htmlFor="password">
+                    <FontAwesomeIcon icon={faLock} className="style-icon" />
+                  </label>
+                  <div className="password-container">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      name="password"
+                      placeholder="Contraseña"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                    />
+                    <span className="password-icon" onClick={togglePasswordVisibility}>
+                      <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                    </span>
+                  </div>
+                </div>
 
-          {wrongPassword && !isTypingPassword && (
-            <div className="alerta_r" role="alert">
-              La contraseñas no cumplen con la estructura esperada:
-              <br />
-              <ul>
-                <li>Al menos 8 caracteres</li>
-                <li>Al menos uno de los caracter especiales ~, !, @, #, $, %, ^, &, * </li>
-                <li>Al menos un numero</li>
-                <li>Al menos una letra mayúscula</li>
-                <li>Al menos una letra minuscula</li>
-              </ul>
-            </div>
-          )}
+                {wrongPassword && !isTypingPassword && (
+                  <div className="alerta_r" role="alert">
+                    La contraseñas no cumplen con la estructura esperada:
+                    <br />
+                    <ul>
+                      <li>Al menos 8 caracteres</li>
+                      <li>Al menos uno de los caracter especiales ~, !, @, #, $, %, ^, &, * </li>
+                      <li>Al menos un numero</li>
+                      <li>Al menos una letra mayúscula</li>
+                      <li>Al menos una letra minuscula</li>
+                    </ul>
+                  </div>
+                )}
 
-          <div className="flex-lg">
-            <label htmlFor="password">
-              <FontAwesomeIcon icon={faLock} className="style-icon" />
-            </label>
-            <div className="password-container">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password_confirmation"
-                placeholder="Confirmar contraseña"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                required
-              />
-              <span className="password-icon" onClick={togglePasswordVisibility}>
-                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-              </span>
-            </div>
-          </div>
+                <div className="flex-lg">
+                  <label htmlFor="password">
+                    <FontAwesomeIcon icon={faLock} className="style-icon" />
+                  </label>
+                  <div className="password-container">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      name="password_confirmation"
+                      placeholder="Confirmar contraseña"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                    />
+                    <span className="password-icon" onClick={togglePasswordVisibility}>
+                      <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                    </span>
+                  </div>
+                </div>
 
-          {passwordConfirmationNotMatch && !isTypingPasswordConfirmation && (
-            <div className="alerta_r" role="alert">
-              Las contraseñas no coinciden
-            </div>
+                {passwordConfirmationNotMatch && !isTypingPasswordConfirmation && (
+                  <div className="alerta_r" role="alert">
+                    Las contraseñas no coinciden
+                  </div>
                 )}
                 <div className="butt-next">
-                <button type="button" onClick={handlePrevStep}>
-                <FontAwesomeIcon icon={faAngleLeft}/>
-    </button>
-    <button type="submit" className="registrando">
-    Registrar
+                  <button type="button" onClick={handlePrevStep}>
+                    <FontAwesomeIcon icon={faAngleLeft} />
                   </button>
-                  </div>
-  </>
-)}
+                  <button type="submit" className="registrando">
+                    Registrar
+                  </button>
+                </div>
+              </>
+            )}
           </form>
-          </div>
+        </div>
       </div>
 
       <div className="aviso-doc">
-            <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
-            En caso de ser docente y no encontrarse registrado en el sistema debes comunicarte con la CATT para llevar
-            acabo el proceso.
-       
+        <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+        En caso de ser docente y no encontrarse registrado en el sistema debes comunicarte con la CATT para llevar acabo
+        el proceso.
       </div>
       <div className="toast-container position-fixed top-0 end-0 p-3">
         <div id="toast-popup" className="toast" role="alert" aria-live="assertive" aria-atomic="true">

@@ -16,11 +16,6 @@ const Avisos = () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/aviso");
       const data = await response.json();
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      }
 
       const filteredData = data.filter((item) => item.tipo_contenido === "aviso");
 
