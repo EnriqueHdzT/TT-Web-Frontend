@@ -40,7 +40,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
       navigate("/");
     }
     if (!localStorage.getItem("userType")) {
-      setUserType("");
+      setUserType("Student");
     }
     if (!localStorage.getItem("token")) {
       setAuth(false);
@@ -99,10 +99,10 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem("token", data.token);
-          localStorage.setItem("userType", data.userType ?? "");
+          localStorage.setItem("userType", data.userType ?? "Student");
 
           setAuth(true);
-          setUserType(data.userType ?? "");
+          setUserType(data.userType ?? "Student");
           navigate("/");
         } else {
           const errorData = await response.json();

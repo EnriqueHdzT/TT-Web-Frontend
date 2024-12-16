@@ -32,7 +32,7 @@ import RecuperarContrasena from "./components/RecuperarPassword/RecuperarContras
 
 export default function App() {
   const [isAuth, setAuth] = useState(false);
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState("Student");
 
 
   const pdfEvaluar = "/Protocolo_2.pdf";
@@ -46,7 +46,7 @@ export default function App() {
     }
 
     if (localStorage.getItem("userType")) {
-      setUserType(localStorage.getItem("userType") ?? "");
+      setUserType(localStorage.getItem("userType") ?? "Student");
     }
   }, []);
 

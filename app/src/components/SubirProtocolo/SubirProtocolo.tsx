@@ -129,7 +129,7 @@ export default function SubirProtocolo() {
   }, [navigate]);
 
   useEffect(() => {
-    if (userType === "" && protocolID === null) {
+    if (userType === "Student" && protocolID === null) {
       checkIfUploadEnabled();
       getStudentEmail();
     }
@@ -146,12 +146,12 @@ export default function SubirProtocolo() {
     const isDirectorsValid =
       directors.length > 0 && directors.length <= 2 && directors.every((director) => director.email !== "");
     const isSinodalsValid =
-      userType === ""
+      userType === "Student"
         ? true
         : (sinodals.length === 3 && sinodals.every((sinodal) => sinodal.email !== "")) || sinodals.length === 0;
     const isKeywordsValid = keywords.length > 0 && keywords.length <= 4 && keywords.every((keyword) => keyword !== "");
     const isPDFValid = pdf !== null;
-    const isProtocolTermValid = userType === "" ? true : protocolTerm !== "";
+    const isProtocolTermValid = userType === "Student" ? true : protocolTerm !== "";
     setIsUploadEnabled(
       isTitleValid &&
         isSummaryValid &&
@@ -222,11 +222,7 @@ export default function SubirProtocolo() {
           Accept: "application/json",
         },
       });
-      if (data.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!data.ok) {
+      if (!data.ok) {
         throw new Error("Error al verificar la disponibilidad");
       }
     } catch (e) {
@@ -431,7 +427,7 @@ export default function SubirProtocolo() {
         </button>{" "}
         {protocolID === null ? (
           <button className="SP" onClick={createProtocol} disabled={!isUploadEnabled}>
-            {userType === "Estudiante" ? "Subir" : "Crear"} Protocolo
+            {userType === "Student" ? "Subir" : "Crear"} Protocolo
           </button>
         ) : (
           <button className="SP" onClick={updateProtocol}>

@@ -164,7 +164,7 @@ export default function DatesAndTerms() {
 
   useEffect(() => {
     const validUserTypes = ["AnaCATT", "SecEjec", "SecTec", "Presidente"];
-    const userType = localStorage.getItem("userType") ?? "";
+    const userType = localStorage.getItem("userType") ?? "Student";
 
     if (!localStorage.getItem("token") || !validUserTypes.includes(userType)) {
       navigate("/");

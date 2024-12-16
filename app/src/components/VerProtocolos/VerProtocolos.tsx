@@ -16,12 +16,16 @@ export default function VerProtocolos() {
   };
 
   const [listOfPeriodo, setListOfPeriodo] = useState(["Todos"]);
+  const [userType, setUserType] = useState<string | null>(null);
   const [protocols, setProtocols] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPeriod, setCurrentPeriod] = useState("Todos");
   const [currentOrder, setCurrentOrder] = useState("");
 
   useEffect(() => {
+    if (localStorage.getItem("userType")) {
+      setUserType(localStorage.getItem("userType"));
+    }
     axios
       .get(`http://127.0.0.1:8000/api/datesList`, {
         headers: {
@@ -122,9 +126,11 @@ export default function VerProtocolos() {
               ))}
             </ul>
           </div>
-          <button onClick={() => navigate("/subir_protocolo")} type="button" className="btn btn-outline-primary">
-            Agregar Protocolo +
-          </button>
+          {(userType !== "Student" || userType !== null) && (
+            <button onClick={() => navigate("/protocolo")} type="button" className="btn btn-outline-primary">
+              Agregar Protocolo
+            </button>
+          )}
         </div>
       </div>
       {loading ? (

@@ -13,18 +13,24 @@ export default function Protocolinfo({
   directorList = [],
   sinodalList = [],
 }) {
-
+  const [userType, setUserType] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  function seeDocument(){
+  useEffect(() => {
+    const storedUserType = localStorage.getItem("userType");
+    if (storedUserType) {
+      setUserType(storedUserType);
+    }
+  }, []);
+  function seeDocument() {
     navigate(`/documento/${idProtocol}`);
-  };
+  }
 
-  function goToValidate(){
+  function goToValidate() {
     navigate(`/validarprotocolo/${idProtocol}`);
   }
 
-  function seeStatus(){
+  function seeStatus() {
     navigate(`/monitoreoprotocolo/${idProtocol}`);
   }
 
@@ -57,10 +63,11 @@ export default function Protocolinfo({
             </>
           )}
         </Popup> */}
-        {statusProtocol == 'validating' && 
-        <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
-          Validar
-        </button>}
+        {( userType == "Student" && statusProtocol == "validating") && (
+          <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
+            Validar
+          </button>
+        )}
         <button type="button" className="btn btn-outline-primary" onClick={seeDocument}>
           Documento
         </button>
@@ -94,11 +101,6 @@ export default function Protocolinfo({
           ))}
         </div>
       </div> */}
-      <div className="p-statu">
-        <button type="button" className="btn btn-outline-primary">
-          {statusProtocol}
-        </button>
-      </div>
     </div>
   );
 }
