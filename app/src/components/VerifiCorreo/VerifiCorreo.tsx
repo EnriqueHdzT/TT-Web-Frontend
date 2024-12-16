@@ -10,10 +10,10 @@ export default function VerifiCorreo() {
           <br />
           Una vez verificado tu correo podrás ingresar correctamente a la aplicación.
         </div>
-        <button>
+        
         <a href="/login">
-          Iniciar Sesión
-        </a></button>
+          <button>Iniciar Sesión</button>
+        </a>
       </div>
     </div>
   );
