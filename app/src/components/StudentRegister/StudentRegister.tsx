@@ -160,7 +160,11 @@ export default function StudentRegister() {
         },
         body: formData as BodyInit,
       });
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Error al registrar el estudiante");
       }
       setStudentData(initialStudentData);

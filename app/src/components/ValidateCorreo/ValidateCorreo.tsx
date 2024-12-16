@@ -45,8 +45,11 @@ export default function ValidateCorreo() {
                 headers: { Accept: "application/json" },
                 body: formData as BodyInit,
             });
-
-            if (response.ok) {
+            if (response.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userType");
+                navigate("/login");
+              } else if (response.ok) {
                 setMessage("Revisa tu correo para más instrucciones para recuperar tu contraseña");
                 setTimeout(() => navigate("/"), 3000);
             } else {

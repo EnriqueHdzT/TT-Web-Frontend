@@ -82,7 +82,11 @@ export default function SubirProtocolo() {
             Accept: "application/json",
           },
         });
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Failed to get the protocol data");
         }
         const data = await response.json();
@@ -171,8 +175,11 @@ export default function SubirProtocolo() {
           Accept: "application/json",
         },
       });
-
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Failed to get the list of terms");
       }
 
@@ -192,7 +199,11 @@ export default function SubirProtocolo() {
           Accept: "application/json",
         },
       });
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Failed to get the student email");
       }
       const data = await response.json();
@@ -220,7 +231,11 @@ export default function SubirProtocolo() {
           Accept: "application/json",
         },
       });
-      if (!data.ok) {
+      if (data.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!data.ok) {
         throw new Error("Error al verificar la disponibilidad");
       }
     } catch (e) {
@@ -265,8 +280,11 @@ export default function SubirProtocolo() {
         },
         body: formData,
       });
-
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Error al subir el protocolo");
       }
 
@@ -321,8 +339,11 @@ export default function SubirProtocolo() {
         },
         body: formData,
       });
-
-      if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (!response.ok) {
         throw new Error("Error al actualizar el protocolo");
       }
 

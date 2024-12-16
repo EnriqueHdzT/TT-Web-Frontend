@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Ayuda.scss";
 
 export default function HelpSection() {
+    const navigate = useNavigate();
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
@@ -25,7 +27,11 @@ export default function HelpSection() {
                 },
                 body: JSON.stringify(formData),
             });
-            if (response.ok) {
+            if (response.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userType");
+                navigate("/login");
+              } else if (response.ok) {
                 alert("Gracias por contactarnos, pronto nos pondremos en contacto contigo");
                 setTimeout(() => {
                     window.location.href = "/";

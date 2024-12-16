@@ -38,6 +38,12 @@ const CrearPublicacion = () => {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userType');
+        navigate('/login');
+      }
+
       console.log("Publicación guardada con éxito:", response.data);
       alert("Publicación guardada con éxito!");
       navigate("/"); // Navegar a la página raíz
@@ -58,8 +64,11 @@ const CrearPublicacion = () => {
         const response = await axios.post("http://127.0.0.1:8000/api/subir-imagen", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-
-        if (response.data.url) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (response.data.url) {
           setSelectedImages(prev => [...prev, response.data.url]);
           alert("Imagen subida a URL: " + response.data.url);
         } else if (response.data.error) {

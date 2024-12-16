@@ -75,8 +75,11 @@ export default function Password() {
         },
         body: formData as BodyInit,
       });
-
-      if (response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      } else if (response.ok) {
         setErrorMessage("Contraseña cambiada exitosamente");
       } else {
         setErrorMessage("Error al cambiar la contraseña");

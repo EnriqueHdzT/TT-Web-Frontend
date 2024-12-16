@@ -25,8 +25,11 @@ export default function MonitoreoProtocolo() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Failed to fetch monitor data");
         }
 

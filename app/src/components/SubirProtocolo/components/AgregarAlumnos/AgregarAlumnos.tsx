@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
 
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export default function AgregarAlumnos({ students, setStudents }: Props) {
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
@@ -53,7 +55,11 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           },
         });
 
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Error al buscar el correo");
         }
 

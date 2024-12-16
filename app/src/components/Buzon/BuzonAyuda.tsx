@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./BuzonAyuda.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 export default function BuzonAyuda() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,7 +30,12 @@ export default function BuzonAyuda() {
         },
         body: JSON.stringify(formData),
       });
-      if (response.ok) {
+
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userType");
+        navigate("/login");
+      }else if (response.ok) {
         alert(
           "Gracias por contactarnos, pronto nos pondremos en contacto contigo"
         );

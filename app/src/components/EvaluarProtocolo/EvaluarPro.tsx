@@ -36,7 +36,11 @@ export default function EvaluarPro() {
             },
           }
         );
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        }else if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.json();
@@ -67,7 +71,11 @@ export default function EvaluarPro() {
           },
           body: formData as BodyInit,
         });
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.json();
@@ -97,7 +105,11 @@ export default function EvaluarPro() {
             },
           }
         );
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.blob();
@@ -120,7 +132,11 @@ export default function EvaluarPro() {
             },
           }
         );
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.json();
@@ -142,7 +158,11 @@ export default function EvaluarPro() {
             },
           }
         );
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.json();
@@ -222,8 +242,11 @@ export default function EvaluarPro() {
         body: JSON.stringify(reply),
       }
     );
-
-    if (response.ok) {
+    if (response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userType");
+      navigate("/login");
+    }else if (response.ok) {
       console.log("Respuestas enviadas correctamente");
     } else {
       console.error("Error al enviar las respuestas");

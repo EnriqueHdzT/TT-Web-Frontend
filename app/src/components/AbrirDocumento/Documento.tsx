@@ -28,9 +28,14 @@ const Documento: React.FC<DocumentoProps> = ( props ) => {
             },
         });
 
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        }else if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
 
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);

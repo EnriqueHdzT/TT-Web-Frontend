@@ -101,8 +101,11 @@ export default function VerInfo() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
 
@@ -129,8 +132,11 @@ export default function VerInfo() {
             },
           }
         );
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
 
@@ -289,8 +295,11 @@ export default function VerInfo() {
           },
           body: formData,
         });
-
-        if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userType");
+          navigate("/login");
+        } else if (!response.ok) {
           throw new Error("Error al actualizar los datos");
         }
         console.log("Datos guardados correctamente");
