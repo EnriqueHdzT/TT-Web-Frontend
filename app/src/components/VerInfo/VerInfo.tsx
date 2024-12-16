@@ -489,10 +489,10 @@ export default function VerInfo() {
                 <div className="info-item">
                   <span className="title">Academia:</span>
                   {isEditingAcademia ? (
-                    <div className="input-group mb-3">
+                    <div className="input-group">
                       <input
                         type="text"
-                        className="form-control mt-3 mb-3"
+                        className="form-control"
                         placeholder="Ingresa las academias separadas por comas"
                         value={rawAcademyInput}
                         onChange={(e) => setRawAcademyInput(e.target.value)}

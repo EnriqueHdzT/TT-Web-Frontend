@@ -5,6 +5,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import Protocolinfo from "./components/Protocolinfo";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function VerProtocolos() {
   const navigate = useNavigate();
@@ -18,9 +19,11 @@ export default function VerProtocolos() {
 
     const [listOfPeriodo, setListOfPeriodo] = useState(["Todos"]);
     const [protocols, setProtocols] = useState([]);
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
     const [currentPeriod, setCurrentPeriod] = useState("Todos");
     const [currentOrder, setCurrentOrder] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(()=>{
       axios.get(`http://127.0.0.1:8000/api/datesList`, {
@@ -44,9 +47,9 @@ export default function VerProtocolos() {
       const token = localStorage.getItem("token");
       if (!token) return;
       try {
-        const params = new URLSearchParams({ 
+        const params = new URLSearchParams({
           cycle: currentPeriod,
-          orderBy: listOfOrden[currentOrder], 
+          orderBy: listOfOrden[currentOrder],
         });
         const response = await fetch(`http://127.0.0.1:8000/api/listProtocols/?${params}`, {
           headers: {
@@ -101,7 +104,7 @@ export default function VerProtocolos() {
                 ))}
               </ul>
             </div>
-            
+
             <div className="dropdown-center d-inline">
               <button
                 className="btn btn-secondary dropdown-toggle"
@@ -124,26 +127,30 @@ export default function VerProtocolos() {
                 ))}
               </ul>
             </div>
-            
-            <button type="button" className="btn btn-outline-primary">
+            <button onClick={()=>navigate("/subir_protocolo")} type="button" className="btn btn-outline-primary">
+
               Agregar Protocolo +
             </button>
           </div>
           </div>
-          {protocols.map((protocol) => (
+          {loading ? 
+          <div style={{width: '100%', textAlign: 'center', marginTop: '2rem'}}>
+            <div className="spinner-grow text-primary " role="status">
+              <span className="sr-only">Cargando...</span>
+            </div>
+          </div>
+          :
+          protocols.map((protocol) => (
             <Protocolinfo
+              uuidProtocol={protocol.id}
               idProtocol = {protocol.protocol_id}
               titleProtocol = {protocol.title}
-              statusProtocol = {protocol.status}
+              statusProtocol = {protocol.current_status}
               // studentList = {protocol.studentList}
               // directorList = {protocol.directorList}
               // sinodalList = {protocol.sinodalList}
             />
           ))}
-           
-
-
-
         </div>
     )
 
