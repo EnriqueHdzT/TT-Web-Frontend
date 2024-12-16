@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ValidarProtocolo.scss";
+import axios from "axios";
 
 interface ValidarProtocoloProps {
   pdfUrl: string;
@@ -17,6 +18,7 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
   const [protocolData, setProtocolData] = useState<any>(null);
   const { id: protocolId } = useParams();
   const navigate = useNavigate();
+  const [elementLoading, setElementLoading] = useState("");
 
   if (!protocolId) {
     console.error("El ID del protocolo no está definido.");
@@ -102,6 +104,27 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
     setIsMinimized(!isMinimized);
   };
 
+  function validateProtocol() {
+    setElementLoading('validar');
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    axios.put(`http://127.0.0.1:8000/api/validateProtocol/${protocolId}`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => {
+      alert("Protocolo validado exitosamente.");
+      navigate("/protocolos");
+    })
+    .catch((error) => {
+      alert("No se pudo validar el protocolo.");
+    }).finally(() => {
+      setElementLoading('');
+    });
+  }
+
   return (
     <div>
       <div className="contvali">
@@ -145,8 +168,12 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
 
               {/* Botones de Validar/Rechazar */}
               <div className="button-vrs">
-                <button>Validar</button>
-                <button>Rechazar</button>
+                <button disabled={loading || elementLoading !== ''} onClick={validateProtocol}>
+                  {elementLoading == 'validar' ? 'Validando...' : 'Validar'}
+                </button>
+                <button disabled={loading || elementLoading !== ''}>
+                  {elementLoading == 'rechazar' ? 'Rechazando...' : 'Rechazar'}
+                </button>
               </div>
             </div>
           </div>
