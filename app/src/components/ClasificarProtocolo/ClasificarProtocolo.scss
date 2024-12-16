@@ -70,7 +70,7 @@ $gray-pass: #a2a2a2;
 }
 
 .pdf-panel {
-  width: 60%; /* Panel derecho ocupa el 50% */
+  width: 100%; /* Panel derecho ocupa el 50% */
   transition: width 0.3s ease;
   box-sizing: border-box; /* Asegura que el padding no rompa el layout */
 

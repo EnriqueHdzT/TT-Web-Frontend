@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
+// Interfaces para tipos
 interface Protocolo {
   id: string;
   protocol_id: string;
@@ -27,12 +27,14 @@ interface FormData {
 
 const ClasificarProtocolo: React.FC = () => {
   const { id: protocolId } = useParams<{ id: string }>(); // Identificador del protocolo
+  const navigate = useNavigate();
+
   const [isMinimized, setIsMinimized] = useState(false);
   const [formData, setFormData] = useState<FormData>({ academiaselect: [] });
   const [protocolo, setProtocolo] = useState<Protocolo | null>(null);
   const [academiasOptions, setAcademiasOptions] = useState<AcademiaOption[]>([]); // Opciones dinámicas
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [pdfUrl, setPdfUrl] = useState(""); // URL del PDF
+  const [loading, setLoading] = useState(true); // Estado de carga del PDF
+  const [pdfUrl, setPdfUrl] = useState<string>(""); // URL del PDF generado a partir del blob
 
   // Obtener datos del protocolo
   useEffect(() => {
@@ -41,7 +43,7 @@ const ClasificarProtocolo: React.FC = () => {
         const response = await axios.get(`http://127.0.0.1:8000/api/clasicar/${protocolId}`);
         setProtocolo({
           ...response.data.protocolo,
-          keywords: JSON.parse(response.data.protocolo.keywords),
+          keywords: JSON.parse(response.data.protocolo.keywords), // Si las keywords vienen como JSON
         });
       } catch (error) {
         console.error("Error al cargar el protocolo:", error);
@@ -49,8 +51,8 @@ const ClasificarProtocolo: React.FC = () => {
     };
 
     if (protocolId) {
-      fetchProtocolo();
-      fetchDocument();
+      fetchProtocolo(); // Cargar el protocolo
+      fetchDocument();  // Cargar el documento asociado
     }
   }, [protocolId]);
 
@@ -78,30 +80,41 @@ const ClasificarProtocolo: React.FC = () => {
   // Cargar documento PDF
   const fetchDocument = async () => {
     const token = localStorage.getItem("token");
-    if (!token) return;
-
+    if (!token) {
+      alert("No tienes acceso al documento. Inicia sesión.");
+      return;
+    }
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDoc/${protocolId}`, {
+      setLoading(true); // Inicia el estado de carga
+      const response = await fetch(`http://127.0.0.1:8000/api/getProDoc/${protocolId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`Error al cargar el documento: ${response.status}`);
       }
 
       const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob); // Crear URL a partir del blob
       setPdfUrl(url); // Establecer la URL generada
-    } catch (error) {
+    } catch (error: unknown) { // Cambiar never a unknown
       console.error("Error al cargar el documento:", error);
+
+      // Verificar el tipo del error antes de usar sus propiedades
+      if (error instanceof Error) {
+        alert(
+            error.message || "Hubo un problema al cargar el documento. Por favor, inténtalo de nuevo."
+        );
+      } else {
+        alert("Hubo un problema desconocido al cargar el documento. Intenta nuevamente.");
+      }
     } finally {
-      setLoading(false); // Completar el estado de carga
+      setLoading(false); // Completa el estado de carga
     }
   };
-
-  // Controlar cambios en el selector
+  // Manejar cambios en el selector de academias
   const handleSelectChange = (selectedOptions: any, name: "academiaselect") => {
     setFormData((prevData) => ({
       ...prevData,
@@ -109,13 +122,13 @@ const ClasificarProtocolo: React.FC = () => {
     }));
   };
 
+  // Manejar el formulario al enviar
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.academiaselect.length) {
       alert("Selecciona al menos una academia.");
       return;
     }
-
 
     try {
       const requests = formData.academiaselect.map((academia) =>
@@ -125,15 +138,15 @@ const ClasificarProtocolo: React.FC = () => {
           })
       );
 
-      await Promise.all(requests);
+      await Promise.all(requests); // Esperar todas las solicitudes
       alert("Protocolo enviado a todas las academias.");
-      navigate(-1);
+      navigate(-2); // Volver a la página anterior
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  // Minimizar/Maximizar panel izquierdo
+  // Minimizar/Maximizar el panel izquierdo
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
   };
@@ -158,7 +171,7 @@ const ClasificarProtocolo: React.FC = () => {
                     <p className="identificador">
                       Núm. de Registro de TT: {protocolo.protocol_id}
                     </p>
-                    <p className="fecha-evaluacion">Fecha de Evaluación: 2024-01-01</p>
+                    <p className="fecha-evaluacion">Fecha de Evaluación: {protocolo.period || "2024-01-01"}</p>
                     <div className="palabras-clave">
                       Palabras Clave:
                       <div className="palabra-clave-contenedor">
@@ -188,6 +201,7 @@ const ClasificarProtocolo: React.FC = () => {
                     </div>
                   </div>
                 </div>
+                {/* Botón Minimizar */}
                 <button className="minimize-button" onClick={toggleMinimize}>
                   <FontAwesomeIcon icon={isMinimized ? faChevronRight : faChevronLeft} />
                 </button>
