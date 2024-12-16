@@ -189,9 +189,9 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
                       Ver Protocolos
                     </a>
                   </li>
-                  {isUpdateActive && (
+                  {isUpdateActive && userType !== "Prof" && (
                     <li>
-                      <a href="/subir_protocolo">
+                      <a href="/protocolo">
                         <FontAwesomeIcon icon={faPenToSquare} className="style-icon" />
                         Subir Protocolo
                       </a>

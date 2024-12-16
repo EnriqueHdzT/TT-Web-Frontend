@@ -86,7 +86,6 @@ export default function SubirProtocolo() {
           throw new Error("Failed to get the protocol data");
         }
         const data = await response.json();
-        console.log(data);
         setProtocolPrevData({
           protocolTitle: data.title,
           protocolSummary: data.resume,
@@ -112,7 +111,7 @@ export default function SubirProtocolo() {
     };
 
     const id = window.location.pathname.split("/").pop();
-    if (id !== "subir_protocolo" && id !== undefined) {
+    if (id !== "protocolo" && id !== undefined) {
       setProtocolID(id);
       getProtocolData(id);
     }
@@ -270,13 +269,68 @@ export default function SubirProtocolo() {
       if (!response.ok) {
         throw new Error("Error al subir el protocolo");
       }
+
+      const data = await response.json();
+
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        navigate(`${data.protocol}`);
+        navigate(0);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   const updateProtocol = async () => {
-    if (!isUploadEnabled) return;
+    const formData = new FormData();
+    if (protocolTitle !== protocolPrevData.protocolTitle) {
+      formData.append("title", protocolTitle);
+    }
+    if (protocolSummary !== protocolPrevData.protocolSummary) {
+      formData.append("resume", protocolSummary);
+    }
+    if (JSON.stringify(students) !== JSON.stringify(protocolPrevData.students)) {
+      formData.append("students", JSON.stringify(students));
+    }
+    if (JSON.stringify(directors) !== JSON.stringify(protocolPrevData.directors)) {
+      formData.append("directors", JSON.stringify(directors));
+    }
+
+    if (JSON.stringify(keywords) !== JSON.stringify(protocolPrevData.keywords)) {
+      formData.append("keywords", JSON.stringify(keywords));
+    }
+    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
+      JSON.stringify(sinodals) !== JSON.stringify(protocolPrevData.sinodals) &&
+      formData.append("sinodals", JSON.stringify(sinodals));
+
+    ["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") &&
+      protocolTerm !== protocolPrevData.protocolTerm &&
+      formData.append("term", protocolTerm);
+    if (pdf) {
+      formData.append("pdf", pdf);
+    }
+
+    try {
+      const id = window.location.pathname.split("/").pop();
+      const response = await fetch(`http://127.0.0.1:8000/api/protocol/${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al actualizar el protocolo");
+      }
+
+      navigate(0);
+    } catch (error) {
+      alert("Error al actualizar el protocolo");
+      console.error(error);
+    }
   };
 
   return (
@@ -379,7 +433,7 @@ export default function SubirProtocolo() {
             {userType === "Estudiante" ? "Subir" : "Crear"} Protocolo
           </button>
         ) : (
-          <button className="SP" onClick={updateProtocol} disabled={!isUploadEnabled}>
+          <button className="SP" onClick={updateProtocol}>
             Actualizar Protocolo
           </button>
         )}

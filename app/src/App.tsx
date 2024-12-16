@@ -64,8 +64,8 @@ export default function App() {
             <Route path="/validar_correo" element={<ValidateCorreo />} />
             <Route path="/usuarios" element={<VerUsuarios />} />
             <Route path="/usuarios/:id" element={<VerInfo />} />
-            <Route path="/subir_protocolo" element={<SubirProtocolo />} />
-            <Route path="/subir_protocolo/:id" element={<SubirProtocolo />} />
+            <Route path="/protocolo" element={<SubirProtocolo />} />
+            <Route path="/protocolo/:id" element={<SubirProtocolo />} />
             <Route path="/fechas" element={<DatesAndTerms />} />
             <Route path="/protocolos" element={<VerProtocolos />} />
             <Route path="/cambiar_contraseña" element={<Password />} />
