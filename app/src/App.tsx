@@ -70,7 +70,7 @@ export default function App() {
             <Route path="/cambiar_contraseña" element={<Password />} />
             <Route path="/cambiar_contraseña/:id" element={<Password />} />
             <Route path="/documento/:id" element={<AbrirDocumento />} />
-            <Route path="/evaprotocolo" element={<EvaluarProtocolo pdfEvaluar={pdfEvaluar} />} />
+            <Route path="/evaprotocolo/:id" element={<EvaluarProtocolo />} />
             <Route path="/clasificarprotocolo/:id" element={<ClasificarProtocolo pdfClasificar={pdfClasificar} />} />
             <Route path="/validarprotocolo/:id" element={<ValidarProtocolo />} />
             <Route path="/recuperar/:token" element={<RecuperarContrasena />} />

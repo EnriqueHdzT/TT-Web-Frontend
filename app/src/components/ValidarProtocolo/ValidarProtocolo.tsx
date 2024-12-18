@@ -71,7 +71,7 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/getProtocolDoc/${protocolId}`,
+        `http://127.0.0.1:8000/api/getProtocolDocByID/${protocolId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

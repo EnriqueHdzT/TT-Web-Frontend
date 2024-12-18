@@ -68,7 +68,7 @@ export default function EvaluarPro() {
           setReplyToQuestion((prev) => [...prev, { validation: data[key].validation, comment: data[key].comment }]);
         }
       } catch (error) {
-        navigate(-1);
+        //navigate(-1);
         console.error("Error al obtener los datos:", error);
       }
     };
@@ -126,7 +126,7 @@ export default function EvaluarPro() {
         }
         const data = await response.json();
         if (data.permissions === "not allowed") {
-          navigate(-1);
+          //navigate(-1);
           return;
         }
         if (data.permissions === "write") {
@@ -139,7 +139,7 @@ export default function EvaluarPro() {
           const queryParams = new URLSearchParams(location.search);
           const sinodalID = queryParams.get("sinodalID");
           if (!sinodalID) {
-            navigate(-1);
+            //navigate(-1);
             return;
           } else {
             getResponses(sinodalID);

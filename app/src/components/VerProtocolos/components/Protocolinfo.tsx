@@ -37,9 +37,20 @@ export default function Protocolinfo({
   function seeStatus() {
     navigate(`/monitoreoprotocolo/${idProtocol}`);
   }
+  function seeEvaluar() {
+    navigate(`/evaprotocolo/${uuidProtocol}`);
+  }
 
   const runSelect = async () => {
-    const response = axios.get(`http://127.0.0.1:8000/api/selectProtocol/${uuidProtocol}`);
+    const response = axios.get(
+      `http://127.0.0.1:8000/api/selectProtocol/${uuidProtocol}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     console.log(response);
     if (response.status <= 200 && response.status > 300) {
       window.location.reload();
@@ -77,15 +88,29 @@ export default function Protocolinfo({
             </>
           )}
         </Popup> */}
-        {(userType == "AnaCATT" || userType == "SecTec" || userType == "SecEjec" || userType == "Presidente") &&
+        {(userType == "AnaCATT" ||
+          userType == "SecTec" ||
+          userType == "SecEjec" ||
+          userType == "Presidente") &&
           statusProtocol == "validating" && (
-            <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={goToValidate}
+            >
               Validar
             </button>
           )}
-        {(userType == "AnaCATT" || userType == "SecTec" || userType == "SecEjec" || userType == "Presidente") &&
+        {(userType == "AnaCATT" ||
+          userType == "SecTec" ||
+          userType == "SecEjec" ||
+          userType == "Presidente") &&
           statusProtocol == "classifying" && (
-            <button type="button" className="btn btn-outline-primary" onClick={goToClasify}>
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={goToClasify}
+            >
               Clasificar
             </button>
           )}
@@ -95,14 +120,41 @@ export default function Protocolinfo({
           userType == "Presidente" ||
           userType == "Prof") &&
           statusProtocol == "selecting" && (
-            <button type="button" className="btn btn-outline-primary" onClick={() => runSelect()}>
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={() => runSelect()}
+            >
               Seleccionar
             </button>
           )}
-        <button type="button" className="btn btn-outline-primary" onClick={seeDocument}>
+        {(userType == "AnaCATT" ||
+          userType == "SecTec" ||
+          userType == "SecEjec" ||
+          userType == "Presidente" ||
+          userType == "Prof") &&
+          (statusProtocol == "evaluatingFirst" ||
+            statusProtocol == "evaluatingSecond") && (
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={() => seeEvaluar()}
+            >
+              Evaluar
+            </button>
+          )}
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={seeDocument}
+        >
           Documento
         </button>
-        <button type="button" className="btn btn-outline-primary" onClick={seeStatus}>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={seeStatus}
+        >
           Ver Status
         </button>
       </div>
