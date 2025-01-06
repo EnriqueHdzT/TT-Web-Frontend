@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function VerProtocolos() {
+  const userType = localStorage.getItem("userType");
   const navigate = useNavigate();
   const listOfOrden = {
     "A validar": "waiting",
@@ -18,16 +19,12 @@ export default function VerProtocolos() {
   };
 
   const [listOfPeriodo, setListOfPeriodo] = useState(["Todos"]);
-  const [userType, setUserType] = useState<string | null>(null);
   const [protocols, setProtocols] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPeriod, setCurrentPeriod] = useState("Todos");
   const [currentOrder, setCurrentOrder] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("userType")) {
-      setUserType(localStorage.getItem("userType"));
-    }
     axios
       .get(`http://127.0.0.1:8000/api/datesList`, {
         headers: {
@@ -145,7 +142,9 @@ export default function VerProtocolos() {
                 ))}
               </ul>
             </div>
-            {(userType !== "Student" || userType !== null) && (
+            {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(
+              userType ?? ""
+            ) && (
               <button
                 onClick={() => navigate("/protocolo")}
                 type="button"

@@ -104,6 +104,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
           setAuth(true);
           setUserType(data.userType ?? "Student");
           navigate("/");
+          navigate(0);
         } else {
           const errorData = await response.json();
           setToastTitle("Error");

@@ -125,6 +125,26 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
     });
   }
 
+  const rejectProtocol = () => {
+    setElementLoading('rechazar');
+    const token = localStorage.getItem("token");
+
+    axios.put(`http://127.0.0.1:8000/api/rechazarprotocolo/${protocolId}`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => {
+      alert("Protocolo rechazado exitosamente.");
+      navigate("/protocolos");
+    })
+    .catch((error) => {
+      alert("No se pudo rechazar el protocolo.");
+    }).finally(() => {
+      setElementLoading('');
+    });
+  }
+
   return (
     <div>
       <div className="contvali">
@@ -171,7 +191,7 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
                 <button disabled={loading || elementLoading !== ''} onClick={validateProtocol}>
                   {elementLoading == 'validar' ? 'Validando...' : 'Validar'}
                 </button>
-                <button disabled={loading || elementLoading !== ''}>
+                <button disabled={loading || elementLoading !== ''} onClick={rejectProtocol}>
                   {elementLoading == 'rechazar' ? 'Rechazando...' : 'Rechazar'}
                 </button>
               </div>
