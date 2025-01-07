@@ -156,6 +156,7 @@ export default function VerProtocolos() {
           </div>
         </div>
       </div>
+      <div className="cuerpo-protocol">
       {loading ? (
         <div style={{ width: "100%", textAlign: "center", marginTop: "2rem" }}>
           <div className="spinner-grow text-primary " role="status">
@@ -163,7 +164,7 @@ export default function VerProtocolos() {
           </div>
         </div>
       ) : (
-        protocols.map((protocol) => (
+          protocols.map((protocol) => ( 
           <Protocolinfo
             uuidProtocol={protocol.id}
             idProtocol={protocol.protocol_id}
@@ -172,9 +173,10 @@ export default function VerProtocolos() {
             // studentList = {protocol.studentList}
             // directorList = {protocol.directorList}
             // sinodalList = {protocol.sinodalList}
-          />
+              />   
         ))
       )}
+      </div>
     </div>
   );
 }

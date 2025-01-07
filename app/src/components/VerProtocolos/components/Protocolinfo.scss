@@ -15,70 +15,75 @@ $cont-gray2: #E1E1E1;
 $black-fontd: #2C2C2C;
 $blue: #1C90F3;
 $gray-pass: #A2A2A2;
+.p-box {
+  display: flex;
+  flex-direction: column;
+  background-color: $cont-gray2;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  width: 100%; 
+  min-height: 120px;
+  min-width: 350px;
 
-.p-box{
-    display: flex;
-    flex-wrap: wrap;
-    width: 90%;
-    margin: auto;
-    background-color: $users-cont;
-    border-radius: 20px;
-    padding: 1rem;
-    margin-top: 2%;
-    
-
-    .p-tit {
-    width: 50%;
+  .p-tit {
     font: 400 0.9rem "Poppins";
     padding-left: 2%;
+    
+    .p-tit-pro{
+      font: 500 0.8rem "Poppins";
+      min-height: 40px;          // Altura mínima de 30px
+      max-height: 40px;          // Altura máxima de 40px
+      overflow-y: auto;
     }
+  }
 
-    .p-buttons{
-        width: 50%;
-        gap: 1rem;
-        display: flex;
-        justify-content: flex-end; 
-        padding-right: 2%;
 
-        button {
-            height: 2.2rem;
-            font: 500 0.8rem "Poppins";
-            border-radius: 15px;
-            background-color: $blue;
-            color: $cont-gray;
-            border: none;
-        }
+  .p-buttons {
+    gap: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2%;
+
+    button {
+      height: 2.2rem;
+      font: 500 0.7rem "Poppins";
+      border-radius: 15px;
+      background-color: $blue;
+      color: $cont-gray;
+      border: none;
     }
+  }
 
-    .p-info {
-        display: flex;               // Activa Flexbox para organizar los hijos en línea
-        justify-content: space-between; // Espacia los elementos uniformemente
-        align-items: center;         // Alinea verticalmente al centro
-        gap: 20px;                   // Espacio entre los divs internos
-        width: 80%;
-             
-        .p-alumn, .p-director, .p-sinodal {
-          background-color: $cont-gray2;
-          border: 1px solid #ccc;
-          border-radius: 10px;
-          padding: 20px;
-          flex: 1;                   // Permite que los elementos se expandan uniformemente
-          text-align: center;        // Centra el contenido de cada div
-          
-        }
-      }
+  .p-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 80%;
 
-      .p-statu{
-        width: 20%;
-        margin: auto;
-        display: flex;
-        justify-content: center;
+    .p-alumn,
+    .p-director,
+    .p-sinodal {
+      background-color: $cont-gray2;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      flex: 1;
+      text-align: center;
+    }
+  }
 
-        button {
-            height: 2.2rem;
-            font-size: 14px;
-        }
+  .p-statu {
+    width: 20%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
 
-      }
-      
+    button {
+      height: 2.2rem;
+      font-size: 14px;
+    }
+  }
 }

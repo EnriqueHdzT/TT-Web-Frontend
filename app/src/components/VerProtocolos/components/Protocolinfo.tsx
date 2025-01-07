@@ -2,7 +2,6 @@ import axios from "axios";
 import "./Protocolinfo.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
 export default function Protocolinfo({
@@ -62,7 +61,7 @@ export default function Protocolinfo({
   return (
     <div className="p-box">
       <div className="p-tit">
-        {titleProtocol} <br></br>
+       <div className="p-tit-pro">Título de protocolo: {titleProtocol}</div>
         {idProtocol}
       </div>
       <div className="p-buttons">

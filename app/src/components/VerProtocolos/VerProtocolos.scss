@@ -1,81 +1,113 @@
 $header-height: 4.5rem;
-$body-color: #FAFAFB;
+$body-color: #fafafb;
 
 /*========== Colors ==========*/
-$navbg-color: #F8F8F8;
-$dropdown-bg-color: #FAFAFB;
-$dropdown-hover-color: #EBEBEB;
-$dropdown-list-color: #F4F4F4;
-$search-blue: #1C90F3;
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$users-cont: #ededed;
 $cont-gray: #E6E6E6;
 $users-cont:#EDEDED;
+$cont-gray2: #E1E1E1;
 
 /*========== Font and typography ==========*/
-$black-fontd: #2C2C2C;
-$blue: #1C90F3;
-$gray-pass: #A2A2A2;
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
 
-.headprotocolo{
-    width: 100%;
-    flex-direction: column;
+.headprotocolo {
+  width: 100%;
+  flex-direction: column;
   align-items: center;
   box-sizing: border-box;
 
-    .row-verproto{
-      display: flex;
-      align-items: center;
-      margin-top: 2%;
-    
-    .tl-p{
+  .row-verproto {
+    display: flex;
+    align-items: center;
+    margin-top: 2%;
+
+    .tl-p {
       font: 500 1.2rem "Poppins";
       padding: 0 0 0 5%;
       width: 50%;
 
-        a{
-          cursor: pointer;
-          padding-right: 2%;
-        }
+      a {
+        cursor: pointer;
+        padding-right: 2%;
       }
-
-      .col-p{
-        flex: 1 0 0%;
-        width: 50%;
-        justify-content: center;
-        align-items:center ;
-        display: flex;
-        gap: 6%;
-
-
-        .dropdown-center{
-
-          .btn-secondary{
-            border-radius: 15px;
-            font: 400 0.85rem "Poppins";
-            padding: 6px 20px;
-            background-color: $gray-pass;
-            border: 1px solid $gray-pass;
-          }
-          ul{
-            font: 400 0.85rem "Poppins";
-            border: 1px solid #e0e0e0;
-    background-color: #ebecec;
-    li{
-      cursor: pointer;
     }
-          }
-        }
 
-        .btn-outline-primary{
-          border: 1px solid $blue;
+    .col-p {
+      flex: 1 0 0%;
+      width: 50%;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      gap: 6%;
+
+      .dropdown-center {
+        .btn-secondary {
           border-radius: 15px;
           font: 400 0.85rem "Poppins";
           padding: 6px 20px;
+          background-color: $gray-pass;
+          border: 1px solid $gray-pass;
+        }
+        ul {
+          font: 400 0.85rem "Poppins";
+          border: 1px solid #e0e0e0;
+          background-color: #ebecec;
+          li {
+            cursor: pointer;
+          }
         }
       }
 
+      .btn-outline-primary {
+        border: 1px solid $blue;
+        border-radius: 15px;
+        font: 400 0.85rem "Poppins";
+        padding: 6px 20px;
+      }
     }
   }
+}
 
-    .list-protocol{
-      display: grid;
+.cuerpo-protocol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; // Espaciado entre las tarjetas
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+
+  & > div {
+    flex: 1 1 90%; // Por defecto, cada tarjeta ocupa el 90% del ancho
+    max-width: 90%;
+    transition: all 0.3s ease; // Transiciones suaves para cambios de tamaño
+  }
+
+  // Ajusta el tamaño cuando hay más de una tarjeta
+  &:has(> div:nth-child(2)) > div {
+    flex: 1 1 45%; // Todas las tarjetas ocupan 45% cuando hay al menos dos
+    max-width: 45%;
+  }
+
+  // Cada tercera tarjeta ocupa el 90% del ancho
+  & > div:nth-child(3n) {
+    flex: 1 1 90%;
+    max-width: 90%;
+  }
+
+  @media (max-width: 700px) {
+    & > div {
+      flex: 1 1 90%; // Hace que las tarjetas ocupen todo el ancho
+      max-width: 90%; // Asegura que las tarjetas no excedan el 100% del contenedor
     }
+  }
+  
+}
+
+
