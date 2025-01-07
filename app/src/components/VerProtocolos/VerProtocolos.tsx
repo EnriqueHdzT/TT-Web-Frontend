@@ -50,20 +50,16 @@ export default function VerProtocolos() {
         cycle: currentPeriod,
         orderBy: listOfOrden[currentOrder],
       });
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/listProtocols/?${params}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`http://127.0.0.1:8000/api/listProtocols/?${params}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const responseData = await response.json();
       setProtocols(responseData.protocols);
-      console.log(responseData.protocols[0].id);
     } catch (error) {
       console.log(error);
     } finally {
@@ -142,14 +138,8 @@ export default function VerProtocolos() {
                 ))}
               </ul>
             </div>
-            {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(
-              userType ?? ""
-            ) && (
-              <button
-                onClick={() => navigate("/protocolo")}
-                type="button"
-                className="btn btn-outline-primary"
-              >
+            {["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "") && (
+              <button onClick={() => navigate("/protocolo")} type="button" className="btn btn-outline-primary">
                 Agregar Protocolo
               </button>
             )}
@@ -169,6 +159,7 @@ export default function VerProtocolos() {
             idProtocol={protocol.protocol_id}
             titleProtocol={protocol.title}
             statusProtocol={protocol.current_status}
+            buttonEnabled={protocol.enable_button}
             // studentList = {protocol.studentList}
             // directorList = {protocol.directorList}
             // sinodalList = {protocol.sinodalList}

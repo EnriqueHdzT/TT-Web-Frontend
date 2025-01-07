@@ -204,7 +204,7 @@ export default function MonitoreoProtocolo() {
               </div>
             </div>
           )}
-          {Object.keys(firstEvaluations).length == 3 && (
+          {Object.keys(secondEvaluations).length == 3 && (
             <div className="row-container">
               {Object.keys(secondEvaluations).map((evaluation) => (
                 <div className="box status green">

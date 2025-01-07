@@ -2,7 +2,8 @@ import axios from "axios";
 import "./Protocolinfo.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Popup from "reactjs-popup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import "reactjs-popup/dist/index.css";
 
 export default function Protocolinfo({
@@ -13,9 +14,16 @@ export default function Protocolinfo({
   studentList = [],
   directorList = [],
   sinodalList = [],
+  buttonEnabled = false,
 }) {
   const [userType, setUserType] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
   const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   useEffect(() => {
     const storedUserType = localStorage.getItem("userType");
@@ -42,15 +50,27 @@ export default function Protocolinfo({
   }
 
   const runSelect = async () => {
-    const response = axios.get(
-      `http://127.0.0.1:8000/api/selectProtocol/${uuidProtocol}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = axios.get(`http://127.0.0.1:8000/api/selectProtocol/${uuidProtocol}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    console.log(response);
+    if (response.status <= 200 && response.status > 300) {
+      window.location.reload();
+    } else {
+      console.log(response);
+    }
+  };
+
+  const handleDelete = async () => {
+    const response = axios.delete(`http://127.0.1:8000/api/deleteProtocol/${uuidProtocol}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     console.log(response);
     if (response.status <= 200 && response.status > 300) {
       window.location.reload();
@@ -64,6 +84,23 @@ export default function Protocolinfo({
       <div className="p-tit">
         {titleProtocol} <br></br>
         {idProtocol}
+      </div>
+      <div className="cont-ee">
+        <button className="dropdown-ee" onClick={toggleDropdown}>
+          <FontAwesomeIcon icon={faEllipsisVertical} className="icon-us" />
+        </button>
+        {isOpen && (
+          <ul className="menu-ee">
+            <li
+              onClick={() => {
+                navigate(`/protocolo/${uuidProtocol}`);
+              }}
+            >
+              Editar
+            </li>
+            <li onClick={handleDelete}>Eliminar</li>
+          </ul>
+        )}
       </div>
       <div className="p-buttons">
         {/* <Popup
@@ -88,73 +125,39 @@ export default function Protocolinfo({
             </>
           )}
         </Popup> */}
-        {(userType == "AnaCATT" ||
-          userType == "SecTec" ||
-          userType == "SecEjec" ||
-          userType == "Presidente") &&
-          statusProtocol == "validating" && (
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={goToValidate}
-            >
-              Validar
-            </button>
-          )}
-        {(userType == "AnaCATT" ||
-          userType == "SecTec" ||
-          userType == "SecEjec" ||
-          userType == "Presidente") &&
-          statusProtocol == "classifying" && (
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={goToClasify}
-            >
-              Clasificar
-            </button>
-          )}
-        {(userType == "AnaCATT" ||
-          userType == "SecTec" ||
-          userType == "SecEjec" ||
-          userType == "Presidente" ||
-          userType == "Prof") &&
-          statusProtocol == "selecting" && (
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={() => runSelect()}
-            >
-              Seleccionar
-            </button>
-          )}
-        {(userType == "AnaCATT" ||
-          userType == "SecTec" ||
-          userType == "SecEjec" ||
-          userType == "Presidente" ||
-          userType == "Prof") &&
-          (statusProtocol == "evaluatingFirst" ||
-            statusProtocol == "evaluatingSecond") && (
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={() => seeEvaluar()}
-            >
-              Evaluar
-            </button>
-          )}
-        <button
-          type="button"
-          className="btn btn-outline-primary"
-          onClick={seeDocument}
-        >
+        {buttonEnabled && statusProtocol == "validating" && (
+          <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
+            Validar
+          </button>
+        )}
+        {buttonEnabled && statusProtocol == "classifying" && (
+          <button type="button" className="btn btn-outline-primary" onClick={goToClasify}>
+            Clasificar
+          </button>
+        )}
+        {buttonEnabled && statusProtocol == "selecting" && (
+          <button type="button" className="btn btn-outline-primary" onClick={() => runSelect()}>
+            Seleccionar
+          </button>
+        )}
+        {buttonEnabled && (statusProtocol == "evaluatingFirst" || statusProtocol == "evaluatingSecond") && (
+          <button type="button" className="btn btn-outline-primary" onClick={() => seeEvaluar()}>
+            Evaluar
+          </button>
+        )}
+        {buttonEnabled && statusProtocol == "correcting" && (
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => navigate("/protocolo/" + uuidProtocol)}
+          >
+            Corregir Protocolo
+          </button>
+        )}
+        <button type="button" className="btn btn-outline-primary" onClick={seeDocument}>
           Documento
         </button>
-        <button
-          type="button"
-          className="btn btn-outline-primary"
-          onClick={seeStatus}
-        >
+        <button type="button" className="btn btn-outline-primary" onClick={seeStatus}>
           Ver Status
         </button>
       </div>
