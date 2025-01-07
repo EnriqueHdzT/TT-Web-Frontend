@@ -87,7 +87,7 @@ export default function MonitoreoProtocolo() {
       <div className="info-container">
         <div className="general-contenedor">
           <div className="row-container">
-            <div className="box status gray">
+            <div className="box status validando">
               <div className="icore ico-blue">
                 <FontAwesomeIcon icon={faAnglesDown} />
               </div>
@@ -149,9 +149,9 @@ export default function MonitoreoProtocolo() {
             </div>
           )}
           {Object.keys(firstEvaluations).length == 3 && (
-            <div className="row-container">
+            <div className="row-container-eva">
               {Object.keys(firstEvaluations).map((evaluation) => (
-                <div className="box status green">
+                <div className="box status evaluando">
                   <div className="text-pro">
                     {firstEvaluations[evaluation].name +
                       " " +
@@ -159,7 +159,6 @@ export default function MonitoreoProtocolo() {
                   </div>
                   <a>
                     <button
-                      className="red"
                       onClick={() => {
                         navigate(
                           `/evaprotocolo/${protocolUUID}?sinodalID=${evaluation}&evalTime=first`
@@ -205,9 +204,9 @@ export default function MonitoreoProtocolo() {
             </div>
           )}
           {Object.keys(firstEvaluations).length == 3 && (
-            <div className="row-container">
+            <div className="row-container-eva">
               {Object.keys(secondEvaluations).map((evaluation) => (
-                <div className="box status green">
+                <div className="box status evaluando">
                   <div className="text-pro">
                     {secondEvaluations[evaluation].name + " " +
                       secondEvaluations[evaluation].lastname
@@ -215,8 +214,7 @@ export default function MonitoreoProtocolo() {
                   </div>
                   <a>
                     <button
-                      className="red"
-                      onClick={() => {
+                        onClick={() => {
                         navigate(
                           `/evaprotocolo/${protocolUUID}?sinodalID=${evaluation}&evalTime=second`
                         );
@@ -231,8 +229,8 @@ export default function MonitoreoProtocolo() {
           )}
           {(current_status === "active" || current_status === "canceled") && (
             <div className="row-container">
-              <div className="box status red">
-                <div className="icore ico-red">
+              <div className="box status blue">
+                <div className="icore ico-blue">
                   <FontAwesomeIcon icon={faXmark} />
                 </div>
                 <div className="text-pro">Proceso finalizado</div>
