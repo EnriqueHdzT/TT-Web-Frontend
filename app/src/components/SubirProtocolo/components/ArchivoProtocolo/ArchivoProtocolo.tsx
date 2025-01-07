@@ -29,7 +29,7 @@ export default function ArchivoProtocolo({ pdf = null, setPdf }: Props) {
         </div>
         <div className="adv-pr">
           <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Recuerda que el protocolo no debe pesar
-          más de 6mb y debe pertenecer a un formato PDF
+          más de 6mb y debe pertenecer a un formato PDF. <br></br>No olvides estructurarlo con los requisitos del formato de protocolo expedidos por la CATT.
         </div>
       </div>
     </div>

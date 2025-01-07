@@ -199,7 +199,7 @@ const ClasificarProtocolo: React.FC = () => {
           <div className="split-container">
             {/* Panel Izquierdo */}
             <div className={`left-panel ${isMinimized ? "minimized" : ""}`}>
-              <div className="info-container">
+              <div className="info-containerc">
                 <h1 className="titulo">Título de TT: {protocolo.title}</h1>
                 <p className="identificador">
                   Núm. de Registro de TT: {protocolo.protocol_id}
@@ -257,7 +257,7 @@ const ClasificarProtocolo: React.FC = () => {
           </div>
         </>
       ) : (
-        <p>Cargando protocolo...</p>
+        <div className="ppc"><p>Cargando protocolo...</p></div>
       )}
     </div>
   );
