@@ -53,6 +53,10 @@ $gray-pass: #A2A2A2;
       background-color: $blue;
       color: $cont-gray;
       border: none;
+
+      &:hover{
+        background-color: #1d7ed0;
+      }
     }
   }
 
