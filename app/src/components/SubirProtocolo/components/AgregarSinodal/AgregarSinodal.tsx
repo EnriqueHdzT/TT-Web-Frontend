@@ -23,9 +23,10 @@ interface Props {
   sinodals: SinodalData[];
   directors: DirectorData[];
   setSinodals: React.Dispatch<React.SetStateAction<SinodalData[]>>;
+  disableButtons: boolean;
 }
 
-export default function AgregarSinodal({ sinodals = [], directors = [], setSinodals }: Props) {
+export default function AgregarSinodal({ sinodals = [], directors = [], setSinodals, disableButtons }: Props) {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState("");
@@ -109,16 +110,18 @@ export default function AgregarSinodal({ sinodals = [], directors = [], setSinod
                 {sinodal.name || ""} {sinodal.lastname || ""} {sinodal.second_lastname || ""}
               </span>
               <span className="student_email">{sinodal.email}</span>
-              <button>
-                <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleSinodalDelete(index)} />
-              </button>
+              {!disableButtons && (
+                <button>
+                  <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleSinodalDelete(index)} />
+                </button>
+              )}
             </div>
           ))
         ) : (
           <p>Agrega los sinodales que participarán en el protocolo</p>
         )}
       </div>
-      {!tooManySinodals && (
+      {!(tooManySinodals || disableButtons) && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
         </div>

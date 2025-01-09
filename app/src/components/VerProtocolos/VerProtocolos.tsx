@@ -42,14 +42,11 @@ export default function VerProtocolos() {
         orderBy: filters.statuses ? filters.statuses[currentOrder] : undefined,
         fetchFilters,
       });
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/listProtocols/?${params}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`http://127.0.0.1:8000/api/listProtocols/?${params}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -233,6 +230,7 @@ export default function VerProtocolos() {
               idProtocol={protocol.protocol_id}
               titleProtocol={protocol.title}
               statusProtocol={protocol.current_status}
+            buttonEnabled={protocol.enable_button}
             // studentList = {protocol.studentList}
             // directorList = {protocol.directorList}
             // sinodalList = {protocol.sinodalList}
