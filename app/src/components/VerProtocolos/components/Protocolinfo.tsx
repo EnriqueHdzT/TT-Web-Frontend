@@ -161,32 +161,32 @@ export default function Protocolinfo({
           Ver Status
         </button>
       </div>
-      {/* <div className="p-info">
-        <div className="p-alumn">
+      <div className="p-info">
           {studentList.map((student) => (
-            <a key={student.curriculum}>
-              {student.name + " " + student.curriculum}
-              <br></br>
-            </a>
+            <div className="p-alumn">
+              <a key={student.curriculum}>
+                {student.name + " " + student.curriculum}
+                <br></br>
+              </a>
+            </div>
           ))}
-        </div>
-        <div className="p-director">
           {directorList.map((director) => (
-            <a key={director.precedence}>
-              {director.name + " " + director.precedence}
-              <br></br>
-            </a>
+            <div className="p-director">
+              <a key={director.precedence}>
+                {director.name + " " + director.precedence}
+                <br></br>
+              </a>
+            </div>
           ))}
-        </div>
-        <div className="p-sinodal">
-          {sinodalList.map((sinodal) => (
-            <a key={sinodal.academy}>
-              {sinodal.name + " " + sinodal.academy}
-              <br></br>
-            </a>
+          {sinodalList.map((sinodal, i) => (
+            <div className="p-sinodal">
+              <a key={i}>
+                {sinodal.name + " " + sinodal.academies.join(", ")}
+                <br></br>
+              </a>
+            </div>
           ))}
-        </div>
-      </div> */}
+      </div>
     </div>
   );
 }
