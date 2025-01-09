@@ -62,16 +62,26 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
     }
   };
 
-  const handleBlur = (e: ChangeEvent<HTMLInputElement>) => {
+  function validateEmail(email: string) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/;
+    return emailRegex.test(email);
+  }
+
+  function validatePassword(password: string) {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&?*])[a-zA-Z0-9!@#$%^&?*]{8,}$/;
+    return passwordRegex.test(password);
+  }
+
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>, checkBoth: boolean) => {
     const { name, value } = e.target;
-    if (name === "email") {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/;
-      setIsWrongEmail(!emailRegex.test(value) && isTypingEmail);
+    if (name === "email" || checkBoth) {
+      const isValidEmail = validateEmail(checkBoth ? LoginData.email : value);
+      setIsWrongEmail(!isValidEmail && isTypingEmail);
       setIsTypingEmail(false);
     }
-    if (name === "password") {
-      const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&?*])[a-zA-Z0-9!@#$%^&?*]{8,}$/;
-      setIsWrongPassword(!passwordRegex.test(value) && isTypingPassword);
+    if (name === "password" || checkBoth) {
+      const isValidPassword = validatePassword(checkBoth ? LoginData.password : value);
+      setIsWrongPassword(!isValidPassword && isTypingPassword);
       setIsTypingPassword(false);
     }
   };
@@ -83,9 +93,16 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
   async function onClickSave(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     event.preventDefault();
     if(loading) return;
+    let mockEvent = {
+      target: {
+        name: "",
+        value: "",
+      },
+    }
+    handleBlur(mockEvent, true);
     setLoading(true);
 
-    if (!wrongEmail && !wrongPassword) {
+    if (validateEmail(LoginData.email) && validatePassword(LoginData.password)) {
       try {
         const formData = new URLSearchParams();
         formData.append("email", LoginData.email);
@@ -117,7 +134,6 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
             toastBoostrap.show();
           }
         }
-        setLoading(false);
       } catch (error) {
         setToastTitle("Error");
         setToastMessage("Error al iniciar sesión");
@@ -127,6 +143,8 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
         }
       }
     }
+
+    setLoading(false);
   }
 
   if (!localStorage.getItem("token")) {
