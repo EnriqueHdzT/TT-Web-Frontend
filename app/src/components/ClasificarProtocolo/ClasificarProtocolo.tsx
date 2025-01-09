@@ -5,7 +5,6 @@ import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import Select from "react-select";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -31,7 +30,8 @@ interface FormData {
 const ClasificarProtocolo: React.FC = () => {
   const { id: protocolId } = useParams<{ id: string }>(); // Identificador del protocolo
   const navigate = useNavigate();
-
+  const [newStaffAcademia, setNewStaffAcademia] = useState([]);
+  const [rawAcademyInput, setRawAcademyInput] = useState("");
   const [isMinimized, setIsMinimized] = useState(false);
   const [formData, setFormData] = useState<FormData>({ academiaselect: [] });
   const [protocolo, setProtocolo] = useState<Protocolo | null>(null);
@@ -137,31 +137,29 @@ const ClasificarProtocolo: React.FC = () => {
       setLoading(false); // Completa el estado de carga
     }
   };
-  // Manejar cambios en el selector de academias
-  const handleSelectChange = (selectedOptions: any, name: "academiaselect") => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: selectedOptions || [],
-    }));
-  };
+
+  useEffect(() => {
+    if (rawAcademyInput === "") {
+      setNewStaffAcademia([]);
+    }
+  }, [rawAcademyInput]);
 
   // Manejar el formulario al enviar
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      formData.academiaselect.length < 3 ||
-      formData.academiaselect.length > 3
-    ) {
+    if (newStaffAcademia.length < 3 || newStaffAcademia.length > 3) {
       alert("Por favor, selecciona 3 academias.");
       return;
     }
 
     try {
-      console.log(formData.academiaselect);
-
       const academiasID: string[] = [];
-      formData.academiaselect.forEach((academia) => {
-        academiasID.push(academia.value);
+      newStaffAcademia.forEach((academia) => {
+        academiasOptions.forEach((option) => {
+          if (option.label === academia) {
+            academiasID.push(option.value);
+          }
+        });
       });
 
       await axios
@@ -218,16 +216,65 @@ const ClasificarProtocolo: React.FC = () => {
                 <div className="academias">
                   <form onSubmit={handleSubmit}>
                     <div>
-                      <label>Selecciona las academias a enviar:</label>
-                      <Select
-                        isMulti
-                        name="academiaselect"
-                        options={academiasOptions} // Opciones cargadas dinámicamente
-                        value={formData.academiaselect}
-                        onChange={(selectedOptions) =>
-                          handleSelectChange(selectedOptions, "academiaselect")
-                        }
-                      />
+                      <div>
+                        <label>Selecciona las academias a enviar:</label>
+                        <div className="input-group mb-3">
+                          <input
+                            type="text"
+                            className="form-control mt-3 mb-3"
+                            placeholder="Ingresa las academias separadas por comas"
+                            value={rawAcademyInput}
+                            onChange={(e) => setRawAcademyInput(e.target.value)}
+                            onBlur={() => {
+                              const academias = rawAcademyInput
+                                .split(",")
+                                .map((academy) => academy.trim())
+                                .filter((academy) => academy !== "");
+                              setNewStaffAcademia((prevAcademies) => [
+                                ...prevAcademies,
+                                ...academias,
+                              ]);
+                              setRawAcademyInput("");
+                            }}
+                          />
+                          <div className="input-group-append">
+                            <button
+                              type="button"
+                              className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <span className="visually-hidden">
+                                Toggle Dropdown
+                              </span>
+                            </button>
+                            <ul className="dropdown-menu dropdown-menu-end">
+                              {academiasOptions.map((academy, index) => (
+                                <li key={index}>
+                                  <a
+                                    className="dropdown-item"
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setRawAcademyInput((prevInput) => {
+                                        return prevInput
+                                          ? `${prevInput}, ${academy.label}`
+                                          : academy.label;
+                                      });
+                                      setNewStaffAcademia((prevAcademies) => [
+                                        ...prevAcademies,
+                                        academy.label,
+                                      ]);
+                                    }}
+                                  >
+                                    {academy.label}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <button type="submit">Enviar</button>
                   </form>
@@ -257,7 +304,9 @@ const ClasificarProtocolo: React.FC = () => {
           </div>
         </>
       ) : (
-        <div className="ppc"><p>Cargando protocolo...</p></div>
+        <div className="ppc">
+          <p>Cargando protocolo...</p>
+        </div>
       )}
     </div>
   );
