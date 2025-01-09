@@ -32,6 +32,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
   const [toastTitle, setToastTitle] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const ToastRef = document.getElementById("toast-popup");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -81,6 +82,8 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
 
   async function onClickSave(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     event.preventDefault();
+    if(loading) return;
+    setLoading(true);
 
     if (!wrongEmail && !wrongPassword) {
       try {
@@ -114,6 +117,7 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
             toastBoostrap.show();
           }
         }
+        setLoading(false);
       } catch (error) {
         setToastTitle("Error");
         setToastMessage("Error al iniciar sesión");
@@ -188,8 +192,12 @@ export default function Login({ setAuth, setUserType }: LoginProps) {
             ) : (
               <></>
             )}
-            <button type="submit" onClick={(event) => onClickSave(event)}>
-              Entrar
+            <button type="submit" onClick={onClickSave}>
+              {loading ? 
+                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                :
+                'Entrar'
+              }
             </button>
           </form>
           <div className="messa-sesion">
