@@ -70,13 +70,19 @@ $gray-pass: #a2a2a2;
   margin-top: 2%;
 
   .p-tit {
-    width: 50%;
     font: 400 0.9rem "Poppins";
     padding-left: 2%;
+    
+    .p-tit-pro{
+      font: 500 0.8rem "Poppins";
+      min-height: 40px;          // Altura mínima de 30px
+      max-height: 40px;          // Altura máxima de 40px
+      overflow-y: auto;
+    }
   }
 
+
   .p-buttons {
-    width: 50%;
     gap: 1rem;
     display: flex;
     justify-content: flex-end;
@@ -84,11 +90,15 @@ $gray-pass: #a2a2a2;
 
     button {
       height: 2.2rem;
-      font: 500 0.8rem "Poppins";
+      font: 500 0.7rem "Poppins";
       border-radius: 15px;
       background-color: $blue;
       color: $cont-gray;
       border: none;
+
+      &:hover{
+        background-color: #1d7ed0;
+      }
     }
   }
 

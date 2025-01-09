@@ -230,6 +230,7 @@ export default function VerProtocolos() {
               idProtocol={protocol.protocol_id}
               titleProtocol={protocol.title}
               statusProtocol={protocol.current_status}
+            buttonEnabled={protocol.enable_button}
             // studentList = {protocol.studentList}
             // directorList = {protocol.directorList}
             // sinodalList = {protocol.sinodalList}

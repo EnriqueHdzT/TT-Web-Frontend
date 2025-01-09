@@ -31,8 +31,8 @@ export default function ArchivoProtocolo({ pdf = null, setPdf, disableButtons }:
               {pdf && <div className="ar-file">Archivo seleccionado: {pdf?.name}</div>}
             </div>
             <div className="adv-pr">
-            <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Recuerda que el protocolo no debe pesar
-            más de 6mb y debe pertenecer a un formato PDF. <br></br>No olvides estructurarlo con los requisitos del formato de protocolo expedidos por la CATT.
+              <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Recuerda que el protocolo no debe
+              pesar más de 6mb y debe pertenecer a un formato PDF. <br></br>No olvides estructurarlo con los requisitos del formato de protocolo expedidos por la CATT.
             </div>
           </>
         ) : (
