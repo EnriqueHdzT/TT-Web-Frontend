@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleExclamation,
-  faCirclePlus,
-  faClose,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
 
 interface StudentData {
   email: string;
@@ -20,9 +16,10 @@ interface StudentData {
 interface Props {
   students: StudentData[];
   setStudents: React.Dispatch<React.SetStateAction<StudentData[]>>;
+  disableButtons: boolean;
 }
 
-export default function AgregarAlumnos({ students, setStudents }: Props) {
+export default function AgregarAlumnos({ students, setStudents, disableButtons }: Props) {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
   const [showPopup, setShowPopup] = useState(false);
@@ -39,6 +36,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [tooManyStudents, setTooManyStudents] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
+  const [anotherDisabled, setAnotherDisabled] = useState(false);
 
   useEffect(() => {
     if (students.length >= 4) {
@@ -47,30 +45,29 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
       setTooManyStudents(false);
     }
   }, [students]);
+  useEffect(() => {
+    setAnotherDisabled(disableButtons);
+    console.log(disableButtons);
+  }, [disableButtons]);
 
   const checkIfUserExists = async () => {
     try {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx)$/;
       if (emailRegex.test(email)) {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/userExists/${email}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch(`http://127.0.0.1:8000/api/userExists/${email}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Error al buscar el correo");
         }
 
         const res = await response.json();
-        const emailAlreadyExists = students.some(
-          (student) => student.email === email
-        );
+        const emailAlreadyExists = students.some((student) => student.email === email);
         if (!emailAlreadyExists) {
           const newStudent: StudentData = {
             email: email,
@@ -115,9 +112,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
   };
 
   const handleAgregar = () => {
-    const emailAlreadyExists = students.some(
-      (student) => student.email === email
-    );
+    const emailAlreadyExists = students.some((student) => student.email === email);
     if (!emailAlreadyExists) {
       const newStudent: StudentData = {
         email: email,
@@ -141,23 +136,15 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
   };
 
   useEffect(() => {
-    const isEmailValid =
-      email !== "" &&
-      /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/.test(email);
+    const isEmailValid = email !== "" && /^[a-zA-Z0-9._%+-]+@(alumno\.ipn\.mx|ipn\.mx)$/.test(email);
     const isNameValid = nombre !== "";
     const isPapellidoValid = Papellido !== "";
     const isBoletaValid = boleta !== "" && boleta.length === 10;
-    const isCarreraValid =
-      carrera !== "" && ["ISW", "IIA", "LCD"].includes(carrera);
+    const isCarreraValid = carrera !== "" && ["ISW", "IIA", "LCD"].includes(carrera);
     const isPlanEstudiosValid = carrera !== "ISW" ? planestudio !== "" : true;
 
     setSendButtonEnabled(
-      isEmailValid &&
-        isNameValid &&
-        isPapellidoValid &&
-        isBoletaValid &&
-        isCarreraValid &&
-        isPlanEstudiosValid
+      isEmailValid && isNameValid && isPapellidoValid && isBoletaValid && isCarreraValid && isPlanEstudiosValid
     );
   }, [email, nombre, Papellido, Sapellido, boleta, carrera, planestudio]);
 
@@ -170,18 +157,13 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
             <div className="student" key={index}>
               <div className="student_info">
                 <span className="student_name">
-                  {alumno.name || ""} {alumno.lastname || ""}{" "}
-                  {alumno.second_lastname || ""}
+                  {alumno.name || ""} {alumno.lastname || ""} {alumno.second_lastname || ""}
                 </span>
                 <span className="student_email">{alumno.email}</span>
               </div>
-              {!(userType === "Student" && index === 0 ) && (
+              {!((userType === "Student" && index === 0) || !disableButtons) && (
                 <button>
-                  <FontAwesomeIcon
-                    icon={faClose}
-                    className="icon"
-                    onClick={() => handleStudentDelete(index)}
-                  />
+                  <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleStudentDelete(index)} />
                 </button>
               )}
             </div>
@@ -191,7 +173,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
         )}
       </div>
 
-      {!tooManyStudents && (
+      {!(tooManyStudents || disableButtons) && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
         </div>
@@ -213,30 +195,20 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
                   <button onClick={checkIfUserExists}>Buscar</button>
                   {showWarning && (
                     <div className="adven">
-                      <FontAwesomeIcon
-                        icon={faCircleExclamation}
-                        className="adv-icon"
-                      />
-                      El correo institucional que has buscado no se encuentra
-                      registrado en la aplicación. Ingresa los siguientes datos
-                      para continuar
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                      El correo institucional que has buscado no se encuentra registrado en la aplicación. Ingresa los
+                      siguientes datos para continuar
                     </div>
                   )}
                   {!emailIsValid && (
                     <div className="adven">
-                      <FontAwesomeIcon
-                        icon={faCircleExclamation}
-                        className="adv-icon"
-                      />
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
                       El correo no cumple con el formato esperado
                     </div>
                   )}
                   {emailExists && (
                     <div className="adven">
-                      <FontAwesomeIcon
-                        icon={faCircleExclamation}
-                        className="adv-icon"
-                      />
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
                       El correo ya se encuentra registrado en este protocolo
                     </div>
                   )}
@@ -283,22 +255,13 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
                     <div className="tit-2">
                       Carrera{" "}
                       <div>
-                        <select
-                          value={carrera}
-                          onChange={(e) => setCarrera(e.target.value)}
-                        >
+                        <select value={carrera} onChange={(e) => setCarrera(e.target.value)}>
                           <option value="" disabled hidden>
                             Selecciona la carrera a la que pertenece el alumnno
                           </option>
-                          <option value="ISW">
-                            Ingeniería en Sistemas Computacionales
-                          </option>
-                          <option value="IIA">
-                            Ingeniería en Inteligencia Artificial
-                          </option>
-                          <option value="LCD">
-                            Licenciatura en Ciencia de Datos
-                          </option>
+                          <option value="ISW">Ingeniería en Sistemas Computacionales</option>
+                          <option value="IIA">Ingeniería en Inteligencia Artificial</option>
+                          <option value="LCD">Licenciatura en Ciencia de Datos</option>
                         </select>
                       </div>
                     </div>
@@ -306,11 +269,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
                       <div className="tit-2">
                         Plan de estudio{" "}
                         <div>
-                          <select
-                            value={planestudio}
-                            className="ojio"
-                            onChange={(e) => setPlanestudio(e.target.value)}
-                          >
+                          <select value={planestudio} className="ojio" onChange={(e) => setPlanestudio(e.target.value)}>
                             <option value="" disabled hidden>
                               Selecciona el plan al que pertenece el alumnno
                             </option>
