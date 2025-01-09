@@ -39,7 +39,8 @@ export default function VerProtocolos() {
     try {
       const params = new URLSearchParams({
         cycle: currentPeriod,
-        orderBy: filters.statuses ? filters.statuses[currentOrder] : undefined,
+        status: filters.statuses && filters.statuses[currentOrder] ? filters.statuses[currentOrder] : 'Todos',
+        academy: currentAcademy,
         fetchFilters,
       });
       const response = await fetch(`http://127.0.0.1:8000/api/listProtocols/?${params}`, {
@@ -160,6 +161,7 @@ export default function VerProtocolos() {
               </div>
             }
 
+            {/*----- Estados -----*/}
             {filters.statuses &&
               <div className="dropdown-center d-inline">
                 <button
@@ -178,7 +180,7 @@ export default function VerProtocolos() {
                       key={"Todos"}
                       onClick={(e) => {
                         e.preventDefault();
-                        setCurrentAcademy(e.target.innerText);
+                        setCurrentOrder(e.target.innerText);
                       }}
                     >
                       Todos
@@ -230,7 +232,7 @@ export default function VerProtocolos() {
               idProtocol={protocol.protocol_id}
               titleProtocol={protocol.title}
               statusProtocol={protocol.current_status}
-            buttonEnabled={protocol.enable_button}
+              buttonEnabled={protocol.enable_button}
             // studentList = {protocol.studentList}
             // directorList = {protocol.directorList}
             // sinodalList = {protocol.sinodalList}
