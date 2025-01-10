@@ -3,11 +3,7 @@ import "./Protocolinfo.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEllipsisVertical,
-  faChevronDown,
-  faChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical, faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import "reactjs-popup/dist/index.css";
 
 export default function Protocolinfo({
@@ -60,39 +56,31 @@ export default function Protocolinfo({
   }
 
   const runSelect = async () => {
-    const response = axios.get(
-      `http://127.0.0.1:8000/api/selectProtocol/${uuidProtocol}`,
-      {
+    axios
+      .get(`http://127.0.0.1:8000/api/selectProtocol/${uuidProtocol}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }
-    );
-    console.log(response);
-    if (response.status <= 200 && response.status > 300) {
-      window.location.reload();
-    } else {
-      console.log(response);
-    }
+      })
+      .then((response) => {
+        console.log(response);
+        navigate(0);
+      });
   };
 
   const handleDelete = async () => {
-    const response = axios.delete(
-      `http://127.0.1:8000/api/deleteProtocol/${uuidProtocol}`,
-      {
+    await axios
+      .delete(`http://127.0.1:8000/api/deleteProtocol/${uuidProtocol}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }
-    );
-    console.log(response);
-    if (response.status <= 200 && response.status > 300) {
-      window.location.reload();
-    } else {
-      console.log(response);
-    }
+      })
+      .then((response) => {
+        console.log(response);
+        navigate(0);
+      });
   };
 
   return (
@@ -126,43 +114,25 @@ export default function Protocolinfo({
           )}
         </Popup> */}
         {buttonEnabled && statusProtocol == "validating" && (
-          <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={goToValidate}
-          >
+          <button type="button" className="btn btn-outline-primary" onClick={goToValidate}>
             Validar
           </button>
         )}
         {buttonEnabled && statusProtocol == "classifying" && (
-          <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={goToClasify}
-          >
+          <button type="button" className="btn btn-outline-primary" onClick={goToClasify}>
             Clasificar
           </button>
         )}
         {buttonEnabled && statusProtocol == "selecting" && (
-          <button
-            type="button"
-            className="btn btn-outline-primary"
-            onClick={() => runSelect()}
-          >
+          <button type="button" className="btn btn-outline-primary" onClick={() => runSelect()}>
             Seleccionar
           </button>
         )}
-        {buttonEnabled &&
-          (statusProtocol == "evaluatingFirst" ||
-            statusProtocol == "evaluatingSecond") && (
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              onClick={() => seeEvaluar()}
-            >
-              Evaluar
-            </button>
-          )}
+        {buttonEnabled && (statusProtocol == "evaluatingFirst" || statusProtocol == "evaluatingSecond") && (
+          <button type="button" className="btn btn-outline-primary" onClick={() => seeEvaluar()}>
+            Evaluar
+          </button>
+        )}
         {buttonEnabled && statusProtocol == "correcting" && (
           <button
             type="button"
@@ -172,18 +142,10 @@ export default function Protocolinfo({
             Corregir Protocolo
           </button>
         )}
-        <button
-          type="button"
-          className="btn btn-outline-primary"
-          onClick={seeDocument}
-        >
+        <button type="button" className="btn btn-outline-primary" onClick={seeDocument}>
           Documento
         </button>
-        <button
-          type="button"
-          className="btn btn-outline-primary"
-          onClick={seeStatus}
-        >
+        <button type="button" className="btn btn-outline-primary" onClick={seeStatus}>
           Ver Status
         </button>
       </div>
@@ -200,7 +162,7 @@ export default function Protocolinfo({
             >
               Editar
             </li>
-            <li onClick={handleDelete}>Eliminar</li>
+            {userType !== "Student" && <li onClick={handleDelete}>Eliminar</li>}
           </ul>
         )}
       </div>
@@ -219,11 +181,10 @@ export default function Protocolinfo({
                   " " +
                   student.lastname +
                   " " +
-                  (student.second_lastname
-                    ? " " + student.second_lastname
-                    : "") +
+                  (student.second_lastname ? " " + student.second_lastname : "") +
                   " "}
-                  <span className="p-subtitle">Carrera:</span>{student.career}
+                <span className="p-subtitle">Carrera:</span>
+                {student.career}
                 <br />
               </a>
             ))}
@@ -240,40 +201,46 @@ export default function Protocolinfo({
             {directorList.map((director) => (
               <a key={director.precedence}>
                 <span className="p-subtitle">Nombre:</span>
-                {director.name + " " +
+                {director.name +
+                  " " +
                   director.lastname +
                   " " +
-                  (director.second_lastname
-                    ? " " + director.second_lastname
-                    : "") + " "}
-                <span className="p-subtitle">Procedencia:</span>{director.precedence}
+                  (director.second_lastname ? " " + director.second_lastname : "") +
+                  " "}
+                <span className="p-subtitle">Procedencia:</span>
+                {director.precedence}
                 <br />
               </a>
             ))}
           </div>
         )}
 
-       {/* Sección Sinodal */}
-<div className="section-header" onClick={toggleSinodal}>
-  <span>Sinodales</span>
-  <FontAwesomeIcon icon={showSinodal ? faChevronUp : faChevronDown} />
-</div>
-{showSinodal && (
-  <div className="p-sinodal">
-    {sinodalList.length > 0 ? (
-      sinodalList.map((sinodal, i) => (
-        <a key={i}>
-          <span className="p-subtitle">Nombre:</span>
-          {sinodal.name + " " + sinodal.lastname + " " + (sinodal.second_lastname ? " " + sinodal.second_lastname : "")}
-          <span className="p-subtitle">Academias:</span>{sinodal.academies.join(", ")}
-          <br />
-        </a>
-      ))
-    ) : (
-      <div>Aún no hay sinodales</div> // Mensaje en caso de que no haya sinodales
-    )}
-  </div>
-)}
+        {/* Sección Sinodal */}
+        <div className="section-header" onClick={toggleSinodal}>
+          <span>Sinodales</span>
+          <FontAwesomeIcon icon={showSinodal ? faChevronUp : faChevronDown} />
+        </div>
+        {showSinodal && (
+          <div className="p-sinodal">
+            {sinodalList.length > 0 ? (
+              sinodalList.map((sinodal, i) => (
+                <a key={i}>
+                  <span className="p-subtitle">Nombre:</span>
+                  {sinodal.name +
+                    " " +
+                    sinodal.lastname +
+                    " " +
+                    (sinodal.second_lastname ? " " + sinodal.second_lastname : "")}
+                  <span className="p-subtitle">Academias:</span>
+                  {sinodal.academies.join(", ")}
+                  <br />
+                </a>
+              ))
+            ) : (
+              <div>Aún no hay sinodales</div> // Mensaje en caso de que no haya sinodales
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

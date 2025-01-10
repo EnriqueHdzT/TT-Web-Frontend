@@ -2,10 +2,7 @@ import "./EvaluarPro.scss";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronRight,
-  faChevronLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 interface ReplyToQuestion {
   validation: boolean | null;
@@ -26,16 +23,13 @@ export default function EvaluarPro() {
   useEffect(() => {
     const getQuestionare = async () => {
       try {
-        const response = await fetch(
-          "http://127.0.0.1:8000/api/getQuestionare",
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch("http://127.0.0.1:8000/api/getQuestionare", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
@@ -43,10 +37,7 @@ export default function EvaluarPro() {
         setQuestionsList(Object.keys(data));
         setReplyToQuestion([]);
         for (const key in data) {
-          setReplyToQuestion((prev) => [
-            ...prev,
-            { validation: null, comment: null },
-          ]);
+          setReplyToQuestion((prev) => [...prev, { validation: null, comment: null }]);
         }
       } catch (error) {
         console.error("Error al obtener los datos:", error);
@@ -76,10 +67,7 @@ export default function EvaluarPro() {
         setReplyToQuestion([]);
         console.log(data);
         for (const key in data) {
-          setReplyToQuestion((prev) => [
-            ...prev,
-            { validation: data[key].validation, comment: data[key].comment },
-          ]);
+          setReplyToQuestion((prev) => [...prev, { validation: data[key].validation, comment: data[key].comment }]);
         }
       } catch (error) {
         //navigate(-1);
@@ -89,16 +77,13 @@ export default function EvaluarPro() {
 
     const getPdf = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/getProtocolDocByID/${id}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDocByID/${id}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
@@ -112,16 +97,13 @@ export default function EvaluarPro() {
 
     const getProtocolData = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/getEvalProtData/${id}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch(`http://127.0.0.1:8000/api/getEvalProtData/${id}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
@@ -134,16 +116,13 @@ export default function EvaluarPro() {
 
     const isUserAllow = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/allowedEval/${id}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch(`http://127.0.0.1:8000/api/allowedEval/${id}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Error al obtener los datos");
         }
@@ -186,9 +165,7 @@ export default function EvaluarPro() {
   // useeffect if replyToQuestion values null keep isSendButtonDisabled true
   useEffect(() => {
     // Check if all fields have valid values (not null or empty)
-    const allFieldsFilled = replyToQuestion.every(
-      (reply) => reply.validation !== null
-    );
+    const allFieldsFilled = replyToQuestion.every((reply) => reply.validation !== null);
 
     // Disable the send button if all fields are not filled
     setIsSendButtonDisabled(!allFieldsFilled);
@@ -216,39 +193,31 @@ export default function EvaluarPro() {
       };
     });
 
-    const response = await fetch(
-      `http://127.0.0.1:8000/api/evaluateProtocol/${id}`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(reply),
-      }
-    );
+    const response = await fetch(`http://127.0.0.1:8000/api/evaluateProtocol/${id}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(reply),
+    });
     if (response.ok) {
+      navigate("/protocolos");
+      navigate(0);
       console.log("Respuestas enviadas correctamente");
     } else {
       console.error("Error al enviar las respuestas");
     }
   };
 
-  const updateValidation = (
-    index: number,
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const updateValidation = (index: number, e: React.ChangeEvent<HTMLSelectElement>) => {
     const newReplyToQuestion = [...replyToQuestion];
-    newReplyToQuestion[index].validation =
-      e.target.value === "Si" ? true : false;
+    newReplyToQuestion[index].validation = e.target.value === "Si" ? true : false;
     setReplyToQuestion(newReplyToQuestion);
   };
 
-  const updateComment = (
-    index: number,
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const updateComment = (index: number, e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newReplyToQuestion = [...replyToQuestion];
     newReplyToQuestion[index].comment = e.target.value;
     setReplyToQuestion(newReplyToQuestion);
@@ -275,20 +244,13 @@ export default function EvaluarPro() {
                 <>
                   <label key={index}>
                     {" "}
-                    {index === questionsList.length - 1
-                      ? ""
-                      : index + 1 + "."}{" "}
-                    {question}
+                    {index === questionsList.length - 1 ? "" : index + 1 + "."} {question}
                   </label>
                   <br />
                   <select
                     name={question}
                     value={
-                      replyToQuestion[index].validation === null
-                        ? ""
-                        : replyToQuestion[index].validation
-                        ? "Si"
-                        : "No"
+                      replyToQuestion[index].validation === null ? "" : replyToQuestion[index].validation ? "Si" : "No"
                     }
                     onChange={(e) => {
                       updateValidation(index, e);
@@ -323,9 +285,7 @@ export default function EvaluarPro() {
           </div>
         </div>
         <button className="minimize-button" onClick={toggleMinimize}>
-          <FontAwesomeIcon
-            icon={isMinimized ? faChevronRight : faChevronLeft}
-          />
+          <FontAwesomeIcon icon={isMinimized ? faChevronRight : faChevronLeft} />
         </button>
         {/* Sección derecha con el PDF */}
         <div className={`pdf-panel ${isMinimized ? "full-width" : ""}`}>
