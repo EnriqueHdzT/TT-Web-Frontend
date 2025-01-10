@@ -200,8 +200,12 @@ const ClasificarProtocolo: React.FC = () => {
               <div className="info-containerc">
                 <h1 className="titulo">Título de TT: {protocolo.title}</h1>
                 <p className="identificador">
-                  Núm. de Registro de TT: {protocolo.protocol_id}
+                <strong>Núm. de Registro de TT:</strong> {protocolo.protocol_id}
                 </p>
+                <p className="identificador">
+               <strong>Resumen del Protocolo:</strong>{" "}
+                {protocolo?.resume || "Cargando..."}
+              </p>
                 <div className="palabras-clave">
                   Palabras Clave:
                   <div className="palabra-clave-contenedor">
@@ -213,15 +217,15 @@ const ClasificarProtocolo: React.FC = () => {
                       ))}
                   </div>
                 </div>
-                <div className="academias">
+                <div className="academias-c">
                   <form onSubmit={handleSubmit}>
                     <div>
                       <div>
                         <label>Selecciona las academias a enviar:</label>
-                        <div className="input-group mb-3">
+                        <div className="input-groupa">
                           <input
                             type="text"
-                            className="form-control mt-3 mb-3"
+                            className="input-academ"
                             placeholder="Ingresa las academias separadas por comas"
                             value={rawAcademyInput}
                             onChange={(e) => setRawAcademyInput(e.target.value)}
@@ -276,7 +280,7 @@ const ClasificarProtocolo: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <button type="submit">Enviar</button>
+                    <button className="enviar-bu" type="submit">Enviar</button>
                   </form>
                 </div>
               </div>

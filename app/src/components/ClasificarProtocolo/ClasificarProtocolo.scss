@@ -40,8 +40,8 @@ $gray-pass: #a2a2a2;
   }
 }
 
-.ppc{
-  p{
+.ppc {
+  p {
     font: 400 1rem "Poppins";
     margin: 2% 0 0 3%;
   }
@@ -80,10 +80,10 @@ $gray-pass: #a2a2a2;
   transition: width 0.3s ease;
   box-sizing: border-box; /* Asegura que el padding no rompa el layout */
 
-  span{
+  span {
     font: 400 1rem "Poppins";
   }
-  
+
   &.full-width {
     width: 100%; /* Expande al 100% cuando el panel izquierdo está minimizado */
   }
@@ -110,8 +110,6 @@ $gray-pass: #a2a2a2;
   flex-direction: column;
   width: auto;
   overflow: auto;
-  
- 
 
   &::-webkit-scrollbar {
     width: 5px;
@@ -127,6 +125,10 @@ $gray-pass: #a2a2a2;
   .fecha-evaluacion {
     font: 500 0.8rem "Poppins";
     margin: 0;
+
+    strong {
+      color: $blue;
+    }
   }
 
   .palabras-clave {
@@ -153,21 +155,16 @@ $gray-pass: #a2a2a2;
     }
   }
 
-  .academias {
+  .academias-c {
     width: 95%;
-
-    label {
-      text-transform: uppercase;
-      font: 500 0.8rem "Poppins";
-    }
-  }
-
+    display: flex;
+  
+  
   form {
-    font: 600 0.9rem "Poppins";
     padding-top: 15px;
+    width: 100%;
 
-
-    button {
+    .enviar-bu{
       background-color: $blue;
       color: $body-color;
       padding: 5px 20px;
@@ -175,7 +172,32 @@ $gray-pass: #a2a2a2;
       float: right;
       margin: 1rem 0 0 0;
     }
+    label {
+      font: 500 0.8rem "Poppins";
+    }
+    
+    .cc-a{
+      display: flex;
+    }
+    .input-groupa {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+
+      input{
+        border: none; /* Elimina el borde */
+        outline: none;
+        background-color: $cont-gray;
+        border-radius: 10px 0 0 10px;
+        font: 400 0.8rem "Poppins";
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        width: 100%;
+      }
+
+    }
   }
+}
 }
 
 @media (min-height: 800px) {
