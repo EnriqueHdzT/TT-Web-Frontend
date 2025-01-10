@@ -16,82 +16,43 @@ $black-fontd: #2c2c2c;
 $blue: #1c90f3;
 $gray-pass: #a2a2a2;
 
-.cont-ee {
-  position: relative;
-
-  .dropdown-ee {
-    border: none;
-    width: 20px;
-    height: 30px;
-    margin: 10px 0 0 35px;
-    cursor: pointer;
-    outline: none;
-    background-color: transparent;
-  }
-
-  .menu-ee {
-    position: absolute;
-    top: 25%;
-    right: 40%;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: block; //este es para que se vean
-    background-color: $navbg-color;
-    font: 400 12px / 18px "Poppins";
-
-    li {
-      padding: 5px 20px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f0f0f0;
-        border-radius: 10px;
-      }
-    }
-  }
-
-  &.open {
-    .menu-ee {
-      display: block;
-    }
-  }
-}
 .p-box {
   display: flex;
   flex-wrap: wrap;
-  width: 40%;
   margin: auto;
-  background-color: $users-cont;
-  border-radius: 20px;
+  justify-content: space-between;
+  border-radius: 10px;
   padding: 1rem;
-  margin-top: 2%;
+  background-color: $cont-gray2;
+  min-width: 650px;
+  border: 1px solid #ccc;
 
   .p-tit {
+    width: 60%;
     font: 400 0.9rem "Poppins";
-    padding-left: 2%;
+    padding-left: 0.7rem;
     
     .p-tit-pro{
-      font: 500 0.8rem "Poppins";
+      font: 500 0.9rem "Poppins";
+      line-height: 20px;
       min-height: 40px;          // Altura mínima de 30px
       max-height: 40px;          // Altura máxima de 40px
       overflow-y: auto;
+      
     }
   }
 
 
   .p-buttons {
+    width: 35%;
     gap: 1rem;
     display: flex;
     justify-content: flex-end;
-    padding-right: 2%;
 
     button {
       height: 2.2rem;
       font: 500 0.7rem "Poppins";
-      border-radius: 15px;
+      border-radius: 10px;
       background-color: $blue;
       color: $cont-gray;
       border: none;
@@ -102,34 +63,98 @@ $gray-pass: #a2a2a2;
     }
   }
 
+  .cont-ee {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    width: 5%;
+
+    .dropdown-ee {
+      border: none;
+      width: 20px;
+      height: 30px;
+      cursor: pointer;
+      margin: 0;
+      outline: none;
+      font-size: 18px;
+    }
+  
+    .menu-ee {
+      position: absolute;
+      top: 0;
+      right: 1.3rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: block; //este es para que se vean
+      background-color: $navbg-color;
+      font: 400 12px / 18px "Poppins";
+  
+      li {
+        padding: 5px 20px;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #f0f0f0;
+          border-radius: 10px;
+        }
+      }
+    }
+  
+    &.open {
+      .menu-ee {
+        display: block;
+      }
+    }
+  }
+
+  
   .p-info {
-    display: flex; // Activa Flexbox para organizar los hijos en línea
+    display: block; // Activa Flexbox para organizar los hijos en línea
     justify-content: space-between; // Espacia los elementos uniformemente
     align-items: center; // Alinea verticalmente al centro
-    gap: 20px; // Espacio entre los divs internos
-    width: 80%;
+    width: 100%;
 
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 5px 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font: 500 0.7rem "Poppins";
+    
+      &:hover {
+        background-color: #e9e9e9;
+      }
+    
+      .fa-icon {
+        transition: transform 0.3s ease;
+      }
+    }
+    
     .p-alumn,
     .p-director,
     .p-sinodal {
+      font: 400 0.7rem "Poppins";
       background-color: $cont-gray2;
       border: 1px solid #ccc;
       border-radius: 10px;
-      padding: 20px;
+      padding: 10px;
       flex: 1; // Permite que los elementos se expandan uniformemente
-      text-align: center; // Centra el contenido de cada div
+   
+      .p-subtitle {
+        font-weight: bold; /* Destaca el texto */
+        color: #007BFF; /* Cambia el color (puedes ajustar a tus preferencias) */
+        margin-right: 5px; /* Espacio entre "Academias:" y la lista */
+      }
+      
     }
   }
 
-  .p-statu {
-    width: 20%;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-
-    button {
-      height: 2.2rem;
-      font-size: 14px;
-    }
-  }
+  
 }

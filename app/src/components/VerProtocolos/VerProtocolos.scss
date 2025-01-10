@@ -78,36 +78,21 @@ $gray-pass: #a2a2a2;
 .cuerpo-protocol {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem; // Espaciado entre las tarjetas
   justify-content: center;
+  align-items: flex-start;
   padding: 1rem;
   width: 100%;
+  gap: 1rem;
 
   & > div {
-    flex: 1 1 90%; // Por defecto, cada tarjeta ocupa el 90% del ancho
-    max-width: 90%;
     transition: all 0.3s ease; // Transiciones suaves para cambios de tamaño
-  }
+    }
 
   // Ajusta el tamaño cuando hay más de una tarjeta
   &:has(> div:nth-child(2)) > div {
-    flex: 1 1 45%; // Todas las tarjetas ocupan 45% cuando hay al menos dos
-    max-width: 45%;
+    flex: 1 1 49%; // Todas las tarjetas ocupan 45% cuando hay al menos dos
   }
 
-  // Cada tercera tarjeta ocupa el 90% del ancho
-  & > div:nth-child(3n) {
-    flex: 1 1 90%;
-    max-width: 90%;
-  }
-
-  @media (max-width: 700px) {
-    & > div {
-      flex: 1 1 90%; // Hace que las tarjetas ocupen todo el ancho
-      max-width: 90%; // Asegura que las tarjetas no excedan el 100% del contenedor
-    }
-  }
-  
 }
 
 
