@@ -908,7 +908,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="second_date_ord">
                     <h2 className="second_date_text_ord">
-                      Definir rango de fechas para la <b>clasificacion de protocolos</b>
+                      Definir rango de fechas para la <b>clasificación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -996,7 +996,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="third_date_ord">
                     <h2 className="third_date_text_ord">
-                      Definir rango de fechas para la <b>evaluacion de protocolos</b>
+                      Definir rango de fechas para la <b>evaluación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1084,7 +1084,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fourth_date_ord">
                     <h2 className="fourth_date_text_ord">
-                      Definir rango de fechas para la <b>correccion de protocolos</b>
+                      Definir rango de fechas para la <b>corrección de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1172,7 +1172,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fifth_date_ord">
                     <h2 className="fifth_date_text_ord">
-                      Definir rango de fechas para la <b>evaluacion de correcciones</b>
+                      Definir rango de fechas para la <b>evaluación de correcciones</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1366,7 +1366,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="second_date_ext">
                     <h2 className="second_date_text_ext">
-                      Definir rango de fechas para la <b>clasificacion de protocolos</b>
+                      Definir rango de fechas para la <b>clasificación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1454,7 +1454,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="third_date_ext">
                     <h2 className="third_date_text_ext">
-                      Definir rango de fechas para la <b>evaluacion de protocolos</b>
+                      Definir rango de fechas para la <b>evaluación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1542,7 +1542,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fourth_date_ext">
                     <h2 className="fourth_date_text_ext">
-                      Definir rango de fechas para la <b>correccion de protocolos</b>
+                      Definir rango de fechas para la <b>corrección de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1630,7 +1630,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fifth_date_ext">
                     <h2 className="fifth_date_text_ext">
-                      Definir rango de fechas para la <b>evaluacion de correcciones</b>
+                      Definir rango de fechas para la <b>evaluación de correcciones</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />

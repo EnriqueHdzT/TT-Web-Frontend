@@ -159,15 +159,19 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
         <div className="split-container">
           {/* Sección izquierda */}
           <div className={`left-panel ${isMinimized ? "minimized" : ""}`}>
-            <div className="info-container">
+            <div className="info-containerv">
               <h1 className="titulo">
                 Título de TT: {protocolData?.title || "Cargando..."}
               </h1>
               <p className="identificador">
-                Núm. de Registro de TT:{" "}
+                <strong>Núm. de Registro de TT:</strong>{" "}
                 {protocolData?.protocol_id || "Cargando..."}
               </p>
-
+            
+              <p className="identificador">
+               <strong>Resumen del Protocolo:</strong>{" "}
+                {protocolData?.resume || "Cargando..."}
+              </p>
               {/* Palabras clave */}
               <div className="palabras-clave">
                 Palabras Clave:

@@ -36,6 +36,7 @@
   flex-wrap: wrap;
   display: flex;
   margin-top: 2%;
+  align-items: center;
 
   .tl-usu{
     width: 25%;
@@ -43,6 +44,12 @@
     font: 600 1.2rem "Poppins";
   display: flex;
   padding-left: 5%;
+
+  button {
+    background-color: transparent;
+    color: $blue;
+    margin-right: 2%;
+  }
   }
 
   .select-usr{

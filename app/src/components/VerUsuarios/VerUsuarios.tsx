@@ -5,7 +5,7 @@ import "reactjs-popup/dist/index.css";
 
 import "./VerUsuarios.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import FiltrosUsuario from "./components/FiltrosUsuario/FiltrosUsuario";
 import UserCard from "./components/UserCard/UserCard";
 import PageChanger from "./components/PageChanger/PageChanger";
@@ -322,7 +322,14 @@ export default function VerUsuarios() {
     <div>
       <div className="conte-usuarios">
         <div className="head-usus">
-          <div className="tl-usu">Viendo Usuarios</div>
+          <div className="tl-usu">
+            <button>
+                          <a onClick={() => navigate(-1)}>
+                            {" "}
+                            <FontAwesomeIcon icon={faChevronLeft} />
+                          </a>
+            </button>{" "}
+            Viendo Usuarios</div>
           <div className="select-usr">
             <FiltrosUsuario
               name={"Tipo de Usuario"}

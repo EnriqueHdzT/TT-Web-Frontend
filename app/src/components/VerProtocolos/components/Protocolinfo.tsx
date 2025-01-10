@@ -253,24 +253,27 @@ export default function Protocolinfo({
           </div>
         )}
 
-        {/* Sección Sinodal */}
-        <div className="section-header" onClick={toggleSinodal}>
+       {/* Sección Sinodal */}
+<div className="section-header" onClick={toggleSinodal}>
   <span>Sinodales</span>
   <FontAwesomeIcon icon={showSinodal ? faChevronUp : faChevronDown} />
 </div>
 {showSinodal && (
   <div className="p-sinodal">
-    {sinodalList.map((sinodal, i) => (
-      <a key={i}>
-        <span className="p-subtitle">Nombre:</span>
-        {sinodal.name + " " + sinodal.lastname + " " + (sinodal.second_lastname ? " " + sinodal.second_lastname : "")}
-        <span className="p-subtitle">Academias:</span>{sinodal.academies.join(", ")}
-        <br />
-      </a>
-    ))}
+    {sinodalList.length > 0 ? (
+      sinodalList.map((sinodal, i) => (
+        <a key={i}>
+          <span className="p-subtitle">Nombre:</span>
+          {sinodal.name + " " + sinodal.lastname + " " + (sinodal.second_lastname ? " " + sinodal.second_lastname : "")}
+          <span className="p-subtitle">Academias:</span>{sinodal.academies.join(", ")}
+          <br />
+        </a>
+      ))
+    ) : (
+      <div>Aún no hay sinodales</div> // Mensaje en caso de que no haya sinodales
+    )}
   </div>
 )}
-
       </div>
     </div>
   );

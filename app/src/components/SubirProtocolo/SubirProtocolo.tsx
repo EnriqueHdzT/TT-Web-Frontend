@@ -348,7 +348,7 @@ export default function SubirProtocolo() {
 
       <div className="protocol-bd">
         <div className="item">
-          <div className="tit-pr">Titulo del protocolo</div>
+          <div className="tit-pr">Título del protocolo</div>
           <div className="cont-pr">
             <input
               type="text"
@@ -417,7 +417,7 @@ export default function SubirProtocolo() {
 
                   <div className="adv-periodo">
                     <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Si el periodo que buscas no se
-                    muestra, verifica que este exista
+                    muestra, verifica que este exista.
                   </div>
                 </div>
               ) : (
