@@ -71,7 +71,7 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/getProtocolDoc/${protocolId}`,
+        `http://127.0.0.1:8000/api/getProtocolDocByID/${protocolId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -125,6 +125,26 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
     });
   }
 
+  const rejectProtocol = () => {
+    setElementLoading('rechazar');
+    const token = localStorage.getItem("token");
+
+    axios.put(`http://127.0.0.1:8000/api/rechazarprotocolo/${protocolId}`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(() => {
+      alert("Protocolo rechazado exitosamente.");
+      navigate("/protocolos");
+    })
+    .catch((error) => {
+      alert("No se pudo rechazar el protocolo.");
+    }).finally(() => {
+      setElementLoading('');
+    });
+  }
+
   return (
     <div>
       <div className="contvali">
@@ -139,15 +159,19 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
         <div className="split-container">
           {/* Sección izquierda */}
           <div className={`left-panel ${isMinimized ? "minimized" : ""}`}>
-            <div className="info-container">
+            <div className="info-containerv">
               <h1 className="titulo">
                 Título de TT: {protocolData?.title || "Cargando..."}
               </h1>
               <p className="identificador">
-                Núm. de Registro de TT:{" "}
+                <strong>Núm. de Registro de TT:</strong>{" "}
                 {protocolData?.protocol_id || "Cargando..."}
               </p>
-
+            
+              <p className="identificador">
+               <strong>Resumen del Protocolo:</strong>{" "}
+                {protocolData?.resume || "Cargando..."}
+              </p>
               {/* Palabras clave */}
               <div className="palabras-clave">
                 Palabras Clave:
@@ -171,7 +195,7 @@ const ValidarProtocolo: React.FC<ValidarProtocoloProps> = () => {
                 <button disabled={loading || elementLoading !== ''} onClick={validateProtocol}>
                   {elementLoading == 'validar' ? 'Validando...' : 'Validar'}
                 </button>
-                <button disabled={loading || elementLoading !== ''}>
+                <button disabled={loading || elementLoading !== ''} onClick={rejectProtocol}>
                   {elementLoading == 'rechazar' ? 'Rechazando...' : 'Rechazar'}
                 </button>
               </div>

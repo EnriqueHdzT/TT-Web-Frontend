@@ -95,7 +95,7 @@ $gray-pass: #a2a2a2;
       color: $blue;
     }
 
-    .info-container {
+    .info-containerv {
       font: 400 1rem "Poppins";
       margin-left: 5%;
       display: flex;
@@ -114,12 +114,18 @@ $gray-pass: #a2a2a2;
       h1 {
         font: 600 1rem "Poppins";
         line-height: 20px;
+        
       }
 
       .identificador,
       .fecha-evaluacion {
         font: 500 0.8rem "Poppins";
         margin: 0;
+        text-align: justify;
+
+        strong{
+          color: $blue;
+        }
       }
 
       .palabras-clave {

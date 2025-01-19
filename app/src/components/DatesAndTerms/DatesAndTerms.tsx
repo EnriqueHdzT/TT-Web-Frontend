@@ -112,116 +112,59 @@ export default function DatesAndTerms() {
   const popupRef = useRef(null);
   const [currentTerm, setCurrentTerm] = useState("");
   const [prevTermData, setPrevTermData] = useState<TermData>(TermDataInit);
-  const [currentTermData, setCurrentTermData] =
-    useState<TermData>(TermDataInit);
+  const [currentTermData, setCurrentTermData] = useState<TermData>(TermDataInit);
   const [listOfTerms, setListOfTerms] = useState([]);
   const [isListOfTermsEmpty, setIsListOfTermsEmpty] = useState(true);
   const [newCycle, setNewCycle] = useState(["", "1"]);
   const [isCloseCycleChecked, setIsCloseCycleChecked] = useState(false);
 
-  const [date_ord_start_update_protocols, setDate_ord_start_update_protocols] =
-    useState("");
-  const [date_ord_end_update_protocols, setDate_ord_end_update_protocols] =
-    useState("");
-  const [date_ord_start_sort_protocols, setDate_ord_start_sort_protocols] =
-    useState("");
-  const [date_ord_end_sort_protocols, setDate_ord_end_sort_protocols] =
-    useState("");
-  const [date_ord_start_eval_protocols, setDate_ord_start_eval_protocols] =
-    useState("");
-  const [date_ord_end_eval_protocols, setDate_ord_end_eval_protocols] =
-    useState("");
-  const [date_ord_start_change_protocols, setDate_ord_start_change_protocols] =
-    useState("");
-  const [date_ord_end_change_protocols, setDate_ord_end_change_protocols] =
-    useState("");
-  const [
-    date_ord_start_second_eval_protocols,
-    setDate_ord_start_second_eval_protocols,
-  ] = useState("");
-  const [
-    date_ord_end_second_eval_protocols,
-    setDate_ord_end_second_eval_protocols,
-  ] = useState("");
-  const [date_ext_start_update_protocols, setDate_ext_start_update_protocols] =
-    useState("");
-  const [date_ext_end_update_protocols, setDate_ext_end_update_protocols] =
-    useState("");
-  const [date_ext_start_sort_protocols, setDate_ext_start_sort_protocols] =
-    useState("");
-  const [date_ext_end_sort_protocols, setDate_ext_end_sort_protocols] =
-    useState("");
-  const [date_ext_start_eval_protocols, setDate_ext_start_eval_protocols] =
-    useState("");
-  const [date_ext_end_eval_protocols, setDate_ext_end_eval_protocols] =
-    useState("");
-  const [date_ext_start_change_protocols, setDate_ext_start_change_protocols] =
-    useState("");
-  const [date_ext_end_change_protocols, setDate_ext_end_change_protocols] =
-    useState("");
-  const [
-    date_ext_start_second_eval_protocols,
-    setDate_ext_start_second_eval_protocols,
-  ] = useState("");
-  const [
-    date_ext_end_second_eval_protocols,
-    setDate_ext_end_second_eval_protocols,
-  ] = useState("");
+  const [date_ord_start_update_protocols, setDate_ord_start_update_protocols] = useState("");
+  const [date_ord_end_update_protocols, setDate_ord_end_update_protocols] = useState("");
+  const [date_ord_start_sort_protocols, setDate_ord_start_sort_protocols] = useState("");
+  const [date_ord_end_sort_protocols, setDate_ord_end_sort_protocols] = useState("");
+  const [date_ord_start_eval_protocols, setDate_ord_start_eval_protocols] = useState("");
+  const [date_ord_end_eval_protocols, setDate_ord_end_eval_protocols] = useState("");
+  const [date_ord_start_change_protocols, setDate_ord_start_change_protocols] = useState("");
+  const [date_ord_end_change_protocols, setDate_ord_end_change_protocols] = useState("");
+  const [date_ord_start_second_eval_protocols, setDate_ord_start_second_eval_protocols] = useState("");
+  const [date_ord_end_second_eval_protocols, setDate_ord_end_second_eval_protocols] = useState("");
+  const [date_ext_start_update_protocols, setDate_ext_start_update_protocols] = useState("");
+  const [date_ext_end_update_protocols, setDate_ext_end_update_protocols] = useState("");
+  const [date_ext_start_sort_protocols, setDate_ext_start_sort_protocols] = useState("");
+  const [date_ext_end_sort_protocols, setDate_ext_end_sort_protocols] = useState("");
+  const [date_ext_start_eval_protocols, setDate_ext_start_eval_protocols] = useState("");
+  const [date_ext_end_eval_protocols, setDate_ext_end_eval_protocols] = useState("");
+  const [date_ext_start_change_protocols, setDate_ext_start_change_protocols] = useState("");
+  const [date_ext_end_change_protocols, setDate_ext_end_change_protocols] = useState("");
+  const [date_ext_start_second_eval_protocols, setDate_ext_start_second_eval_protocols] = useState("");
+  const [date_ext_end_second_eval_protocols, setDate_ext_end_second_eval_protocols] = useState("");
 
-  const [time_ord_start_update_protocols, setTime_ord_start_update_protocols] =
-    useState("");
-  const [time_ord_end_update_protocols, setTime_ord_end_update_protocols] =
-    useState("");
-  const [time_ord_start_sort_protocols, setTime_ord_start_sort_protocols] =
-    useState("");
-  const [time_ord_end_sort_protocols, setTime_ord_end_sort_protocols] =
-    useState("");
-  const [time_ord_start_eval_protocols, setTime_ord_start_eval_protocols] =
-    useState("");
-  const [time_ord_end_eval_protocols, setTime_ord_end_eval_protocols] =
-    useState("");
-  const [time_ord_start_change_protocols, setTime_ord_start_change_protocols] =
-    useState("");
-  const [time_ord_end_change_protocols, setTime_ord_end_change_protocols] =
-    useState("");
-  const [
-    time_ord_start_second_eval_protocols,
-    setTime_ord_start_second_eval_protocols,
-  ] = useState("");
-  const [
-    time_ord_end_second_eval_protocols,
-    setTime_ord_end_second_eval_protocols,
-  ] = useState("");
-  const [time_ext_start_update_protocols, setTime_ext_start_update_protocols] =
-    useState("");
-  const [time_ext_end_update_protocols, setTime_ext_end_update_protocols] =
-    useState("");
-  const [time_ext_start_sort_protocols, setTime_ext_start_sort_protocols] =
-    useState("");
-  const [time_ext_end_sort_protocols, setTime_ext_end_sort_protocols] =
-    useState("");
-  const [time_ext_start_eval_protocols, setTime_ext_start_eval_protocols] =
-    useState("");
-  const [time_ext_end_eval_protocols, setTime_ext_end_eval_protocols] =
-    useState("");
-  const [time_ext_start_change_protocols, setTime_ext_start_change_protocols] =
-    useState("");
-  const [time_ext_end_change_protocols, setTime_ext_end_change_protocols] =
-    useState("");
-  const [
-    time_ext_start_second_eval_protocols,
-    setTime_ext_start_second_eval_protocols,
-  ] = useState("");
-  const [
-    time_ext_end_second_eval_protocols,
-    setTime_ext_end_second_eval_protocols,
-  ] = useState("");
+  const [time_ord_start_update_protocols, setTime_ord_start_update_protocols] = useState("");
+  const [time_ord_end_update_protocols, setTime_ord_end_update_protocols] = useState("");
+  const [time_ord_start_sort_protocols, setTime_ord_start_sort_protocols] = useState("");
+  const [time_ord_end_sort_protocols, setTime_ord_end_sort_protocols] = useState("");
+  const [time_ord_start_eval_protocols, setTime_ord_start_eval_protocols] = useState("");
+  const [time_ord_end_eval_protocols, setTime_ord_end_eval_protocols] = useState("");
+  const [time_ord_start_change_protocols, setTime_ord_start_change_protocols] = useState("");
+  const [time_ord_end_change_protocols, setTime_ord_end_change_protocols] = useState("");
+  const [time_ord_start_second_eval_protocols, setTime_ord_start_second_eval_protocols] = useState("");
+  const [time_ord_end_second_eval_protocols, setTime_ord_end_second_eval_protocols] = useState("");
+  const [time_ext_start_update_protocols, setTime_ext_start_update_protocols] = useState("");
+  const [time_ext_end_update_protocols, setTime_ext_end_update_protocols] = useState("");
+  const [time_ext_start_sort_protocols, setTime_ext_start_sort_protocols] = useState("");
+  const [time_ext_end_sort_protocols, setTime_ext_end_sort_protocols] = useState("");
+  const [time_ext_start_eval_protocols, setTime_ext_start_eval_protocols] = useState("");
+  const [time_ext_end_eval_protocols, setTime_ext_end_eval_protocols] = useState("");
+  const [time_ext_start_change_protocols, setTime_ext_start_change_protocols] = useState("");
+  const [time_ext_end_change_protocols, setTime_ext_end_change_protocols] = useState("");
+  const [time_ext_start_second_eval_protocols, setTime_ext_start_second_eval_protocols] = useState("");
+  const [time_ext_end_second_eval_protocols, setTime_ext_end_second_eval_protocols] = useState("");
 
   const [isDataChanged, setIsDataChanged] = useState(false);
 
   useEffect(() => {
     const validUserTypes = ["AnaCATT", "SecEjec", "SecTec", "Presidente"];
-    const userType = localStorage.getItem("userType") ?? "";
+    const userType = localStorage.getItem("userType") ?? "Student";
 
     if (!localStorage.getItem("token") || !validUserTypes.includes(userType)) {
       navigate("/");
@@ -249,11 +192,7 @@ export default function DatesAndTerms() {
         },
         body: formData,
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!response.ok) {
+      if (!response.ok) {
         throw new Error(`Failed to create new cycle: ${newCycle}`);
       }
 
@@ -294,11 +233,7 @@ export default function DatesAndTerms() {
             Accept: "application/json",
           },
         });
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        }else if (!response.ok) {
+        if (!response.ok) {
           throw new Error("Failed to get the list of terms");
         }
 
@@ -328,24 +263,15 @@ export default function DatesAndTerms() {
   useEffect(() => {
     async function fetchCurrentTermData() {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/date?cycle=${currentTerm}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              Accept: "application/json",
-            },
-          }
-        );
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (!response.ok) {
-          throw new Error(
-            `Failed to get data from the current term: ${currentTerm}`
-          );
+        const response = await fetch(`http://127.0.0.1:8000/api/date?cycle=${currentTerm}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Accept: "application/json",
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to get data from the current term: ${currentTerm}`);
         }
 
         const data = await response.json();
@@ -376,10 +302,7 @@ export default function DatesAndTerms() {
         date = new Date(date);
       }
 
-      const formattedDate =
-        date instanceof Date && !isNaN(date.getTime())
-          ? date.toISOString().split("T")[0]
-          : "";
+      const formattedDate = date instanceof Date && !isNaN(date.getTime()) ? date.toISOString().split("T")[0] : "";
       const formattedTime =
         date instanceof Date && !isNaN(date.getTime())
           ? date.toLocaleTimeString("en-GB", {
@@ -407,21 +330,13 @@ export default function DatesAndTerms() {
       setDate_ord_start_sort_protocols,
       setTime_ord_start_sort_protocols
     );
-    formatDate(
-      newTermData.ord_end_sort_protocols,
-      setDate_ord_end_sort_protocols,
-      setTime_ord_end_sort_protocols
-    );
+    formatDate(newTermData.ord_end_sort_protocols, setDate_ord_end_sort_protocols, setTime_ord_end_sort_protocols);
     formatDate(
       newTermData.ord_start_eval_protocols,
       setDate_ord_start_eval_protocols,
       setTime_ord_start_eval_protocols
     );
-    formatDate(
-      newTermData.ord_end_eval_protocols,
-      setDate_ord_end_eval_protocols,
-      setTime_ord_end_eval_protocols
-    );
+    formatDate(newTermData.ord_end_eval_protocols, setDate_ord_end_eval_protocols, setTime_ord_end_eval_protocols);
     formatDate(
       newTermData.ord_start_change_protocols,
       setDate_ord_start_change_protocols,
@@ -457,21 +372,13 @@ export default function DatesAndTerms() {
       setDate_ext_start_sort_protocols,
       setTime_ext_start_sort_protocols
     );
-    formatDate(
-      newTermData.ext_end_sort_protocols,
-      setDate_ext_end_sort_protocols,
-      setTime_ext_end_sort_protocols
-    );
+    formatDate(newTermData.ext_end_sort_protocols, setDate_ext_end_sort_protocols, setTime_ext_end_sort_protocols);
     formatDate(
       newTermData.ext_start_eval_protocols,
       setDate_ext_start_eval_protocols,
       setTime_ext_start_eval_protocols
     );
-    formatDate(
-      newTermData.ext_end_eval_protocols,
-      setDate_ext_end_eval_protocols,
-      setTime_ext_end_eval_protocols
-    );
+    formatDate(newTermData.ext_end_eval_protocols, setDate_ext_end_eval_protocols, setTime_ext_end_eval_protocols);
     formatDate(
       newTermData.ext_start_change_protocols,
       setDate_ext_start_change_protocols,
@@ -497,13 +404,9 @@ export default function DatesAndTerms() {
     }
   }, [currentTermData, prevTermData]);
 
-  const handleTimeChange = (
-    event: React.ChangeEvent<HTMLInputElement> | string,
-    index: number | undefined
-  ) => {
+  const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement> | string, index: number | undefined) => {
     const value = typeof event === "string" ? event : event.target.value;
-    const name =
-      typeof event === "string" ? `time_${index}` : event.target.name;
+    const name = typeof event === "string" ? `time_${index}` : event.target.name;
 
     const updateCurrentTermData = (name: string) => {
       const newCurrentTermData = { ...currentTermData };
@@ -721,11 +624,7 @@ export default function DatesAndTerms() {
         },
         body: formData as BodyInit,
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      }else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Failed to update data");
       }
 
@@ -749,17 +648,11 @@ export default function DatesAndTerms() {
         },
         body: formData as BodyInit,
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      }else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Failed to delete data");
       }
 
-      const newListOfTerms = listOfTerms.filter(
-        (term) => term.cycle !== currentTerm
-      );
+      const newListOfTerms = listOfTerms.filter((term) => term.cycle !== currentTerm);
 
       if (newListOfTerms.length === 0) {
         setListOfTerms([]);
@@ -796,21 +689,13 @@ export default function DatesAndTerms() {
               <></>
             ) : (
               <div className="dropdown-center d-inline margin-fe">
-                <button
-                  className="boton-fec"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+                <button className="boton-fec" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   {currentTerm}
                 </button>
                 <ul className="dropdown-menu">
                   {listOfTerms.map((term, index) => (
                     <li key={index}>
-                      <a
-                        className="dropdown-item drop-boton"
-                        onClick={() => updateCurrentTerm(term.cycle)}
-                      >
+                      <a className="dropdown-item drop-boton" onClick={() => updateCurrentTerm(term.cycle)}>
                         {term.cycle}
                       </a>
                     </li>
@@ -823,8 +708,7 @@ export default function DatesAndTerms() {
               ref={popupRef}
               trigger={(open) => (
                 <button type="button" className="boton-ciclo">
-                  Nuevo ciclo{" "}
-                  <FontAwesomeIcon icon={faPlus} className="estilo-c" />
+                  Nuevo ciclo <FontAwesomeIcon icon={faPlus} className="estilo-c" />
                 </button>
               )}
               modal
@@ -845,16 +729,14 @@ export default function DatesAndTerms() {
                   >
                     Agregar Nuevo Ciclo
                   </div>
-                  <div className="input-group mb-3" style={{padding:"10px 10px 0 10px"}}>
+                  <div className="input-group mb-3" style={{ padding: "10px 10px 0 10px" }}>
                     <input
                       className="form-num"
                       type="number"
                       min="2020"
                       placeholder="Ingrese año"
                       value={newCycle[0]}
-                      onChange={(e) =>
-                        setNewCycle([e.target.value, newCycle[1]])
-                      }
+                      onChange={(e) => setNewCycle([e.target.value, newCycle[1]])}
                       style={{
                         borderRadius: "15px",
                         fontFamily: '"Poppins", sans-serif',
@@ -866,9 +748,7 @@ export default function DatesAndTerms() {
                     <select
                       className="form-select"
                       value={newCycle[1]}
-                      onChange={(e) =>
-                        setNewCycle([newCycle[0], e.target.value])
-                      }
+                      onChange={(e) => setNewCycle([newCycle[0], e.target.value])}
                       style={{
                         borderRadius: "15px",
                         fontFamily: '"Poppins", sans-serif',
@@ -879,7 +759,7 @@ export default function DatesAndTerms() {
                       <option value="2">2</option>
                     </select>
                   </div>
-                  <div className="d-flex justify-content-end" style={{padding:"0 0 15px 0"}}>
+                  <div className="d-flex justify-content-end" style={{ padding: "0 0 15px 0" }}>
                     <button
                       className=" btn-outline-primary"
                       onClick={onPopupClose}
@@ -897,9 +777,7 @@ export default function DatesAndTerms() {
                     </button>
                     <button
                       className="btn btn-primary ms-2"
-                      onClick={() =>
-                        createNewCycle(newCycle[0] + "/" + newCycle[1])
-                      }
+                      onClick={() => createNewCycle(newCycle[0] + "/" + newCycle[1])}
                       style={{
                         fontWeight: 500,
                         fontSize: "0.8rem",
@@ -921,9 +799,7 @@ export default function DatesAndTerms() {
         </div>
       </div>
       {currentTerm === "" ? (
-        <h1 className="no_data">
-          No existen periodos en el sistema, por favor crea uno.
-        </h1>
+        <h1 className="no_data">No existen periodos en el sistema, por favor crea uno.</h1>
       ) : (
         <div className="page_body">
           <div className="accordion" id="accordionExample">
@@ -940,11 +816,7 @@ export default function DatesAndTerms() {
                   Fechas Ordinarias
                 </button>
               </h2>
-              <div
-                id="collapseOne"
-                className="accordion-collapse collapse show"
-                data-bs-parent="#accordionExample"
-              >
+              <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
                   <div className="fisrt_date_ord">
                     <h2 className="first_date_text_ord">
@@ -982,10 +854,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end drp-ov">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 0)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 0)}>
                                   {time}
                                 </a>
                               </li>
@@ -1026,10 +895,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 1)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 1)}>
                                   {time}
                                 </a>
                               </li>
@@ -1042,8 +908,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="second_date_ord">
                     <h2 className="second_date_text_ord">
-                      Definir rango de fechas para la <b>clasificacion de
-                      protocolos</b>
+                      Definir rango de fechas para la <b>clasificación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1077,10 +942,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 2)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 2)}>
                                   {time}
                                 </a>
                               </li>
@@ -1121,10 +983,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 3)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 3)}>
                                   {time}
                                 </a>
                               </li>
@@ -1137,7 +996,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="third_date_ord">
                     <h2 className="third_date_text_ord">
-                      Definir rango de fechas para la <b>evaluacion de protocolos</b>
+                      Definir rango de fechas para la <b>evaluación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1171,10 +1030,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 4)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 4)}>
                                   {time}
                                 </a>
                               </li>
@@ -1215,10 +1071,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 5)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 5)}>
                                   {time}
                                 </a>
                               </li>
@@ -1231,7 +1084,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fourth_date_ord">
                     <h2 className="fourth_date_text_ord">
-                      Definir rango de fechas para la <b>correccion de protocolos</b>
+                      Definir rango de fechas para la <b>corrección de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1265,10 +1118,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 6)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 6)}>
                                   {time}
                                 </a>
                               </li>
@@ -1309,10 +1159,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 7)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 7)}>
                                   {time}
                                 </a>
                               </li>
@@ -1325,7 +1172,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fifth_date_ord">
                     <h2 className="fifth_date_text_ord">
-                      Definir rango de fechas para la <b>evaluacion de correcciones</b>
+                      Definir rango de fechas para la <b>evaluación de correcciones</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1359,10 +1206,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 8)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 8)}>
                                   {time}
                                 </a>
                               </li>
@@ -1403,10 +1247,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 9)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 9)}>
                                   {time}
                                 </a>
                               </li>
@@ -1433,11 +1274,7 @@ export default function DatesAndTerms() {
                   Fechas Extraordinarias
                 </button>
               </h2>
-              <div
-                id="collapseTwo"
-                className="accordion-collapse collapse"
-                data-bs-parent="#accordionExample"
-              >
+              <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
                   <div className="fisrt_date_ext">
                     <h2 className="first_date_text_ext">
@@ -1475,10 +1312,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 10)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 10)}>
                                   {time}
                                 </a>
                               </li>
@@ -1519,10 +1353,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 11)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 11)}>
                                   {time}
                                 </a>
                               </li>
@@ -1535,8 +1366,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="second_date_ext">
                     <h2 className="second_date_text_ext">
-                      Definir rango de fechas para la <b>clasificacion de
-                      protocolos</b>
+                      Definir rango de fechas para la <b>clasificación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1570,10 +1400,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 12)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 12)}>
                                   {time}
                                 </a>
                               </li>
@@ -1614,10 +1441,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 13)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 13)}>
                                   {time}
                                 </a>
                               </li>
@@ -1630,7 +1454,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="third_date_ext">
                     <h2 className="third_date_text_ext">
-                      Definir rango de fechas para la <b>evaluacion de protocolos</b>
+                      Definir rango de fechas para la <b>evaluación de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1664,10 +1488,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 14)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 14)}>
                                   {time}
                                 </a>
                               </li>
@@ -1708,10 +1529,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 15)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 15)}>
                                   {time}
                                 </a>
                               </li>
@@ -1724,7 +1542,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fourth_date_ext">
                     <h2 className="fourth_date_text_ext">
-                      Definir rango de fechas para la <b>correccion de protocolos</b>
+                      Definir rango de fechas para la <b>corrección de protocolos</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1758,10 +1576,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 16)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 16)}>
                                   {time}
                                 </a>
                               </li>
@@ -1802,10 +1617,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 17)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 17)}>
                                   {time}
                                 </a>
                               </li>
@@ -1818,7 +1630,7 @@ export default function DatesAndTerms() {
                   </div>
                   <div className="fifth_date_ext">
                     <h2 className="fifth_date_text_ext">
-                      Definir rango de fechas para la <b>evaluacion de correcciones</b>
+                      Definir rango de fechas para la <b>evaluación de correcciones</b>
                     </h2>
                     <div className="row">
                       <div className="col-1" />
@@ -1852,10 +1664,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 18)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 18)}>
                                   {time}
                                 </a>
                               </li>
@@ -1896,10 +1705,7 @@ export default function DatesAndTerms() {
                           <ul className="dropdown-menu dropdown-menu-end">
                             {timesArray.map((time, index) => (
                               <li key={index}>
-                                <a
-                                  className="dropdown-item"
-                                  onClick={() => handleTimeChange(time, 19)}
-                                >
+                                <a className="dropdown-item" onClick={() => handleTimeChange(time, 19)}>
                                   {time}
                                 </a>
                               </li>
@@ -1918,14 +1724,10 @@ export default function DatesAndTerms() {
           <div className="row_botof">
             <div className="col_botof">
               <label
-                className={`btn ${
-                  isCloseCycleChecked ? "btn-outline-primary" : "btn-danger1"
-                }`}
+                className={`btn ${isCloseCycleChecked ? "btn-outline-primary" : "btn-danger1"}`}
                 htmlFor="danger-outlined"
               >
-                {isCloseCycleChecked
-                  ? "Desabilitar Periodo"
-                  : "Activar Periodo"}
+                {isCloseCycleChecked ? "Desabilitar Periodo" : "Activar Periodo"}
               </label>
               <input
                 type="checkbox"
@@ -1940,20 +1742,12 @@ export default function DatesAndTerms() {
                 Borrar Periodo
               </button>
             </div>
-            
+
             <div className="col_borg">
-              <button
-                className="btn btn-outline-primary"
-                disabled={!isDataChanged}
-                onClick={handleReset}
-              >
+              <button className="btn btn-outline-primary" disabled={!isDataChanged} onClick={handleReset}>
                 Restablecer Datos
               </button>
-              <button
-                className="btn btn-primary"
-                disabled={!isDataChanged}
-                onClick={handleSave}
-              >
+              <button className="btn btn-primary" disabled={!isDataChanged} onClick={handleSave}>
                 Guardar
               </button>
             </div>

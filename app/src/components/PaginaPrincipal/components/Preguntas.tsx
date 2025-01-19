@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Preguntas.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faChevronRight, faChevronLeft, faInbox } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const Preguntas = () => {
+  const userType = localStorage.getItem("userType");
   const [botones, setBotones] = useState([]);
   const [pagina, setPagina] = useState(0);
   const navigate = useNavigate();
@@ -16,12 +17,6 @@ const Preguntas = () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/pregunta");
       const data = await response.json();
-
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      }
 
       const filteredData = data.filter((item) => item.tipo_contenido === "pregunta");
       setBotones(filteredData); // Guarda el dato completo
@@ -60,11 +55,13 @@ const Preguntas = () => {
     <div className="preg-container">
       <div className="preg-top">
         <div className="preg-title">Preguntas y Respuestas</div>
-        <div className="add-button-container">
-          <button className="add-button" onClick={agregarBoton}>
-            <FontAwesomeIcon icon={faCirclePlus} />
-          </button>
-        </div>
+        {(userType === "AnaCATT" || userType === "SecEjec") && (
+          <div className="add-button-container">
+            <button className="add-button" onClick={agregarBoton}>
+              <FontAwesomeIcon icon={faCirclePlus} />
+            </button>
+          </div>
+        )}
       </div>
       <div className="preg-content">
         <div className="preg-iz">

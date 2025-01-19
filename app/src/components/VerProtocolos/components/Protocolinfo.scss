@@ -1,76 +1,160 @@
 $header-height: 4.5rem;
-$body-color: #FAFAFB;
+$body-color: #fafafb;
 
 /*========== Colors ==========*/
-$navbg-color: #F8F8F8;
-$dropdown-bg-color: #FAFAFB;
-$dropdown-hover-color: #EBEBEB;
-$dropdown-list-color: #F4F4F4;
-$search-blue: #1C90F3;
-$cont-gray: #E6E6E6;
-$users-cont:#EDEDED;
-$cont-gray2: #E1E1E1;
+$navbg-color: #f8f8f8;
+$dropdown-bg-color: #fafafb;
+$dropdown-hover-color: #ebebeb;
+$dropdown-list-color: #f4f4f4;
+$search-blue: #1c90f3;
+$cont-gray: #e6e6e6;
+$users-cont: #ededed;
+$cont-gray2: #e1e1e1;
 
 /*========== Font and typography ==========*/
-$black-fontd: #2C2C2C;
-$blue: #1C90F3;
-$gray-pass: #A2A2A2;
+$black-fontd: #2c2c2c;
+$blue: #1c90f3;
+$gray-pass: #a2a2a2;
 
-.p-box{
-    display: flex;
-    flex-wrap: wrap;
-    width: 95%;
-    margin: auto;
-    background-color: $users-cont;
-    border-radius: 20px;
-    padding: 1rem;
+.p-box {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: $cont-gray2;
+  min-width: 650px;
+  border: 1px solid #ccc;
 
-    .p-tit {
-    font-size: 18px;
+  .p-tit {
     width: 50%;
+    font: 400 0.9rem "Poppins";
+    padding-left: 0.7rem;
+    
+    .p-tit-pro{
+      font: 500 0.9rem "Poppins";
+      line-height: 20px;
+      min-height: 40px;          // Altura mínima de 30px
+      max-height: 40px;          // Altura máxima de 40px
+      overflow-y: auto;
+      
     }
+  }
 
-    .p-buttons{
-        width: 50%;
-        gap: 1rem;
-        display: flex;
-        justify-content: flex-end; 
 
-        button {
-            height: 2.2rem;
-            font-size: 14px;
-        }
+  .p-buttons {
+    width: 45%;
+    gap: 1rem;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      height: 2.2rem;
+      font: 500 0.7rem "Poppins";
+      border-radius: 10px;
+      background-color: $blue;
+      color: $cont-gray;
+      border: none;
+
+      &:hover{
+        background-color: #1d7ed0;
+      }
     }
+  }
 
-    .p-info {
-        display: flex;               // Activa Flexbox para organizar los hijos en línea
-        justify-content: space-between; // Espacia los elementos uniformemente
-        align-items: center;         // Alinea verticalmente al centro
-        gap: 20px;                   // Espacio entre los divs internos
-        width: 80%;
-             
-        .p-alumn, .p-director, .p-sinodal {
-          background-color: $cont-gray2;
-          border: 1px solid #ccc;
+  .cont-ee {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    width: 5%;
+
+    .dropdown-ee {
+      border: none;
+      width: 20px;
+      height: 30px;
+      cursor: pointer;
+      margin: 0;
+      outline: none;
+      font-size: 18px;
+    }
+  
+    .menu-ee {
+      position: absolute;
+      top: 0;
+      right: 1.3rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: block; //este es para que se vean
+      background-color: $navbg-color;
+      font: 400 12px / 18px "Poppins";
+  
+      li {
+        padding: 5px 20px;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #f0f0f0;
           border-radius: 10px;
-          padding: 20px;
-          flex: 1;                   // Permite que los elementos se expandan uniformemente
-          text-align: center;        // Centra el contenido de cada div
-          
         }
       }
+    }
+  
+    &.open {
+      .menu-ee {
+        display: block;
+      }
+    }
+  }
 
-      .p-statu{
-        width: 20%;
-        margin: auto;
-        display: flex;
-        justify-content: center;
+  
+  .p-info {
+    display: block; // Activa Flexbox para organizar los hijos en línea
+    justify-content: space-between; // Espacia los elementos uniformemente
+    align-items: center; // Alinea verticalmente al centro
+    width: 100%;
 
-        button {
-            height: 2.2rem;
-            font-size: 14px;
-        }
-
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 5px 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font: 500 0.7rem "Poppins";
+    
+      &:hover {
+        background-color: #e9e9e9;
+      }
+    
+      .fa-icon {
+        transition: transform 0.3s ease;
+      }
+    }
+    
+    .p-alumn,
+    .p-director,
+    .p-sinodal {
+      font: 400 0.7rem "Poppins";
+      background-color: $cont-gray2;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      flex: 1; // Permite que los elementos se expandan uniformemente
+   
+      .p-subtitle {
+        font-weight: bold; /* Destaca el texto */
+        color: #007BFF; /* Cambia el color (puedes ajustar a tus preferencias) */
+        margin-right: 5px; /* Espacio entre "Academias:" y la lista */
       }
       
+    }
+  }
+
+  
 }

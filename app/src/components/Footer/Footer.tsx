@@ -10,9 +10,9 @@ export default function Footer() {
         </p>
       </div>
       <div className="col-6">
-        <a href="/terminos_de_uso">Terminos de Uso</a>
+        <a href="/terminos_de_uso">Términos de Uso</a>
         <a href="/avisos_de_privacidad">Aviso de Privacidad Integral </a>
-        <a href="/buzon">Buzon de ayuda</a>
+        <a href="/buzon">Buzón de ayuda</a>
       </div>
       </div>
     </footer>

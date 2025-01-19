@@ -5,7 +5,7 @@ import "reactjs-popup/dist/index.css";
 
 import "./VerUsuarios.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import FiltrosUsuario from "./components/FiltrosUsuario/FiltrosUsuario";
 import UserCard from "./components/UserCard/UserCard";
 import PageChanger from "./components/PageChanger/PageChanger";
@@ -122,11 +122,7 @@ export default function VerUsuarios() {
           page: currentPage,
         },
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
@@ -151,11 +147,7 @@ export default function VerUsuarios() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (!response.ok) {
+        if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
 
@@ -252,11 +244,7 @@ export default function VerUsuarios() {
       },
     })
       .then((response) => {
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (!response.ok) {
+        if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         setUsers(users.filter((user) => user.id !== userId));
@@ -288,11 +276,7 @@ export default function VerUsuarios() {
         },
         body: formData,
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Error al crear usuario");
       }
       onPopupClose();
@@ -323,11 +307,7 @@ export default function VerUsuarios() {
         },
         body: formData,
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Error al crear usuario");
       }
 
@@ -342,7 +322,14 @@ export default function VerUsuarios() {
     <div>
       <div className="conte-usuarios">
         <div className="head-usus">
-          <div className="tl-usu">Viendo Usuarios</div>
+          <div className="tl-usu">
+            <button>
+                          <a onClick={() => navigate(-1)}>
+                            {" "}
+                            <FontAwesomeIcon icon={faChevronLeft} />
+                          </a>
+            </button>{" "}
+            Viendo Usuarios</div>
           <div className="select-usr">
             <FiltrosUsuario
               name={"Tipo de Usuario"}

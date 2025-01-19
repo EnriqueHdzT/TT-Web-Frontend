@@ -1,16 +1,16 @@
 import "./Documento.scss";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface DocumentoProps {
   pdfUrl: string;
 }
 
-const Documento: React.FC<DocumentoProps> = ( props ) => {
+const Documento: React.FC<DocumentoProps> = (props) => {
   const [loading, setLoading] = useState(true);
-  const [pdfUrl, setPdfUrl] = useState('');
+  const [pdfUrl, setPdfUrl] = useState("");
   const { id: protocolId } = useParams();
   const navigate = useNavigate();
 
@@ -18,34 +18,29 @@ const Documento: React.FC<DocumentoProps> = ( props ) => {
     navigate(-1); // This will navigate back to the previous page
   }
 
-  async function fetchData(){
+  async function fetchData() {
     const token = localStorage.getItem("token");
     if (!token) return;
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDoc/${protocolId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+      const response = await fetch(`http://127.0.0.1:8000/api/getProtocolDocByID/${protocolId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        }else if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        setPdfUrl(url);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setPdfUrl(url);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     fetchData();
@@ -63,18 +58,13 @@ const Documento: React.FC<DocumentoProps> = ( props ) => {
       </div>
       <section className="documentopen">
         <div className="vista-pdf">
-          {loading ? 
+          {loading ? (
             <span>Cargando...</span>
-            :
-            pdfUrl ? 
-              <iframe 
-                src={pdfUrl} 
-                title="PDF Viewer" 
-                className="pdf-viewer" 
-              />
-              :
-              <span>Error al cargar el documento</span>
-          }
+          ) : pdfUrl ? (
+            <iframe src={pdfUrl} title="PDF Viewer" className="pdf-viewer" />
+          ) : (
+            <span>Error al cargar el documento</span>
+          )}
         </div>
       </section>
     </div>

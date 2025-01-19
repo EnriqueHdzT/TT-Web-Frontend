@@ -16,10 +16,12 @@ interface StudentData {
 interface Props {
   students: StudentData[];
   setStudents: React.Dispatch<React.SetStateAction<StudentData[]>>;
+  disableButtons: boolean;
 }
 
-export default function AgregarAlumnos({ students, setStudents }: Props) {
+export default function AgregarAlumnos({ students, setStudents, disableButtons }: Props) {
   const navigate = useNavigate();
+  const userType = localStorage.getItem("userType");
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
@@ -34,6 +36,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [tooManyStudents, setTooManyStudents] = useState(false);
   const [emailExists, setEmailExists] = useState(false);
+  const [anotherDisabled, setAnotherDisabled] = useState(false);
 
   useEffect(() => {
     if (students.length >= 4) {
@@ -42,6 +45,10 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
       setTooManyStudents(false);
     }
   }, [students]);
+  useEffect(() => {
+    setAnotherDisabled(disableButtons);
+    console.log(disableButtons);
+  }, [disableButtons]);
 
   const checkIfUserExists = async () => {
     try {
@@ -55,11 +62,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
           },
         });
 
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (!response.ok) {
+        if (!response.ok) {
           throw new Error("Error al buscar el correo");
         }
 
@@ -158,9 +161,11 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
                 </span>
                 <span className="student_email">{alumno.email}</span>
               </div>
-              <button>
-                <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleStudentDelete(index)} />
-              </button>
+              {!((userType === "Student" && index === 0) || !disableButtons) && (
+                <button>
+                  <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleStudentDelete(index)} />
+                </button>
+              )}
             </div>
           ))
         ) : (
@@ -168,7 +173,7 @@ export default function AgregarAlumnos({ students, setStudents }: Props) {
         )}
       </div>
 
-      {!tooManyStudents && (
+      {!(tooManyStudents || disableButtons) && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
         </div>

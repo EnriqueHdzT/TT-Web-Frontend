@@ -29,7 +29,7 @@ const usersMap: UsersMap = {
   Presidente: "Presidente",
 };
 
-export default function Navbar({ isAuth = false, userType = "", isSearchEnable = false }) {
+export default function Navbar({ isAuth = false, userType = "Student", isSearchEnable = false }) {
   const [isActive, setIsActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOn, setIsOn] = useState(false);
@@ -50,11 +50,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        if (data.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (!data.ok) {
+        if (!data.ok) {
           throw new Error("Error al verificar la disponibilidad");
         }
 
@@ -63,9 +59,9 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
         console.error("Error al verificar la disponibilidad");
       }
     };
-    if (userType === "") {
+    if (userType === "Student") {
       checkAvailability();
-    } else if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "")) {
+    } else if (["AnaCATT", "SecEjec", "SecTec", "Presidente"].includes(userType ?? "Student")) {
       setIsUpdateActive(true);
     }
   }, [userType]);
@@ -121,11 +117,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
-          if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userType");
-            navigate("/login");
-          } else if (!response.ok) {
+          if (!response.ok) {
             throw new Error("Logout failed");
           }
           localStorage.removeItem("token");
@@ -164,11 +156,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      } else if (!response.ok) {
+      if (!response.ok) {
         throw new Error("Error al obtener el usuario");
       }
       const data = await response.json();
@@ -253,12 +241,7 @@ export default function Navbar({ isAuth = false, userType = "", isSearchEnable =
             {isAuth ? (
               <>
                 <div className="username-page">
-                  Bienvenido, {usersMap[userType === "" || userType === null ? "Estudiante" : userType]}
-                </div>
-                <div className="notifications">
-                  <button>
-                    <FontAwesomeIcon icon={faBell} />
-                  </button>
+                  Bienvenido, {usersMap[userType === "Student" || userType === null ? "Estudiante" : userType]}
                 </div>
                 <div className="profile-circle">
                   <img src="/1.png" className="profile-user" alt="Profile"></img>

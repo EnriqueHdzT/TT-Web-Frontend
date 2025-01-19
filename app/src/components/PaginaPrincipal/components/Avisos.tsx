@@ -4,7 +4,8 @@ import { faCirclePlus, faChevronLeft, faChevronRight, faBell } from "@fortawesom
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Avisos = () => {
+export default function Avisos() {
+  const userType = localStorage.getItem("userType");
   const [slides, setSlides] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
@@ -16,11 +17,6 @@ const Avisos = () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/aviso");
       const data = await response.json();
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      }
 
       const filteredData = data.filter((item) => item.tipo_contenido === "aviso");
 
@@ -73,11 +69,13 @@ const Avisos = () => {
     <div className="avisos-ppg">
       <div className="aviso-top">
         <div className="aviso-title">Avisos Recientes</div>
-        <div className="add-button-container">
-          <button className="add-button" onClick={agregarAviso}>
-            <FontAwesomeIcon icon={faCirclePlus} />
-          </button>
-        </div>
+        {(userType === "AnaCATT" || userType === "SecEjec") && (
+          <div className="add-button-container">
+            <button className="add-button" onClick={agregarAviso}>
+              <FontAwesomeIcon icon={faCirclePlus} />
+            </button>
+          </div>
+        )}
       </div>
       <div className="caroussel">
         {slides.length > 0 ? (
@@ -117,6 +115,4 @@ const Avisos = () => {
       </div>
     </div>
   );
-};
-
-export default Avisos;
+}

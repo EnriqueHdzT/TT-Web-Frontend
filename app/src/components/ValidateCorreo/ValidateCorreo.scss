@@ -45,6 +45,20 @@
         color: $body-color;
         margin: 2% 0;
     }
+
+    .messa-re{
+      text-align: center;
+  
+      a:link, a:visited, a:active {
+          text-decoration:none;
+      }
+      .reg{
+          display: flex;
+          font: 500 12px'Poppins';
+          text-decoration:underline;
+          color: #727272;
+      }
+    }
   }
   .validate-email-contra {
     display: flex;
@@ -90,19 +104,7 @@
       }
     }
 
-  .messa-re{
-    text-align: center;
-
-    a:link, a:visited, a:active {
-        text-decoration:none;
-    }
-    .reg{
-        display: flex;
-        font: 500 12px'Poppins';
-        text-decoration:underline;
-        color: #727272;
-    }
-  }
+  
 
   .alerta_r{
     width: 400px;

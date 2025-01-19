@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleExclamation,
-  faCirclePlus,
-  faClose,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleExclamation, faCirclePlus, faClose } from "@fortawesome/free-solid-svg-icons";
 
 interface DirectorData {
   email: string;
@@ -23,13 +19,10 @@ interface Props {
   directors: DirectorData[];
   sinodals: SinodalData[];
   setDirectors: React.Dispatch<React.SetStateAction<DirectorData[]>>;
+  disableButtons: boolean;
 }
 
-export default function AgregarDirector({
-  directors = [],
-  sinodals = [],
-  setDirectors,
-}: Props) {
+export default function AgregarDirector({ directors = [], sinodals = [], setDirectors, disableButtons }: Props) {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [email, setEmail] = useState("");
@@ -56,24 +49,16 @@ export default function AgregarDirector({
   useEffect(() => {
     let isEmailValid = false;
     if (directors.length === 0) {
-      isEmailValid =
-        email !== "" && /^[a-zA-Z0-9._%+-]+@(ipn\.mx)$/.test(email);
+      isEmailValid = email !== "" && /^[a-zA-Z0-9._%+-]+@(ipn\.mx)$/.test(email);
     } else {
       isEmailValid = true;
     }
     const isNameValid = nombre !== "";
     const isPapellidoValid = Papellido !== "";
     const isPrecedenciaValid = precedencia !== "";
-    const isCedulaValid =
-      precedencia !== "ESCOM" ? selectedFile !== null : true;
+    const isCedulaValid = precedencia !== "ESCOM" ? selectedFile !== null : true;
 
-    setSendButtonEnabled(
-      isEmailValid &&
-        isNameValid &&
-        isPapellidoValid &&
-        isPrecedenciaValid &&
-        isCedulaValid
-    );
+    setSendButtonEnabled(isEmailValid && isNameValid && isPapellidoValid && isPrecedenciaValid && isCedulaValid);
   }, [email, nombre, Papellido, precedencia, selectedFile]);
 
   const togglePopup = () => {
@@ -95,28 +80,20 @@ export default function AgregarDirector({
     try {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@(ipn\.mx)$/;
       if (emailRegex.test(email) || directors.length === 1) {
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/userExists/${email}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("userType");
-          navigate("/login");
-        } else if (!response.ok) {
+        const response = await fetch(`http://127.0.0.1:8000/api/userExists/${email}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!response.ok) {
           throw new Error("Error al buscar el correo");
         }
 
         const res = await response.json();
         const emailAlreadyExists =
-          directors.some((director) => director.email === email) ||
-          sinodals.some((sinodal) => sinodal.email === email);
+          directors.some((director) => director.email === email) || sinodals.some((sinodal) => sinodal.email === email);
         if (!emailAlreadyExists) {
           const newDirector: DirectorData = {
             email: email,
@@ -143,12 +120,8 @@ export default function AgregarDirector({
   };
 
   const handleAgregar = () => {
-    const emailAlreadyExistsInDirectors = directors.some(
-      (director) => director.email === email
-    );
-    const emailAlreadyExistsInSinodals = sinodals.some(
-      (sinodal) => sinodal.email === email
-    );
+    const emailAlreadyExistsInDirectors = directors.some((director) => director.email === email);
+    const emailAlreadyExistsInSinodals = sinodals.some((sinodal) => sinodal.email === email);
 
     if (!emailAlreadyExistsInDirectors && !emailAlreadyExistsInSinodals) {
       const newStudent: DirectorData = {
@@ -182,9 +155,7 @@ export default function AgregarDirector({
   };
 
   const handleDirectorDelete = (index: number) => {
-    setDirectors((prevDirectors) =>
-      prevDirectors.filter((_, i) => i !== index)
-    );
+    setDirectors((prevDirectors) => prevDirectors.filter((_, i) => i !== index));
   };
 
   return (
@@ -195,24 +166,21 @@ export default function AgregarDirector({
           directors.map((director, index) => (
             <div className="student" key={index}>
               <span className="student_name">
-                {director.name || ""} {director.lastname || ""}{" "}
-                {director.second_lastname || ""}
+                {director.name || ""} {director.lastname || ""} {director.second_lastname || ""}
               </span>
               <span className="student_email">{director.email}</span>
-              <button>
-                <FontAwesomeIcon
-                  icon={faClose}
-                  className="icon"
-                  onClick={() => handleDirectorDelete(index)}
-                />
-              </button>
+              {!disableButtons && (
+                <button>
+                  <FontAwesomeIcon icon={faClose} className="icon" onClick={() => handleDirectorDelete(index)} />
+                </button>
+              )}
             </div>
           ))
         ) : (
           <p>Agrega los directores que participarán en el protocolo</p>
         )}
       </div>
-      {!tooManyDirectors && (
+      {!(tooManyDirectors || disableButtons) && (
         <div className="icon-pr" onClick={togglePopup}>
           <FontAwesomeIcon icon={faCirclePlus} className="icon" />
         </div>
@@ -225,13 +193,9 @@ export default function AgregarDirector({
               <div className="item3">
                 {directors.length === 0 && (
                   <div className="adven-pro">
-                    <FontAwesomeIcon
-                      icon={faCircleExclamation}
-                      className="adv-icon"
-                    />
-                    Recuerda que el primer director debe pertenecer a la ESCOM,
-                    ademas de estar registrado en la aplicación. Si este no se
-                    encuentra en el sistema acude a la CATT <br />
+                    <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                    Recuerda que el primer director debe pertenecer a la ESCOM, ademas de estar registrado en la
+                    aplicación. Si este no se encuentra en el sistema acude a la CATT <br />
                     <br />
                   </div>
                 )}
@@ -246,29 +210,19 @@ export default function AgregarDirector({
                   <button onClick={checkIfUserExists}>Buscar</button>
                   {showWarning && (
                     <div className="adven">
-                      <FontAwesomeIcon
-                        icon={faCircleExclamation}
-                        className="adv-icon"
-                      />
-                      El correo que has buscado no se encuentra registrado en la
-                      aplicación.{" "}
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                      El correo que has buscado no se encuentra registrado en la aplicación.{" "}
                     </div>
                   )}
                   {!emailIsValid && (
                     <div className="adven">
-                      <FontAwesomeIcon
-                        icon={faCircleExclamation}
-                        className="adv-icon"
-                      />
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
                       El correo no cumple con el formato esperado
                     </div>
                   )}
                   {emailExists && (
                     <div className="adven">
-                      <FontAwesomeIcon
-                        icon={faCircleExclamation}
-                        className="adv-icon"
-                      />
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
                       El correo ya se encuentra registrado en este protocolo
                     </div>
                   )}
@@ -315,44 +269,25 @@ export default function AgregarDirector({
                       <>
                         <div className="tit-1">
                           <div className="adven">
-                            <FontAwesomeIcon
-                              icon={faCircleExclamation}
-                              className="adv-icon"
-                            />
-                            No olvides agregar la cédula del profesor para asi
-                            generar su dada de alta en el sistema.
+                            <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" />
+                            No olvides agregar la cédula del profesor para asi generar su dada de alta en el sistema.
                           </div>
                         </div>
                         <div className="tit-3">
                           Cedula{" "}
                           <div className="button-upload">
-                            <label
-                              htmlFor="file-upload"
-                              className="custom-file-upload"
-                            >
+                            <label htmlFor="file-upload" className="custom-file-upload">
                               Selecciona un archivo
                             </label>
-                            <input
-                              id="file-upload"
-                              type="file"
-                              onChange={handleFileUpload}
-                            />{" "}
-                            {selectedFile && (
-                              <div className="ar-file">
-                                Archivo seleccionado: {selectedFile.name}
-                              </div>
-                            )}
+                            <input id="file-upload" type="file" onChange={handleFileUpload} />{" "}
+                            {selectedFile && <div className="ar-file">Archivo seleccionado: {selectedFile.name}</div>}
                           </div>
                         </div>
                       </>
                     )}
                     <div className="adven">
-                      <FontAwesomeIcon
-                        icon={faCircleExclamation}
-                        className="adv-icon"
-                      />{" "}
-                      Recuerda que el archivo no debe pesar más de 6mb y debe
-                      pertenecer a un formato PDF
+                      <FontAwesomeIcon icon={faCircleExclamation} className="adv-icon" /> Recuerda que el archivo no
+                      debe pesar más de 6mb y debe pertenecer a un formato PDF
                     </div>
                   </div>
                 )}

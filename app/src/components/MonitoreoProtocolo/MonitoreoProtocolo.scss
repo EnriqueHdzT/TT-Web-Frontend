@@ -10,11 +10,14 @@ $search-blue: #1c90f3;
 $cont-gray: #e6e6e6;
 $users-cont: #ededed;
 $protoco: #5db1f9;
-$rechazo: #ff725e;
+$rechazo: #ff9f92;
 $pasado: #a2a2a2;
-$aceptado: #47caa1;
+$validado: #66a3d8;
+$aceptado: #56bfb0;
 $protoclaro: #e3f2ff;
 $rechaclaro: #ffedeb;
+$infomonito: #e0e0e0;
+$evaluando: #82b6e3;
 
 /*========== Font and typography ==========*/
 $black-fontd: #2c2c2c;
@@ -47,12 +50,16 @@ $gray-pass: #a2a2a2;
 }
 
 .info-container {
-  font: 400 1rem "Poppins";
   margin: auto;
   display: flex;
   flex-direction: column;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 70vh; /* Ocupa toda la altura de la ventana */
+  overflow: auto; /* Habilita el scroll cuando el contenido excede el tamaño del contenedor */
+
+  @media (min-width: 1400px) {
+    min-height: 80vh;
+  }
 
   h1 {
     font: 600 0.9rem "Poppins";
@@ -62,13 +69,12 @@ $gray-pass: #a2a2a2;
 
   .general-contenedor {
     gap: 1rem;
-    height: 70vh; /* Ajustamos para que ocupe toda la pantalla */
     width: 90%;
-    display: flex;
-    margin: auto auto;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
     .row-container {
       display: flex;
@@ -111,7 +117,7 @@ $gray-pass: #a2a2a2;
 
       .info {
         flex: 2; // Ocupa más espacio en la fila
-        background-color: #e0e0e0;
+        background-color: $infomonito;
         min-width: 400px;
         max-width: 800px;
         font: 400 0.8rem "Poppins";
@@ -121,7 +127,7 @@ $gray-pass: #a2a2a2;
         .tx-info {
           width: 600px;
           padding: 0 20px;
-          background-color: #e0e0e0;
+          background-color: $infomonito;
         }
 
         button {
@@ -152,8 +158,56 @@ $gray-pass: #a2a2a2;
         background-color: $rechazo;
       }
 
-      .gray {
-        background-color: $pasado;
+      .validando {
+        background-color: $validado;
+      }
+    }
+
+    .row-container-eva {
+      display: flex;
+      gap: 1rem; // Espacio entre los divs en la misma fila
+      font: 500 0.85rem "Poppins";
+
+      .box {
+        padding: 1.2rem 1rem;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        width: 335px;
+        justify-content: center;
+
+        p {
+          margin: 0;
+          font: 500 0.7rem "Poppins";
+        }
+
+        .text-pro {
+          width: 165px;
+          font: 500 0.8rem "Poppins";
+          white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+          overflow: hidden; /* Oculta el contenido que excede el ancho del contenedor */
+          text-overflow: ellipsis;
+          margin-right: 3%;
+          text-align: center;
+        }
+      }
+
+      a {
+        button {
+          border-radius: 15px;
+          padding: 5px 15px;
+          font: 400 0.8rem "Poppins";
+          background-color: $infomonito;
+        }
+      }
+
+      .status {
+        flex: 1; // Ocupa menos espacio en la fila
+        background-color: $protoco;
+      }
+
+      .evaluando {
+        background-color: $evaluando;
       }
     }
   }

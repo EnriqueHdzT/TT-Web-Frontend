@@ -12,9 +12,7 @@ export default function BuzonAyuda() {
     message: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -31,14 +29,8 @@ export default function BuzonAyuda() {
         body: JSON.stringify(formData),
       });
 
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userType");
-        navigate("/login");
-      }else if (response.ok) {
-        alert(
-          "Gracias por contactarnos, pronto nos pondremos en contacto contigo"
-        );
+      if (response.ok) {
+        alert("Gracias por contactarnos, pronto nos pondremos en contacto contigo");
         setTimeout(() => {
           window.location.href = "/";
         }, 3000);
@@ -55,13 +47,11 @@ export default function BuzonAyuda() {
       <div className="form-contenedor">
         <div className="texto-buzon">
           <h1>Bienvenido al Buzón de Ayuda</h1>
-          Queremos que la comunicación con la CATT sea efectiva entre docentes y
-          alumnos, por lo mismo puedes dejar aquí cualquier pregunta que no
-          hayas encontrado en la página principal, recuerda ser respetuoso y
-          detallar tu pregunta para que podamos ofrecerte la mejor solución. La
-          respuesta la obtendrás por medio del correo electrónico que has
-          especificado. En dado caso de no obtener una solución eficiente puedes
-          acudir a la CATT para que resolvamos tu duda de manera más personal.
+          Queremos que la comunicación con la CATT sea efectiva entre docentes y alumnos, por lo mismo puedes dejar aquí
+          cualquier pregunta que no hayas encontrado en la página principal, recuerda ser respetuoso y detallar tu
+          pregunta para que podamos ofrecerte la mejor solución. La respuesta la obtendrás por medio del correo
+          electrónico que has especificado. En dado caso de no obtener una solución eficiente puedes acudir a la CATT
+          para que resolvamos tu duda de manera más personal.
         </div>
         <form onSubmit={handleSubmit}>
           <div className="form-buzon">
